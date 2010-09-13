@@ -8,7 +8,6 @@ if ($cache)
   $query = "TRUNCATE TABLE cache";
   $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 }?>
-<body bgcolor="green">
 <h3>genall.php</h3>
 <form action="genall.php" method="GET">
   Clear Cache?<input type="submit" value="Empty" name="cache">

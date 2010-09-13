@@ -1,0 +1,17 @@
+template_name: opening_titles
+template_desc: Opening Titles for Sports Productions
+content:
+poly 220,130;598,130;568,189;190,189 team1color
+poly 220,260;598,206;568,319;190,319 team2color
+asset assets/opening_frame.png 0,0;640,480
+logo logo1 88,130;90,90;
+logo logo2 88,160;90,90;
+text s l 45 3 215,180 fontc team1name
+text s l 45 3 215,310 fontc team2name
+text s l 19 2 195,212 font team1mascot
+text s l 19 2 195,342 font team2mascot
+text s r 19 2 505,212 font team1record
+text s r 19 2 505,342 font team2record
+text s l 19 2 80,413 font venue
+text s l 19 2 65,443 font city
+text s l 19 2 190,443 font date

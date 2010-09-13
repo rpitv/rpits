@@ -217,7 +217,7 @@ if($row["special"] == 5) {
   imagefttext($im, 18, 0, 310-($dummy[2]-$dummy[0])/2, 444, $white, $font, $row["title"]);
 }
 if($row["special"] == 1) {
-  $voffset = 130; // Vertical offset from top of frame to top of bar1
+  $voffset = 80; // Vertical offset from top of frame to top of bar1
   $team1bar = array(
       220,$voffset,
       598,$voffset,
@@ -230,7 +230,7 @@ if($row["special"] == 1) {
       598,$voffset,
       568,$voffset+59,
       190,$voffset+59);
-  $voffset -= 130;
+  $voffset -= $spacing;
 
   imagefilledpolygon($im,$team1bar,4,$teamcolor);
   imagefilledpolygon($im,$team2bar,4,$team2color);
