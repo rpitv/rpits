@@ -71,7 +71,7 @@ if($team_sel)
     <?
     if($team_sel)
     {
-      $query = "SELECT * FROM players WHERE team='$team_sel' ORDER BY num";
+      $query = "SELECT * FROM players WHERE team='$team_sel' ORDER BY num ASC";
     }
     $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
     while($row = mysql_fetch_array($result))

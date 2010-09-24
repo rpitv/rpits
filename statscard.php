@@ -87,6 +87,21 @@ $numberbar = array(
   608,0,
   588,39,
   520,39);
+if($row["stype"][0] == 'f')
+{
+  $mainbar = array(
+    50,60,
+    520,60,
+    520,99,
+    30,99
+  );
+  $numberbar = array(
+    520,60,
+    608,60,
+    588,99,
+    520,99
+  );
+}
 imagefilledpolygon($im,$mainbar,4,$teamcolor);
 imagefilledpolygon($im,$numberbar,4,$logocolor);
 /* // CODE FOR GRADIENTS
@@ -98,6 +113,8 @@ if ($row["team"] == "rpi")
 */
 
 $overlay = imagecreatefrompng('assets/overlay.png');
+if($row["stype"][0] == 'f')
+{ $overlay = imagecreatefrompng('assets/football_overlay.png'); }
 imagecopyresized($im,$overlay,0,0,0,0,640,120,640,120);
 
 //
@@ -110,6 +127,16 @@ $portraitx = 50;
 $portraity = 0;
 
 $portrait = @imagecreatefrompng("teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png");
+if($row["stype"][0] == 'f')
+{
+  $portrait = @imagecreatefromjpeg("teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . "HS.jpg");
+  if($row["team"] == "wpif")
+    $portrait = @imagecreatefromjpeg("teams/" . $row["team"] . "imgs/" . $row["first"] . "_" . $row["last"] . ".jpg");
+  $portraitw = 92;
+  $portraith = 111;
+  $portraitx = 30;
+  $portraity = 9;
+}
 if(!$portrait)
 {
   $portrait = imagecreatefrompng("assets/nopic.png");
@@ -130,11 +157,20 @@ imagecopyresampled($im, $season, 0, 0, 0, 0, 640, 120, 640, 120);
 $numsize = 27;
 $labelsize = 17;
 $statssize = 28;
+$v = 0;
+$posa = 0;
+$numa = 0;
+if($row["stype"][0] == 'f')
+{
+  $v=60;
+  $posa = 7;
+  $numa = 13;
+}
 
 // Output player number (autocenter)
 $dummy = imagefttext($im, $numsize, 0, 700, 0, $white, $fontc, $row["num"]);
-imagefttext($im, $numsize, 0, 428-($dummy[2]-$dummy[0])/2, 34, $black, $fontc, $row["num"]);
-imagefttext($im, $numsize, 0, 426-($dummy[2]-$dummy[0])/2, 31, $white, $fontc, $row["num"]);
+imagefttext($im, $numsize, 0, 428-($dummy[2]-$dummy[0])/2-$numa, 34+$v, $black, $fontc, $row["num"]);
+imagefttext($im, $numsize, 0, 426-($dummy[2]-$dummy[0])/2-$numa, 31+$v, $white, $fontc, $row["num"]);
 
 // Output player name (auto resize)
 $namey = 32;
@@ -150,8 +186,8 @@ while($result[2] - $result[0] > 255)
 $namey -= ($nameychange -1)/2;
 $namecolor = $white;
 $shadowcolor = $black;
-imagefttext($im, $namesize, 0, 137, $namey+2, $shadowcolor, $fontc, ($row["first"] . " " . $row["last"]));
-imagefttext($im, $namesize, 0, 135, $namey, $namecolor, $fontc, ($row["first"] . " " . $row["last"]));
+imagefttext($im, $namesize, 0, 137, $namey+2+$v, $shadowcolor, $fontc, ($row["first"] . " " . $row["last"]));
+imagefttext($im, $namesize, 0, 135, $namey+$v, $namecolor, $fontc, ($row["first"] . " " . $row["last"]));
 
 // Output player details (auto resize and auto weight)
 $detailssize = 14;
@@ -168,22 +204,22 @@ while($result[2] - $result[0] > 410)
     $result = imagefttext($im, $detailssize, 0, 720, 55, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
 }
 if(!$row["weight"])
-  $result = imagefttext($im, $detailssize, 0, 170, 56, $white, $font, ("Hometown: " . $row["hometown"] . "       Height: " . $row["height"]));
+  $result = imagefttext($im, $detailssize, 0, 170, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Height: " . $row["height"]));
 else
-  $result = imagefttext($im, $detailssize, 0, 170, 56, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
+  $result = imagefttext($im, $detailssize, 0, 170, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
 
 
 // Output player position (auto center, and do some manual kerning)
 $dummy = imagefttext($im, $numsize, 0, 700, 0, $white, $font, $row["pos"]);
 if($row["pos"] == "G")
   $dummy[2] += 4;
-imagefttext($im, $numsize, 0, 472-($dummy[2]-$dummy[0])/2,34,$shadowcolor, $fontc, $row["pos"]);
-imagefttext($im, $numsize, 0, 470-($dummy[2]-$dummy[0])/2,32,$namecolor, $fontc, $row["pos"]);
+imagefttext($im, $numsize, 0, 472-($dummy[2]-$dummy[0])/2-$posa,34+$v,$shadowcolor, $fontc, $row["pos"]);
+imagefttext($im, $numsize, 0, 470-($dummy[2]-$dummy[0])/2-$posa,32+$v,$namecolor, $fontc, $row["pos"]);
 
 // Output player year (auto center)
 $dummy = imagefttext($im, $numsize, 0, 700, 0, $white, $font, $row["year"]);
-imagefttext($im, $numsize, 0, 517-($dummy[2]-$dummy[0])/2,34,$black, $fontc, $row["year"]);
-imagefttext($im, $numsize, 0, 515-($dummy[2]-$dummy[0])/2,32,$white, $fontc, $row["year"]);
+imagefttext($im, $numsize, 0, 517-($dummy[2]-$dummy[0])/2,34+$v,$black, $fontc, $row["year"]);
+imagefttext($im, $numsize, 0, 515-($dummy[2]-$dummy[0])/2,32+$v,$white, $fontc, $row["year"]);
 
 //
 // OUTPUT PLAYER STATS
@@ -193,7 +229,7 @@ if($stype != "txt")
 {
 
   $labelheight = 82;
-  $statsheight = 113;
+  $statsheight = 113+$v;
   $result[2] = 170 - $slabel["spacing"];
 
   for($i=2;$slabel[$i];$i++)
@@ -219,7 +255,7 @@ else
 //
 
 $logo = imagecreatefrompng('teamlogos\\' . $teamrow["logo"]);
-imagecopyresampled($im, $logo, 550, 0, 0, 0, 40, 40, 100, 100);
+imagecopyresampled($im, $logo, 550, 0+$v, 0, 0, 40, 40, 100, 100);
 
 //
 // SAVE CACHE HACHE
