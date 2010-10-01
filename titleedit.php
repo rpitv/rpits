@@ -43,10 +43,10 @@ if($id || $add || $new) {
   }
   ?>
 <div style="height:480px;width:640px;position:relative">
-  <div style="position:absolute;height:480px;width:43px;background-color:#5555FF;opacity:.3;left:0px;top:0px;"></div>
-  <div style="position:absolute;height:480px;width:43px;background-color:#5555FF;opacity:.3;right:0px;top:0px;"></div>
-  <div style="position:absolute;height:25px;width:640px;background-color:#5555FF;opacity:.3;left:0px;top:0px;"></div>
-  <div style="position:absolute;height:25px;width:640px;background-color:#5555FF;opacity:.3;left:0px;bottom:0px;"></div>
+  <div style="position:absolute;height:480px;width:43px;background-color:#FF7722;opacity:.3;left:0px;top:0px;"></div>
+  <div style="position:absolute;height:480px;width:43px;background-color:#FF7722;opacity:.3;right:0px;top:0px;"></div>
+  <div style="position:absolute;height:25px;width:640px;background-color:#FF7722;opacity:.3;left:0px;top:0px;"></div>
+  <div style="position:absolute;height:25px;width:640px;background-color:#FF7722;opacity:.3;left:0px;bottom:0px;"></div>
 <img style="position:absolute;bottom:0px;<? if($row["height"] < 455){?>margin-bottom:25px<? } ?>" width="640" src="gentitle.php?id=<? echo($row["id"]); ?>" />
 </div>
   <?
