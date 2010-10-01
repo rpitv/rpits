@@ -35,15 +35,22 @@ if($id || $add || $new) {
     $query = "SELECT * from general WHERE id = $id";
     $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
     $row = mysql_fetch_array($result);
-    echo("<div style=\"float:left;height:480px\"><img width=\"320\" src=\"gentitle.php?id=" . $row["id"] . "\" /></div>");
   }
   else if($add) {
     $query = "SELECT * from general WHERE filename = '$filename'";
     $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
     $row = mysql_fetch_array($result);
-    echo("<div style=\"float:left;height:480px\"><img width=\"320\" src=\"gentitle.php?id=" . $row["id"] . "\" /></div>");
   }
-  echo("<div style\"float:left\"><form action\"titleedit.php\" \"method=\"GET\"><input type=\"hidden\" name=\"id\" value=\"" . $row["id"] . "\">");
+  ?>
+<div style="height:480px;width:640px;position:relative">
+  <div style="position:absolute;height:480px;width:43px;background-color:#5555FF;opacity:.3;left:0px;top:0px;"></div>
+  <div style="position:absolute;height:480px;width:43px;background-color:#5555FF;opacity:.3;right:0px;top:0px;"></div>
+  <div style="position:absolute;height:25px;width:640px;background-color:#5555FF;opacity:.3;left:0px;top:0px;"></div>
+  <div style="position:absolute;height:25px;width:640px;background-color:#5555FF;opacity:.3;left:0px;bottom:0px;"></div>
+<img style="position:absolute;bottom:0px;<? if($row["height"] < 455){?>margin-bottom:25px<? } ?>" width="640" src="gentitle.php?id=<? echo($row["id"]); ?>" />
+</div>
+  <?
+  echo("<div style\"clear:both\"><form action\"titleedit.php\" \"method=\"GET\"><input type=\"hidden\" name=\"id\" value=\"" . $row["id"] . "\">");
   echo("Filename: <input type=text name=\"filename\" size=15 value=\"" . $row["filename"] . "\"><br/>");
   echo("Title: <input type=text name=\"title\" size=30 value=\"" . $row["title"] . "\"><br/>");
   if($row["special"] == "4" ) {
@@ -65,7 +72,7 @@ if($id || $add || $new) {
     echo("Team: <input type=text name=\"team\" size=6 value=\"" . $row["team"] . "\"><br/>");
   }
   echo("Logo: <input type=text name=\"logo\" size=1 value=\"" . $row["logo"] . "\"><br/>");
-  echo("Height: <input type=text name=\"height\" size=3 value=\"" . $row["height"] . "\"><br/>");
+  echo("Height: <input type=text name=\"height\" size=3 value=\"" . $row["height"] . "\"> - Y pos: " . (480-$row["height"]-20) . "<br/>");
   echo("Half-Width: <input type=text name=\"half-width\" size=1 value=\"" . $row["half-width"] . "\"><br/>");
   echo("Special: <input type=text name=\"special\" size=1 value=\"" . $row["special"] . "\"><br/>");
   if($new)
