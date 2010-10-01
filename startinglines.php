@@ -69,6 +69,8 @@ for($i = 1; $i <= $numplayers; $i++)
   $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
   $prow = mysql_fetch_array($result);
   $portrait = @imagecreatefromjpeg("teams\\" . $prow["team"] . "imgs\\" . $prow["first"] . $prow["last"] . "HS.jpg");
+  if($row["team"] == "wpif")
+    $portrait = @imagecreatefromjpeg("teams\\" . $prow["team"] . "imgs\\" . $prow["first"] . "_" . $prow["last"] . ".jpg");
   if(!$portrait){
 	  $portrait = imagecreatefrompng("assets/nopic.png");
 	  $teamrow["start"] = 143;
