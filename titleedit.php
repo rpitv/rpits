@@ -72,7 +72,12 @@ if($id || $add || $new) {
     echo("Team: <input type=text name=\"team\" size=6 value=\"" . $row["team"] . "\"><br/>");
   }
   echo("Logo: <input type=text name=\"logo\" size=1 value=\"" . $row["logo"] . "\"><br/>");
-  echo("Height: <input type=text name=\"height\" size=3 value=\"" . $row["height"] . "\"> - Y pos: " . (480-$row["height"]-20) . "<br/>");
+  echo("Height: <input type=text name=\"height\" size=3 value=\"" . $row["height"] . "\"> - Y pos: ");
+  if($row["height"] != 480)
+    echo(480-$row["height"]-20);
+  else
+    echo(0);
+  echo("<br/>");
   echo("Half-Width: <input type=text name=\"half-width\" size=1 value=\"" . $row["half-width"] . "\"><br/>");
   echo("Special: <input type=text name=\"special\" size=1 value=\"" . $row["special"] . "\"><br/>");
   if($new)

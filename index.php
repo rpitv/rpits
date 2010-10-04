@@ -15,7 +15,7 @@
 </ul>
 <p>See the Google Wave for the titling system for details</p>
 <p>Title Preview (cached):<br>
-<img src="pngout/2ErikBurgdoerfer.png" /></p>
+<img src="pngout/21ChasePolacek.png" /></p>
 
 </body>
 </html>
