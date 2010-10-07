@@ -33,4 +33,38 @@ function getFont($font)
   $assoc = mysql_fetch_assoc($result);
   return $assoc["path"];
 }
+function getLinesFromText($path)
+{
+  $handle = fopen($path,"r");
+  $commands = array();
+  while(!feof($handle))
+  {
+    $line = preg_split("/[\s\n]/",fgets($handle));
+    $assoc = array();
+    $assoc["command"] = $line[0];
+    if($line[0] == "poly")
+    {
+      $assoc["color"] = $line[2];
+      $assoc["points"] = preg_split("/[,;]/",$line[1]);
+    }
+    elseif($line[0] == "asset" || $line[0] == "img")
+    {
+      $assoc["asset"] = $line[1];
+      $assoc["points"] = preg_split("/[,;]/",$line[2]);
+    }
+    elseif($line[0] == "text")
+    {
+      $assoc["content"] = $line[1];
+      $assoc["font"] = $line[6];
+      $assoc["points"] = preg_split("/[,;]/",$line[5]);
+      $assoc["align"] = $line[2];
+      $assoc["shadow"] = $line[4];
+      $assoc["size"] = $line[3];
+    }
+    $commands[] = $assoc;
+    //print_r($assoc);
+    //echo("<br>");
+  }
+  return $commands;
+}
 ?>

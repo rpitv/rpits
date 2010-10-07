@@ -2,7 +2,7 @@
 include("include.php");
 
 $id = $_GET["id"];
-$query = "SELECT titles.id,titles.name,titles.data,templates.w,templates.h,templates.path FROM titles JOIN templates ON titles.template = templates.id WHERE titles.id=$id";
+$query = "SELECT titles.id,titles.name,titles.data,templates.w,templates.h,templates.path,templates.type FROM titles JOIN templates ON titles.template = templates.id WHERE titles.id=$id";
 $result = dbquery($query);
 $title_row = mysql_fetch_assoc($result);
 
@@ -16,43 +16,42 @@ imagealphablending($im,true);
 $white = imagecolorallocate($im,255,255,255);
 $black = imagecolorallocate($im,0,0,0);
 
-$h_template = fopen($title_row["path"],"r");
-while(!feof($h_template))
+if($title_row["type"] == "text")
+  $commands = getLinesFromText($title_row["path"]);
+else
+  $commands = array();
+
+foreach($commands as $c)
 {
-  $t_line = preg_split("/[\s\n]/",fgets($h_template));
-  if($t_line[0] == "poly")
+  if($c["command"] == "poly")
   {
-    $color = getColor($id,$t_line[2],$im);
-    $points = preg_split("/[,;]/",$t_line[1]);
-    imagefilledpolygon($im,$points,count($points)/2,$color);
+    $color = getColor($id,$c["color"],$im);
+    imagefilledpolygon($im,$c["points"],count($c["points"])/2,$color);
   }
-  elseif($t_line[0] == "asset")
+  elseif($c["command"] == "asset")
   {
-    $asset = imagecreatefrompng($t_line[1]);
-    $p = preg_split("/[,;]/",$t_line[2]);
-    imagecopy($im,$asset,$p[0],$p[1],0,0,$p[2],$p[3]);
+    $asset = imagecreatefrompng($c["asset"]);
+    imagecopy($im,$asset,$c["points"][0],$c["points"][1],0,0,$c["points"][2],$c["points"][3]);
   }
-  elseif($t_line[0] == "img")
+  elseif($c["command"] == "img")
   {
-    $imgsrc = getContent($id,$t_line[1]);
+    $imgsrc = getContent($id,$c["asset"]);
     $img = imagecreatefrompng("$imgsrc");
-    $p = preg_split("/[,;]/",$t_line[2]);
     $size = getimagesize("$imgsrc");
-    imagecopyresampled($im,$img,$p[0],$p[1],0,0,$p[2],$p[3],$size[0],$size[1]);
+    imagecopyresampled($im,$img,$c["points"][0],$c["points"][1],0,0,$c["points"][2],$c["points"][3],$size[0],$size[1]);
   }
-  elseif($t_line[0] == "text")
+  elseif($c["command"] == "text")
   {
-    $content = getContent($id,$t_line[1]);
-    $font = getFont($t_line[7]);
-    $p = preg_split("/[,;]/",$t_line[6]);
-    if($t_line[3] == "r")
+    $content = getContent($id,$c["content"]);
+    $font = getFont($c["font"]);
+    if($c["align"] == "r")
     {
-      $r = imagefttext($im, $t_line[4], 0, 700, 0, $white, $font, $content);
-      $p[0] -= ($r[2]-$r[0]);
+      $r = imagefttext($im, $c["size"], 0, 700, 0, $white, $font, $content);
+      $c["points"][0] -= ($r[2]-$r[0]);
     }
-    if($t_line[2] == "s")
-      imagefttext($im, $t_line[4], 0, $p[0]+$t_line[5], $p[1]+$t_line[5], $black, $font, $content);
-    imagefttext($im, $t_line[4], 0, $p[0], $p[1], $white, $font, $content);
+    if($c["shadow"] > 0)
+      imagefttext($im, $c["size"], 0, $c["points"][0]+$c["shadow"], $c["points"][1]+$c["shadow"], $black, $font, $content);
+    imagefttext($im, $c["size"], 0, $c["points"][0], $c["points"][1], $white, $font, $content);
   }
 
 
