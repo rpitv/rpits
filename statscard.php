@@ -146,8 +146,8 @@ if(!$portrait)
 imagecopyresampled($im, $portrait, $portraitx, $portraity, 0, 0, $portraitw, $portraith, $teamrow["start"], $teamrow["end"]);
 
  // LAST SEASON GRAPHIC
-$season = imagecreatefrompng('assets\last_season.png');
-imagecopyresampled($im, $season, 0, 0, 0, 0, 640, 120, 640, 120);
+// $season = imagecreatefrompng('assets\last_season.png');
+// imagecopyresampled($im, $season, 0, 0, 0, 0, 640, 120, 640, 120);
 
 
 //

@@ -59,7 +59,6 @@ foreach($commands as $c)
 header('Content-Type: image/png');
 imagealphablending($im,false);
 imagesavealpha($im,true);
-//imagepng($im,("pngout/" . $row["filename"] . '.png'));
 imagepng($im);
 imagedestroy($im);
 
