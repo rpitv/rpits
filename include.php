@@ -33,6 +33,13 @@ function getFont($font)
   $assoc = mysql_fetch_assoc($result);
   return $assoc["path"];
 }
+function getFontFamily($font)
+{
+  $query = "SELECT * FROM fonts WHERE name='$font' LIMIT 1";
+  $result = dbquery($query);
+  $assoc = mysql_fetch_assoc($result);
+  return $assoc["family"];
+}
 function getLinesFromText($path)
 {
   $handle = fopen($path,"r");
@@ -60,10 +67,9 @@ function getLinesFromText($path)
       $assoc["align"] = $line[2];
       $assoc["shadow"] = $line[4];
       $assoc["size"] = $line[3];
+      $assoc["max"] = $line[7];
     }
     $commands[] = $assoc;
-    //print_r($assoc);
-    //echo("<br>");
   }
   return $commands;
 }

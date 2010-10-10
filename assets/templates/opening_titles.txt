@@ -3,12 +3,12 @@ poly 220,210;598,210;568,269;190,269 team2color
 asset assets/opening_frame.png 0,0;640,480
 img logo1 88,80;90,90
 img logo2 88,210;90,90
-text team1name l 45 3 215,130 fontc
-text team2name l 45 3 215,260 fontc
-text team1mascot l 19 2 195,162 font
-text team2mascot l 19 2 195,292 font
-text team1record r 19 2 505,162 font
-text team2record r 19 2 505,292 font
-text venue l 19 2 80,413 font
-text city l 19 2 65,443 font
-text date l 19 2 190,443 font
+text team1name l 45 3 215,130 fontc 350
+text team2name l 45 3 215,260 fontc 350
+text team1mascot l 19 2 195,162 font 225
+text team2mascot l 19 2 195,292 font 225
+text team1record r 19 2 505,162 font 100
+text team2record r 19 2 505,292 font 100
+text venue l 19 2 80,413 font 300
+text city l 19 2 65,443 font 100
+text date r 19 2 310,443 font 150
