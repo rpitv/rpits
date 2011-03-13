@@ -7,7 +7,7 @@ $csv = $_POST["csv"];
 
 if($csv)
 {
-	$lines = explode("\n",$csv);
+	$lines = explode("\r\n",$csv);
 	foreach($lines as $line)
 	{
 		$values = explode('|',$line);

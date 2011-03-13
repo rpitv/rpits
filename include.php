@@ -17,11 +17,15 @@ function getContent($id,$field)
   $query = "SELECT * FROM cdb WHERE title_id='$id' AND field='$field' LIMIT 1";
   $result = dbquery($query);
   $assoc = mysql_fetch_assoc($result);
+  if(!$assoc)
+    die("Could not retrieve content for title id $id field $field");
   return $assoc["data"];
 }
 function getColor($id,$field,$im)
 {
   $data = getContent($id,$field);
+  if(!$data)
+    die("ERROR: Could not retrieve team color for title id $id field $field.");
   $rgb = explode(",",$data);
   $color = imagecolorallocate($im, $rgb[0], $rgb[1], $rgb[2]);
   return $color;

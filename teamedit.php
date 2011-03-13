@@ -12,11 +12,11 @@ $gid = $_GET["id"];
 	<tr>
 		<td>id</td>
 		<td>name</td>
-		<td>colorpreview</
+		<td>color</td>
 		<td>colorr</td>
 		<td>colorg</td>
 		<td>colorb</td>
-		<td>logopreview</td>
+		<td>logo</td>
 		<td>logo</td>
 		<td>logor</td>
 		<td>logog</td>
@@ -86,6 +86,8 @@ while($row = mysql_fetch_array($result)){
 		echo("		</form>");
 		echo("	</tr>");
 	} else {
+          if($row["hidden"] != 1)
+          {
 		echo("	<tr>");
 		echo("    <td><a name=\"" . $row["id"] . "\">". $row["id"] . "</a></td>\n");
 		echo("    <td>" . $row["name"] . "</td>\n");
@@ -93,7 +95,7 @@ while($row = mysql_fetch_array($result)){
 		echo("    <td>" . $row["colorr"] . "</td>\n");
 		echo("    <td>" . $row["colorg"] . "</td>\n");
 		echo("    <td>" . $row["colorb"] . "</td>\n");
-		echo("    <td style=\"background:" . rgbhex($row["logor"],$row["logog"],$row["logob"]) . ";\" ><img width=40 height=40 src=\"teamlogos/" . $row["logo"] . "\" /></td>");
+		echo("    <td style=\"background:" . rgbhex($row["logor"],$row["logog"],$row["logob"]) . ";\" ><img width=30 height=30 src=\"teamlogos/" . $row["logo"] . "\" /></td>");
 		echo("	  <td>" . $row["logo"] . "</td>\n");
 		echo("    <td>" . $row["logor"] . "</td>\n");
 		echo("    <td>" . $row["logog"] . "</td>\n");
@@ -107,6 +109,7 @@ while($row = mysql_fetch_array($result)){
 		  echo("<td></td>");
 		echo("    <td><a href=\"" . $_SERVER['PHP_SELF'] . "?edit=1&id=" . $row["id"] .  "\">Edit</a></td>\n");
 		echo("	</tr>");
+          }
 	}
 	?>
 <?

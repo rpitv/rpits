@@ -35,7 +35,7 @@ while($row = mysql_fetch_array($result))
 }
 ?>
   </select>
-  <input type="submit" name="submit" value="Set Active Event" />
+  <input type="submit" name="submit" value="Set Active Event" /><a href="generaltitle.php?shrink=1" target="_parent">Shrink</a>
 </form>
 
 <?

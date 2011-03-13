@@ -9,11 +9,6 @@ $query =  "SELECT * from general WHERE `id` = '$gid'";
 $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 $row = mysql_fetch_array($result);
 
-
-
-
-
-
 foreach($row as $item)
   $hash .= $item;
 $key = $row["filename"];
@@ -75,6 +70,7 @@ if($row["team2"][1]) {
 $titlesize = 25;
 $textsize = 21;
 
+// "Normal" title - user selectable height
 if($row["special"] != 1 && $row["special"] != 5) {
   $greybg = imagecreatefrompng('assets/greybg.png');
   imagecopyresized($im,$greybg,60,59,0,0,520,$row["height"]-59,10,10);
@@ -107,10 +103,12 @@ if($row["special"] != 1 && $row["special"] != 5) {
       imagecopyresampled($im, $logo, 70, 10, 0, 0, 58, 58, 100, 100);
     $titlex = 165;
   }
+  // Normal title, no variants
   if($row["special"]=="0") {
     imagefttext($im, $titlesize, 0, $titlex, 53, $black, $font, ($row["title"]));
     imagefttext($im, $titlesize, 0, $titlex-2, 51, $white, $font, ($row["title"]));
     imagefttext($im, $textsize, 0, 75, 98, $white, $font, ($row["content"]));
+    // Starting line
   } elseif ($row["special"]=="4") {
     imagefttext($im, $titlesize, 0, $titlex, 53, $black, $font, ($row["title"]));
     imagefttext($im, $titlesize, 0, $titlex-2, 51, $white, $font, ($row["title"]));
@@ -118,19 +116,22 @@ if($row["special"] != 1 && $row["special"] != 5) {
     imagefttext($im, $textsize, 0, 140, 103, $white, $font, ($row["col1"]));
     imagefttext($im, $textsize, 0, 190, 103, $white, $font, ($row["col2"]));
     imagefttext($im, $textsize, 0, 480, 103, $white, $font, ($row["col3"]));
+    // ECAC Standings
   } elseif ($row["special"]=="3") {
     $textsize = 17;
     imagefttext($im, $titlesize, 0, $titlex, 53, $black, $font, ($row["title"]));
     imagefttext($im, $titlesize, 0, $titlex-2, 51, $white, $font, ($row["title"]));
-    imagefttext($im, $textsize, 0, 100, 87, $white, $font, ($row["content"]));
+    imagefttext($im, $textsize, 0, 80, 87, $white, $font, ($row["content"]));
     imagefttext($im, $textsize, 0, 260, 87, $white, $font, ($row["col1"]));
     imagefttext($im, $textsize, 0, 360, 87, $white, $font, ($row["col2"]));
     imagefttext($im, $textsize, 0, 440, 87, $white, $font, ($row["col3"]));
+    // Smaller text
   } elseif($row["special"] == "99") {
     //$textsize = 16;
     imagefttext($im, $titlesize, 0, $titlex, 53, $black, $font, ($row["title"]));
     imagefttext($im, $titlesize, 0, $titlex-2, 51, $white, $font, ($row["title"]));
     imagefttext($im, $textsize, 0, 80, 85, $white, $font, ($row["content"]));
+    // Stats (auto center)
   } elseif ($row["special"]=="2") {
     $logobar = array(
 	70,9,	//Top left
@@ -166,7 +167,7 @@ if($row["special"] != 1 && $row["special"] != 5) {
       imagefttext($im, $textsize, 0, (130-($loc[2]-$loc[0])/2), $liney, $white, $font, $awayline);
       $liney += 40;
     }
-    $liney = 103;
+    $liney = 143;
     foreach($statslabels as $statlabel) {
       $loc = imagefttext($im, $textsize, 0, 700, 103, $white, $font, $statlabel);
       imagefttext($im, $textsize, 0, (320-($loc[2]-$loc[0])/2), $liney, $white, $font, $statlabel);
@@ -180,6 +181,7 @@ if($row["special"] != 1 && $row["special"] != 5) {
     }
   }
 }
+// Score Lower 3rd
 if($row["special"] == 5) {
   $voffset = 80; // Vertical offset from top of frame to top of bar1
   $team1bar = array(
@@ -216,6 +218,7 @@ if($row["special"] == 5) {
   imagefttext($im, 18, 0, 313-($dummy[2]-$dummy[0])/2, 447, $black, $font, $row["title"]);
   imagefttext($im, 18, 0, 310-($dummy[2]-$dummy[0])/2, 444, $white, $font, $row["title"]);
 }
+// Opening Title
 if($row["special"] == 1) {
   $voffset = 80; // Vertical offset from top of frame to top of bar1
   $team1bar = array(
@@ -277,12 +280,19 @@ $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\
 header('Content-Type: image/png');
 imagealphablending($im,false);
 imagesavealpha($im,true);
-imagepng($im,("pngout/" . $row["filename"] . '.png'));
+$savepath = "pngout/" . $row["filename"] . '.png';
+imagepng($im,$savepath);
+header('Content-Type: image/png');
 imagepng($im);
+
 imagedestroy($im);
 
+echo ("???");
+flush();
+
+
 $magick = new Imagick();
-$magick->readimage("pngout/" . $row["filename"] . '.png');
+$magick->readimage(realpath("pngout/" . $row["filename"] . '.png'));
 $magick->setImageFormat( "tga" );
 $magick->writeImage("out/" . $row["filename"] . '.tga');
 
