@@ -1,0 +1,165 @@
+body
+{
+  background:gray;
+  font-family: Helvetica;
+}
+div
+{
+  position:absolute;
+  background:white;
+}
+#options
+{
+  width:738px;
+  height:100px;
+  top:26px;
+  left:26px;
+}
+#tabstrip
+{
+  width:738px;
+  height:72px;
+  background:#AAAAAA;
+  top:152px;
+  left:26px;
+}
+#pane
+{
+  width:738px;
+  height:800px;
+  top:224px;
+  left:26px;
+  overflow-x:hidden;
+  overflow-y:scroll;
+}
+#preview
+{
+  width:864px;
+  height:486px;
+  top:26px;
+  left:790px;
+  text-align:center;
+  overflow:hidden;
+}
+#program
+{
+  width:864px;
+  height:486px;
+  top:538px;
+  left:790px;
+  text-align:center;
+  overflow:hidden;
+}
+#pane ul
+{
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+#pane li
+{
+  font-size:24px;
+  width:100%;
+  height:40px;
+  line-height:40px;
+  padding-left:10px;
+  border-bottom:1px solid black;
+}
+.ui-sortable-helper
+{
+  background:white;
+}
+#pane li:active
+{
+  border:4px solid #ffaaaa;
+  margin:-4px;
+  margin-bottom:-3px;
+}
+.on-program
+{
+  background:red;
+}
+.on-edit
+{
+  background:00FF00;
+}
+.on-preview
+{
+  background:orange;
+}
+.on-program
+{
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, red), color-stop(.5, transparent), to(transparent));
+}
+#pane .selected
+{
+  border:4px solid #aaaaff;
+  margin:-4px;
+  margin-bottom:-3px;
+}
+.label
+{
+  display:inline-block;
+  background: rgba(0,0,0,.3);
+  position:relative;
+  top:0px;
+  text-align:center;
+  padding:5px;
+  z-index: 3;
+  
+}
+.tab
+{
+  position:relative;
+  float:left;
+  height:20px;
+  margin-top:35px;
+  margin-right:4px;
+  padding:10px;
+  padding-bottom:3px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border:2px solid black;
+}
+.active
+{
+    border-bottom:none;
+    padding-bottom:5px;
+}
+.image
+{
+  position:absolute;
+  bottom:25px;
+  /*height:480px;*/
+  padding-left:112px;
+  padding-right:112px;
+  overflow:hidden;
+}
+.on
+{
+  border:10px solid red;
+  margin:-10px;
+}
+#input
+{
+  position:absolute;
+  top:50%;
+  height:100px;
+  width:800px;
+  left:440px;
+  z-index:99;
+  border:3px solid black;
+  display:none;
+}
+#input input
+{
+  width:790px;
+  height:90px;
+  margin:5px;
+  font-size:80px;
+  text-align:center;
+}
+.show
+{
+  display:block;
+}
