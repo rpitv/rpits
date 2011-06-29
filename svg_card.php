@@ -60,9 +60,6 @@ if($stype != "txt")
 
 }
 
-?>
-
-<? 
 $name_size = 27;
 $name_voffset = 0;
 $box = imagettfbbox($name_size, 0, "fonts/GothamNarrow-Bold.otf", $row["first"] ." ".$row["last"]);
@@ -75,16 +72,13 @@ while($box[2]>255)
 $name_size *= 4/3;
 
 ?>
-
-
-
 <<?='?';?>xml version="1.0" standalone="no"<?='?';?>>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="640" height="120" viewBox="0 0 640 120" version="1.1">
 <?
 $font = "fonts/GothamNarrow-Bold.otf";
 $fbinary = fread(fopen($font, "r"),filesize($font));
-?>
+/*
   <style type="text/css">
    <![CDATA[
      @font-face {
@@ -94,12 +88,13 @@ $fbinary = fread(fopen($font, "r"),filesize($font));
        src: url("data:font/opentype;base64,<?= base64_encode($fbinary) ?>");
      }
    ]]>
-  </style>
+  </style>*/ ?>
   <defs>
+    <? //include ("fonts/gothamnarrowbold.svg"); ?>
     <linearGradient id="gradient1" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop stop-color=rgb(0,0,0) stop-opacity="0" offset="0%"/>
-      <stop stop-color=rgb(0,0,0) stop-opacity="0" offset="47%"/>
-      <stop stop-color=rgb(0,0,0) stop-opacity="1" offset="98%"/>
+      <stop stop-color="rgb(0,0,0)" stop-opacity="0" offset="0%"/>
+      <stop stop-color="rgb(0,0,0)" stop-opacity="0" offset="47%"/>
+      <stop stop-color="rgb(0,0,0)" stop-opacity="1" offset="98%"/>
     </linearGradient>
     <linearGradient id="gradient2" x1="50%" y1="0%" x2="50%" y2="100%">
       <stop stop-color="#000000" stop-opacity="1" offset="0%"/>
@@ -132,23 +127,23 @@ $fbinary = fread(fopen($font, "r"),filesize($font));
   <path d="M 500 0 L 480 40 " stroke="#000000" stroke-width="1"/>
   <path d="M 464 0 L 444 40 " stroke="#000000" stroke-width="1"/>
   <path d="M 410 0 L 390 40 " stroke="#000000" stroke-width="1"/>
-  <text x="137" y="<?= 34-$name_voffset ?>" font-family="Font" font-size="<?= $name_size?>" fill="black" ><?= $row["first"] ." ".$row["last"] ?></text>
-  <text x="135" y="<?= 32-$name_voffset ?>" font-family="Font" font-size="<?= $name_size?>" fill="white" ><?= $row["first"] ." ".$row["last"] ?></text>
-  <text x="428" y="34" style="text-anchor: middle;" font-family="Font" font-size="36" fill="black" ><?= $row["num"] ?></text>
-  <text x="426" y="32" style="text-anchor: middle;" font-family="Font" font-size="36" fill="white" ><?= $row["num"] ?></text>
-  <text x="472" y="34" style="text-anchor: middle;" font-family="Font" font-size="36" fill="black" ><?= $row["pos"] ?></text>
-  <text x="470" y="32" style="text-anchor: middle;" font-family="Font" font-size="36" fill="white" ><?= $row["pos"] ?></text>
-  <text x="517" y="34" style="text-anchor: middle;" font-family="Font" font-size="36" fill="black" ><?= $row["year"] ?></text>
-  <text x="515" y="32" style="text-anchor: middle;" font-family="Font" font-size="36" fill="white" ><?= $row["year"] ?></text>
-  <text x="170" y="56" font-family="Font" font-size="16" fill="white" ><?= "Hometown: ".$row["hometown"] ?><tspan dx="20"><?= "Ht: ".$row["height"] ?></tspan><tspan dx="20"><?= "Wt: ".$row["weight"] ?></tspan></text>
+  <text x="137" y="<?= 34-$name_voffset ?>" font-family="Gotham Narrow Bold" font-size="<?= $name_size?>" fill="black" ><?= $row["first"] ." ".$row["last"] ?></text>
+  <text x="135" y="<?= 32-$name_voffset ?>" font-family="Gotham Narrow Bold" font-size="<?= $name_size?>" fill="white" ><?= $row["first"] ." ".$row["last"] ?></text>
+  <text x="428" y="34" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="black" ><?= $row["num"] ?></text>
+  <text x="426" y="32" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="white" ><?= $row["num"] ?></text>
+  <text x="472" y="34" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="black" ><?= $row["pos"] ?></text>
+  <text x="470" y="32" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="white" ><?= $row["pos"] ?></text>
+  <text x="517" y="34" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="black" ><?= $row["year"] ?></text>
+  <text x="515" y="32" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="white" ><?= $row["year"] ?></text>
+  <text x="170" y="56" font-family="Gotham Narrow Bold" font-size="16" fill="white" ><?= "Hometown: ".$row["hometown"] ?><tspan dx="20"><?= "Ht: ".$row["height"] ?></tspan><tspan dx="20"><?= "Wt: ".$row["weight"] ?></tspan></text>
 <?
 $lheight = 82;
 $sheight = 113;
 
 for($i = 0;$i < count($warray);$i++)
 {  ?>
-  <text x="<?= $hoffset + $warray[$i]/2 ?>" y="82" style="text-anchor: middle;" font-family="Font" font-size="22.6" fill="white"><?= $slabel[$i+2] ?></text>
-  <text x="<?= $hoffset + $warray[$i]/2 ?>" y="113" style="text-anchor: middle;" font-family="Font" font-size="37px" fill="white"><?= $row[$i+10] ?></text>
+  <text x="<?= $hoffset + $warray[$i]/2 ?>" y="82" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="22.6" fill="white"><?= $slabel[$i+2] ?></text>
+  <text x="<?= $hoffset + $warray[$i]/2 ?>" y="113" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="37px" fill="white"><?= $row[$i+10] ?></text>
 <? 
 $hoffset += $warray[$i] + $spacer;
 }
