@@ -71,8 +71,32 @@ $fontc = 'fonts/GothamNarrow-Bold.otf';
 imageantialias($im,true);
 
 //
+// DETERMINE WHICH TYPE OF TITLE WE'RE CREATING BASED ON EXISTENCE OF PORTRAIT
+//
+
+
+$portrait_path = "teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png";
+$size = @getimagesize($portrait_path);
+
+$portrait = @imagecreatefrompng($portrait_path);
+
+$nopic = 0;
+if(!$portrait)
+{
+  /*if($stype != 'f' && $stype != 'hn')
+  {
+    $portrait = imagecreatefrompng("assets/nopic.png");
+    $size = getimagesize("assets/nopic.png");
+    
+  }
+  else*/
+    $nopic = 1;
+}
+
+//
 // DRAW POLYGONS AND OVERLAY TITLE TEMPLATE
 //
+
 
 $teamcolor = imagecolorallocate($im, $teamrow["colorr"], $teamrow["colorg"], $teamrow["colorb"]);
 $logocolor = imagecolorallocate($im, $teamrow["logor"], $teamrow["logog"], $teamrow["logob"]);
@@ -87,7 +111,7 @@ $numberbar = array(
   608,0,
   588,39,
   520,39);
-if($row["stype"][0] == 'f')
+if($stype == 'f' ||  $nopic == 1)
 {
   $mainbar = array(
     50,60,
@@ -112,11 +136,6 @@ if ($row["team"] == "rpi")
 }
 */
 
-$overlay = imagecreatefrompng('assets/overlay.png');
-if($row["stype"][0] == 'f')
-{ $overlay = imagecreatefrompng('assets/football_overlay.png'); }
-imagecopyresized($im,$overlay,0,0,0,0,640,120,640,120);
-
 //
 // ADD PLAYER PORTRAIT
 //
@@ -126,28 +145,47 @@ $portraith = 120;
 $portraitx = 50;
 $portraity = 0;
 
-$portrait = @imagecreatefrompng("teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png");
-if($row["stype"][0] == 'f')
-{
-  $portrait = @imagecreatefromjpeg("teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . "HS.jpg");
-  if($row["team"] == "wpif")
-    $portrait = @imagecreatefromjpeg("teams/" . $row["team"] . "imgs/" . $row["first"] . "_" . $row["last"] . ".jpg");
-  $portraitw = 92;
-  $portraith = 111;
-  $portraitx = 30;
-  $portraity = 9;
-}
+$portrait_path = "teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png";
+$size = @getimagesize($portrait_path);
+
+$portrait = @imagecreatefrompng($portrait_path);
+
+$nopic = 0;
 if(!$portrait)
 {
-  $portrait = imagecreatefrompng("assets/nopic.png");
-  $teamrow["start"] = 143;
-  $teamrow["end"] = 175;
+  /*if($stype != 'f' && $stype != 'hn')
+  {
+    $portrait = imagecreatefrompng("assets/nopic.png");
+    $size = getimagesize("assets/nopic.png");
+    
+  }
+  else*/
+    $nopic = 1;
 }
-imagecopyresampled($im, $portrait, $portraitx, $portraity, 0, 0, $portraitw, $portraith, $teamrow["start"], $teamrow["end"]);
 
- // LAST SEASON GRAPHIC
-// $season = imagecreatefrompng('assets\last_season.png');
-// imagecopyresampled($im, $season, 0, 0, 0, 0, 640, 120, 640, 120);
+///
+/// Add Overlay
+///
+
+$overlay = imagecreatefrompng('assets/overlay.png');
+if($stype == 'f' ||  $nopic == 1)
+{ 
+  if($nopic == 0)
+    $overlay = imagecreatefrompng('assets/football_overlay.png');
+  else
+    $overlay = imagecreatefrompng('assets/football_overlay_nopic.png');
+}
+imagecopyresized($im,$overlay,0,0,0,0,640,120,640,120);
+
+if($nopic == 0)
+  imagecopyresampled($im, $portrait, $portraitx, $portraity, 0, 0, $portraitw, $portraith, $size[0], $size[1]);
+
+//LAST SEASON GRAPHIC
+/*if($row["team"] == "rpi" || $row["team"] == "msu" && $row["s1"] > 0)
+{
+  $season = imagecreatefrompng('assets\last_season.png');
+  imagecopyresampled($im, $season, 0, 0, 0, 0, 640, 120, 640, 120);
+}*/
 
 
 //
@@ -155,29 +193,34 @@ imagecopyresampled($im, $portrait, $portraitx, $portraity, 0, 0, $portraitw, $po
 //
 
 $numsize = 27;
+if($stype == 'f')
+  $numsize = 24;
 $labelsize = 17;
 $statssize = 28;
 $v = 0;
 $posa = 0;
 $numa = 0;
-if($row["stype"][0] == 'f')
+if($stype == 'f' || $nopic == 1)
 {
   $v=60;
-  $posa = 7;
-  $numa = 13;
+  $posa = 8;
+  $numa = 14;
 }
 
 // Output player number (autocenter)
 $dummy = imagefttext($im, $numsize, 0, 700, 0, $white, $fontc, $row["num"]);
 imagefttext($im, $numsize, 0, 428-($dummy[2]-$dummy[0])/2-$numa, 34+$v, $black, $fontc, $row["num"]);
-imagefttext($im, $numsize, 0, 426-($dummy[2]-$dummy[0])/2-$numa, 31+$v, $white, $fontc, $row["num"]);
+imagefttext($im, $numsize, 0, 426-($dummy[2]-$dummy[0])/2-$numa, 32+$v, $white, $fontc, $row["num"]);
 
 // Output player name (auto resize)
 $namey = 32;
 $nameychange = 0;
 $namesize = 27;
 $result = imagefttext($im, $namesize, 0, 720, 55, $black, $fontc, ($row["first"] . " " . $row["last"]));
-while($result[2] - $result[0] > 255)
+$namemax = 255;
+if($nopic == 1)
+  $namemax = 330;
+while($result[2] - $result[0] > $namemax)
 {
   $namesize--;
   $result = imagefttext($im, $namesize, 0, 720, 55, $black, $fontc, ($row["first"] . " " . $row["last"]));
@@ -186,8 +229,11 @@ while($result[2] - $result[0] > 255)
 $namey -= ($nameychange -1)/2;
 $namecolor = $white;
 $shadowcolor = $black;
-imagefttext($im, $namesize, 0, 137, $namey+2+$v, $shadowcolor, $fontc, ($row["first"] . " " . $row["last"]));
-imagefttext($im, $namesize, 0, 135, $namey+$v, $namecolor, $fontc, ($row["first"] . " " . $row["last"]));
+$namex = 135;
+if($nopic == 1)
+  $namex = 60;
+imagefttext($im, $namesize, 0, $namex+2, $namey+2+$v, $shadowcolor, $fontc, ($row["first"] . " " . $row["last"]));
+imagefttext($im, $namesize, 0, $namex, $namey+$v, $namecolor, $fontc, ($row["first"] . " " . $row["last"]));
 
 // Output player details (auto resize and auto weight)
 $detailssize = 14;
@@ -195,7 +241,11 @@ if(!$row["weight"])
   $result = imagefttext($im, $detailssize, 0, 720, 55, $white, $font, ("Hometown: " . $row["hometown"] . "       Height: " . $row["height"]));
 else
   $result = imagefttext($im, $detailssize, 0, 720, 55, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
-while($result[2] - $result[0] > 410)
+
+$detailsmax = 410;
+if($nopic == 1)
+  $detailsmax = 505;
+while($result[2] - $result[0] > $detailsmax)
 {
   $detailssize--;
   if(!$row["weight"])
@@ -203,10 +253,13 @@ while($result[2] - $result[0] > 410)
   else
     $result = imagefttext($im, $detailssize, 0, 720, 55, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
 }
+$detailsx = 170;
+if($nopic == 1)
+  $detailsx = 75;
 if(!$row["weight"])
-  $result = imagefttext($im, $detailssize, 0, 170, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Height: " . $row["height"]));
+  $result = imagefttext($im, $detailssize, 0, $detailsx, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Height: " . $row["height"]));
 else
-  $result = imagefttext($im, $detailssize, 0, 170, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
+  $result = imagefttext($im, $detailssize, 0, $detailsx, 56+$v, $white, $font, ("Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"]));
 
 
 // Output player position (auto center, and do some manual kerning)
@@ -225,7 +278,7 @@ imagefttext($im, $numsize, 0, 515-($dummy[2]-$dummy[0])/2,32+$v,$white, $fontc, 
 // OUTPUT PLAYER STATS
 //
 
-if($stype != "txt")
+if($stype != "txt" && $nopic == 0)
 {
 
   $labelheight = 82;
@@ -276,7 +329,7 @@ imagepng($im);
 imagedestroy($im);
 
 $magick = new Imagick();
-$magick->readimage("pngout/" . $row["num"] . $row["first"] . $row["last"] . '.png');
+$magick->readimage(realpath("pngout/" . $row["num"] . $row["first"] . $row["last"] . '.png'));
 $magick->setImageFormat( "tga" );
 $magick->writeImage("out/" . $row["team"] . $row["num"] . $row["first"] . $row["last"] . '.tga');
 

@@ -14,6 +14,7 @@
       return;
     }
     //alert(event.keyCode);
+    // Spacebar, takes on/off of program
     if (event.keyCode == '32')
     {
       event.preventDefault();
@@ -23,6 +24,7 @@
         $("#program .label").text("Program");
         $("#program .image").html("");
         $("#program").removeClass("on");
+        $("#options").load('putter.php?command=dissolve_out/15');
 
       }
       else
@@ -31,9 +33,28 @@
         $("#program").addClass("on");
         $("#program .label").text("Program - " + $(".selected").text());
         $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+        $("#options").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+        {
+          $("#options").load('putter.php?command=dissolve_in/15');
+        });
       }
     }
-    else if(event.keyCode == '13')
+    // c, cuts without taking down existing graphic.
+    else if (event.keyCode == '67')
+    {
+      $(".on-program").removeClass("on-program");
+      $(".selected").addClass("on-program");
+      $("#program").addClass("on");
+      $("#program .label").text("Program - " + $(".selected").text());
+      $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+      $("#options").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+      {
+        $("#options").load('putter.php?command=dissolve_in/15');
+      });
+    }
+
+    // Enter, pops up search/input window
+    else if(event.keyCode == '13') // Enter
     {
       event.preventDefault();
       if($("#input").is(":visible"))
@@ -41,10 +62,15 @@
         $("#input").hide();
         var data = $("#input input").val();
         $("li").removeClass("selected");
-        var target = $("li:containsC("+data+"):first");
+        var target = $("li:visible:containsC("+data+"):first");
         target.addClass("selected");
         target.scrollintoview({duration: 0});
         $("#input input").blur();
+        $("li").removeClass("on-edit");
+        $("li").removeClass("on-preview");
+        target.addClass("on-preview");
+        $("#preview .label").text("Preview - " + target.text());
+        $("#preview .image").html("<img src=\"" + target.children().first().attr("src") + "\" />");
       }
       else
       {
@@ -53,6 +79,7 @@
         $("#input input").val("");
       }
     }
+    // R key, for previewing
     else if(event.keyCode == '82')
     {
       $("li").removeClass("on-edit");
@@ -61,6 +88,8 @@
       $("#preview .label").text("Preview - " + $(".selected").text());
       $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
     }
+    
+    // E key, for editing
     else if(event.keyCode == '69')
     {
       $("li").removeClass("on-preview");
@@ -69,6 +98,8 @@
       $("#preview .label").text("Editing " + $(".selected").text());
       $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
     }
+    
+    // Down arrow key
     else if(event.keyCode == '40')
     {
       event.preventDefault();
@@ -79,6 +110,8 @@
         $(".selected").scrollintoview({duration: 0});
       }
     }
+    
+    // Up arrow key
     else if(event.keyCode == '38')
     {
       event.preventDefault();
@@ -86,37 +119,43 @@
       {
         $(".selected").prev("li").addClass("selected");
         $(".selected:last").removeClass("selected");
-        $(".selected").scrollintoview({duration: 0});
-        //$("#pane").scrollTop($("#pane").scrollTop()-40);
+        $(".selected").scrollintoview({duration: 0});       
       }
     }
+    
+    // Tab key -- cycles to next tab
     else if (event.keyCode == '9')
     {
       event.preventDefault();
-      //$(".tab").addClass("active");
-      if($(".active + .tab").length == 0)
+      if($(".active + .tab").length == 0) // if we're at the end of the tab row
       {
         $(".tab").removeClass("active");
         $(".tab:first").addClass("active");
-        $("#titles").load($(".active:last").attr("request"),function(){
-          $("li:first").addClass("selected");
-        });
-        $("li:first").addClass("selected");
+        
       }
-      else
+      else // otherwise
       {
         $(".active + .tab").addClass("active");
-        $("#titles").load($(".active:last").attr("request"),function(){
-          $("li:first").addClass("selected");
-        });
-        $(".active:first").removeClass("active");
-        $("li:first").addClass("selected");
+        $(".tab.active:first").removeClass("active");
       }
+      $('.titles').removeClass("active");
+      $('.titles').hide();
+      $('.titles[request|="'+$(".tab.active").attr("request")+'"]').show();
+      $('.titles[request|="'+$(".tab.active").attr("request")+'"]').addClass("active");
+      $("li").removeClass("selected");
+      $(".titles.active li:first").addClass("selected");
+      $(".selected").scrollintoview({duration: 0});
     }
   });
   $(document).ready(function(){
-    $("#titles").load('title_list.php',function(){
-      $("li:first").addClass("selected");
+    $(".titles").each(function(){
+      $(this).load($(this).attr("request"),function(){
+        $(this).hide();
+        $(".active").show();
+        $(".titles.active li:first").addClass("selected");
+      });
+      $(".active").show();
+      $(".titles.active li:first").addClass("selected");
     });
     $(".tab").click(function()
     {
@@ -126,23 +165,31 @@
       {
         $(".tab").removeClass("active");
         $(this).addClass("active");
-        $("#titles").load($(this).attr("request"));
-        $("li:first").addClass("selected");
+        $('.titles').removeClass("active");
+        $('.titles').hide();
+        $('.titles[request|="'+$(this).attr("request")+'"]').show();
+        $('.titles[request|="'+$(this).attr("request")+'"]').addClass("active");
+        $("li").removeClass("selected");
+        $(".titles.active li:first").addClass("selected");
       }
     });
     $(function() {
-      $( "#titles" ).sortable({
+      $( ".titles" ).sortable({
         placeholder: "ui-state-highlight",
         helper : 'clone',
         distance:40
       });
-      $( "#titles" ).disableSelection();
+      $( ".titles" ).disableSelection();
     
     });
-    $("li").live("mouseover",function(){
-      $(".selected").removeClass("selected");
-      $(this).addClass("selected");
-    });
+    // Disabled this as it caused confusion with arrow-key movement
+    //$("li").live("mouseover",function(){
+    //  $(".selected").removeClass("selected");
+    //  $(this).addClass("selected");
+    //});
+    
+    
+    // Double Click to take something on/off of program
     $("li").live("dblclick",function()
     {
       if($(this).hasClass("on-program"))
@@ -151,6 +198,7 @@
         $("#program .label").text("Program");
         $("#program .image").html("");
         $("#program").removeClass("on");
+        $("#options").load('putter.php?command=dissolve_out/15');
       }
       else
       {
@@ -159,11 +207,19 @@
         $("#program .label").text("Program - " + $(this).text());
         $("#program .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
         $("#program").addClass("on");
+        $("#options").load('putter.php?id='+$(this).attr("id")+'&type='+$(this).attr("type"),function()
+        {
+          $("#options").load('putter.php?command=dissolve_in/15');
+        });
+        // send request to putter.php?src=$(this).children().first().attr("src")
       }
 
     });
     $("li").live("click",function(){
+      $(".selected").removeClass("selected");
+      $(this).addClass("selected");
       $("li").removeClass("on-preview");
+      $("li").removeClass("on-edit");
       $(this).addClass("on-preview");
       $("#preview .label").text("Preview - " + $(this).text());
       $("#preview .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
@@ -173,15 +229,15 @@
 <div id="program"><div class="label">Program</div><div class="image"></div></div>
 <div id="preview"><div class="label">Preview</div><div class="image"></div></div>
 <div id="pane">
-  <ul id="titles">
-
-  </ul>
+  <ul class="titles active" request="title_list.php?event=1"></ul>
+  <ul class="titles" request="title_list.php?team=rpi"></ul>
+  <ul class="titles" request="title_list.php?team=cc"></ul>
 </div>
 <div id="tabstrip">
-  <div class="tab active" request="title_list.php">All Titles</div>
-  <div class="tab" request="title_list.php?event=1">Hockey Titles</div>
-  <div class="tab" request="title_list.php?team=rpi">RPI Players</div>
-  <div class="tab" request="title_list.php?team=colgate">Colgate Players</div>
+  <!--<div class="tab active" request="title_list.php">All Titles</div>-->
+  <div class="tab active" request="title_list.php?event=1" tid="0">Hockey Titles</div>
+  <div class="tab" request="title_list.php?team=rpi" tid="1">RPI Players</div>
+  <div class="tab" request="title_list.php?team=cc" tid="2">CC Players</div>
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>

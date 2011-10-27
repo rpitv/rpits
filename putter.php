@@ -21,44 +21,40 @@ function do_post_request($url, $data, $optional_headers = null)
   return $response;
 }
 
+
 $id = $_GET["id"];
+$type = $_GET["type"];
 $command = $_GET["command"];
-
-
-
-
 
 if(strlen($command) > 0)
 {
+  echo("Sending command $command.");
   $headers = "Content-Length: 0\n";
   $svg = "";
+
 }
 else
 {
   $command = "key";
-  $svg = file_get_contents("http://localhost/hockey/svg_card.php?id=$id");
+  if($type == "player") 
+  {
+    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    echo("Attempting to put Player Title ID $id");
+  }
+  else
+  {
+    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    echo("Attempting to put General Title ID $id");
+  }
+  
   $headers = "Content-Type: image/svg+xml\n";
+  
 }
 
 
-echo(do_post_request("http://67.246.53.205:4567/$command",$svg,$headers));
-
-echo("<p>Attempting to put the following svg</p>");
-echo($svg);
+$result = do_post_request("http://128.113.45.92:4567/$command",$svg,$headers);
 
 
 
-
-/*$params = array(
-    'http' => array(
-        'method' => 'PUT',
-        'header' => "Authorization: Basic " . base64_encode($this->ci->config->item('ws_login') . ':' . $this->ci->config->item('ws_passwd')) . "\r\nContent-type: text/xml\r\n",
-        'content' => file_get_contents($tmpFile)
-    )
-);
-$ctx = stream_context_create($params);
-$response = @file_get_contents($url, false, $ctx);
-
-return ($response == '');*/
 
 ?>

@@ -294,6 +294,8 @@ flush();
 $magick = new Imagick();
 $magick->readimage(realpath("pngout/" . $row["filename"] . '.png'));
 $magick->setImageFormat( "tga" );
+//$magick->scaleImage(480,$row["height"]);
+//$magick->borderImage(none,80,0);
 $magick->writeImage("out/" . $row["filename"] . '.tga');
 
 ?>

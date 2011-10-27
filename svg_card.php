@@ -74,7 +74,12 @@ $name_size *= 4/3;
 ?>
 <<?='?';?>xml version="1.0" standalone="no"<?='?';?>>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="640" height="120" viewBox="0 0 640 120" version="1.1">
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" version="1.1">
+<?/*<path d="M 0 0 L 1920 0 L 1920 1080 L 0 1080 Z" stroke="#000000" stroke-width="5" fill="rgba(0,0,0,0)"/>
+<path d="M 96 54 L 1824 54 L 1824 1026 L 96 1026 Z" stroke="#000000" stroke-width="5" fill="rgba(0,0,0,0)"/>
+<path d="M 240 0 L 240 1080" stroke="#000000" stroke-width="5"/>
+<path d="M 1680 0 L 1680 1080" stroke="#000000" stroke-width="5"/>*/?>
+<svg x="400" y="784" width="1120" height="900" viewBox="0 0 640 480" version="1.1">
 <?
 $font = "fonts/GothamNarrow-Bold.otf";
 $fbinary = fread(fopen($font, "r"),filesize($font));
@@ -136,7 +141,7 @@ $fbinary = fread(fopen($font, "r"),filesize($font));
   <text x="517" y="34" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="black" ><?= $row["year"] ?></text>
   <text x="515" y="32" style="text-anchor: middle;" font-family="Gotham Narrow Bold" font-size="36" fill="white" ><?= $row["year"] ?></text>
   <text x="170" y="56" font-family="Gotham Narrow Bold" font-size="16" fill="white" ><?= "Hometown: ".$row["hometown"] ?><tspan dx="20"><?= "Ht: ".$row["height"] ?></tspan><tspan dx="20"><?= "Wt: ".$row["weight"] ?></tspan></text>
-<?
+  <?
 $lheight = 82;
 $sheight = 113;
 
@@ -162,5 +167,5 @@ $lbinary = fread(fopen($logo, "r"),filesize($logo));
 
   <image x="50" y="0" width="100" height="120" xlink:href="data:image/png;base64,<?= base64_encode($pbinary) ?>" />
   <image x="550" y="0" width="40" height="40" xlink:href="data:image/png;base64,<?= base64_encode($lbinary) ?>" />
-
+  </svg>
 </svg>
