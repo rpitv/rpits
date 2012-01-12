@@ -24,7 +24,11 @@
         $("#program .label").text("Program");
         $("#program .image").html("");
         $("#program").removeClass("on");
-        $("#options").load('putter.php?command=dissolve_out/15');
+        $("#loadtarget").load('putter.php?command=dissolve_out/15',function()
+        {
+          $("#log").append($("#loadtarget").html());
+          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+        });
 
       }
       else
@@ -33,9 +37,20 @@
         $("#program").addClass("on");
         $("#program .label").text("Program - " + $(".selected").text());
         $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
-        $("#options").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+        $("#loadtarget").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
         {
-          $("#options").load('putter.php?command=dissolve_in/15');
+          $("#log").append($("#loadtarget").html());
+          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+          $("#loadtarget").load('putter.php?command=dissolve_in/15',function()
+          {
+            $("#log").append($("#loadtarget").html());
+            $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+          });
+
+          //if($(".on-program").attr("id") == 10)
+          //  $("#options").load('putter.php?command=dirty_level/1');
+          //else
+          //  $("#options").load('putter.php?command=dirty_level/0');
         });
       }
     }
@@ -47,9 +62,15 @@
       $("#program").addClass("on");
       $("#program .label").text("Program - " + $(".selected").text());
       $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
-      $("#options").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+      $("#loadtarget").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
       {
-        $("#options").load('putter.php?command=dissolve_in/15');
+        $("#log").append($("#loadtarget").html());
+        $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+        $("#loadtarget").load('putter.php?command=dissolve_in/15',function()
+        {
+          $("#log").append($("#loadtarget").html());
+          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+        });
       });
     }
 
@@ -198,7 +219,11 @@
         $("#program .label").text("Program");
         $("#program .image").html("");
         $("#program").removeClass("on");
-        $("#options").load('putter.php?command=dissolve_out/15');
+        $("#loadtarget").load('putter.php?command=dissolve_out/15',function()
+        {
+          $("#log").append($("#loadtarget").html());
+          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+        });
       }
       else
       {
@@ -207,9 +232,15 @@
         $("#program .label").text("Program - " + $(this).text());
         $("#program .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
         $("#program").addClass("on");
-        $("#options").load('putter.php?id='+$(this).attr("id")+'&type='+$(this).attr("type"),function()
+        $("#loadtarget").load('putter.php?id='+$(this).attr("id")+'&type='+$(this).attr("type"),function()
         {
-          $("#options").load('putter.php?command=dissolve_in/15');
+          $("#log").append($("#loadtarget").html());
+          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+          $("#loadtarget").load('putter.php?command=dissolve_in/15',function()
+          {
+            $("#log").append($("#loadtarget").html());
+            $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
+          });
         });
         // send request to putter.php?src=$(this).children().first().attr("src")
       }
@@ -231,14 +262,15 @@
 <div id="pane">
   <ul class="titles active" request="title_list.php?event=1"></ul>
   <ul class="titles" request="title_list.php?team=rpi"></ul>
-  <ul class="titles" request="title_list.php?team=cc"></ul>
+  <ul class="titles" request="title_list.php?team=aic"></ul>
 </div>
 <div id="tabstrip">
   <!--<div class="tab active" request="title_list.php">All Titles</div>-->
   <div class="tab active" request="title_list.php?event=1" tid="0">Hockey Titles</div>
   <div class="tab" request="title_list.php?team=rpi" tid="1">RPI Players</div>
-  <div class="tab" request="title_list.php?team=cc" tid="2">CC Players</div>
+  <div class="tab" request="title_list.php?team=aic" tid="2">AIC Players</div>
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>
-<div id="options"></div>
+<div id="log"></div>
+<div id="loadtarget"></div>

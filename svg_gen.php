@@ -27,11 +27,11 @@ else
 
 ?>
 <svg width="1920" height="1080" viewBox="0 0 1920 1080" version="1.1">
-<?/*
-<path d="M 0 0 L 1920 0 L 1920 1080 L 0 1080 Z" stroke="#000000" stroke-width="5" fill="rgba(0,0,0,0)"/>
+
+<? /*<path d="M 0 0 L 1920 0 L 1920 1080 L 0 1080 Z" stroke="#000000" stroke-width="5" fill="rgba(0,0,0,0)"/>
 <path d="M 96 54 L 1824 54 L 1824 1026 L 96 1026 Z" stroke="#000000" stroke-width="5" fill="rgba(0,0,0,0)"/>
 <path d="M 240 0 L 240 1080" stroke="#000000" stroke-width="5"/>
-<path d="M 1680 0 L 1680 1080" stroke="#000000" stroke-width="5"/>*/?>
+<path d="M 1680 0 L 1680 1080" stroke="#000000" stroke-width="5"/> */?>
 
 <image x="360" y="<?= $valign ?>"  width="1200" height="<?= $height ?>" xlink:href="data:image/png;base64,<?= base64_encode($png) ?>" />
 

@@ -8,12 +8,17 @@ div
   position:absolute;
   background:white;
 }
-#options
+#log
 {
   width:738px;
   height:100px;
   top:26px;
   left:26px;
+  overflow-y:scroll;
+}
+#loadtarget
+{
+  display:none;
 }
 #tabstrip
 {

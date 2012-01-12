@@ -1,6 +1,12 @@
 <?
+$time_start = microtime();
+$pre_get;
+$post_get;
+$pre_post;
+$post_post;
+$log = sprintf("<b>%.3f</b> - ",fmod(microtime(true),60));
 
-function do_post_request($url, $data, $optional_headers = null)
+function do_post_request($url, $data, &$log, $optional_headers = null)
 {
   $params = array('http' => array(
               'method' => 'POST',
@@ -11,12 +17,16 @@ function do_post_request($url, $data, $optional_headers = null)
   }
   $ctx = stream_context_create($params);
   $fp = @fopen($url, 'rb', false, $ctx);
+  if($http_response_header[0] == "HTTP/1.1 503 Service Unavailable")
+  {
+    $log .= "<b style=\"color:red\">503</b>, ";
+  }
   if (!$fp) {
-    throw new Exception("Problem with $url, $php_errormsg");
+    //throw new Exception("Problem with $url, $php_errormsg <br>");
   }
   $response = @stream_get_contents($fp);
   if ($response === false) {
-    throw new Exception("Problem reading data from $url, $php_errormsg");
+    //throw new Exception("Problem reading data from $url, $php_errormsg <br>");
   }
   return $response;
 }
@@ -28,7 +38,8 @@ $command = $_GET["command"];
 
 if(strlen($command) > 0)
 {
-  echo("Sending command $command.");
+  
+  $log .= "Command: $command, ";
   $headers = "Content-Length: 0\n";
   $svg = "";
 
@@ -36,25 +47,34 @@ if(strlen($command) > 0)
 else
 {
   $command = "key";
+  $pre_get = microtime();
   if($type == "player") 
   {
     $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
-    echo("Attempting to put Player Title ID $id");
+    $log .= "Player ID: $id, ";
   }
   else
   {
     $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
-    echo("Attempting to put General Title ID $id");
+    $log .= "General ID: $id, ";
   }
+  $post_get = microtime();
   
-  $headers = "Content-Type: image/svg+xml\n";
+  //$headers = "Content-Type: image/svg+xml\n";
   
 }
 
+$pre_post = microtime();
+$result = do_post_request("http://192.168.1.23:4567/$command",$svg,$log,$headers);
+$post_post = microtime();
 
-$result = do_post_request("http://128.113.45.92:4567/$command",$svg,$headers);
-
-
-
-
+//echo($result);
+///echo("<br>\n");
+$time_end = microtime();
+$post_time = sprintf("%.3f",$post_post-$pre_post);
+$get_time = sprintf("%.3f",$post_get-$pre_get);
+$total_time = sprintf("%.3f",$time_end-$time_start);
+$log .= "Total: $total_time,  Get: $get_time , Post: $post_time. <br>";
+echo $log;
+//echo("<hr>");
 ?>
