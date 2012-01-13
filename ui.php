@@ -9,9 +9,18 @@
     }});
   $(document).keydown(function(event)
   {
-    if(event.keyCode != 13 && $("#input input").is(":focus"))
+    
+    /*if(event.keyCode != 13 && $("#input input").is(":focus"))
     {
       return;
+    }*/
+    if(event.keyCode != 13 && $("#input input:focus").length == 1)
+    {
+      return;
+    }
+    if ($("#edit_form input:focus").length > 0 || $("#edit_form textarea:focus").length > 0 )
+    {
+        return;
     }
     //alert(event.keyCode);
     // Spacebar, takes on/off of program
@@ -91,6 +100,7 @@
         $("li").removeClass("on-preview");
         target.addClass("on-preview");
         $("#preview .label").text("Preview - " + target.text());
+        $("#preview .edit_target").html("");
         $("#preview .image").html("<img src=\"" + target.children().first().attr("src") + "\" />");
       }
       else
@@ -107,6 +117,7 @@
       $("li").removeClass("on-preview");
       $(".selected").addClass("on-preview");
       $("#preview .label").text("Preview - " + $(".selected").text());
+      $("#preview .edit_target").html("");
       $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
     }
     
@@ -117,7 +128,21 @@
       $("li").removeClass("on-edit");
       $(".selected").addClass("on-edit");
       $("#preview .label").text("Editing " + $(".selected").text());
-      $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+      if($(".selected").attr("type")=="general")
+      {
+          $("#preview .image").html("");
+          $("#preview .edit_target").load("uiedit.php?id=" + $(".selected").attr("id"),function()
+          {
+
+          });
+          
+          
+      }
+      else
+      {
+        $("#preview .edit_target").html("");
+        $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+      }
     }
     
     // Down arrow key
@@ -253,12 +278,13 @@
       $("li").removeClass("on-edit");
       $(this).addClass("on-preview");
       $("#preview .label").text("Preview - " + $(this).text());
+      $("#preview .edit_target").html("");
       $("#preview .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
     });
   });
 </script>
 <div id="program"><div class="label">Program</div><div class="image"></div></div>
-<div id="preview"><div class="label">Preview</div><div class="image"></div></div>
+<div id="preview"><div class="label">Preview</div><div class="image"></div><div class="edit_target"></div></div>
 <div id="pane">
   <ul class="titles active" request="title_list.php?event=1"></ul>
   <ul class="titles" request="title_list.php?team=rpi"></ul>

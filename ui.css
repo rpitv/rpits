@@ -140,6 +140,13 @@ div
   padding-right:112px;
   overflow:hidden;
 }
+.edit_target
+{
+  position:absolute;
+  text-align:left;
+  margin-left:20px;
+  bottom:20px;
+}
 .on
 {
   border:10px solid red;
