@@ -5,9 +5,18 @@ mysql_select_db("rpihockey");
 
 $event = $_GET["event"];
 $team = $_GET["team"];
+$thing = $_GET["thing"];
 
 $result;
-if(!$team)
+if($thing == "billboards")
+{
+  $query = "SELECT * from billboards";
+  $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+  while ($row = mysql_fetch_array($result)) {
+    echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards\\" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
+  }
+}
+else if(!$team)
 {
   if ($event == 0)
     $query = "SELECT * from general";

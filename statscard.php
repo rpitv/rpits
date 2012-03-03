@@ -83,13 +83,14 @@ $portrait = @imagecreatefrompng($portrait_path);
 $nopic = 0;
 if(!$portrait)
 {
-  /*if($stype != 'f' && $stype != 'hn')
+  // comment this out for half-height portrait-less titles
+  if($stype != 'f' && $stype != 'hn')
   {
     $portrait = imagecreatefrompng("assets/nopic.png");
     $size = getimagesize("assets/nopic.png");
     
   }
-  else*/
+  else
     $nopic = 1;
 }
 
@@ -153,13 +154,14 @@ $portrait = @imagecreatefrompng($portrait_path);
 $nopic = 0;
 if(!$portrait)
 {
-  /*if($stype != 'f' && $stype != 'hn')
+  // Comment this out for half-height imageless titles with no "?"
+  if($stype != 'f' && $stype != 'hn')
   {
     $portrait = imagecreatefrompng("assets/nopic.png");
     $size = getimagesize("assets/nopic.png");
     
   }
-  else*/
+  else
     $nopic = 1;
 }
 
@@ -176,6 +178,18 @@ if($stype == 'f' ||  $nopic == 1)
     $overlay = imagecreatefrompng('assets/football_overlay_nopic.png');
 }
 imagecopyresized($im,$overlay,0,0,0,0,640,120,640,120);
+
+if($size[0]*1.2>$size[1])
+{
+  $portraith = $size[1]/($size[0]/100);
+  $portraity += 120-$portraith;
+}
+else if($size[0]*1.2<$size[1])
+{
+  $size[1] = $size[0]*1.2;
+}
+
+
 
 if($nopic == 0)
   imagecopyresampled($im, $portrait, $portraitx, $portraity, 0, 0, $portraitw, $portraith, $size[0], $size[1]);
@@ -270,9 +284,13 @@ imagefttext($im, $numsize, 0, 472-($dummy[2]-$dummy[0])/2-$posa,34+$v,$shadowcol
 imagefttext($im, $numsize, 0, 470-($dummy[2]-$dummy[0])/2-$posa,32+$v,$namecolor, $fontc, $row["pos"]);
 
 // Output player year (auto center)
+$yeara = 0;
+if($row["year"]>90)
+  $yeara = 3;
+
 $dummy = imagefttext($im, $numsize, 0, 700, 0, $white, $font, $row["year"]);
-imagefttext($im, $numsize, 0, 517-($dummy[2]-$dummy[0])/2,34+$v,$black, $fontc, $row["year"]);
-imagefttext($im, $numsize, 0, 515-($dummy[2]-$dummy[0])/2,32+$v,$white, $fontc, $row["year"]);
+imagefttext($im, $numsize, 0, 517-($dummy[2]-$dummy[0])/2-$yeara,34+$v,$black, $fontc, $row["year"]);
+imagefttext($im, $numsize, 0, 515-($dummy[2]-$dummy[0])/2-$yeara,32+$v,$white, $fontc, $row["year"]);
 
 //
 // OUTPUT PLAYER STATS

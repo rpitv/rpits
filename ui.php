@@ -75,11 +75,6 @@
       {
         $("#log").append($("#loadtarget").html());
         $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
-        $("#loadtarget").load('putter.php?command=dissolve_in/15',function()
-        {
-          $("#log").append($("#loadtarget").html());
-          $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
-        });
       });
     }
 
@@ -288,13 +283,15 @@
 <div id="pane">
   <ul class="titles active" request="title_list.php?event=1"></ul>
   <ul class="titles" request="title_list.php?team=rpi"></ul>
-  <ul class="titles" request="title_list.php?team=aic"></ul>
+  <ul class="titles" request="title_list.php?team=cornell"></ul>
+  <ul class="titles" request="title_list.php?thing=billboards"></ul>
 </div>
 <div id="tabstrip">
   <!--<div class="tab active" request="title_list.php">All Titles</div>-->
   <div class="tab active" request="title_list.php?event=1" tid="0">Hockey Titles</div>
   <div class="tab" request="title_list.php?team=rpi" tid="1">RPI Players</div>
-  <div class="tab" request="title_list.php?team=aic" tid="2">AIC Players</div>
+  <div class="tab" request="title_list.php?team=cornell" tid="2">Cornell Players</div>
+  <div class="tab" request="title_list.php?thing=billboards" tid="3">Billboards</div>
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>

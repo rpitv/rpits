@@ -234,9 +234,16 @@ if($row["special"] == 1) {
       568,$voffset+59,
       190,$voffset+59);
   $voffset -= $spacing;
+  
+  $locationbar = array(
+      75,390,
+      388,390,
+      373,420,
+      60,420);
 
   imagefilledpolygon($im,$team1bar,4,$teamcolor);
   imagefilledpolygon($im,$team2bar,4,$team2color);
+  imagefilledpolygon($im,$locationbar,4,$team2color);
   $frame = imagecreatefrompng('assets/opening_frame.png');
   imagecopy($im,$frame,0,0,0,0,640,480);
 

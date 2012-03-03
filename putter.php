@@ -53,6 +53,22 @@ else
     $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
     $log .= "Player ID: $id, ";
   }
+  else if ($type == "billboard")
+  {
+    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    $log .= "Billboard ID: $id, ";
+  }
+  else if($type == "test") 
+  {
+$svg = file_get_contents("http://localhost/hockey/svg_score.html");
+    //$svg = file_get_contents("http://localhost/hockey/opening_titles.html");
+    $log .= "SVG Test ID: $id, ";
+  }
+  else if($type == "svg") 
+  {
+    $svg = file_get_contents("http://localhost/hockey/svg_card.php?id=$id");
+    $log .= "SVG card test ID: $id, ";
+  }
   else
   {
     $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
@@ -61,6 +77,7 @@ else
   $post_get = microtime();
   
   //$headers = "Content-Type: image/svg+xml\n";
+  //echo $svg;
   
 }
 

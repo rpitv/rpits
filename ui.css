@@ -46,6 +46,10 @@ div
   text-align:center;
   overflow:hidden;
 }
+#preview img
+{
+  width: 640px;
+}
 #program
 {
   width:864px;
