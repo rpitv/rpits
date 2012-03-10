@@ -44,7 +44,7 @@ foreach($xml->geo->slantRectangle as $slantRectangle)
   $lc .= "<p>".$t["name"]."</p>\n";
   $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
-  $rc .= "\t<input type=\"color\" name=\"text\" value=\"" . $t["color"] . "\" />\n";
+  $rc .= "\t<input type=\"text\" name=\"color\" value=\"" . $t["color"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
   $rc .= "</form>\n";
 }
@@ -56,7 +56,7 @@ foreach($xml->overlay->placeImage as $image)
   $lc .= "<p>".$t["name"]."</p>\n";
   $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
-  $rc .= "\t<input type=\"path\" name=\"text\" value=\"" . $t["path"] . "\" />\n";
+  $rc .= "\t<input type=\"text\" name=\"path\" value=\"" . $t["path"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
   $rc .= "</form>\n";
 }
