@@ -154,7 +154,7 @@ function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
   $canvas->compositeImage($text,imagick::COMPOSITE_OVER,$x,$y);
 }
 
-function placeLogo(&$canvas,$x,$y,$w,$h,$path)
+function placeImage(&$canvas,$x,$y,$w,$h,$path)
 {
   try{
     $logo = new Imagick();

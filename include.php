@@ -12,4 +12,15 @@ function dbqueryl($query)
   $result = mysql_query($query);
   return $result;
 }
+
+function dbFetch($id,$xml)
+{ 
+  $data = array();
+  foreach($xml->attributes() as $key=>$value)
+    $data[$key] = (string)$value;
+  $result = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\" AND name=\"".$data["name"]."\";");
+  while($row = mysql_fetch_array($result))
+    $data[$row["key"]] = $row["value"];
+  return $data;
+}
 ?>

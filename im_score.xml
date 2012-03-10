@@ -24,8 +24,8 @@
     <slantRectangle name="gameStatusBox" x="680" y="940" w="470" h="60" color="#303030" />
   </geo>
   <overlay>
-    <placeLogo name="hLogo" x="570" y="808" w="100" h="100" path="teamlogos/rpi.png" />
-    <placeLogo name="vLogo" x="570" y="668" w="100" h="100" path="teamlogos/test.png" />
+    <placeImage name="hLogo" x="570" y="808" w="100" h="100" path="teamlogos/rpi.png" />
+    <placeImage name="vLogo" x="570" y="668" w="100" h="100" path="teamlogos/test.png" />
     
     <shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="VISITING"/>
     <shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="RENSSELAER"/>

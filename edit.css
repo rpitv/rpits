@@ -1,0 +1,32 @@
+
+#left-column
+{ 
+  float:left;
+  margin-right:5px;
+}
+#right-column
+{
+  float:left;
+}
+#left-column p
+{
+  text-align:right;
+  margin:0px;
+  height:30px;
+}
+#right-column input
+{
+  width:200px;
+}
+form
+{
+  margin:0px;
+  height:30px;
+}
+#right-column input .submit{
+  width:50px;
+}
+h3
+{
+  text-align:right;
+}
