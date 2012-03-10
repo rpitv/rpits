@@ -1,4 +1,8 @@
 <?
+
+$gravities = array("west"=>imagick::GRAVITY_WEST,"center"=>imagick::GRAVITY_CENTER,"east"=>imagick::GRAVITY_EAST);
+$fonts = array("fontN"=>"fonts/GothamNarrow-Bold.otf","font"=>"fonts/Gotham-Bold.ttf","fontX"=>"fonts/GothamXNarrow-Bold.otf");
+
 function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
 {
   $background = "#FFFFFF";
@@ -95,10 +99,6 @@ function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
     $shadow->drawImage($draws);
     $shadow->blurImage(0,4,imagick::CHANNEL_ALPHA);
     
-    
-    
-    
-       
     $im = new Imagick();
     $im->newPseudoImage( $w, $h, "xc:none");
 
@@ -110,7 +110,6 @@ function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
     $draw1 = new ImagickDraw();
     $draw1->setStrokeWidth(6);
     $draw1->setStrokeColor("black");
-    
 
     $draw1->polygon($points);  
     $draw1->setStrokeWidth(2);
@@ -131,10 +130,11 @@ function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
 
 function defaultText($w,$h,$string,$gravity,$font)
 {
+  global $gravities,$fonts;
   $text = new Imagick();
-  $text->setFont($font);
+  $text->setFont($fonts[$font]);
   $text->setBackgroundColor("none");
-  $text->setGravity($gravity);
+  $text->setGravity($gravities[$gravity]);
   
   $text->newPseudoImage($w,$h,"caption:" . $string);
   //$metrics = $text->queryFontMetrics( $annotate, $text );
@@ -154,17 +154,16 @@ function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
   $canvas->compositeImage($text,imagick::COMPOSITE_OVER,$x,$y);
 }
 
-function placeLogo(&$canvas,$x,$y,$w,$h,$team)
+function placeLogo(&$canvas,$x,$y,$w,$h,$path)
 {
   try{
     $logo = new Imagick();
-    $logo->readImage(realpath("teamlogos/$team.png"));
+    $logo->readImage(realpath($path));
     $logo->resizeImage($w,$h,imagick::FILTER_TRIANGLE,0);
     $canvas->compositeImage($logo,imagick::COMPOSITE_OVER,$x,$y);
   }
   catch(Exception $e){
     echo 'Error: ',  $e->getMessage(), "";
   }
-  
 }
 ?>
