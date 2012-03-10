@@ -12,7 +12,7 @@ $center = imagick::GRAVITY_CENTER;
 $west = imagick::GRAVITY_WEST;
 
 $canvas = new Imagick();
-$canvas->newImage(1920,1080,"gray","png");
+$canvas->newImage(1920,1080,"none","png");
 
 slantRectangle($canvas,660,820,600,80,'#d00000',0);
 slantRectangle($canvas,660,680,600,80,'#008000',0);

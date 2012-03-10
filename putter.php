@@ -60,7 +60,7 @@ else
   }
   else if($type == "test") 
   {
-$svg = file_get_contents("http://localhost/hockey/svg_score.html");
+$svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
     //$svg = file_get_contents("http://localhost/hockey/opening_titles.html");
     $log .= "SVG Test ID: $id, ";
   }

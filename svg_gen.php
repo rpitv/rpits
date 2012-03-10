@@ -32,6 +32,10 @@ if ($type == "general")
 
   $png = file_get_contents("http://localhost/hockey/gentitle.php?id=$id");
 }
+else if($type == "test")
+{
+  $png = file_get_contents($id);
+}
 else
 {
   $png = file_get_contents("http://localhost/hockey/statscard.php?id=$id");
@@ -51,8 +55,16 @@ else
 <path d="M 400 120 L 400 960" stroke="green" stroke-width="5"/>
 <path d="M 1520 120 L 1520 960" stroke="green" stroke-width="5"/>
 <path d="M 1600 60 L 1600 1020" stroke="red" stroke-width="5"/>
-<path d="M 1680 0 L 1680 1080" stroke="black" stroke-width="5" /> */?>
+<path d="M 1680 0 L 1680 1080" stroke="black" stroke-width="5" /> */
+
+if($type=="test")
+{
+?> <image x="0" y="0"  width="1920" height="1080" xlink:href="data:image/png;base64,<?= base64_encode($png) ?>" /><?
+}
+else
+{
+?>
 
 <image x="360" y="<?= $valign ?>"  width="1200" height="<?= $height ?>" xlink:href="data:image/png;base64,<?= base64_encode($png) ?>" />
-
+<? } ?>
 </svg>

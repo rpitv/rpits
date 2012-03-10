@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+  <info>
+    <name>Score Lower Third</name>
+    <description></description>
+  </info>
+  <defs>
+    <color name="white">#FFFFFF</color>
+    <color name="blackbg">#303030</color>
+    <font name="fontN">fonts/GothamNarrow-Bold.otf</font>
+    <font name="fontX">fonts/GothamXNarrow-Bold.otf</font>
+    <font name="font">fonts/Gotham-Bold.ttf</font>
+  </defs>
+  <geo>
+    <slantRectangle name="vTeamBar" x="660" y="820" w="600" h="80" color="[vTeamColor]" />
+    <slantRectangle name="hTeamBar" x="660" y="660" w="600" h="80" color="[hTeamColor]" />
+
+    <slantRectangle name="vTeamLogoBox" x="520" y="800" w="200" h="120" color="#FFFFFF" />
+    <slantRectangle name="hTeamLogoBox" x="520" y="660" w="200" h="120" color="#FFFFFF" />
+
+    <slantRectangle name="vTeamScoreBox" x="1200" y="800" w="200" h="120" color="#303030" />
+    <slantRectangle name="hTeamScoreBox" x="1200" y="800" w="200" h="120" color="#303030" />
+
+    <slantRectangle name="hTeamScoreBox" x="1200" y="800" w="200" h="120" color="#303030" />
+  </geo>
+  <overlay>
+    <placeLogo name="vLogo" x="570" y="808" w="100" h="100" file="none.png" />
+    <placeLogo name="hLogo" x="570" y="668" w="100" h="100" file="none.png" />
+    
+    <shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="_font" color="_white" />
+    <shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="_font" color="_white" />
+    
+    <shadowText name="vScore" x="1200" y="670" w="200" h="110" gravity="center" font="_font" color="_white" />
+    <shadowText name="hScore" x="1200" y="810" w="200" h="110" gravity="center" font="_font" color="_white" />
+    
+    <shadowText name="gameStatus" x="720" y="950" w="390" h="40" gravity="center" font="_fontN" color="_white" />
+    
+  </overlay>  
+  
+</template>

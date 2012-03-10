@@ -1,5 +1,5 @@
 <?
-function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image)
+function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
 {
   $background = "#FFFFFF";
   //$ltr = '#000000';
@@ -106,7 +106,7 @@ function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image)
 
     $im2 = new Imagick();
     $im2->newPseudoImage($w+50,$h+50,"xc:none");
-    $im2->compositeImage($shadow,imagick::COMPOSITE_OVER,15,15);
+    $im2->compositeImage($shadow,imagick::COMPOSITE_OVER,5,5);
     $draw1 = new ImagickDraw();
     $draw1->setStrokeWidth(6);
     $draw1->setStrokeColor("black");
@@ -137,6 +137,7 @@ function defaultText($w,$h,$string,$gravity,$font)
   $text->setGravity($gravity);
   
   $text->newPseudoImage($w,$h,"caption:" . $string);
+  //$metrics = $text->queryFontMetrics( $annotate, $text );
   
   return $text;
 }
