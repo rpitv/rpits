@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+  <geo>
+    <slantRectangle name="logo" x="195" y="50" h="50" w="175" color="white" />
+    <slantRectangle name="vTeamBar" x="360" y="50" h="50" w="200" color="#008000" />
+    <slantRectangle name="vTeamScore" x="535" y="50" h="50" w="90" color="#303030" />
+    <slantRectangle name="hTeamBar" x="615" y="50" h="50" w="200" color="#D00000" />
+    <slantRectangle name="hTeamScore" x="790" y="50" h="50" w="90" color="#303030" />
+    
+    <!--<slantRectangle name="announceBar" x="870" y="50" h="50" w="400" color="#FFFF00" />
+    <slantRectangle name="announceTimeBar" x="1240" y="50" h="50" w="140" color="#303030" />-->
+    
+    <slantRectangle name="clockBar" x="1370" y="50" h="50" w="180" color="#303030" />
+    <slantRectangle name="periodBar" x="1525" y="50" h="50" w="90" color="#FF0000" />
+  </geo>
+  <overlay>
+    <placeImage name="ecacLogo" x="228" y="22" w="110" h="110" path="teamlogos/ecac.png" />
+    
+    <shadowText name="vTeamName" x="385" y="52" w="150" h="46" gravity="center" font="fontN" text="DART" color="white"/>
+    <shadowText name="hTeamName" x="640" y="52" w="150" h="46" gravity="center" font="fontN" text="RPI" color="white"/>
+    <shadowText name="vTeamScore" x="535" y="52" w="90" h="46" gravity="center" font="fontN" text="0" color="white"/>
+    <shadowText name="hTeamScore" x="790" y="52" w="90" h="46" gravity="center" font="fontN" text="3" color="white"/>
+    
+    <!--<shadowText name="announceText" x="895" y="52" w="350" h="46" gravity="center" font="fontN" text="POWERPLAY" color="white"/>
+    <shadowText name="hTeamScore" x="1240" y="52" w="140" h="46" gravity="center" font="fontN" text="2:00" color="white"/>-->
+    
+    <shadowText name="clockText" x="1395" y="52" w="130" h="46" gravity="center" font="fontN" text="20:00" color="white"/>
+    <shadowText name="clockText" x="1525" y="52" w="90" h="46" gravity="center" font="fontN" text="1" color="white"/>
+  </overlay>
+</template>

@@ -1,12 +1,16 @@
 
 #left-column
 { 
+  background-color: rgba(255,255,255,.9);
   float:left;
   margin-right:5px;
+  position:relative;
 }
 #right-column
 {
+  background-color: rgba(255,255,255,.9);
   float:left;
+  position:relative;
 }
 #left-column p
 {
@@ -14,7 +18,7 @@
   margin:0px;
   height:30px;
 }
-#right-column input
+#right-column input[type=text]
 {
   width:200px;
 }
@@ -23,8 +27,8 @@ form
   margin:0px;
   height:30px;
 }
-#right-column input .submit{
-  width:50px;
+#right-column input[type=submit]{
+  width:80px;
 }
 h3
 {

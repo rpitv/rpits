@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="edit.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="im_edit.css" media="screen" />
 <script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>
 <?php
@@ -19,8 +19,6 @@ $templateXML = fopen($templateRow["path"],"r");
 $contents = stream_get_contents($templateXML);
 
 $xml = new SimpleXMLElement($contents);
-
-echo "<h1>Editing " . $titleRow["name"] . " (" . $templateRow["name"].")</h1>";
 
 $lc = "<div id=\"left-column\">\n";
 $rc = "<div id=\"right-column\">\n";

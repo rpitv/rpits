@@ -159,7 +159,7 @@ function placeImage(&$canvas,$x,$y,$w,$h,$path)
   try{
     $logo = new Imagick();
     $logo->readImage(realpath($path));
-    $logo->resizeImage($w,$h,imagick::FILTER_TRIANGLE,0);
+    $logo->resizeImage($w,$h,imagick::FILTER_TRIANGLE,1);
     $canvas->compositeImage($logo,imagick::COMPOSITE_OVER,$x,$y);
   }
   catch(Exception $e){
