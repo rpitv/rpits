@@ -3,9 +3,18 @@
 include("include.php");
 include("imagick_include.php");
 
-$page = fopen("im_score.xml","r");
-$id = 1;
-$contents = stream_get_contents($page);
+$id = $_GET["id"];
+
+$result = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
+$titleRow = mysql_fetch_array($result);
+
+$template_id = $titleRow["template"];
+
+$result = dbquery("SELECT * from templates where id=\"$template_id\" LIMIT 1;");
+$templateRow = mysql_fetch_array($result);
+
+$templateXML = fopen($templateRow["path"],"r");
+$contents = stream_get_contents($templateXML);
 
 $canvas = new Imagick();
 $canvas->newImage(1920,1080,"none","png");
