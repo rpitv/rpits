@@ -128,6 +128,41 @@ function slantRectangle(&$canvas,$x,$y,$w,$h,$color1,$image=0)
   }
 }
 
+function blackBox(&$canvas,$x,$y,$w,$h)
+{
+  $rectangle = new Imagick();
+  $rectangle->newPseudoImage($w,$h,"xc:none");
+  $draw1 = new ImagickDraw();
+  $draw1->pushPattern('gradient',0,0,5,5);
+  $tile = new Imagick();
+  $tile->readImage(realpath("assets/diag_tile.png"));
+  $draw1->composite(Imagick::COMPOSITE_OVER,0,0,5,5,$tile);
+  $draw1->popPattern();
+  $draw1->setFillPatternURL('#gradient');
+  $draw1->rectangle(0,0,$w,$h);
+  $rectangle->drawImage($draw1);
+  
+  $gradient = new Imagick();
+  $gradient->newPseudoImage($w,$h,"gradient:#DDD-#666");
+  
+  $rectangle->compositeImage($gradient,Imagick::COMPOSITE_COPYOPACITY,0,0);
+  
+  $black = new Imagick();
+  $black->newPseudoImage($w,$h,"xc:black");
+  
+  $layered = new Imagick();
+  $layered->newPseudoImage($w+20,$h+20,"xc:none");
+  $layered->compositeImage($black,Imagick::COMPOSITE_OVER,5,0);
+  $layered->compositeImage($black,Imagick::COMPOSITE_OVER,5,5);
+  $layered->compositeImage($gradient,Imagick::COMPOSITE_COPYOPACITY,5,5);
+  $layered->blurImage(4,5,imagick::CHANNEL_ALPHA);
+  $layered->compositeImage($black,Imagick::COMPOSITE_DSTOUT,0,0);
+  
+  $canvas->compositeImage($layered,Imagick::COMPOSITE_OVER,$x,$y);
+  $canvas->compositeImage($rectangle,Imagick::COMPOSITE_OVER,$x,$y);
+  
+}
+
 function defaultText($w,$h,$string,$gravity,$font)
 {
   global $gravities,$fonts;
@@ -141,6 +176,18 @@ function defaultText($w,$h,$string,$gravity,$font)
   
   return $text;
 }
+
+function plainText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
+{
+  $text = defaultText($w,$h,$string,$gravity,$font); 
+  $shadow = $text->clone();
+  $shadow->blurImage(4,2,imagick::CHANNEL_ALPHA);
+  $text->colorizeImage($color,1);
+  
+  $canvas->compositeImage($shadow,imagick::COMPOSITE_OVER,$x,$y);
+  $canvas->compositeImage($text,imagick::COMPOSITE_OVER,$x,$y);
+}
+
 function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
 {
   $text = defaultText($w,$h,$string,$gravity,$font);      
@@ -159,6 +206,11 @@ function placeImage(&$canvas,$x,$y,$w,$h,$path)
   try{
     $logo = new Imagick();
     $logo->readImage(realpath($path));
+    
+    // This might cause problems with non-Player Portraits if aspect ratios are off.
+    $size = @getimagesize($path);
+    $logo->cropImage($size[0], $size[0]*1.2, 0, 0);
+    
     $logo->resizeImage($w,$h,imagick::FILTER_TRIANGLE,1);
     $canvas->compositeImage($logo,imagick::COMPOSITE_OVER,$x,$y);
   }

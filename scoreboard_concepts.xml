@@ -3,9 +3,9 @@
   <geo>
     <slantRectangle name="logo" x="170" y="50" h="110" w="200" color="white" />
     <slantRectangle name="vTeamBar" x="360" y="50" h="50" w="200" color="#008000" />
-    <slantRectangle name="vTeamScore" x="535" y="50" h="50" w="90" color="#303030" />
+    <slantRectangle name="vTeamScoreBar" x="535" y="50" h="50" w="90" color="#303030" />
     <slantRectangle name="hTeamBar" x="615" y="50" h="50" w="200" color="#D00000" />
-    <slantRectangle name="hTeamScore" x="790" y="50" h="50" w="90" color="#303030" />
+    <slantRectangle name="hTeamScoreBar" x="790" y="50" h="50" w="90" color="#303030" />
     
     <!--<slantRectangle name="announceBar" x="870" y="50" h="50" w="400" color="#FFFF00" />
     <slantRectangle name="announceTimeBar" x="1240" y="50" h="50" w="140" color="#303030" />-->

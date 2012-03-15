@@ -20,6 +20,17 @@ $canvas = new Imagick();
 $canvas->newImage(1920,1080,"none","png");
 
 $xml = new SimpleXMLElement($contents);
+
+if($xml->geo->blackBox)
+{
+  foreach($xml->geo->blackBox as $box)
+  {
+
+    $l = dbFetch($id,$box);
+    blackBox($canvas,$l["x"],$l["y"],$l["w"],$l["h"]);
+  }
+}
+
 if($xml->geo->slantRectangle)
 {
   foreach($xml->geo->slantRectangle as $slantRectangle)
@@ -35,6 +46,15 @@ if($xml->overlay->shadowText)
   {
     $t = dbFetch($id,$text);
     shadowedText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"]);
+  }
+}
+
+if($xml->overlay->plainText)
+{
+  foreach($xml->overlay->plainText as $text)
+  {
+    $t = dbFetch($id,$text);
+    plainText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"]);
   }
 }
 

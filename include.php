@@ -23,4 +23,11 @@ function dbFetch($id,$xml)
     $data[$row["key"]] = $row["value"];
   return $data;
 }
+
+function rgbhex($red, $green, $blue) {
+    $red = 0x10000 * max(0,min(255,$red+0));
+    $green = 0x100 * max(0,min(255,$green+0));
+    $blue = max(0,min(255,$blue+0));
+    return "#".str_pad(strtoupper(dechex($red + $green + $blue)),6,"0",STR_PAD_LEFT);
+}
 ?>
