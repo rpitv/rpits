@@ -34,6 +34,7 @@ function do_post_request($url, $data, &$log, $optional_headers = null)
 
 $id = $_GET["id"];
 $type = $_GET["type"];
+$path = $_GET["path"];
 $command = $_GET["command"];
 
 if(strlen($command) > 0)
@@ -58,11 +59,10 @@ else
     $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
     $log .= "Billboard ID: $id, ";
   }
-  else if($type == "test") 
+  else if(strlen($path)>1) 
   {
-$svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
-    //$svg = file_get_contents("http://localhost/hockey/opening_titles.html");
-    $log .= "SVG Test ID: $id, ";
+    $svg = file_get_contents("$path");
+    $log .= "PNG Path: $path, ";
   }
   else if($type == "svg") 
   {

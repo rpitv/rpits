@@ -22,6 +22,7 @@
     <slantRectangle name="hTeamScoreBox" x="1200" y="800" w="200" h="120" color="#303030" />
 
     <slantRectangle name="gameStatusBox" x="680" y="940" w="470" h="60" color="#303030" />
+    <!--<blackBox name="body" x="0" y="0" w="1920" h="1080" />-->
   </geo>
   <overlay>
     <placeImage name="hLogo" x="570" y="808" w="100" h="100" path="teamlogos/rpi.png" />

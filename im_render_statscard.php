@@ -4,6 +4,7 @@ include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
+$cacheno = $_GET["c"];
 
 mysql_select_db("rpihockey");
 
@@ -19,6 +20,34 @@ if($stype != "txt")
 {
   $result = dbquery("SELECT * FROM stattype WHERE `type`  = '$stype'");
   $slabel = mysql_fetch_array($result);
+}
+
+mysql_select_db("rpits");
+
+//
+// CACHING SECTION
+//
+
+foreach($row as $item)
+  $hash .= $item;
+$key = $row["num"].$row["first"].$row["last"];
+$hash = addslashes($hash);
+$oldkey = $key;
+$key = addslashes($key);
+
+$result = dbquery("SELECT * from cache WHERE `key` = '$key'");
+$cacherow = mysql_fetch_array($result);
+$cacherow["hash"] = addslashes($cacherow["hash"]);
+
+if($cacherow["hash"] == $hash && $cacheno != 1)
+{
+  $png = file_get_contents("out/$oldkey.png");
+  if($png)
+  {
+    header('Content-Type: image/png');
+    echo($png);
+    exit();
+  }
 }
 
 
@@ -74,6 +103,22 @@ if($stype != "txt")
   
 }
 
+dbquery("REPLACE INTO cache SET `key` = '$key', `hash` = '$hash';");
+
+$filename = $row["num"].$row["first"].$row["last"];
+
+$canvas->setImageDepth(8);
+
+$canvas->writeImage('out/' . $filename . '.png');
+
+$thumb = $canvas->clone();
+$thumb->cropImage(318,239,398,794);
+$thumb->resizeImage(53,40,Imagick::FILTER_TRIANGLE,1);
+$thumb->writeImage('thumbs/' . $filename . '.png');
+
 header("Content-Type: image/png");
 echo $canvas;
+
+
+
 ?>

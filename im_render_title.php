@@ -72,6 +72,8 @@ if($xml->overlay->placeImage)
 header("Content-Type: image/png");
 echo $canvas;
 
+
+$canvas->setImageDepth(8);
 $canvas->writeImage('out/' . $titleRow["filename"] . '.png');
 
 ?>

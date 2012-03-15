@@ -45,8 +45,8 @@
         $(".selected").addClass("on-program");
         $("#program").addClass("on");
         $("#program .label").text("Program - " + $(".selected").text());
-        $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
-        $("#loadtarget").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+        $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+        $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
         {
           $("#log").append($("#loadtarget").html());
           $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
@@ -70,8 +70,8 @@
       $(".selected").addClass("on-program");
       $("#program").addClass("on");
       $("#program .label").text("Program - " + $(".selected").text());
-      $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
-      $("#loadtarget").load('putter.php?id='+$(".on-program").attr("id")+'&type='+$(".on-program").attr("type"),function()
+      $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+      $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
       {
         $("#log").append($("#loadtarget").html());
         $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
@@ -97,7 +97,7 @@
         $("#preview .label").text("Preview - " + target.text());
         //$("#preview .edit_target").html("");
         $("#edit").hide();
-        $("#preview .image").html("<img src=\"" + target.children().first().attr("src") + "\" />");
+        $("#preview .image").html("<img src=\"" + target.children().first().attr("path") + "\" />");
       }
       else
       {
@@ -115,7 +115,7 @@
       $("#preview .label").text("Preview - " + $(".selected").text());
       //$("#preview .edit_target").html("");
       $("#edit").hide();
-      $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+      $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
     }
     
     // E key, for editing
@@ -138,7 +138,7 @@
       else
       {
         $("#edit").hide();
-        $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("src") + "\" />");
+        $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
       }
     }
     
@@ -252,9 +252,9 @@
         $("li").removeClass("on-program");
         $(this).addClass("on-program");
         $("#program .label").text("Program - " + $(this).text());
-        $("#program .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
+        $("#program .image").html("<img src=\"" + $(this).children().first().attr("path") + "\" />");
         $("#program").addClass("on");
-        $("#loadtarget").load('putter.php?id='+$(this).attr("id")+'&type='+$(this).attr("type"),function()
+        $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
         {
           $("#log").append($("#loadtarget").html());
           $("#log").animate({ scrollTop: $("#log").attr("scrollHeight") - $('#log').height() }, 200);
@@ -276,7 +276,7 @@
       $(this).addClass("on-preview");
       $("#preview .label").text("Preview - " + $(this).text());
       $("#edit").hide();
-      $("#preview .image").html("<img src=\"" + $(this).children().first().attr("src") + "\" />");
+      $("#preview .image").html("<img src=\"" + $(this).children().first().attr("path") + "\" />");
     });
   });
 </script>

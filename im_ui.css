@@ -83,7 +83,9 @@ div
 #pane li img
 {
   height:40px;
-  margin: 0px -12px;
+  width:54px;
+  margin-right:10px;
+  /*margin: 0px -12px;*/
   vertical-align:middle;
 }
 .ui-sortable-helper
