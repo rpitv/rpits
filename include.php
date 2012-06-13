@@ -13,6 +13,63 @@ function dbqueryl($query)
   return $result;
 }
 
+function listOfGeos($id)
+{
+  $geos = array();
+  $title = dbquery("SELECT * from titles left join templates on titles.template=templates.id where titles.id='$id'  ");
+  $result = mysql_fetch_array($title);
+  $templateXML = fopen($result["path"],"r");
+  $contents = stream_get_contents($templateXML);
+  $xml = new SimpleXMLElement($contents);
+  foreach($xml->geo->children() as $geo)
+  {
+    $name = (string) $geo["name"];
+    $geos[$name] = $geo->getName();
+  }
+  foreach($xml->overlay->children() as $geo)
+  {
+    $name = (string) $geo["name"];
+    $geos[$name] = $geo->getName();
+  }
+  return $geos;
+}
+
+function dbFetchAll($id,$name)
+{ 
+  $data = array();
+  $title = dbquery("SELECT * from titles left join templates on titles.template=templates.id where titles.id='$id'  ");
+  $result = mysql_fetch_array($title);
+  $templateXML = fopen($result["path"],"r");
+  $contents = stream_get_contents($templateXML);
+  $xml = new SimpleXMLElement($contents);
+  foreach($xml->geo->children() as $geo)
+  {
+    if($geo["name"] == $name)
+    {
+      $data = dbFetch($id,$geo);
+    }
+  }
+  foreach($xml->overlay->children() as $geo)
+  {
+    if($geo["name"] == $name)
+    {
+      $data = dbFetch($id,$geo);
+    }
+  }
+  return $data;
+}
+
+function stripDBFetch($attrs)
+{
+  $result = array();
+  foreach($attrs as $key=>$value)
+    if($key != "x" && $key != "y" && $key != "w" && $key != "h" && $key != "name")
+    {
+      $result[$key] = $value;
+    }
+    return $result;
+}
+
 function dbFetch($id,$xml)
 { 
   $data = array();

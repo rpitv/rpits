@@ -45,7 +45,7 @@
         $(".selected").addClass("on-program");
         $("#program").addClass("on");
         $("#program .label").text("Program - " + $(".selected").text());
-        $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+        $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />");
         $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
         {
           $("#log").append($("#loadtarget").html());
@@ -70,7 +70,7 @@
       $(".selected").addClass("on-program");
       $("#program").addClass("on");
       $("#program .label").text("Program - " + $(".selected").text());
-      $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+      $("#program .image").html("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />");
       $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
       {
         $("#log").append($("#loadtarget").html());
@@ -97,7 +97,7 @@
         $("#preview .label").text("Preview - " + target.text());
         //$("#preview .edit_target").html("");
         $("#edit").hide();
-        $("#preview .image").html("<img src=\"" + target.children().first().attr("path") + "\" />");
+        $("#preview .image").html("<img src=\"" + target.children().first().attr("path")+'?'+Math.random() + "\" />");
       }
       else
       {
@@ -115,7 +115,7 @@
       $("#preview .label").text("Preview - " + $(".selected").text());
       //$("#preview .edit_target").html("");
       $("#edit").hide();
-      $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+      $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />");
     }
     
     // E key, for editing
@@ -138,7 +138,7 @@
       else
       {
         $("#edit").hide();
-        $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path") + "\" />");
+        $("#preview .image").html("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />");
       }
     }
     
@@ -252,7 +252,7 @@
         $("li").removeClass("on-program");
         $(this).addClass("on-program");
         $("#program .label").text("Program - " + $(this).text());
-        $("#program .image").html("<img src=\"" + $(this).children().first().attr("path") + "\" />");
+        $("#program .image").html("<img src=\"" + $(this).children().first().attr("path")+'?'+Math.random() + "\" />");
         $("#program").addClass("on");
         $("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
         {
@@ -276,7 +276,7 @@
       $(this).addClass("on-preview");
       $("#preview .label").text("Preview - " + $(this).text());
       $("#edit").hide();
-      $("#preview .image").html("<img src=\"" + $(this).children().first().attr("path") + "\" />");
+      $("#preview .image").html("<img src=\"" + $(this).children().first().attr("path")+'?'+Math.random() + "\" />");
     });
   });
 </script>
@@ -285,15 +285,15 @@
 <div id="edit"></div>
 <div id="pane">
   <ul class="titles active" request="im_title_list.php?event=1"><div id="add-title"></div></ul>
-  <ul class="titles" request="im_title_list.php?team=rpi"></ul>
-  <ul class="titles" request="im_title_list.php?team=cornell"></ul>
+  <ul class="titles" request="im_title_list.php?team=harvard"></ul>
+  <ul class="titles" request="im_title_list.php?team=union"></ul>
   <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
 </div>
 <div id="tabstrip">
   <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
   <div class="tab active" request="im_title_list.php?event=1" tid="0">Hockey Titles</div>
-  <div class="tab" request="im_title_list.php?team=rpi" tid="1">RPI Players</div>
-  <div class="tab" request="im_title_list.php?team=cornell" tid="2">Cornell Players</div>
+  <div class="tab" request="im_title_list.php?team=harvard" tid="1">Harvard Players</div>
+  <div class="tab" request="im_title_list.php?team=union" tid="2">Union Players</div>
   <div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>
 </div>
 <div id="input"><input type="text" /></div>

@@ -93,11 +93,24 @@ if($stype != "txt")
   for(;strlen($slabel[$i])>0;$i++) {}
  
   $boxW = 880/($i-2);
+  $totalwidths = 0;
+  for($j=2;$j<$i;$j++)
+    $totalwidths += getTextWidth($boxW,80,$row[$j+8],"fontN");
+  
+  
+  //echo $totalwidths;
+  $spacing = (880-$totalwidths)/($i-2);
+  //plainText($canvas,50,50,300,50,$i-2 . ", $boxW, $totalwidths, $spacing ","left","fontN","white");
+  $xpos = 650;
 
   for($j=2;$j<$i;$j++)
   {
-    plainText($canvas,630+$boxW*($j-2),915,$boxW,40,$slabel[$j],"center","fontN","white");
-    plainText($canvas,630+$boxW*($j-2),955,$boxW,80,$row[$j+8],"center","fontN","white");
+    $thisWidth = getTextWidth($boxW,80,$row[$j+8],"fontN");
+    $xpos -=($boxW-$thisWidth)/2;
+    plainText($canvas,$xpos,915,$boxW,40,$slabel[$j],"center","fontN","white");
+    plainText($canvas,$xpos,955,$boxW,80,$row[$j+8],"center","fontN","white");
+    $xpos += ($boxW-$thisWidth)/2+$thisWidth+$spacing;
+    
   }
 
   

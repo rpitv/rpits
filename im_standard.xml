@@ -4,8 +4,7 @@
     <description>Single text box + title with logo box</description>
   </info>
   <geo>
-    <blackBox name="body" x="430" y="280" w="1060" h="720" />
-    <blackBox name="body" x="0" y="0" w="1920" h="1080" />
+    <blackBox name="body" x="430" y="880" w="1060" h="120" />
     <slantRectangle name="titleBar" x="460" y="820" w="1060" h="60" color="red"/>
     <slantRectangle name="logoBox" x="400" y="800" w="180" h="100" color="white"/>
   </geo>

@@ -188,6 +188,14 @@ function plainText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
   $canvas->compositeImage($text,imagick::COMPOSITE_OVER,$x,$y);
 }
 
+function getTextWidth($w,$h,$string,$font)
+{
+  $text = defaultText($w,$h,$string,"center",$font);
+  $text->trimImage(0);
+  $geo = $text->getImageGeometry();
+  return $geo["width"];
+}
+
 function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
 {
   $text = defaultText($w,$h,$string,$gravity,$font);      

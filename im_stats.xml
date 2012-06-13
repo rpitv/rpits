@@ -1,0 +1,20 @@
+<template>
+  <info>
+    <name>Two-line w/ Logo</name>
+    <description>Single text box + title with logo box</description>
+  </info>
+  <geo>
+    <blackBox name="body" x="430" y="580" w="1060" h="420" />
+    <slantRectangle name="titleBar" x="460" y="520" w="1040" h="60" color="red"/>
+    <slantRectangle name="logoBox" x="400" y="500" w="180" h="100" color="white"/>
+    <slantRectangle name="logoBoxRight" x="1360" y="500" w="180" h="100" color="white"/>
+  </geo>
+  <overlay>
+    <placeImage name="LeftLogo" x="450" y="510" w="80" h="80" path="teamlogos/colgate.png" />
+    <placeImage name="RightLogo" x="1410" y="510" w="80" h="80" path="teamlogos/cornell.png" />
+    <shadowText name="titleText" x="430" y="525" w="1060" h="50" gravity="center" font="fontN" color="white" text="Game Stats" />
+    <plainText name="LeftColumn" x="450" y="610" w="300" h="380" gravity="center" font="fontN" color="white" text="Team\n0\n0\n0\n0\n0\n0" />
+    <plainText name="CenterColumn" x="750" y="610" w="420" h="380" gravity="center" font="fontN" color="white" text="Team\n0\n0\n0\n0\n0\n0" />
+    <plainText name="RightColumn" x="1170" y="610" w="300" h="380" gravity="center" font="fontN" color="white" text="Team\n0\n0\n0\n0\n0\n0" />
+  </overlay>
+</template>

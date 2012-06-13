@@ -1,0 +1,14 @@
+<template>
+  <info>
+    <name>Large Box</name>
+    <description>Single text box + title with logo box</description>
+  </info>
+  <geo>
+    <blackBox name="body" x="430" y="660" w="1060" h="360" />
+    <slantRectangle name="titleBar" x="400" y="600" w="1120" h="70" color="red"/>
+  </geo>
+  <overlay>
+    <shadowText name="titleText" x="440" y="605" w="1040" h="60" gravity="west" font="fontN" color="white" text="Name of Coach" />
+    <plainText name="bodyText" x="450" y="680" w="1020" h="345" gravity="west" font="fontN" color="white" text="Union Head Coach     Overall Record: 90-90-90" />
+  </overlay>
+</template>
