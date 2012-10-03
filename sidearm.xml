@@ -1,0 +1,576 @@
+<hkgame source="TAS For Ice Hockey" version="1.0.5" generated="2/18/2012">
+  <venue gameid="MH021812"
+           visid="PRINM" visname="Princeton"
+           homeid="RPI" homename="Rensselaer"
+           date="2/17/2012" location="Troy, N.Y."
+           start="7pm" end="" duration="" attend="0" schednote=""
+           leaguegame="Y" neutralgame="N" nitegame="Y">
+    <officials>
+      <official title="Referee" name="Chris Ciamaga"></official>
+      <official title="Referee" name="Joe Carusone"></official>
+      <official title="Linesman" name="Justin Prusak"></official>
+      <official title="Linesman" name="Michael Emanatian"></official>
+    </officials>
+    <rules prds="3" minutes="20" minutesot="5"
+             minminor="2" minmajor="5" minmisc10="10" minmiscgame="10" minmiscgross="10" minmatch="10" shootoutshot="0" shootoutteam="1"></rules>
+  </venue>
+  <stars>
+  </stars>
+  <status complete="N" period="3" clock="20:00"></status>
+  <team vh="V" id="PRINM" name="Princeton" record="">
+    <linescore periods="3" line="1,4,1" score="6" shotline="7,8,8" shots="23">
+      <lineprd prd="1" score="1" shots="7" saves="5" ppg="0" ppatt="2" fowon="11" pen="2" pmin="4"></lineprd>
+      <lineprd prd="2" score="4" shots="8" saves="12" ppg="1" ppatt="3" fowon="6" pen="1" pmin="2"></lineprd>
+      <lineprd prd="3" score="1" shots="8" saves="7" ppg="0" ppatt="1" fowon="6" pen="1" pmin="2"></lineprd>
+    </linescore>
+    <lines>
+      <line number="1" lw="25" c="18" rw="22" ld="27" rd="5" g="1"></line>
+      <line number="2" lw="14" c="9" rw="15" ld="4" rd="28" g="31"></line>
+      <line number="3" lw="13" c="7" rw="8"></line>
+      <line number="4" lw="16" c="17" rw="39"></line>
+    </lines>
+    <totals>
+      <shots g="6" a="7" sh="23" ps="0" psatt="0"></shots>
+      <goaltype gw="1" pp="1" sh="0" ua="1" fg="1" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="4" minutes="8" minor="4" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc facewon="23" facelost="24" blk="8"></misc>
+      <goalie minutes="60:00" ga="2" saves="24" savebyprd="5,12,7" sho="0" ppg="0" shg="0" eng="0" pen="0" sog="0"></goalie>
+      <powerplay ppg="1" ppopp="6"></powerplay>
+    </totals>
+    <player uni="1" code="1" name="Condon, Mike" checkname="CONDON,MIKE" gp="1" gs="1" pos="g">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+      <goalie gp="1" gs="1" minutes="60:00" ga="2" saves="24" savebyprd="5,12,7" sho="0" ppg="0" shg="0" eng="0" pen="0" sog="0"></goalie>
+    </player>
+    <player uni="2" code="2" name="Rush, Alec" checkname="RUSH,ALEC" gp="0"></player>
+    <player uni="4" code="4" name="Kroshus, Tom" checkname="KROSHUS,TOM" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="5" code="5" name="Pallis, Derrick" checkname="PALLIS,DERRICK" gp="1" gs="1" pos="d">
+      <shots g="0" a="0" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="4" minus="0" plusminus="+4" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="6" code="6" name="Goodwin, Jeremy" checkname="GOODWIN,JEREMY" gp="0"></player>
+    <player uni="7" code="7" name="Brockett, Tucker" checkname="BROCKETT,TUCKER" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="0" facelost="1" blk="0"></misc>
+    </player>
+    <player uni="8" code="8" name="Carlson, Eric" checkname="CARLSON,ERIC" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="3" minus="2" plusminus="+1" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="9" code="9" name="Berger, Jack" checkname="BERGER,JACK" gp="1">
+      <shots g="0" a="2" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="0" plusminus="+2" facewon="5" facelost="9" blk="0"></misc>
+    </player>
+    <player uni="10" code="10" name="Kerr, James" checkname="KERR,JAMES" gp="0"></player>
+    <player uni="11" code="11" name="Kesselman, Aaron" checkname="KESSELMAN,AARON" gp="0"></player>
+    <player uni="13" code="13" name="Ford, Will" checkname="FORD,WILL" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="14" code="14" name="Ammon, Andrew" checkname="AMMON,ANDREW" gp="1">
+      <shots g="2" a="0" sh="5" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="1" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="0" plusminus="+2" facewon="0" facelost="1" blk="0"></misc>
+    </player>
+    <player uni="15" code="15" name="Maugeri, Tyler" checkname="MAUGERI,TYLER" gp="1">
+      <shots g="0" a="0" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="0" plusminus="+2" facewon="1" facelost="1" blk="0"></misc>
+    </player>
+    <player uni="16" code="16" name="Meland, Eric" checkname="MELAND,ERIC" gp="1">
+      <shots g="0" a="1" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="6" facelost="5" blk="0"></misc>
+    </player>
+    <player uni="17" code="17" name="Farris, Matt" checkname="FARRIS,MATT" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="0" plusminus="+1" facewon="2" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="18" code="18" name="Calof, Andrew" checkname="CALOF,ANDREW" gp="1" gs="1" pos="c">
+      <shots g="2" a="1" sh="3" ps="0" psatt="0"></shots>
+      <goaltype gw="1" pp="0" sh="0" ua="1" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="3" minus="1" plusminus="+2" facewon="8" facelost="3" blk="2"></misc>
+    </player>
+    <player uni="19" code="19" name="Zuk, Brodie" checkname="ZUK,BRODIE" gp="0"></player>
+    <player uni="20" code="20" name="Mills, Kevin" checkname="MILLS,KEVIN" gp="0"></player>
+    <player uni="22" code="22" name="MacDonald, Will" checkname="MACDONALD,WILL" gp="1" gs="1" pos="rw">
+      <shots g="0" a="1" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="1" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="24" code="24" name="Sdao, Michael" checkname="SDAO,MICHAEL" gp="0"></player>
+    <player uni="25" code="25" name="Hagel, Marc" checkname="HAGEL,MARC" gp="1" gs="1" pos="lw">
+      <shots g="0" a="2" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="1" plusminus="+1" facewon="1" facelost="4" blk="0"></misc>
+    </player>
+    <player uni="27" code="27" name="Ross, Kevin" checkname="ROSS,KEVIN" gp="1" gs="1" pos="d">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="0" plusminus="+1" facewon="0" facelost="0" blk="2"></misc>
+    </player>
+    <player uni="28" code="28" name="Ave, Aaron" checkname="AVE,AARON" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="2" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="30" code="30" name="Benitez, Ryan" checkname="BENITEZ,RYAN" gp="0"></player>
+    <player uni="31" code="31" name="Bonar, Sean" checkname="BONAR,SEAN" gp="0"></player>
+    <player uni="39" code="39" name="Kleebaum, Rob" checkname="KLEEBAUM,ROB" gp="1">
+      <shots g="2" a="0" sh="3" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="1" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="0" plusminus="+2" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="TM" code="TM" name="TEAM" checkname="TEAM" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="2"></misc>
+    </player>
+  </team>
+  <team vh="H" id="RPI" name="Rensselaer" record="">
+    <linescore periods="3" line="1,1,0" score="2" shotline="6,13,7" shots="26">
+      <lineprd prd="1" score="1" shots="6" saves="6" ppg="0" ppatt="1" fowon="5" pen="2" pmin="4"></lineprd>
+      <lineprd prd="2" score="1" shots="13" saves="4" ppg="0" ppatt="1" fowon="14" pen="3" pmin="6"></lineprd>
+      <lineprd prd="3" score="0" shots="7" saves="7" ppg="0" ppatt="1" fowon="5" pen="1" pmin="2"></lineprd>
+    </linescore>
+    <lines>
+      <line number="1" lw="18" c="13" rw="7" ld="10" rd="8" g="32"></line>
+      <line number="2" lw="19" c="23" rw="39" ld="29" rd="11" g="34"></line>
+      <line number="3" lw="22" c="21" rw="27" ld="5" rd="4" g="35"></line>
+      <line number="4" lw="24" c="12" rw="17"></line>
+    </lines>
+    <totals>
+      <shots g="2" a="4" sh="26" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="6" minutes="12" minor="6" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc facewon="24" facelost="23" blk="18"></misc>
+      <goalie minutes="60:00" ga="6" saves="17" savebyprd="6,4,7" sho="0" ppg="1" shg="0" eng="0" pen="0" sog="0"></goalie>
+      <powerplay ppg="0" ppopp="3"></powerplay>
+    </totals>
+    <player uni="3" code="3" name="Leboeuf, Guy" checkname="LEBOEUF,GUY" gp="0"></player>
+    <player uni="4" code="4" name="Koudys, Pat" checkname="KOUDYS,PAT" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="2" plusminus="-2" facewon="0" facelost="0" blk="2"></misc>
+    </player>
+    <player uni="5" code="5" name="Curadi, Luke" checkname="CURADI,LUKE" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="7" code="7" name="Schroeder, Zach" checkname="SCHROEDER,ZACH" gp="1" gs="1" pos="rw">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="8" code="8" name="Bergin, Mike" checkname="BERGIN,MIKE" gp="1" gs="1" pos="d">
+      <shots g="1" a="0" sh="3" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="2" plusminus="-1" facewon="0" facelost="1" blk="2"></misc>
+    </player>
+    <player uni="9" code="9" name="Neal, Matt" checkname="NEAL,MATT" gp="0"></player>
+    <player uni="10" code="10" name="Leonard, Curtis" checkname="LEONARD,CURTIS" gp="1" gs="1" pos="d">
+      <shots g="0" a="1" sh="4" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="1" plusminus="0" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="11" code="11" name="Dolan, Bo" checkname="DOLAN,BO" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="2" plusminus="-1" facewon="0" facelost="0" blk="3"></misc>
+    </player>
+    <player uni="12" code="12" name="Rogic, Johnny" checkname="ROGIC,JOHNNY" gp="1">
+      <shots g="0" a="1" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="2" plusminus="-1" facewon="8" facelost="1" blk="0"></misc>
+    </player>
+    <player uni="13" code="13" name="Malchuk, Joel" checkname="MALCHUK,JOEL" gp="1" gs="1" pos="c">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="0" plusminus="+1" facewon="3" facelost="5" blk="2"></misc>
+    </player>
+    <player uni="14" code="14" name="Burgdoerfer, Greg" checkname="BURGDOERFER,GREG" gp="0"></player>
+    <player uni="15" code="15" name="Laliberte, Jacob" checkname="LALIBERTE,JACOB" gp="0"></player>
+    <player uni="17" code="17" name="Smith, Justin" checkname="SMITH,JUSTIN" gp="1">
+      <shots g="0" a="1" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="2" plusminus="0" facewon="0" facelost="0" blk="2"></misc>
+    </player>
+    <player uni="18" code="18" name="Angers-Goulet, Alex" checkname="ANGERS-GOULET,ALEX" gp="1" gs="1" pos="lw">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="1" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="19" code="19" name="Cullen, Patrick" checkname="CULLEN,PATRICK" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="2" minutes="4" minor="2" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="1" facelost="1" blk="0"></misc>
+    </player>
+    <player uni="21" code="21" name="McGowan, Mark" checkname="MCGOWAN,MARK" gp="1">
+      <shots g="0" a="0" sh="3" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="2" plusminus="-2" facewon="4" facelost="6" blk="0"></misc>
+    </player>
+    <player uni="22" code="22" name="Lee, C.J." checkname="LEE,CJ" gp="1">
+      <shots g="0" a="0" sh="1" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="2" plusminus="-2" facewon="0" facelost="2" blk="0"></misc>
+    </player>
+    <player uni="23" code="23" name="Higgs, Brock" checkname="HIGGS,BROCK" gp="1">
+      <shots g="0" a="0" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="6" facelost="4" blk="0"></misc>
+    </player>
+    <player uni="24" code="24" name="Rabbani, Josh" checkname="RABBANI,JOSH" gp="1">
+      <shots g="1" a="1" sh="2" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="2" minus="2" plusminus="0" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="27" code="27" name="O'Grady, Marty" checkname="O'GRADY,MARTY" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="1" plusminus="-1" facewon="1" facelost="3" blk="0"></misc>
+    </player>
+    <player uni="28" code="28" name="Tinordi, Matt" checkname="TINORDI,MATT" gp="0"></player>
+    <player uni="29" code="29" name="Bailen, Nick" checkname="BAILEN,NICK" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="1" minutes="2" minor="1" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="1" minus="2" plusminus="-1" facewon="0" facelost="0" blk="1"></misc>
+    </player>
+    <player uni="32" code="32" name="Merriam, Bryce" checkname="MERRIAM,BRYCE" gp="1" gs="1" pos="g">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+      <goalie gp="1" gs="1" minutes="25:26" ga="3" saves="6" savebyprd="6,0,0" sho="0" ppg="0" shg="0" eng="0" pen="0" sog="0"></goalie>
+    </player>
+    <player uni="34" code="34" name="Diebold, Scott" checkname="DIEBOLD,SCOTT" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+      <goalie gp="1" gs="0" minutes="28:45" ga="3" saves="10" savebyprd="0,4,6" sho="0" ppg="1" shg="0" eng="0" pen="0" sog="0"></goalie>
+    </player>
+    <player uni="35" code="35" name="Coupal, Jeremy" checkname="COUPAL,JEREMY" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="0"></misc>
+      <goalie gp="1" gs="0" minutes="5:49" ga="0" saves="1" savebyprd="0,0,1" sho="0" ppg="0" shg="0" eng="0" pen="0" sog="0"></goalie>
+    </player>
+    <player uni="39" code="39" name="Haggerty, Ryan" checkname="HAGGERTY,RYAN" gp="1">
+      <shots g="0" a="0" sh="4" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="2" plusminus="-2" facewon="0" facelost="0" blk="0"></misc>
+    </player>
+    <player uni="TM" code="TM" name="TEAM" checkname="TEAM" gp="1">
+      <shots g="0" a="0" sh="0" ps="0" psatt="0"></shots>
+      <goaltype gw="0" pp="0" sh="0" ua="0" fg="0" ot="0" en="0" hat="0" gt="0" so="0"></goaltype>
+      <penalty count="0" minutes="0" minor="0" major="0" misc10="0" miscgame="0" miscgross="0" match="0"></penalty>
+      <misc plus="0" minus="0" plusminus="0" facewon="0" facelost="0" blk="2"></misc>
+    </player>
+  </team>
+  <scores>
+    <score number="1" vh="V" id="PRINM" prd="1" time="11:56" type="EV"
+           name="Ammon, Andrew" seasong="3" assist1="Berger, Jack" seasona1="10"
+           vstrength="6" hstrength="6" vonice="14,9,5,15,8" honice="21,22,27,11,29"></score>
+    <score number="2" vh="H" id="RPI" prd="1" time="16:14" type="EV"
+           name="Bergin, Mike" seasong="1" assist1="Rogic, Johnny" assist2="Rabbani, Josh" seasona1="3" seasona2="3"
+           vstrength="6" hstrength="6" vonice="4,8,13,7,28" honice="8,12,24,10,17"></score>
+    <score number="3" vh="V" id="PRINM" prd="2" time="03:36" type="EV"
+           name="Kleebaum, Rob" seasong="8" assist1="Calof, Andrew" seasona1="13"
+           vstrength="6" hstrength="6" vonice="39,18,27,17,5" honice="5,4,17,12,24"></score>
+    <score number="4" vh="V" id="PRINM" prd="2" time="05:26" type="EV"
+           name="Calof, Andrew" seasong="10" assist1="Hagel, Marc" assist2="MacDonald, Will" seasona1="6" seasona2="6"
+           vstrength="6" hstrength="6" vonice="18,25,28,22,8" honice="39,21,29,22,11"></score>
+    <score number="5" vh="H" id="RPI" prd="2" time="06:53" type="EV"
+           name="Rabbani, Josh" seasong="1" assist1="Smith, Justin" assist2="Leonard, Curtis" seasona1="1" seasona2="2"
+           vstrength="6" hstrength="6" vonice="18,25,22,28,8" honice="24,17,29,13,11"></score>
+    <score number="6" vh="V" id="PRINM" prd="2" time="10:50" type="EV"
+           name="Calof, Andrew" seasong="11"
+           vstrength="6" hstrength="6" vonice="18,8,39,5,25" honice="4,19,23,39,8"></score>
+    <score number="7" vh="V" id="PRINM" prd="2" time="15:02" type="PP"
+           name="Kleebaum, Rob" seasong="9" assist1="Meland, Eric" assist2="Hagel, Marc" seasona1="9" seasona2="7"
+           vstrength="6" hstrength="4" vonice="39,16,25,8,9" honice="8,10,13"></score>
+    <score number="8" vh="V" id="PRINM" prd="3" time="08:11" type="EV"
+           name="Ammon, Andrew" seasong="4" assist1="Berger, Jack" seasona1="11"
+           vstrength="6" hstrength="6" vonice="14,9,15,5,28" honice="8,24,12,10,17"></score>
+  </scores>
+  <penalties>
+    <pen number="1" vh="H" id="RPI" prd="1" time="05:55" pp="Y" type="MINOR" minutes="2" name="Higgs, Brock" abbrev="BO" desc="BOARDING"></pen>
+    <pen number="2" vh="V" id="PRINM" prd="1" time="06:09" pp="N" type="MINOR" minutes="2" name="Maugeri, Tyler" abbrev="SL" desc="SLASHING"></pen>
+    <pen number="3" vh="H" id="RPI" prd="1" time="06:55" pp="Y" type="MINOR" minutes="2" name="Dolan, Bo" abbrev="IN" desc="INTERFERENCE"></pen>
+    <pen number="4" vh="V" id="PRINM" prd="1" time="17:11" pp="Y" type="MINOR" minutes="2" name="Pallis, Derrick" abbrev="HL" desc="HOLDING"></pen>
+    <pen number="5" vh="H" id="RPI" prd="2" time="07:12" pp="Y" type="MINOR" minutes="2" name="Bergin, Mike" abbrev="SL" desc="SLASHING"></pen>
+    <pen number="6" vh="H" id="RPI" prd="2" time="13:17" pp="Y" type="MINOR" minutes="2" name="Cullen, Patrick" abbrev="RO" desc="ROUGHING"></pen>
+    <pen number="7" vh="H" id="RPI" prd="2" time="14:23" pp="Y" type="MINOR" minutes="2" name="Bailen, Nick" abbrev="HI" desc="HIGH STICKING"></pen>
+    <pen number="8" vh="V" id="PRINM" prd="2" time="17:55" pp="Y" type="MINOR" minutes="2" name="TEAM" serving="Brockett, Tucker" abbrev="TM" desc="TOO MANY PLAYERS ON ICE"></pen>
+    <pen number="9" vh="V" id="PRINM" prd="3" time="01:59" pp="Y" type="MINOR" minutes="2" name="Ave, Aaron" abbrev="HI" desc="HIGH STICKING"></pen>
+    <pen number="10" vh="H" id="RPI" prd="3" time="09:54" pp="Y" type="MINOR" minutes="2" name="Cullen, Patrick" abbrev="HL" desc="HOLDING"></pen>
+  </penalties>
+  <goaliechanges>
+    <goaliechange vh="V" id="PRINM" prd="1" time="00:00" uni="1" name="Condon, Mike"></goaliechange>
+    <goaliechange vh="H" id="RPI" prd="1" time="00:00" uni="32" name="Merriam, Bryce"></goaliechange>
+    <goaliechange vh="H" id="RPI" prd="2" time="05:26" uni="34" name="Diebold, Scott"></goaliechange>
+    <goaliechange vh="H" id="RPI" prd="3" time="14:11" uni="35" name="Coupal, Jeremy"></goaliechange>
+  </goaliechanges>
+  <dnps id="PRINM">
+    <dnp uni="31" name="Bonar, Sean"></dnp>
+  </dnps>
+  <dnps id="RPI">
+  </dnps>
+  <plays format="summary">
+    <period number="1">
+      <play number="0" text="[00:00] Condon, Mike at goalie for PRINM."></play>
+      <play number="1" text="[00:00] Merriam, Bryce at goalie for RPI."></play>
+      <play number="2" text="Faceoff Calof, Andrew vs Malchuk, Joel won by PRINM."></play>
+      <play number="3" text="Shot by PRINM Farris, Matt WIDE."></play>
+      <play number="4" text="Shot by PRINM Maugeri, Tyler MISSED, save Merriam, Bryce."></play>
+      <play number="5" text="Faceoff Berger, Jack vs McGowan, Mark won by RPI."></play>
+      <play number="6" text="Shot by PRINM Maugeri, Tyler MISSED, save Merriam, Bryce."></play>
+      <play number="7" text="Shot by PRINM Kroshus, Tom BLOCKED by Smith, Justin."></play>
+      <play number="8" text="Faceoff Meland, Eric vs Higgs, Brock won by PRINM."></play>
+      <play number="9" text="Shot by PRINM Ross, Kevin BLOCKED by Bailen, Nick."></play>
+      <play number="10" text="Shot by RPI Smith, Justin WIDE."></play>
+      <play number="11" text="Shot by PRINM Hagel, Marc WIDE."></play>
+      <play number="12" text="[05:55] Penalty on Higgs, Brock RPI 2 minutes for BOARDING, (power play opp)."></play>
+      <play number="13" pp="V" text="[05:55] Start power play for PRINM."></play>
+      <play number="14" pp="V" text="Faceoff Berger, Jack vs Rogic, Johnny won by PRINM."></play>
+      <play number="15" pp="V" text="Shot by PRINM Berger, Jack MISSED, save Merriam, Bryce."></play>
+      <play number="16" pp="V" text="[06:09] Penalty on Maugeri, Tyler PRINM 2 minutes for SLASHING."></play>
+      <play number="17" text="[06:09] End power play for PRINM."></play>
+      <play number="18" text="Faceoff Brockett, Tucker vs Cullen, Patrick won by RPI."></play>
+      <play number="19" text="Shot by RPI Leonard, Curtis MISSED, save Condon, Mike."></play>
+      <play number="20" text="Faceoff Meland, Eric vs Cullen, Patrick won by PRINM."></play>
+      <play number="21" text="Faceoff Calof, Andrew vs Lee, C.J. won by PRINM."></play>
+      <play number="22" text="[06:55] Penalty on Dolan, Bo RPI 2 minutes for INTERFERENCE, (power play opp)."></play>
+      <play number="23" pp="V" text="[06:55] Start power play for PRINM."></play>
+      <play number="24" pp="V" text="Faceoff Calof, Andrew vs Bergin, Mike won by PRINM."></play>
+      <play number="25" pp="V" text="Shot by PRINM Pallis, Derrick MISSED, save Merriam, Bryce."></play>
+      <play number="26" pp="V" text="Shot by PRINM Calof, Andrew WIDE."></play>
+      <play number="27" pp="V" text="Shot by PRINM Calof, Andrew BLOCKED by Bergin, Mike."></play>
+      <play number="28" pp="V" text="[07:55] Higgs, Brock (RPI) penalty complete."></play>
+      <play number="29" text="[07:55] End power play for PRINM."></play>
+      <play number="30" text="Shot by PRINM Pallis, Derrick WIDE."></play>
+      <play number="31" text="[08:09] Maugeri, Tyler (PRINM) penalty complete."></play>
+      <play number="32" text="Shot by RPI Angers-Goulet, Alex WIDE."></play>
+      <play number="33" text="[08:55] Dolan, Bo (RPI) penalty complete."></play>
+      <play number="34" text="."></play>
+      <play number="35" text="Shot by RPI Dolan, Bo MISSED, save Condon, Mike."></play>
+      <play number="36" text="Shot by RPI Malchuk, Joel MISSED, save Condon, Mike."></play>
+      <play number="37" text="Shot by RPI Angers-Goulet, Alex BLOCKED by Calof, Andrew."></play>
+      <play number="38" text="Faceoff Berger, Jack vs McGowan, Mark won by PRINM."></play>
+      <play number="39" goal="Y" text="[11:56] GOAL by PRINM Ammon, Andrew (FIRST GOAL), Assist by Berger, Jack, On ice for PRINM: Ammon, Andrew; Berger, Jack; Pallis, Derrick; Maugeri, Tyler; Carlson, Eric, On ice for RPI: McGowan, Mark; Lee, C.J.; O'Grady, Marty; Dolan, Bo; Bailen, Nick, goal number 3 for season."></play>
+      <currentscore vscore="1" hscore="0"></currentscore>
+      <play number="40" text="Faceoff Berger, Jack vs Rogic, Johnny won by RPI."></play>
+      <play number="41" text="Faceoff Berger, Jack vs Rogic, Johnny won by RPI."></play>
+      <play number="42" text="Shot by PRINM Ford, Will MISSED, save Merriam, Bryce."></play>
+      <play number="43" text="Faceoff Meland, Eric vs McGowan, Mark won by PRINM."></play>
+      <play number="44" text="Shot by RPI Higgs, Brock MISSED, save Condon, Mike."></play>
+      <play number="45" text="Shot by PRINM Pallis, Derrick BLOCKED by TEAM."></play>
+      <play number="46" text="Shot by PRINM MacDonald, Will WIDE."></play>
+      <play number="47" text="Shot by PRINM Berger, Jack BLOCKED by Koudys, Pat."></play>
+      <play number="48" text="Shot by PRINM Ammon, Andrew MISSED, save Merriam, Bryce."></play>
+      <play number="49" text="Shot by RPI Rogic, Johnny WIDE."></play>
+      <play number="50" goal="Y" text="[16:14] GOAL by RPI Bergin, Mike, Assist by Rogic, Johnny and Rabbani, Josh, On ice for RPI: Bergin, Mike; Rogic, Johnny; Rabbani, Josh; Leonard, Curtis; Smith, Justin, On ice for PRINM: Kroshus, Tom; Carlson, Eric; Ford, Will; Brockett, Tucker; Ave, Aaron, goal number 1 for season."></play>
+      <currentscore vscore="1" hscore="1"></currentscore>
+      <play number="51" text="Faceoff Meland, Eric vs McGowan, Mark won by PRINM."></play>
+      <play number="52" text="Shot by RPI McGowan, Mark MISSED, save Condon, Mike."></play>
+      <play number="53" text="Faceoff Calof, Andrew vs McGowan, Mark won by PRINM."></play>
+      <play number="54" text="Shot by RPI Dolan, Bo BLOCKED by Pallis, Derrick."></play>
+      <play number="55" text="[17:11] Penalty on Pallis, Derrick PRINM 2 minutes for HOLDING, (power play opp)."></play>
+      <play number="56" pp="H" text="[17:11] Start power play for RPI."></play>
+      <play number="57" pp="H" text="Faceoff Ammon, Andrew vs Higgs, Brock won by RPI."></play>
+      <play number="58" pp="H" text="Shot by RPI Cullen, Patrick BLOCKED by Kroshus, Tom."></play>
+      <play number="59" pp="H" text="[19:11] Pallis, Derrick (PRINM) penalty complete."></play>
+      <play number="60" text="[19:11] End power play for RPI."></play>
+      <play number="61" text="Faceoff Farris, Matt vs O'Grady, Marty won by PRINM."></play>
+      <play number="62" text="End of period [20:00]."></play>
+    </period>
+    <period number="2">
+      <play number="63" text="Start of 2nd period [00:00]."></play>
+      <play number="64" text="Faceoff Calof, Andrew vs Malchuk, Joel won by RPI."></play>
+      <play number="65" text="Shot by RPI Lee, C.J. WIDE."></play>
+      <play number="66" text="Faceoff Berger, Jack vs McGowan, Mark won by RPI."></play>
+      <play number="67" text="Shot by RPI Haggerty, Ryan MISSED, save Condon, Mike."></play>
+      <play number="68" text="Shot by RPI Bailen, Nick WIDE."></play>
+      <play number="69" text="Shot by RPI Smith, Justin MISSED, save Condon, Mike."></play>
+      <play number="70" text="Shot by RPI Bailen, Nick BLOCKED by Calof, Andrew."></play>
+      <play number="71" text="Faceoff Meland, Eric vs Rogic, Johnny won by RPI."></play>
+      <play number="72" goal="Y" text="[03:36] GOAL by PRINM Kleebaum, Rob, Assist by Calof, Andrew, On ice for PRINM: Kleebaum, Rob; Calof, Andrew; Ross, Kevin; Farris, Matt; Pallis, Derrick, On ice for RPI: Curadi, Luke; Koudys, Pat; Smith, Justin; Rogic, Johnny; Rabbani, Josh, goal number 8 for season."></play>
+      <currentscore vscore="2" hscore="1"></currentscore>
+      <play number="73" text="Faceoff Meland, Eric vs Malchuk, Joel won by RPI."></play>
+      <play number="74" text="Shot by RPI Leonard, Curtis MISSED, save Condon, Mike."></play>
+      <play number="75" text="Shot by RPI McGowan, Mark MISSED, save Condon, Mike."></play>
+      <play number="76" text="Shot by RPI McGowan, Mark MISSED, save Condon, Mike."></play>
+      <play number="77" goal="Y" text="[05:26] GOAL by PRINM Calof, Andrew, Assist by Hagel, Marc and MacDonald, Will, On ice for PRINM: Calof, Andrew; Hagel, Marc; Ave, Aaron; MacDonald, Will; Carlson, Eric, On ice for RPI: Haggerty, Ryan; McGowan, Mark; Bailen, Nick; Lee, C.J.; Dolan, Bo, goal number 10 for season."></play>
+      <currentscore vscore="3" hscore="1"></currentscore>
+      <play number="78" text="[05:26] Diebold, Scott at goalie for RPI."></play>
+      <play number="79" text="Faceoff Berger, Jack vs Higgs, Brock won by RPI."></play>
+      <play number="80" text="Faceoff Hagel, Marc vs Rogic, Johnny won by RPI."></play>
+      <play number="81" goal="Y" text="[06:53] GOAL by RPI Rabbani, Josh, Assist by Smith, Justin and Leonard, Curtis, On ice for RPI: Rabbani, Josh; Smith, Justin; Bailen, Nick; Malchuk, Joel; Dolan, Bo, On ice for PRINM: Calof, Andrew; Hagel, Marc; MacDonald, Will; Ave, Aaron; Carlson, Eric, goal number 1 for season."></play>
+      <currentscore vscore="3" hscore="2"></currentscore>
+      <play number="82" text="Faceoff Berger, Jack vs Malchuk, Joel won by PRINM."></play>
+      <play number="83" text="[07:12] Penalty on Bergin, Mike RPI 2 minutes for SLASHING, (power play opp)."></play>
+      <play number="84" pp="V" text="[07:12] Start power play for PRINM."></play>
+      <play number="85" pp="V" text="Faceoff Calof, Andrew vs Malchuk, Joel won by PRINM."></play>
+      <play number="86" pp="V" text="Shot by PRINM Pallis, Derrick MISSED, save Diebold, Scott."></play>
+      <play number="87" pp="V" text="Shot by PRINM MacDonald, Will WIDE."></play>
+      <play number="88" pp="V" text="Shot by PRINM Maugeri, Tyler BLOCKED by Dolan, Bo."></play>
+      <play number="89" pp="V" text="Shot by PRINM Berger, Jack BLOCKED by TEAM."></play>
+      <play number="90" pp="V" text="Shot by PRINM Kleebaum, Rob BLOCKED by Curadi, Luke."></play>
+      <play number="91" pp="V" text="Shot by PRINM Ammon, Andrew MISSED, save Diebold, Scott."></play>
+      <play number="92" pp="V" text="[09:12] Bergin, Mike (RPI) penalty complete."></play>
+      <play number="93" text="[09:12] End power play for PRINM."></play>
+      <play number="94" text="Shot by RPI Higgs, Brock MISSED, save Condon, Mike."></play>
+      <play number="95" text="Shot by PRINM Carlson, Eric BLOCKED by Schroeder, Zach."></play>
+      <play number="96" text="Shot by RPI Cullen, Patrick MISSED, save Condon, Mike."></play>
+      <play number="97" text="Shot by RPI Bergin, Mike MISSED, save Condon, Mike."></play>
+      <play number="98" text="Faceoff Hagel, Marc vs Higgs, Brock won by RPI."></play>
+      <play number="99" text="Shot by RPI Bergin, Mike MISSED, save Condon, Mike."></play>
+      <play number="100" goal="Y" text="[10:50] GOAL by PRINM Calof, Andrew, On ice for PRINM: Calof, Andrew; Carlson, Eric; Kleebaum, Rob; Pallis, Derrick; Hagel, Marc, On ice for RPI: Koudys, Pat; Cullen, Patrick; Higgs, Brock; Haggerty, Ryan; Bergin, Mike, goal number 11 for season."></play>
+      <currentscore vscore="4" hscore="2"></currentscore>
+      <play number="101" text="Faceoff Berger, Jack vs McGowan, Mark won by RPI."></play>
+      <play number="102" text="Faceoff Meland, Eric vs Rogic, Johnny won by RPI."></play>
+      <play number="103" text="Shot by RPI Rabbani, Josh MISSED, save Condon, Mike."></play>
+      <play number="104" text="Faceoff Hagel, Marc vs Higgs, Brock won by RPI."></play>
+      <play number="105" text="Shot by RPI Leonard, Curtis MISSED, save Condon, Mike."></play>
+      <play number="106" text="[13:17] Penalty on Cullen, Patrick RPI 2 minutes for ROUGHING, (power play opp)."></play>
+      <play number="107" pp="V" text="[13:17] Start power play for PRINM."></play>
+      <play number="108" pp="V" text="Faceoff Berger, Jack vs O'Grady, Marty won by PRINM."></play>
+      <play number="109" pp="V" text="Faceoff Calof, Andrew vs Malchuk, Joel won by RPI."></play>
+      <play number="110" pp="V" text="Faceoff Berger, Jack vs Lee, C.J. won by PRINM."></play>
+      <play number="111" pp="V" text="Shot by PRINM Berger, Jack WIDE."></play>
+      <play number="112" pp="V" text="[14:23] Penalty on Bailen, Nick RPI 2 minutes for HIGH STICKING, (power play opp)."></play>
+      <play number="113" pp="V" text="Timeout Princeton at 14:23 of the 2nd"></play>
+      <play number="114" pp="V" text="Faceoff Calof, Andrew vs Malchuk, Joel won by PRINM."></play>
+      <play number="115" pp="V" text="Shot by PRINM Meland, Eric BLOCKED by Bergin, Mike."></play>
+      <play number="116" pp="V" text="Shot by PRINM Meland, Eric MISSED, save Diebold, Scott."></play>
+      <play number="117" pp="V" goal="Y" text="[15:02] GOAL by PRINM Kleebaum, Rob (POWER-PLAY), Assist by Meland, Eric and Hagel, Marc, On ice for PRINM: Kleebaum, Rob; Meland, Eric; Hagel, Marc; Carlson, Eric; Berger, Jack, On ice for RPI: Bergin, Mike; Leonard, Curtis; Malchuk, Joel, goal number 9 for season."></play>
+      <currentscore vscore="5" hscore="2"></currentscore>
+      <play number="118" text="[15:02] Cullen, Patrick (RPI) penalty complete, [15:02] End power play for PRINM."></play>
+      <play number="119" pp="V" text="[15:02] Start power play for PRINM."></play>
+      <play number="120" pp="V" text="Faceoff Calof, Andrew vs O'Grady, Marty won by RPI."></play>
+      <play number="121" pp="V" text="Faceoff Maugeri, Tyler vs Rogic, Johnny won by RPI."></play>
+      <play number="122" pp="V" text="[16:23] Bailen, Nick (RPI) penalty complete."></play>
+      <play number="123" text="[16:23] End power play for PRINM."></play>
+      <play number="124" text="Shot by PRINM MacDonald, Will MISSED, save Diebold, Scott."></play>
+      <play number="125" text="Shot by PRINM Carlson, Eric BLOCKED by Rabbani, Josh."></play>
+      <play number="126" text="Shot by PRINM Ross, Kevin BLOCKED by Smith, Justin."></play>
+      <play number="127" text="Shot by PRINM Brockett, Tucker WIDE."></play>
+      <play number="128" text="[17:55] Penalty on TEAM PRINM 2 minutes for TOO MANY PLAYERS ON ICE, Brockett, Tucker serving the penalty, (power play opp)."></play>
+      <play number="129" pp="H" text="[17:55] Start power play for RPI."></play>
+      <play number="130" pp="H" text="Faceoff Maugeri, Tyler vs Higgs, Brock won by PRINM."></play>
+      <play number="131" pp="H" text="Shot by RPI Haggerty, Ryan MISSED, save Condon, Mike."></play>
+      <play number="132" pp="H" text="Shot by PRINM Meland, Eric BLOCKED by Koudys, Pat."></play>
+      <play number="133" pp="H" text="[19:55] Brockett, Tucker (PRINM) penalty complete."></play>
+      <play number="134" text="[19:55] End power play for RPI."></play>
+      <play number="135" text="Faceoff Berger, Jack vs Angers-Goulet, Alex won by RPI."></play>
+      <play number="136" text="End of period [20:00]."></play>
+    </period>
+    <period number="3">
+      <play number="137" text="Start of 3rd period [00:00]."></play>
+      <play number="138" text="Faceoff Calof, Andrew vs Malchuk, Joel won by PRINM."></play>
+      <play number="139" text="Shot by PRINM Pallis, Derrick WIDE."></play>
+      <play number="140" text="Shot by PRINM Calof, Andrew MISSED, save Diebold, Scott."></play>
+      <play number="141" text="Shot by PRINM Ammon, Andrew MISSED, save Diebold, Scott."></play>
+      <play number="142" text="Faceoff Meland, Eric vs McGowan, Mark won by RPI."></play>
+      <play number="143" text="Shot by RPI Leonard, Curtis BLOCKED by Ross, Kevin."></play>
+      <play number="144" text="Shot by PRINM Farris, Matt MISSED, save Diebold, Scott."></play>
+      <play number="145" text="[01:59] Penalty on Ave, Aaron PRINM 2 minutes for HIGH STICKING, (power play opp)."></play>
+      <play number="146" pp="H" text="[01:59] Start power play for RPI."></play>
+      <play number="147" pp="H" text="Faceoff Hagel, Marc vs Higgs, Brock won by RPI."></play>
+      <play number="148" pp="H" text="Faceoff Hagel, Marc vs Higgs, Brock won by PRINM."></play>
+      <play number="149" pp="H" text="Shot by RPI Bailen, Nick WIDE."></play>
+      <play number="150" pp="H" text="Shot by RPI Koudys, Pat MISSED, save Condon, Mike."></play>
+      <play number="151" pp="H" text="[03:59] Ave, Aaron (PRINM) penalty complete."></play>
+      <play number="152" text="[03:59] End power play for RPI."></play>
+      <play number="153" text="Shot by PRINM Hagel, Marc WIDE."></play>
+      <play number="154" text="Shot by RPI Haggerty, Ryan MISSED, save Condon, Mike."></play>
+      <play number="155" text="Shot by RPI Haggerty, Ryan MISSED, save Condon, Mike."></play>
+      <play number="156" text="Shot by PRINM Brockett, Tucker BLOCKED by Malchuk, Joel."></play>
+      <play number="157" text="Shot by RPI Dolan, Bo BLOCKED by TEAM."></play>
+      <play number="158" goal="Y" text="[08:11] GOAL by PRINM Ammon, Andrew, Assist by Berger, Jack, On ice for PRINM: Ammon, Andrew; Berger, Jack; Maugeri, Tyler; Pallis, Derrick; Ave, Aaron, On ice for RPI: Bergin, Mike; Rabbani, Josh; Rogic, Johnny; Leonard, Curtis; Smith, Justin, goal number 4 for season."></play>
+      <currentscore vscore="6" hscore="2"></currentscore>
+      <play number="159" text="Faceoff Meland, Eric vs McGowan, Mark won by PRINM."></play>
+      <play number="160" text="Shot by PRINM Kleebaum, Rob MISSED, save Diebold, Scott."></play>
+      <play number="161" text="Shot by RPI Leonard, Curtis MISSED, save Condon, Mike."></play>
+      <play number="162" text="Shot by PRINM Hagel, Marc BLOCKED by Malchuk, Joel."></play>
+      <play number="163" text="Shot by PRINM Brockett, Tucker WIDE."></play>
+      <play number="164" text="[09:54] Penalty on Cullen, Patrick RPI 2 minutes for HOLDING, (power play opp)."></play>
+      <play number="165" pp="V" text="[09:54] Start power play for PRINM."></play>
+      <play number="166" pp="V" text="Faceoff Berger, Jack vs Rogic, Johnny won by RPI."></play>
+      <play number="167" pp="V" text="Shot by PRINM Meland, Eric BLOCKED by Dolan, Bo."></play>
+      <play number="168" pp="V" text="Shot by RPI Lee, C.J. MISSED, save Condon, Mike."></play>
+      <play number="169" pp="V" text="Faceoff Farris, Matt vs McGowan, Mark won by PRINM."></play>
+      <play number="170" pp="V" text="[11:54] Cullen, Patrick (RPI) penalty complete."></play>
+      <play number="171" text="[11:54] End power play for PRINM."></play>
+      <play number="172" text="Shot by PRINM Meland, Eric MISSED, save Diebold, Scott."></play>
+      <play number="173" text="Shot by PRINM Ave, Aaron BLOCKED by Dolan, Bo."></play>
+      <play number="174" text="Shot by PRINM Brockett, Tucker MISSED, save Diebold, Scott."></play>
+      <play number="175" text="[14:11] Coupal, Jeremy at goalie for RPI."></play>
+      <play number="176" text="Faceoff Meland, Eric vs Higgs, Brock won by RPI."></play>
+      <play number="177" text="Shot by PRINM Ross, Kevin BLOCKED by Leonard, Curtis."></play>
+      <play number="178" text="Shot by PRINM Berger, Jack WIDE."></play>
+      <play number="179" text="Shot by PRINM Hagel, Marc MISSED, save Coupal, Jeremy."></play>
+      <play number="180" text="Faceoff Meland, Eric vs Higgs, Brock won by PRINM."></play>
+      <play number="181" text="Shot by RPI Leonard, Curtis BLOCKED by TEAM."></play>
+      <play number="182" text="Shot by RPI Angers-Goulet, Alex WIDE."></play>
+      <play number="183" text="Shot by RPI Angers-Goulet, Alex MISSED, save Condon, Mike."></play>
+      <play number="184" text="Faceoff Calof, Andrew vs O'Grady, Marty won by PRINM."></play>
+      <play number="185" text="Faceoff Berger, Jack vs Rogic, Johnny won by RPI."></play>
+      <play number="186" text="Shot by RPI Smith, Justin MISSED, save Condon, Mike."></play>
+      <play number="187" text="Shot by RPI Cullen, Patrick WIDE."></play>
+      <play number="188" text="Shot by RPI Bergin, Mike BLOCKED by Ross, Kevin."></play>
+      <play number="189" text="End of period [20:00]."></play>
+      <currentscore vscore="6" hscore="2"></currentscore>
+    </period>
+  </plays>
+</hkgame>

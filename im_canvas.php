@@ -34,6 +34,15 @@ $id = $_GET["id"];
     background-color:white;
     width:300px;
   }
+  #layer-panel
+  {
+    padding-left:5px;
+    float:left;
+    height:560px;
+    margin-left:20px;
+    background-color:white;
+    width:300px;
+  }
   #canvas
   {
     padding:0px;
@@ -101,6 +110,10 @@ $id = $_GET["id"];
   {
     border:red solid 2px;
   }
+  .layersel
+  {
+    background-color:yellow;
+  }
   
 </style>
 
@@ -155,62 +168,80 @@ $id = $_GET["id"];
         }
     });
   });
-  $(function() {
-    $(".geo").click(function(){
-      var name = $(this).attr("id");
-      $(".selected" ).draggable({ disabled: true });
-      $(".selected" ).resizable({ disabled: true });
-      var color = $.Color($(".selected"),"background-color");
-      color = color.rgba(128,255,128);
-      $(".selected").css("background-color",color)
-      $(".geo").removeClass("selected");
-      
+  function edit()
+  {
+    var name = $(this).attr("id");
+    $(".selected" ).draggable({ disabled: true });
+    $(".selected" ).resizable({ disabled: true });
+    var color = $.Color($(".selected"),"background-color");
+    color = color.rgba(128,255,128);
+    $(".selected").css("background-color",color)
+    $(".layer").removeClass("layersel");
+    $(".geo").removeClass("selected");
 
-      $("#info-target").load("im_gui.php?load=attrs&id="+title_id+"&name="+name)
-      $(this).addClass("selected");
-      
-      var color = $.Color($(this),"background-color");
-      color = color.rgba(255,255,0);
-      $(this).css("background-color",color)
-      
-      $(this).draggable({ 
-        containment: "#canvas",
-        disabled: false,
-        stop: function()
-        {
-          var p = $(this).position();
-          var name = $(this).attr("id");
-          $("#info-x").val(p.left);
-          $("#info-y").val(p.top);
-          var url = "im_gui.php?update=pos&id="+title_id+"&name="+name+"&x="+p.left+"&y="+p.top;
-          $.ajax({
-            url: url,
-            success: function(data){
-              
-            }
-          });
-        }
-      });
-      $(this).resizable({
-        handles: "n, e, s, w",
-        disabled: false,
-        stop: function()
-        {
-          var name = $(this).attr("id");
-          $("#info-w").val($(this).width());
-          $("#info-h").val($(this).height());
-          var url = "im_gui.php?update=size&id="+title_id+"&name="+name+"&w="+$(this).width()+"&h="+$(this).height();
-          $.ajax({
-            url: url,
-            success: function(data){
-              var src = $(".selected").children("img").first().attr("src");
-              $(".selected").children().first().attr("src",src+"&rand="+Math.random());
 
-            }
-          });
-        }
-      });
+    $("#info-target").load("im_gui.php?load=attrs&id="+title_id+"&name="+name)
+    $(this).addClass("selected");
+    $("#l-"+name).addClass("layersel");
+
+    var color = $.Color($(this),"background-color");
+    color = color.rgba(255,255,0);
+    $(this).css("background-color",color)
+
+    $(this).draggable({ 
+      containment: "#canvas",
+      disabled: false,
+      stop: function()
+      {
+        var p = $(this).position();
+        var name = $(this).attr("id");
+        $("#info-x").val(p.left);
+        $("#info-y").val(p.top);
+        var url = "im_gui.php?update=pos&id="+title_id+"&name="+name+"&x="+p.left+"&y="+p.top;
+        $.ajax({
+          url: url,
+          success: function(data){
+
+          }
+        });
+      }
     });
+    $(this).resizable({
+      handles: "n, e, s, w",
+      disabled: false,
+      stop: function()
+      {
+        var name = $(this).attr("id");
+        $("#info-w").val($(this).width());
+        $("#info-h").val($(this).height());
+        var p = $(this).position();
+        $("#info-x").val(p.left);
+        $("#info-y").val(p.top);
+        var url = "im_gui.php?update=size&id="+title_id+"&name="+name+"&w="+$(this).width()+"&h="+$(this).height()+"&x="+p.left+"&y="+p.top;
+        $.ajax({
+          url: url,
+          success: function(data){
+            var src = $(".selected").children("img").first().attr("src");
+            $(".selected").children().first().attr("src",src+"&rand="+Math.random());
+
+          }
+        });
+      }
+    });
+  }
+  $(function() {
+    $(".geo").click(edit);
+  });
+  $(function() {
+    $("#layer-panel").sortable({
+      placeholder: "ui-state-highlight",
+      helper : 'clone',
+      distance: 40
+    });
+    $(".layer").click(function(){
+      var name = $(this).children("h3").html();
+      $("#"+name).trigger('click');
+    })
   });
 </script>
 
@@ -232,5 +263,14 @@ $id = $_GET["id"];
 </div>
 </div>
 <div id="info-panel">
-  <div id="info-target"/>
+  <div id="info-target" ></div>
+</div>
+<div id="layer-panel" >
+<?
+foreach($geos as $name=>$type)
+{
+  echo "<div class=\"layer\" id=\"l-$name\"><h3>$name</h3><p>($type)</p></div>";
+  
+}
+?>
 </div>

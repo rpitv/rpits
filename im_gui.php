@@ -19,7 +19,7 @@ if($update)
     $attr = array("x"=>$x,"y"=>$y);
   if($update == "size")
   {
-    $attr = array("w"=>$w,"h"=>$h);
+    $attr = array("w"=>$w,"h"=>$h,"x"=>$x,"y"=>$y);
   }
   foreach($attr as $key=>$value)
   {
@@ -65,6 +65,10 @@ $("input").change(function(){
 });
 </script>
 <?
+}
+else if ($load == "layers")
+{
+  
 }
 
 
