@@ -2,7 +2,7 @@
 
 <h3>teamedit.php</h3>
 <?
-mysql_connect("localhost","root","");
+include ("init.php");
 mysql_select_db("rpihockey");
 
 $edit = $_GET["edit"];

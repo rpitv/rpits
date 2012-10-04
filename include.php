@@ -1,5 +1,6 @@
 <?
-mysql_connect("localhost","root","");
+
+include ("init.php");
 mysql_select_db("rpits");
 
 function dbquery($query)

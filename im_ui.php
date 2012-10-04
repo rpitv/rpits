@@ -285,16 +285,16 @@
 <div id="edit"></div>
 <div id="pane">
   <ul class="titles active" request="im_title_list.php?event=1"><div id="add-title"></div></ul>
-  <ul class="titles" request="im_title_list.php?team=harvard"></ul>
-  <ul class="titles" request="im_title_list.php?team=union"></ul>
-  <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
+  <ul class="titles" request="im_title_list.php?team=rpi"></ul>
+  <ul class="titles" request="im_title_list.php?team=acadia"></ul>
+  <!--<ul class="titles" request="im_title_list.php?thing=billboards"></ul>-->
 </div>
 <div id="tabstrip">
   <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
   <div class="tab active" request="im_title_list.php?event=1" tid="0">Hockey Titles</div>
-  <div class="tab" request="im_title_list.php?team=harvard" tid="1">Harvard Players</div>
-  <div class="tab" request="im_title_list.php?team=union" tid="2">Union Players</div>
-  <div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>
+  <div class="tab" request="im_title_list.php?team=rpi" tid="1">RPI Players</div>
+  <div class="tab" request="im_title_list.php?team=acadia" tid="2">Acadia Players</div>
+  <!--<div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>-->
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>

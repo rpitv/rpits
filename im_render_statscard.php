@@ -50,45 +50,75 @@ if($cacherow["hash"] == $hash && $cacheno != 1)
   }
 }
 
+$boxHeightModifier = 0;
+
+// Check to see if there are stats
+if (!$stype)
+{
+  $boxHeightModifier = -113;
+}
 
 $canvas = new Imagick();
 $canvas->newImage(1920,1080,"none","png");
 
-blackbox($canvas,400,870,1120,160);
-slantRectangle($canvas,360,800,780,80,$tColor);
-slantRectangle($canvas,1100,800,150,80,"#303030");
-slantRectangle($canvas,1210,800,130,80,$tColor);
-slantRectangle($canvas,1300,800,140,80,"#303030");
-slantRectangle($canvas,1400,800,160,80,"white");
+
+
+blackbox($canvas,400,870-$boxHeightModifier,1120,160+$boxHeightModifier);
+slantRectangle($canvas,360,800-$boxHeightModifier,780,80,$tColor);
+slantRectangle($canvas,1100,800-$boxHeightModifier,150,80,"#303030");
+slantRectangle($canvas,1210,800-$boxHeightModifier,130,80,$tColor);
+slantRectangle($canvas,1300,800-$boxHeightModifier,140,80,"#303030");
+slantRectangle($canvas,1400,800-$boxHeightModifier,160,80,"white");
 
 $pPath = "teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png";
 $size = @getimagesize($pPath);
 
-$pW = 192;
-$pH = 230;
-$pX = 400;
-$pY = 801;
+$nameModifier = 0;
+$detailsModifier = 0;
 
-if($size[0]*1.2>$size[1])
+if($size[0])
 {
-  $pH = $size[1]/($size[0]/$pW);
-  $pY += 230-$pH;
+  $pW = 192;
+  $pH = 230;
+  $pX = 400;
+  $pY = 801;
+
+  if($size[0]*1.2>$size[1])
+  {
+    $pH = $size[1]/($size[0]/$pW);
+    $pY += 230-$pH;
+  }
+
+  placeImage($canvas,$pX,$pY,$pW,$pH,$pPath);
+}
+else
+{
+  $nameModifier = -150;
+  $detailsModifier = -220;
 }
 
-placeImage($canvas,$pX,$pY,$pW,$pH,$pPath);
+placeImage($canvas,1442,802-$boxHeightModifier,76,76,"teamlogos/".$row["team"] . ".png");
 
-placeImage($canvas,1442,802,76,76,"teamlogos/".$row["team"] . ".png");
-
-shadowedText($canvas,560,805,535,70,$row["first"]. " " . $row["last"],"west","fontN","white");
-shadowedText($canvas,1100,800,150,80,$row["num"],"center","fontN","white");
-shadowedText($canvas,1210,800,130,80,$row["pos"],"center","fontN","white");
-shadowedText($canvas,1300,800,140,80,$row["year"],"center","fontN","white");
+shadowedText($canvas,560+$nameModifier,805-$boxHeightModifier,535-$nameModifier,70,$row["first"]. " " . $row["last"],"west","fontN","white");
+shadowedText($canvas,1100,800-$boxHeightModifier,150,80,$row["num"],"center","fontN","white");
+shadowedText($canvas,1210,800-$boxHeightModifier,130,80,$row["pos"],"center","fontN","white");
+shadowedText($canvas,1300,800-$boxHeightModifier,140,80,$row["year"],"center","fontN","white");
 
 $details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"];
-plainText($canvas,630,884,880,33,$details,"west","fontN","white");
+$detailsGravity = "west";
 
-if($stype != "txt")
+if(!$size[0])
 {
+	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"]. "       Weight: " . $row["weight"];
+	$detailsGravity = "center";
+}
+plainText($canvas,630+$detailsModifier,884-$boxHeightModifier,880-$detailsModifier,33,$details,$detailsGravity,"fontN","white");
+
+if($stype && $stype != "txt")
+{
+	
+	shadowedText($canvas,410,995,172,30,'Last Season:','center','fontN','white');
+	
   $i = 2;
   for(;strlen($slabel[$i])>0;$i++) {}
  
