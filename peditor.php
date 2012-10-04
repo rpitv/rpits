@@ -66,7 +66,7 @@ if($team_sel)
       <td><textarea name=\"s8\" rows=1 cols=20></textarea></td>
       <td><input type="text" size="2" name="team"></td>
       <td><input type="hidden" name="team_sel" value="<? echo($team_sel); ?>"><input type="submit" name="submit" value="Save"></td>
-      <td><a href="http://localhost/hockey/im_render_statscard.php?id=1">Link</a></td></form></tr>
+      <td><a href="im_render_statscard.php?id=1">Link</a></td></form></tr>
 
     <?
     if($team_sel)
@@ -96,7 +96,7 @@ if($team_sel)
       echo("</td><td><textarea name=\"s8\" rows=1 cols=20>" . $row["s8"] . "</textarea>");
       echo("</td><td><input type=\"text\" size=\"2\" name=\"team\" value=\"" . $row["team"] . "\"></td>");
       echo("<td><input type=\"hidden\" name=\"team_sel\" value=\"".$team_sel."\"><input type=\"submit\" name=\"submit\" value=\"Save\"></td>");
-      echo("<td><a href=\"http://localhost/hockey/im_render_statscard.php?id=" . $row["id"] . "\">Link</a></td></form>\n");
+      echo("<td><a href=\"im_render_statscard.php?id=" . $row["id"] . "\">Link</a></td></form>\n");
       echo("</tr>");
 
     }

@@ -1,4 +1,7 @@
-<?
+<?php
+
+include("config.php");
+
 $time_start = microtime();
 $pre_get;
 $post_get;
@@ -51,12 +54,12 @@ else
   $pre_get = microtime();
   if($type == "player") 
   {
-    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    $svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
     $log .= "Player ID: $id, ";
   }
   else if ($type == "billboard")
   {
-    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    $svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
     $log .= "Billboard ID: $id, ";
   }
   else if(strlen($path)>1) 
@@ -66,12 +69,12 @@ else
   }
   else if($type == "svg") 
   {
-    $svg = file_get_contents("http://localhost/hockey/svg_card.php?id=$id");
+    $svg = file_get_contents($system_path_prefix . "svg_card.php?id=$id");
     $log .= "SVG card test ID: $id, ";
   }
   else
   {
-    $svg = file_get_contents("http://localhost/hockey/svg_gen.php?id=$id&type=$type");
+    $svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
     $log .= "General ID: $id, ";
   }
   $post_get = microtime();
@@ -82,7 +85,7 @@ else
 }
 
 $pre_post = microtime();
-$result = do_post_request("http://192.168.1.23:4567/$command",$svg,$log,$headers);
+$result = do_post_request($keyer_url . "/$command",$svg,$log,$headers);
 $post_post = microtime();
 
 //echo($result);
