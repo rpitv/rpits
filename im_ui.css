@@ -205,3 +205,26 @@ edit_target
   position:absolute;
   background-color:black;
 }
+#eventSelector {
+	top:40%;
+	left:50%;
+	position:absolute;
+	margin-left:-125px;
+	margin-right:auto;
+	padding:10px;
+	width:250px;
+	border: solid 3px black;
+	-webkit-box-shadow: 5px 5px 5px #444;
+	-webkit-border-radius: 10px;
+}
+
+#eventSelector ul {
+	list-style: none;
+	margin:0px;
+	padding:0px;
+}
+
+#eventSelector h2 {
+	text-align:center;
+	margin: 0px;
+}

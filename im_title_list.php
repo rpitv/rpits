@@ -17,7 +17,7 @@ if($thing == "billboards")
 }
 else if(!$team && $event)
 {
-  $result = dbquery("SELECT *, event_title.id as etid, titles.filename as Tfilename, templates.name as template_name, titles.name as title_name FROM event_title LEFT JOIN titles on titles.id = event_title.title JOIN templates ON titles.template = templates.id WHERE event_title.event = $event ORDER BY titles.id ASC");
+  $result = dbquery("SELECT *, event_title.id as etid, titles.filename as Tfilename, templates.name as template_name, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title JOIN templates ON titles.template = templates.id WHERE event_title.event = $event ORDER BY titles.id ASC");
   while ($row = mysql_fetch_array($result)) {
     echo("<li type=\"general\" id=\"" . $row["title_id"] . "\"><img src=\"thumbs/" . $row["Tfilename"] . ".png\" path=\"out/" . $row["Tfilename"] . ".png\" height=\"38\" />" . $row["title_name"] . " (". $row["template_name"].")</li>\n");
   }
