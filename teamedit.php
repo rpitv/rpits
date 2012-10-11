@@ -116,7 +116,7 @@ while($row = mysql_fetch_array($result)){
 }
 ?>
 <tr>	
-	<form action="/hockey/teamedit.php" method="GET" > 
+	<form action="teamedit.php" method="GET" > 
 	<td>Add</td> 
 	<td><input type="text" name="name" /></td>
 	<td></td>		
