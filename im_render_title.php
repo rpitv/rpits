@@ -54,7 +54,7 @@ if($xml->overlay->plainText)
   foreach($xml->overlay->plainText as $text)
   {
     $t = dbFetch($id,$text);
-    plainText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"]);
+    plainText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"], true);
   }
 }
 

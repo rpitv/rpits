@@ -163,23 +163,26 @@ function blackBox(&$canvas,$x,$y,$w,$h)
   
 }
 
-function defaultText($w,$h,$string,$gravity,$font)
+function defaultText($w,$h,$string,$gravity,$font,$wordWrap=false)
 {
   global $gravities,$fonts;
   $text = new Imagick();
   $text->setFont($fonts[$font]);
   $text->setBackgroundColor("none");
   $text->setGravity($gravities[$gravity]);
-  
-  $text->newPseudoImage($w,$h,"caption:" . $string);
+  if ($wordWrap) {
+    $text->newPseudoImage($w, $h, "caption:" . $string);
+  } else {
+    $text->newPseudoImage($w,$h,"label:" . $string);
+  }
   //$metrics = $text->queryFontMetrics( $annotate, $text );
   
   return $text;
 }
 
-function plainText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
+function plainText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color,$wordWrap=false)
 {
-  $text = defaultText($w,$h,$string,$gravity,$font); 
+  $text = defaultText($w,$h,$string,$gravity,$font,$wordWrap); 
   $shadow = $text->clone();
   $shadow->blurImage(4,2,imagick::CHANNEL_ALPHA);
   $text->colorizeImage($color,1);
@@ -188,17 +191,17 @@ function plainText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
   $canvas->compositeImage($text,imagick::COMPOSITE_OVER,$x,$y);
 }
 
-function getTextWidth($w,$h,$string,$font)
+function getTextWidth($w,$h,$string,$font,$wordWrap=false)
 {
-  $text = defaultText($w,$h,$string,"center",$font);
+  $text = defaultText($w,$h,$string,"center",$font,$wordWrap);
   $text->trimImage(0);
   $geo = $text->getImageGeometry();
   return $geo["width"];
 }
 
-function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color)
+function shadowedText(&$canvas,$x,$y,$w,$h,$string,$gravity,$font,$color,$wordWrap=false)
 {
-  $text = defaultText($w,$h,$string,$gravity,$font);      
+  $text = defaultText($w,$h,$string,$gravity,$font,$wordWrap);      
   $shadow = $text->clone();
   $stroke = $text->clone();
   $shadow->blurImage(4,5,imagick::CHANNEL_ALPHA);
