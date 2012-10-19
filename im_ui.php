@@ -16,10 +16,12 @@ if (!$eventId){
 	<h2>Select an event</h2>
 	<ul>
 		<?
-		$result = dbquery("SELECT * FROM events");
-		while($row = mysql_fetch_array($result)) {
+		/*$result = dbquery("SELECT * FROM events");
+		while($row = mysql_fetch_array($result))
+		{
 			echo('<li><a href="im_ui.php?eventId=' . $row["id"] . '">'.$row["name"].' (' . $row["team1"] . ' vs. ' . $row["team2"] . ')</a></li>');
-		}
+		}*/
+		echo('<li><a href="im_ui.php?eventId=-1">No Events, click this for now</a></li>')
 		?>
 	</ul>
 </div>
@@ -28,12 +30,22 @@ if (!$eventId){
 else
 {
 
-$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
-$row = mysql_fetch_array($result);
+if ($eventId > 0)
+{
+	$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
+	$row = mysql_fetch_array($result);
 
-$eventName = $row["name"];
-$team1 = $row["team1"];
-$team2 = $row["team2"];
+	$eventName = $row["name"];
+	$team1 = $row["team1"];
+	$team2 = $row["team2"];
+} 
+else
+{
+	$eventName = "Football"; // EDIT THIS LINE
+	$team1 = "rpif";
+	$team2 = "hobartf";
+}	
+	
 
 ?>
 
