@@ -51,12 +51,24 @@ if($cacherow["hash"] == $hash && $cacheno != 1)
 }
 
 $boxHeightModifier = 0;
+$positionWidthModifier = 0;
 
 // Check to see if there are stats
 if (!$stype)
 {
   $boxHeightModifier = -113;
 }
+
+// Check to see if position uses two characters
+if ($row["pos"][1])
+{
+	$positionWidthModifier = 50;
+}
+if($row["pos"][0] == 'W')
+{
+	$positionWidthModifier += 20;
+}
+	
 
 $canvas = new Imagick();
 $canvas->newImage(1920,1080,"none","png");
@@ -65,8 +77,8 @@ $canvas->newImage(1920,1080,"none","png");
 
 blackbox($canvas,400,870-$boxHeightModifier,1120,160+$boxHeightModifier);
 slantRectangle($canvas,360,800-$boxHeightModifier,780,80,$tColor);
-slantRectangle($canvas,1100,800-$boxHeightModifier,150,80,"#303030");
-slantRectangle($canvas,1210,800-$boxHeightModifier,130,80,$tColor);
+slantRectangle($canvas,1100-$positionWidthModifier,800-$boxHeightModifier,150,80,"#303030");
+slantRectangle($canvas,1210-$positionWidthModifier,800-$boxHeightModifier,130+$positionWidthModifier,80,$tColor);
 slantRectangle($canvas,1300,800-$boxHeightModifier,140,80,"#303030");
 slantRectangle($canvas,1400,800-$boxHeightModifier,160,80,"white");
 
@@ -99,9 +111,9 @@ else
 
 placeImage($canvas,1442,802-$boxHeightModifier,76,76,"teamlogos/".$row["team"] . ".png");
 
-shadowedText($canvas,560+$nameModifier,805-$boxHeightModifier,535-$nameModifier,70,$row["first"]. " " . $row["last"],"west","fontN","white");
-shadowedText($canvas,1100,800-$boxHeightModifier,150,80,$row["num"],"center","fontN","white");
-shadowedText($canvas,1210,800-$boxHeightModifier,130,80,$row["pos"],"center","fontN","white");
+shadowedText($canvas,560+$nameModifier,805-$boxHeightModifier,535-$nameModifier-$positionWidthModifier,70,$row["first"]. " " . $row["last"],"west","fontN","white");
+shadowedText($canvas,1100-$positionWidthModifier,800-$boxHeightModifier,150,80,$row["num"],"center","fontN","white");
+shadowedText($canvas,1210-$positionWidthModifier,800-$boxHeightModifier,130+$positionWidthModifier,80,$row["pos"],"center","fontN","white");
 shadowedText($canvas,1300,800-$boxHeightModifier,140,80,$row["year"],"center","fontN","white");
 
 $details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"];
