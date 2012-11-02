@@ -5,7 +5,7 @@ mysql_select_db("rpihockey");
 
 $tid = $_GET["tid"];
 
-$page = fopen("http://www.collegehockeynews.com/stats/team-overall.php?s=20112012&td=$tid","r");
+$page = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=$tid","r");
 $contents = stream_get_contents($page);
 
 $values = parser($contents);

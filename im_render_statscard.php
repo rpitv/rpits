@@ -5,6 +5,8 @@ include("imagick_include.php");
 
 $id = $_GET["id"];
 $cacheno = $_GET["c"];
+$lastSeason = false;
+
 
 mysql_select_db("rpihockey");
 
@@ -129,7 +131,10 @@ plainText($canvas,630+$detailsModifier,884-$boxHeightModifier,880-$detailsModifi
 if($stype && $stype != "txt")
 {
 	
-	shadowedText($canvas,410,995,172,30,'Last Season:','center','fontN','white');
+	if($lastSeason == true)
+	{
+		shadowedText($canvas,410,995,172,30,'Last Season:','center','fontN','white');
+	}
 	
   $i = 2;
   for(;strlen($slabel[$i])>0;$i++) {}
