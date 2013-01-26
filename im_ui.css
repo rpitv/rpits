@@ -3,17 +3,16 @@ body
   background:gray;
   font-family: Helvetica;
 }
-div
+body > div
 {
   position:absolute;
   background:white;
 }
 #log
 {
-  width:738px;
   height:100px;
-  top:26px;
-  left:26px;
+  top:25px;
+  left:25px;
   overflow-y:scroll;
 }
 #loadtarget
@@ -22,36 +21,29 @@ div
 }
 #tabstrip
 {
-  width:738px;
-  height:72px;
   background:#AAAAAA;
-  top:152px;
-  left:26px;
+	height:75px;
+  top:150px;
+  left:25px;
 }
 #pane
 {
-  width:738px;
-  height:800px;
-  top:224px;
-  left:26px;
+  top:225px;
+  left:25px;
   overflow-x:hidden;
   overflow-y:scroll;
 }
 #preview
 {
-  width:864px;
-  height:486px;
-  top:26px;
-  left:790px;
+  top:25px;
+  right:25px;
   text-align:center;
   overflow:hidden;
 }
 #program
 {
-  width:864px;
-  height:486px;
-  top:538px;
-  left:790px;
+  bottom:25px;
+  right:25px;
   text-align:center;
   overflow:hidden;
 }
@@ -59,10 +51,8 @@ div
 {
   overflow:scroll;
   position:absolute;
-  width:864px;
-  height:486px;
-  top:26px;
-  left:790px;
+  top:25px;
+  right:25px;
   background-color: rgba(255,255,255,.9);
 }
 #pane ul
@@ -133,10 +123,12 @@ div
 }
 .tab
 {
+	background-color:white;
   position:relative;
   float:left;
   height:20px;
-  margin-top:35px;
+	bottom:0px;
+  margin-top:38px;
   margin-right:4px;
   padding:10px;
   padding-bottom:3px;
@@ -206,13 +198,8 @@ edit_target
   background-color:black;
 }
 #eventSelector {
-	top:40%;
-	left:50%;
 	position:absolute;
-	margin-left:-125px;
-	margin-right:auto;
 	padding:10px;
-	width:250px;
 	border: solid 3px black;
 	-webkit-box-shadow: 5px 5px 5px #444;
 	-webkit-border-radius: 10px;
