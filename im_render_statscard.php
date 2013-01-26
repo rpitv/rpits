@@ -118,12 +118,18 @@ shadowedText($canvas,1100-$positionWidthModifier,800-$boxHeightModifier,150,80,$
 shadowedText($canvas,1210-$positionWidthModifier,800-$boxHeightModifier,130+$positionWidthModifier,80,$row["pos"],"center","fontN","white");
 shadowedText($canvas,1300,800-$boxHeightModifier,140,80,$row["year"],"center","fontN","white");
 
-$details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"]. "       Wt: " . $row["weight"];
+$details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"];
+if($row["weight"].length > 0) {
+	$details .= "       Wt: " . $row["weight"];
+}
 $detailsGravity = "west";
 
 if(!$size[0])
 {
-	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"]. "       Weight: " . $row["weight"];
+	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"];
+	if($row["weight"].length > 0) {
+		$details .= "       Wt: " . $row["weight"];
+	}
 	$detailsGravity = "center";
 }
 plainText($canvas,630+$detailsModifier,884-$boxHeightModifier,880-$detailsModifier,33,$details,$detailsGravity,"fontN","white");
