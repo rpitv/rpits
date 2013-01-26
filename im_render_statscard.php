@@ -111,7 +111,7 @@ else
   $detailsModifier = -220;
 }
 
-placeImage($canvas,1442,802-$boxHeightModifier,76,76,"teamlogos/".$teamrow["logo"] . ".png");
+placeImage($canvas,1442,802-$boxHeightModifier,76,76,"teamlogos/".$teamrow["logo"]);
 
 shadowedText($canvas,560+$nameModifier,805-$boxHeightModifier,535-$nameModifier-$positionWidthModifier,70,$row["first"]. " " . $row["last"],"west","fontN","white");
 shadowedText($canvas,1100-$positionWidthModifier,800-$boxHeightModifier,150,80,$row["num"],"center","fontN","white");
