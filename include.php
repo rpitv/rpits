@@ -88,4 +88,22 @@ function rgbhex($red, $green, $blue) {
     $blue = max(0,min(255,$blue+0));
     return "#".str_pad(strtoupper(dechex($red + $green + $blue)),6,"0",STR_PAD_LEFT);
 }
+
+function mysqlQueryToJsonArray($query) {
+	$result = dbquery($query);
+	$columns = array();
+	$rows = array();
+	while($row = mysql_fetch_assoc($result)) {
+		$columns = array();
+		$dataRow = array();
+		foreach($row as $key => $value) {
+			$columns[] = $key;
+			$dataRow[] = $value;
+		}
+		$rows[] = $dataRow;
+	}
+	$data['rows'] = $rows;
+	$data['columns'] = $columns;
+	return json_encode($data);
+}
 ?>
