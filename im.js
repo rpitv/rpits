@@ -43,6 +43,7 @@ function EditableTable(options) {
 					row.find('button.action').unbind();
 					row.removeClass('editing');
 					e.stopPropagation()
+					row.find('button.cancel').remove();
 				}
 			}.bind(this));
 			var cancelButton = $('<button class="cancel">Cancel</button>');
@@ -104,7 +105,7 @@ function EditableTable(options) {
 		var sql = 'UPDATE ' + options.dbTable + ' SET ';
 		var id;
 		row.children().each(function() {
-			td = $(this);
+			var td = $(this);
 			var name = td.attr('name');
 			var val = td.find('input').length > 0 ? td.find('input').val() : td.text();
 			if(name && name != 'id') {
@@ -197,7 +198,7 @@ function EditableTable(options) {
 				if(e.keyCode == 13) {
 					this._addRow(e);
 				}
-		});
+		}.bind(this));
 		options.element.append(table);
 		if (typeof options.callback == 'function') {
 			options.callback();
