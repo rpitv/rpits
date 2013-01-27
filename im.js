@@ -1,3 +1,5 @@
+'use strict'
+
 function EditableTable(options) {
 	
 	if(!options.db)
@@ -5,7 +7,9 @@ function EditableTable(options) {
 	if(!options.dbTable)
 		return 'No database table selected';
 	
-	this.loadTable = function(start,end,where) {
+	this.options = options;
+	
+	this.loadTable = function(start,end,where,order) {
 		this.start = start;
 		this.end = end;
 		if (!start)
@@ -15,50 +19,55 @@ function EditableTable(options) {
 		var sql = 'SELECT * FROM ' + options.dbTable;
 		if(where)
 			sql += ' WHERE ' + where;
+		if(order) {
+			sql += ' ORDER BY ' + order;
+		}
 		sql += ' LIMIT ' + start + ', '+ end;
-		$.getJSON('sql.php',{db:options.db,sql:sql},_renderTable);
+		$.getJSON('sql.php',{db:options.db,sql:sql},this._renderTable.bind(this));
 	}
 	
-	_toggleEditable = function(e) {
+	this._toggleEditable = function(e) {
 		var row = $(e.currentTarget);
+		var cell = $(e.target);
 		console.log(row);
 		if(!row.hasClass('editing')) {
 			row.addClass('editing');
 			row.find('button.action').text('Save');
-			_toggleInputs(row);
+			this._toggleInputs(row);
+			cell.find('input').focus();
 			row.find('input, button.action').keydown(function(e) {
 				if(e.keyCode == 13) {
-					_toggleInputs(row);
-					_saveRow(row);
+					this._toggleInputs(row);
+					this._saveRow(row);
 					row.find('button.action').text('Edit');
 					row.find('button.action').unbind();
 					row.removeClass('editing');
 					e.stopPropagation()
 				}
-			});
+			}.bind(this));
 			var cancelButton = $('<button class="cancel">Cancel</button>');
 			cancelButton.click(function(e) {
-				_toggleInputs(row);
+				this._toggleInputs(row);
 				row.find('button.action').text('Edit');
 				row.find('button.action').unbind();
 				row.removeClass('editing');
 				e.stopPropagation()
 				row.find('button.cancel').remove();
-			});
+			}.bind(this));
 			row.find('button.action').click(function(e) {
-				_toggleInputs(row);
-				_saveRow(row);
+				this._toggleInputs(row);
+				this._saveRow(row);
 				row.find('button.action').text('Edit');
 				row.find('button.action').unbind();
 				row.removeClass('editing');
 				e.stopPropagation()
 				row.find('button.cancel').remove();
-			});	
+			}.bind(this));	
 			row.find('td.action').append(cancelButton);
 		}
 	}
 	
-	_addRow = function(e) {
+	this._addRow = function(e) {
 		var row = $(e.currentTarget).closest('tr');
 		var columns = '';
 		var values = '';
@@ -77,19 +86,20 @@ function EditableTable(options) {
 		data.sql = sql;
 		data.db = options.db
 		$.getJSON('sql.php',data,function(d) {
-			$('.editableTable').find('tr').last().children().first().html(d.id);
+			$('.editableTable').find('tr.erow').last().children().first().html(d.id);
 			// ^^ That's not good code ^^
 		});
 		row.removeClass('nrow');
 		row.addClass('erow');
 		e.stopPropagation();
-		_toggleInputs(row);
+		this._toggleInputs(row);
 		row.find('button.action').html('Edit');
 		row.find('button.action').unbind();
-		row.click(_toggleEditable);
+		row.click(this._toggleEditable.bind(this));
+		this._addAddRow();
 	}
 	
-	_saveRow = function(row) {
+	this._saveRow = function(row) {
 		var data = new Object();
 		var sql = 'UPDATE ' + options.dbTable + ' SET ';
 		var id;
@@ -110,7 +120,7 @@ function EditableTable(options) {
 		$.get('sql.php',data);
 	}
 	
-	_toggleInputs = function (row) {
+	this._toggleInputs = function (row) {
 		row.children('.editable').each(function () {
 			var td = $(this);
 			if(td.find('input').length == 0) {
@@ -125,7 +135,8 @@ function EditableTable(options) {
 		});
 	}
 
-	_renderTable = function(data) {
+	this._renderTable = function(data) {
+		this.data = data;
 		var table = $('<table class="editableTable"></table>');
 		this.table = table;
 		table.addClass(options.tableClass);
@@ -179,14 +190,48 @@ function EditableTable(options) {
 				dataRow.append('<td class="action"><button class="action">Add</button></td>');
 			table.append(dataRow);	
 		}
-		_toggleInputs(table.find('.nrow'));
-		table.find('.erow').click(_toggleEditable);
-		table.find('.nrow button').click(_addRow);
+		this._toggleInputs(table.find('.nrow'));
+		table.find('.erow').click(this._toggleEditable.bind(this));
+		table.find('.nrow button').click(this._addRow.bind(this));
+		table.find('.nrow input').keydown(function(e) {
+				if(e.keyCode == 13) {
+					this._addRow(e);
+				}
+		});
 		options.element.append(table);
 		if (typeof options.callback == 'function') {
 			options.callback();
 		}
 		return true;
+	}
+	this._addAddRow = function() {
+		var dataRow = $('<tr></tr>');
+		var data = this.data;
+		dataRow.addClass('nrow');
+		for(var j = 0; j < data.rows[0].length; j++) {
+			if (options.hideColumns && options.hideColumns.indexOf(data.columns[j]) != -1)
+				continue;
+			var td = $("<td></td>");
+			td.addClass(data.columns[j]);
+			if(options.uneditableColumns == null || (options.uneditableColumns && options.uneditableColumns.indexOf(data.columns[j]) == -1)) {
+				td.addClass('editable');
+			}
+
+			td.attr('name',data.columns[j]);
+			if(options.displayFunction && typeof options.displayFunction[data.columns[j]] === 'function' && i < data.rows.length) {
+				td.html(options.displayFunction[j].call(data.rows[i][j]));
+			} 
+			dataRow.append(td);
+		}
+		dataRow.append('<td class="action"><button class="action">Add</button></td>');
+		this.table.append(dataRow);	
+		this._toggleInputs(this.table.find('.nrow'));
+		this.table.find('.nrow button').click(this._addRow.bind(this));
+		this.table.find('.nrow input').keydown(function(e) {
+				if(e.keyCode == 13) {
+					this._addRow(e);
+				}
+		}.bind(this));
 	}
 }
 	
