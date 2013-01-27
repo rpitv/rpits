@@ -7,17 +7,11 @@ $.extend($.expr[":"], {
 });
 $(document).keydown(function(event)
 {
-    
-	/*if(event.keyCode != 13 && $("#input input").is(":focus"))
-    {
-      return;
-    }*/
-	if(event.keyCode != 13 && $("#input input:focus").length == 1)
+	if(event.keyCode != 13 && $(document.activeElement).filter('#input input').length == 1)
 	{
 		return;
 	}
-	if ($("#edit_form input:focus").length > 0 || $("#edit_form textarea:focus").length > 0 )
-	{
+	if ($(document.activeElement).filter("#edit_form input").length > 0 || $(document.activeElement).filter("#edit_form textarea").length > 0 )	{
 		return;
 	}
 	//alert(event.keyCode);
@@ -90,6 +84,7 @@ $(document).keydown(function(event)
 		event.preventDefault();
 		if($("#input").is(":visible"))
 		{
+			$("#input input").blur();
 			$("#input").hide();
 			var data = $("#input input").val();
 			$("li").removeClass("selected");
@@ -98,7 +93,6 @@ $(document).keydown(function(event)
 			target.scrollintoview({
 				duration: 0
 			});
-			$("#input input").blur();
 			$("li").removeClass("on-edit");
 			$("li").removeClass("on-preview");
 			target.addClass("on-preview");
