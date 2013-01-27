@@ -16,7 +16,7 @@ include('init.php');
 <ul>
 	<li><a href="im_ui.php?eventId=-1">Titles UI (ImageMagick based)</a> - Send titles to keyer, edit general titles. Optimized for 1680x1050 full screen</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache</li>
-	<li><a href="peditor.php">Player/Roster Editor</a> - Edit individual players' details and stats, control which players are on which teams</li>
+	<li>Player/Roster Editor (<a href="im_peditor.php">New</a> / <a href="peditor.php">Old</a>) - Edit individual players' details and stats, control which players are on which teams</li>
 	<li><a href="teamedit.php">Teams List Editor</a> - Edit the details (colors, logos) associated with each team, update stats from CHN</li>
 	<li><a href="addteamcsv.php">Add a Roster</a> - Adds a players and their stats to an empty team via CSV</li>
 </ul>
