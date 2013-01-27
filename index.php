@@ -19,6 +19,7 @@ include('init.php');
 	<li>Player/Roster Editor (<a href="im_peditor.php">New</a> / <a href="peditor.php">Old</a>) - Edit individual players' details and stats, control which players are on which teams</li>
 	<li><a href="teamedit.php">Teams List Editor</a> - Edit the details (colors, logos) associated with each team, update stats from CHN</li>
 	<li><a href="addteamcsv.php">Add a Roster</a> - Adds a players and their stats to an empty team via CSV</li>
+	<li><a href="im_stype.php">Stat Type label editor</a> - Edit labels associated with stats</li>
 </ul>
 <p>Outdated/Discontinued Pages</p>	
 <ul>
