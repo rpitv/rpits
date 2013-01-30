@@ -14,7 +14,8 @@ include('init.php');
 <h1>RPI TV Hockey Title Management System</h1>
 <h2>List of Current Pages</h2>
 <ul>
-	<li><a href="im_ui.php?eventId=-1">Titles UI (ImageMagick based)</a> - Send titles to keyer, edit general titles. Optimized for 1680x1050 full screen</li>
+	<li><a href="im_ui.php">Titles UI (ImageMagick based)</a> - Send titles to keyer, edit general titles. Also edit events and their participants</li>
+	<li><a href="im_event_title.php">Event / Title List editor</a> - Customize the list of titles to be displayed in the UI</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache</li>
 	<li>Player/Roster Editor (<a href="im_peditor.php">New</a> / <a href="peditor.php">Old</a>) - Edit individual players' details and stats, control which players are on which teams</li>
 	<li><a href="teamedit.php">Teams List Editor</a> - Edit the details (colors, logos) associated with each team, update stats from CHN</li>

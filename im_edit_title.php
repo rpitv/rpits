@@ -28,7 +28,7 @@ foreach($xml->overlay->shadowText as $text)
 {
   $t = dbFetch($title_id,$text);
   $lc .= "<p>".$t["name"]."</p>\n";
-  $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
+  $rc .= "<form class=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
   $rc .= "\t<input type=\"text\" name=\"text\" value=\"" . $t["text"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
@@ -40,7 +40,7 @@ foreach($xml->overlay->plainText as $text)
 {
   $t = dbFetch($title_id,$text);
   $lc .= "<p>".$t["name"]."</p>\n";
-  $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
+  $rc .= "<form class=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
   $rc .= "\t<input type=\"text\" name=\"text\" value=\"" . $t["text"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
@@ -52,7 +52,7 @@ foreach($xml->geo->slantRectangle as $slantRectangle)
 {
   $t = dbFetch($title_id,$slantRectangle);
   $lc .= "<p>".$t["name"]."</p>\n";
-  $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
+  $rc .= "<form class=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
   $rc .= "\t<input type=\"text\" name=\"color\" value=\"" . $t["color"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
@@ -64,7 +64,7 @@ foreach($xml->overlay->placeImage as $image)
 {
   $t = dbFetch($title_id,$image);
   $lc .= "<p>".$t["name"]."</p>\n";
-  $rc .= "<form id=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
+  $rc .= "<form class=\"edit_form\" action\"javascript:true\" \"method=\"GET\">";
   $rc .= "\t<input type=\"hidden\" name=\"" . $title_id . "\" value=\"" . $t["name"] . "\" />";
   $rc .= "\t<input type=\"text\" name=\"path\" value=\"" . $t["path"] . "\" />\n";
   $rc .= "\t<input class=\"submit\" type=\"submit\" value=\"Update\" />";
@@ -76,9 +76,9 @@ $rc .= "</div>\n";
 
 echo $lc . $rc;
 ?><br style="clear:both" />
-<button tid="<?= $title_id ?>" name="Render" style="width:200px;margin-bottom:70px;margin-top:70px;" >Render</button>
+<button tid="<?= $title_id ?>" id="render" name="Render" style="width:200px;margin-bottom:70px;margin-top:70px;" >Render</button>
 <script type="text/javascript">
-$("form").submit(function() {
+$(".edit_form").submit(function() {
   var form = $(this);
   form.children("input:last").attr("value", "Submitting");
     $.ajax({
@@ -101,7 +101,7 @@ $("form").submit(function() {
         });
     return false;
 });
-$("button").click(function() {
+$("#render").click(function() {
   var button = $(this).html("Rendering");
     $.ajax({
         type: "GET",
