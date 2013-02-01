@@ -30,7 +30,7 @@ function printEditableRow($name,$id,$val) {
 	} else {
 		echo '<input class="noHotkeys" type="text" name="text" value="' . $val . '" />';
 	}
-  echo '<input class="submit" type="submit" value="Update" />';
+  echo '<input class="submit noHotkeys" type="submit" value="Update" />';
   echo '</form></div>';
 	echo '</div>';
 }
