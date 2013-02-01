@@ -11,7 +11,7 @@ $(document).keydown(function(event)
 	{
 		return;
 	}
-	if ($(document.activeElement).filter("#edit_form input").length > 0 || $(document.activeElement).filter("#edit_form textarea").length > 0 )	{
+	if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") )	{
 		return;
 	}
 	//alert(event.keyCode);

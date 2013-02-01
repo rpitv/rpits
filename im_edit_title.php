@@ -26,9 +26,9 @@ function printEditableRow($name,$id,$val) {
   echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
   echo '<input type="hidden" name="' . $id . '" value="' . $name .'" />';
 	if($newlines > 0) {
-		echo '<textarea rows="' . ($newlines+1) . '" name="text">' . "\n" . $val . '</textarea>';
+		echo '<textarea class="noHotkeys" rows="' . ($newlines+1) . '" name="text">' . "\n" . $val . '</textarea>';
 	} else {
-		echo '<input type="text" name="text" value="' . $val . '" />';
+		echo '<input class="noHotkeys" type="text" name="text" value="' . $val . '" />';
 	}
   echo '<input class="submit" type="submit" value="Update" />';
   echo '</form></div>';
