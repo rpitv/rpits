@@ -1,36 +1,26 @@
 
-#left-column
-{ 
-  background-color: rgba(255,255,255,.9);
-  float:left;
-  margin-right:5px;
-  position:relative;
+#editTitle .row .label {
+	float:left;
+	width:150px;
+	text-align:right;
+	margin-right:10px;
 }
-#right-column
-{
-  background-color: rgba(255,255,255,.9);
-  float:left;
-  position:relative;
+
+#editTitle .row form {
+	float: left;
+	padding:0px;
+	margin:0px;
 }
-#left-column p
-{
-  text-align:right;
-  margin:0px;
-  height:30px;
+#editTitle .row form input[type=text],
+#editTitle .row form textarea {
+	width:300px;
 }
-#right-column input[type=text]
-{
-  width:200px;
+#editTitle .row form input[type=submit] {
+	width:80px;
 }
-form
-{
-  margin:0px;
-  height:30px;
+#editTitle .row {
+	clear:both;
 }
-#right-column input[type=submit]{
-  width:80px;
-}
-h3
-{
-  text-align:right;
+#editTitle h3 {
+	clear:both;
 }
