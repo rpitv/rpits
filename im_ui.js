@@ -291,6 +291,7 @@ $(document).ready(function(){
 		$(this).addClass("on-preview");
 		$("#preview .label").text("Preview - " + $(this).text());
 		$("#edit").hide();
+		document.activeElement.blur();
 		$("#preview .image").html($("<img src=\"" + $(this).children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
 	});
 	$('#editEvents').live('click',function()
