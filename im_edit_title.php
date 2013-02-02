@@ -18,17 +18,19 @@ $templateRow = mysql_fetch_array($templateResult);
 $templateXML = fopen($templateRow["path"],"r");
 $contents = stream_get_contents($templateXML);
 
-function printEditableRow($name,$id,$val) {
+function printEditableRow($row,$id,$type) {
+	$val = $row[$type];
 	$val = str_replace('\n',PHP_EOL,$val);
 	$newlines = substr_count($val,PHP_EOL);
+	$name = $row["name"];
 	echo '<div class="row">';
   echo '<div class="label">'.$name.'</div>';
   echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
   echo '<input type="hidden" name="' . $id . '" value="' . $name .'" />';
 	if($newlines > 0) {
-		echo '<textarea class="noHotkeys" rows="' . ($newlines+1) . '" name="text">' . "\n" . $val . '</textarea>';
+		echo '<textarea class="noHotkeys" rows="' . ($newlines+1) . '" name="'.$type.'">' . "\n" . $val . '</textarea>';
 	} else {
-		echo '<input class="noHotkeys" type="text" name="text" value="' . $val . '" />';
+		echo '<input class="noHotkeys" type="text" name="'.$type.'" value="' . $val . '" />';
 	}
   echo '<input class="submit noHotkeys" type="submit" value="Update" />';
   echo '</form></div>';
@@ -41,27 +43,27 @@ echo "<h3>Shadow Text</h3>";
 foreach($xml->overlay->shadowText as $text)
 {
   $t = dbFetch($titleId,$text);
-	printEditableRow($t["name"],$titleId,$t["text"]);
+	printEditableRow($t,$titleId,'text');
 }
 echo "<h3>Normal Text</h3>";
 foreach($xml->overlay->plainText as $text)
 {
   $t = dbFetch($titleId,$text);
-  printEditableRow($t["name"],$titleId,$t["text"]);
+  printEditableRow($t,$titleId,'text');
 }
 echo "<h3>Color Bars</h3>";
 
 foreach($xml->geo->slantRectangle as $slantRectangle)
 {
   $t = dbFetch($titleId,$slantRectangle);
-  printEditableRow($t["name"],$titleId,$t["color"]);
+  printEditableRow($t,$titleId,'color');
 }
 echo "<h3>Images</h3>";
 
 foreach($xml->overlay->placeImage as $image)
 {
   $t = dbFetch($titleId,$image);
-  printEditableRow($t["name"],$titleId,$t["path"]);
+  printEditableRow($t,$titleId,'path');
 }
 
 echo '</div>'
