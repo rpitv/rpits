@@ -58,14 +58,14 @@ else
   <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
   <ul class="titles" request="im_title_list.php?team=<?= $team1 ?>"></ul>
   <ul class="titles" request="im_title_list.php?team=<?= $team2 ?>"></ul>
-  <!--<ul class="titles" request="im_title_list.php?thing=billboards"></ul>-->
+  <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
 </div>
 <div id="tabstrip">
   <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
   <div class="tab active" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
   <div class="tab" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
   <div class="tab" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
-  <!--<div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>-->
+  <div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>
