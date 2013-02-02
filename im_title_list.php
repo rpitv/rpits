@@ -12,7 +12,7 @@ if($thing == "billboards")
   //echo("<h1>Not Implemented</h1>");
   $result = dbquery("SELECT * from billboards");
   while ($row = mysql_fetch_array($result)) {
-    echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards\\" . $row["file_name"] . "\" path=\"billboards\\" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
+    echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards/" . $row["file_name"] . "\" path=\"billboards/" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
   }
 }
 else if($event > 0)
