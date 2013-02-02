@@ -21,6 +21,7 @@ include('init.php');
 	<li><a href="teamedit.php">Teams List Editor</a> - Edit the details (colors, logos) associated with each team, update stats from CHN</li>
 	<li><a href="addteamcsv.php">Add a Roster</a> - Adds a players and their stats to an empty team via CSV</li>
 	<li><a href="im_stype.php">Stat Type label editor</a> - Edit labels associated with stats</li>
+	<li><a href="im_billboards.php">Billboards Editor</a> - Full-frame 1920x1080 PNGs sent as is to the keyer</li>
 </ul>
 <p>Outdated/Discontinued Pages</p>	
 <ul>
