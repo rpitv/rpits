@@ -29,7 +29,7 @@ $(document).keydown(function(event)
 			{
 				$("#log").append($("#loadtarget").html());
 				$("#log").animate({
-					scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 				}, 200);
 			});
 
@@ -44,13 +44,13 @@ $(document).keydown(function(event)
 			{
 				$("#log").append($("#loadtarget").html());
 				$("#log").animate({
-					scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 				}, 200);
 				$("#loadtarget").load('putter.php?command=dissolve_in/15',function()
 				{
 					$("#log").append($("#loadtarget").html());
 					$("#log").animate({
-						scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+						scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 					}, 200);
 				});
 
@@ -73,7 +73,7 @@ $(document).keydown(function(event)
 		{
 			$("#log").append($("#loadtarget").html());
 			$("#log").animate({
-				scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+				scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 			}, 200);
 		});
 	}
@@ -254,7 +254,7 @@ $(document).ready(function(){
 			{
 				$("#log").append($("#loadtarget").html());
 				$("#log").animate({
-					scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 				}, 200);
 			});
 		}
@@ -269,13 +269,13 @@ $(document).ready(function(){
 			{
 				$("#log").append($("#loadtarget").html());
 				$("#log").animate({
-					scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 				}, 200);
 				$("#loadtarget").load('putter.php?command=dissolve_in/15',function()
 				{
 					$("#log").append($("#loadtarget").html());
 					$("#log").animate({
-						scrollTop: $("#log").attr("scrollHeight") - $('#log').height()
+						scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
 					}, 200);
 				});
 			});
