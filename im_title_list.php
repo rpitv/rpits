@@ -41,7 +41,9 @@ else
     $first = $row["first"];
     $last = $row["last"];
     $title_name = "$num - $first $last";
-    echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"out/".$num.$first.$last .".png\" src=\"thumbs/".$num.$first.$last .".png\" width=\"40\" />" . $title_name . "</li>\n");
+		$path = $num.$first.$last;
+		$path = rawurlencode($path);
+    echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"out/". $path .".png\" src=\"thumbs/" . $path . ".png\" width=\"40\" />" . $title_name . "</li>\n");
   }
   mysql_select_db("rpits");
 }
