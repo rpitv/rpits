@@ -40,6 +40,7 @@ if ($eventId > 0)
 	$eventName = $row["name"];
 	$team1 = $row["team1"];
 	$team2 = $row["team2"];
+	$team3 = "career";
 } 
 else
 {
@@ -58,6 +59,7 @@ else
   <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
   <ul class="titles" request="im_title_list.php?team=<?= $team1 ?>"></ul>
   <ul class="titles" request="im_title_list.php?team=<?= $team2 ?>"></ul>
+	<?  if ($team3) { ?><ul class="titles" request="im_title_list.php?team=<?= $team3 ?>"></ul><? } ?>
   <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
 </div>
 <div id="tabstrip">
@@ -65,7 +67,8 @@ else
   <div class="tab active" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
   <div class="tab" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
   <div class="tab" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
-  <div class="tab" request="im_title_list.php?thing=billboards" tid="3">Billboards</div>
+	<? if ($team3) { ?><div class="tab" request="im_title_list.php?team=<?= $team3 ?>" tid="3"><?= $team3 ?> Players</div> <? } ?>
+  <div class="tab" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
 </div>
 <div id="input"><input type="text" /></div>
 <div id="actions"></div>

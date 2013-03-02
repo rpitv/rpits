@@ -127,6 +127,8 @@ plainText($canvas, 630 + $detailsModifier, 884 - $boxHeightModifier, 880 - $deta
 if ($stype && $stype != "txt") {
 	if ($lastSeason == true) {
 		shadowedText($canvas, 410, 995, 172, 30, 'Last Season:', 'center', 'fontN', 'white');
+	} else if ($row["team"] == career) {
+		shadowedText($canvas, 410, 995, 172, 30, 'Career Stats:', 'center', 'fontN', 'white');
 	}
 	$statsBoxWidth = 880;
 	$statsBoxX = 650;
