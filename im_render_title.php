@@ -41,8 +41,8 @@ if($xml->geo->slantRectangle)
 {
   foreach($xml->geo->slantRectangle as $slantRectangle)
   {
-    $sR = dbFetch($id,$slantRectangle);
-    slantRectangle($canvas,$sR["x"],$sR["y"],$sR["w"],$sR["h"],$sR["color"]);
+		$sR = tokenReplace(dbFetch($id,$slantRectangle));
+		slantRectangle($canvas,$sR["x"],$sR["y"],$sR["w"],$sR["h"],$sR["color"]);
   }
 }
 
@@ -50,7 +50,7 @@ if($xml->overlay->shadowText)
 {
   foreach($xml->overlay->shadowText as $text)
   {
-    $t = dbFetch($id,$text);
+    $t = tokenReplace(dbFetch($id,$text));
     shadowedText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"]);
   }
 }
@@ -59,7 +59,7 @@ if($xml->overlay->plainText)
 {
   foreach($xml->overlay->plainText as $text)
   {
-    $t = dbFetch($id,$text);
+    $t = tokenReplace(dbFetch($id,$text));
     plainText($canvas,$t["x"],$t["y"],$t["w"],$t["h"],$t["text"],$t["gravity"],$t["font"],$t["color"], true);
   }
 }
@@ -69,8 +69,7 @@ if($xml->overlay->placeImage)
   foreach($xml->overlay->placeImage as $image)
   {
 
-    $l = dbFetch($id,$image);
-    //print_r($l);
+    $l = tokenReplace(dbFetch($id,$image));
     placeImage($canvas,$l["x"],$l["y"],$l["w"],$l["h"],$l["path"]);
   }
 }
