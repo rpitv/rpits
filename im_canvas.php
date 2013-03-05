@@ -3,8 +3,6 @@ include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
-
-
 ?>
 <!--<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all">-->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all">
@@ -101,7 +99,7 @@ $id = $_GET["id"];
   {
     border-color:red;
     background-color:rgba(255,255,0,0.5);
-  }  
+  }
   .updated
   {
     border:green solid 2px;
@@ -114,14 +112,14 @@ $id = $_GET["id"];
   {
     background-color:yellow;
   }
-  
+
 </style>
 
 
 <script>
   var title_id = <?= $id ?>;
   $(function() {
-    $( ".selected" ).draggable({ 
+    $( ".selected" ).draggable({
       containment: "#canvas",
       stop: function()
       {
@@ -144,7 +142,7 @@ $id = $_GET["id"];
         var pos = $(this).slider( "option", "value" )
         $("#zlevel").html(pos);
         $("#canvas").css("zoom",pos/100);
-        }
+			}
     });
   });
   $(function() {
@@ -165,7 +163,7 @@ $id = $_GET["id"];
         $(".geo").css("border-color",border)
         $(".selected").css("background-color",sel)
         $(".selected").css("border-color",selbo)
-        }
+			}
     });
   });
   function edit()
@@ -188,7 +186,7 @@ $id = $_GET["id"];
     color = color.rgba(255,255,0);
     $(this).css("background-color",color)
 
-    $(this).draggable({ 
+    $(this).draggable({
       containment: "#canvas",
       disabled: false,
       stop: function()
@@ -248,29 +246,25 @@ $id = $_GET["id"];
 <p><div class="slide" id="slider"></div>Zoom Level: <span id="zlevel">50</span><div class="slide" id="bg-slider"></div>Background Opacity: <span id="bglevel">50</span></p>
 
 <div id="ccontainer">
-<div id="canvas" style="zoom:.5">
-  <?
-  $geos = listOfGeos($id);
-  foreach($geos as $name=>$type)
-  {
-    $sR = dbFetchAll($id,$name);
-    echo("<div class=\"".$type." geo\" id=\"".$name."\" style=\" position:absolute; left: ".$sR["x"]."; top: ".$sR["y"]."; width: ".$sR["w"] .";height: ".$sR["h"]."\" >");
-    echo("<img src=\"im_layout.php?id=" . $id . "&name=".$name."&type=".$type."\" />");
-    echo("</div>");
-  }
-
+	<div id="canvas" style="zoom:.5">
+<?
+$geos = listOfGeos($id);
+foreach ($geos as $name => $type) {
+	$sR = dbFetchAll($id, $name);
+	echo("<div class=\"" . $type . " geo\" id=\"" . $name . "\" style=\" position:absolute; left: " . $sR["x"] . "; top: " . $sR["y"] . "; width: " . $sR["w"] . ";height: " . $sR["h"] . "\" >");
+	echo("<img src=\"im_layout.php?id=" . $id . "&name=" . $name . "&type=" . $type . "\" />");
+	echo("</div>");
+}
 ?>
-</div>
+	</div>
 </div>
 <div id="info-panel">
   <div id="info-target" ></div>
 </div>
 <div id="layer-panel" >
 <?
-foreach($geos as $name=>$type)
-{
-  echo "<div class=\"layer\" id=\"l-$name\"><h3>$name</h3><p>($type)</p></div>";
-  
+foreach ($geos as $name => $type) {
+	echo "<div class=\"layer\" id=\"l-$name\"><h3>$name</h3><p>($type)</p></div>";
 }
 ?>
 </div>

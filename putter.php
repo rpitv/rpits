@@ -42,27 +42,22 @@ if (strlen($command) > 0) {
 	$log .= "Command: $command, ";
 	$headers = "Content-Length: 0\n";
 	$svg = "";
-}
-else {
+} else {
 	$command = "key";
 	$pre_get = microtime();
 	if ($type == "player") {
 		$svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
 		$log .= "Player ID: $id, ";
-	}
-	else if ($type == "billboard") {
+	} else if ($type == "billboard") {
 		$svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
 		$log .= "Billboard ID: $id, ";
-	}
-	else if (strlen($path) > 1) {
+	} else if (strlen($path) > 1) {
 		$svg = file_get_contents("$path");
 		$log .= "PNG Path: $path, ";
-	}
-	else if ($type == "svg") {
+	} else if ($type == "svg") {
 		$svg = file_get_contents($system_path_prefix . "svg_card.php?id=$id");
 		$log .= "SVG card test ID: $id, ";
-	}
-	else {
+	} else {
 		$svg = file_get_contents($system_path_prefix . "svg_gen.php?id=$id&type=$type");
 		$log .= "General ID: $id, ";
 	}

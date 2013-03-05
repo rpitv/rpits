@@ -1,14 +1,14 @@
 'use strict'
 
 function EditableTable(options) {
-	
+
 	if(!options.db)
 		options.db = 'rpits';
 	if(!options.dbTable)
 		return 'No database table selected';
-	
+
 	this.options = options;
-	
+
 	this.loadTable = function(start,end,where,order) {
 		this.start = start;
 		this.end = end;
@@ -25,7 +25,7 @@ function EditableTable(options) {
 		sql += ' LIMIT ' + start + ', '+ end;
 		$.getJSON('sql.php',{db:options.db,sql:sql},this._renderTable.bind(this));
 	}
-	
+
 	this._toggleEditable = function(e) {
 		var row = $(e.currentTarget);
 		var cell = $(e.target);
@@ -63,11 +63,11 @@ function EditableTable(options) {
 				row.removeClass('editing');
 				e.stopPropagation()
 				row.find('button.cancel').remove();
-			}.bind(this));	
+			}.bind(this));
 			row.find('td.action').append(cancelButton);
 		}
 	}
-	
+
 	this._addRow = function(e) {
 		var row = $(e.currentTarget).closest('tr');
 		var columns = '';
@@ -99,7 +99,7 @@ function EditableTable(options) {
 		row.click(this._toggleEditable.bind(this));
 		this._addAddRow();
 	}
-	
+
 	this._saveRow = function(row) {
 		var data = new Object();
 		var sql = 'UPDATE ' + options.dbTable + ' SET ';
@@ -120,7 +120,7 @@ function EditableTable(options) {
 		data.db = options.db;
 		$.get('sql.php',data);
 	}
-	
+
 	this._toggleInputs = function (row) {
 		row.children('.editable').each(function () {
 			var td = $(this);
@@ -181,7 +181,7 @@ function EditableTable(options) {
 				} else if(i < data.rows.length) {
 					td.text(data.rows[i][j]);
 				} else {
-					
+
 				}
 				dataRow.append(td);
 			}
@@ -189,7 +189,7 @@ function EditableTable(options) {
 				dataRow.append('<td class="action"><button class="action">Edit</button></td>');
 			else
 				dataRow.append('<td class="action"><button class="action">Add</button></td>');
-			table.append(dataRow);	
+			table.append(dataRow);
 		}
 		this._toggleInputs(table.find('.nrow'));
 		table.find('.erow').click(this._toggleEditable.bind(this));
@@ -221,11 +221,11 @@ function EditableTable(options) {
 			td.attr('name',data.columns[j]);
 			if(options.displayFunction && typeof options.displayFunction[data.columns[j]] === 'function' && i < data.rows.length) {
 				td.html(options.displayFunction[j].call(data.rows[i][j]));
-			} 
+			}
 			dataRow.append(td);
 		}
 		dataRow.append('<td class="action"><button class="action">Add</button></td>');
-		this.table.append(dataRow);	
+		this.table.append(dataRow);
 		this._toggleInputs(this.table.find('.nrow'));
 		this.table.find('.nrow button').click(this._addRow.bind(this));
 		this.table.find('.nrow input').keydown(function(e) {
@@ -235,4 +235,3 @@ function EditableTable(options) {
 		}.bind(this));
 	}
 }
-	

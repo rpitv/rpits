@@ -3,18 +3,18 @@
 <script src="im.js" type="text/javascript"></script>
 <script type="text/javascript">
 
-$(function() {
+	$(function() {
 
-	var eventsTable = new EditableTable({
-		db: 'rpits',
-		dbTable: 'events',
-		columnHeaders: ['ID','Name','Team 1','Team 2'],
-		uneditableColumns: ['id'],
-		element: $('body')
+		var eventsTable = new EditableTable({
+			db: 'rpits',
+			dbTable: 'events',
+			columnHeaders: ['ID','Name','Team 1','Team 2'],
+			uneditableColumns: ['id'],
+			element: $('body')
+		});
+		eventsTable.loadTable(0,30);
+
 	});
-	eventsTable.loadTable(0,30);
-
-});
 
 
 </script>

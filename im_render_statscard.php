@@ -138,7 +138,7 @@ if ($stype && $stype != "txt") {
 	}
 	$i = 2;
 	for (; strlen($slabel[$i]) > 0; $i++) {
-		
+
 	}
 
 	$boxW = $statsBoxWidth / ($i - 2);
