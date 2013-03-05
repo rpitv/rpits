@@ -5,6 +5,8 @@ include("imagick_include.php");
 
 $id = $_GET["id"];
 
+$path = $_GET["path"];
+
 $result = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
 $titleRow = mysql_fetch_array($result);
 
@@ -12,6 +14,10 @@ $template_id = $titleRow["template"];
 
 $result = dbquery("SELECT * from templates where id=\"$template_id\" LIMIT 1;");
 $templateRow = mysql_fetch_array($result);
+
+if($path) {
+	$templateRow["path"] = $path;
+}
 
 $templateXML = fopen($templateRow["path"],"r");
 $contents = stream_get_contents($templateXML);
