@@ -73,6 +73,48 @@ function dbFetch($id, $xml) {
 	return $data;
 }
 
+function tokenReplace($data) {
+	foreach($data as $key => $string) {
+		$matches = array();
+		
+		preg_match_all('/\{(.*?)\}/', $string, $matches);
+		$tokens = $matches[1];
+		foreach($tokens as $token) {
+			$string = preg_replace('/\{'.$token.'\}/',getToken($token),$string);
+		}
+		$data[$key] = $string;
+	}
+	return $data;
+}
+
+// This is hardcoded and not ideal, but it will suffice for now
+// and become a more open standard later
+function getToken($token) {
+	$tokens = explode('.',$token);
+	
+	if($tokens[0] != 'e' && $tokens[0] != 'event')
+		return '';
+	
+	$eventId = 1; // bad
+	mysql_select_db('rpits');
+	$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
+	$eventRow = mysql_fetch_assoc($eventResource);
+	
+	$teamColumn = $tokens[1] == 'hTeam' ? 'team1' : 'team2';
+		
+	mysql_select_db('rpihockey');
+	$teamResource = dbQuery("SELECT * FROM teams WHERE name='".$eventRow[$teamColumn]."'");
+	
+	$teamRow = mysql_fetch_assoc($teamResource);
+	
+	$teamRow['color'] = rgbhex($teamRow['colorr'],$teamRow['colorg'],$teamRow['colorb']);
+	$teamRow['logo'] = 'teamlogos/' . $teamRow['logo'];
+	
+	mysql_select_db('rpits');
+	
+	return $teamRow[$tokens[2]];
+}
+
 function rgbhex($red, $green, $blue) {
 	$red = 0x10000 * max(0, min(255, $red + 0));
 	$green = 0x100 * max(0, min(255, $green + 0));
