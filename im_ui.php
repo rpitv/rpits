@@ -40,7 +40,7 @@ if ($eventId > 0)
 	$eventName = $row["name"];
 	$team1 = $row["team1"];
 	$team2 = $row["team2"];
-	$team3 = "career";
+	//$team3 = "career";
 } 
 else
 {
