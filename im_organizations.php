@@ -7,8 +7,10 @@ $(function() {
 
 	var eventsTable = new EditableTable({
 		db: 'rpits',
-		dbTable: 'teams',
+		dbTable: 'organizations',
+		//columnHeaders: ['ID','Name','Team 1','Team 2'],
 		uneditableColumns: ['id'],
+		//hideColumns: ['hidden','start','end','logor','logob','logog'],
 		element: $('#teamsList')
 	});
 	eventsTable.loadTable(0,30);

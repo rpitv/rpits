@@ -61,6 +61,16 @@ function stripDBFetch($attrs) {
 	return $result;
 }
 
+function fetchTeam($team) {
+	$teamResource = dbQuery("SELECT * FROM teams WHERE abbrev='$team'");
+	$teamRow = mysql_fetch_assoc($teamResource);
+
+	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
+	$orgRow = mysql_fetch_assoc($orgResource);
+
+	return array_merge($teamRow,$orgRow);
+}
+
 function dbFetch($id, $xml) {
 	$data = array();
 	foreach ($xml->attributes() as $key => $value) {
@@ -89,6 +99,7 @@ function tokenReplace($data) {
 
 // This is hardcoded and not ideal, but it will suffice for now
 // and become a more open standard later
+// example: {e.h.color} is the home team's color for event 1
 function getToken($token) {
 	$tokens = explode('.',$token);
 
@@ -96,21 +107,14 @@ function getToken($token) {
 		return '';
 
 	$eventId = 1; // bad
-	mysql_select_db('rpits');
 	$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
 	$eventRow = mysql_fetch_assoc($eventResource);
 
-	$teamColumn = $tokens[1] == 'hTeam' ? 'team1' : 'team2';
+	$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
 
-	mysql_select_db('rpihockey');
-	$teamResource = dbQuery("SELECT * FROM teams WHERE name='".$eventRow[$teamColumn]."'");
+	$teamRow = fetchTeam($eventRow[$teamColumn]);
 
-	$teamRow = mysql_fetch_assoc($teamResource);
-
-	$teamRow['color'] = rgbhex($teamRow['colorr'],$teamRow['colorg'],$teamRow['colorb']);
 	$teamRow['logo'] = 'teamlogos/' . $teamRow['logo'];
-
-	mysql_select_db('rpits');
 
 	return $teamRow[$tokens[2]];
 }
