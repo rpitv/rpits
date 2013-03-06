@@ -72,12 +72,12 @@ $canvas->newImage(1920, 1080, "none", "png");
 
 
 
-blackbox($canvas, 400, 870 - $boxHeightModifier, 1120, 160 + $boxHeightModifier);
-slantRectangle($canvas, 360, 800 - $boxHeightModifier, 780, 80, $tColor);
-slantRectangle($canvas, 1100 - $positionWidthModifier, 800 - $boxHeightModifier, 150, 80, "#303030");
-slantRectangle($canvas, 1210 - $positionWidthModifier, 800 - $boxHeightModifier, 130 + $positionWidthModifier, 80, $tColor);
-slantRectangle($canvas, 1300, 800 - $boxHeightModifier, 140, 80, "#303030");
-slantRectangle($canvas, 1400, 800 - $boxHeightModifier, 160, 80, "white");
+blackbox($canvas, array('x' => 400, 'y' => 870 - $boxHeightModifier, 'w' => 1120, 'h' => 160 + $boxHeightModifier));
+slantRectangle($canvas, array('x' => 360, 'y' => 800 - $boxHeightModifier, 'w' => 780, 'h' => 80, 'color' => $tColor));
+slantRectangle($canvas, array('x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030"));
+slantRectangle($canvas, array('x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'color' => $tColor));
+slantRectangle($canvas, array('x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'color' => "#303030"));
+slantRectangle($canvas, array('x' => 1400, 'y' => 800 - $boxHeightModifier, 'w' => 160, 'h' => 80, 'color' => "white"));
 
 $pPath = "teams/" . $row["team"] . "imgs/" . $row["first"] . $row["last"] . ".png";
 $size = @getimagesize($pPath);
@@ -86,28 +86,26 @@ $nameModifier = 0;
 $detailsModifier = 0;
 
 if ($size[0]) {
-	$pW = 192;
-	$pH = 230;
-	$pX = 400;
-	$pY = 801;
+
+	$portrait = array('w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
 
 	if ($size[0] * 1.2 > $size[1]) {
-		$pH = $size[1] / ($size[0] / $pW);
-		$pY += 230 - $pH;
+		$p['h'] = $size[1] / ($size[0] / $p['w']);
+		$p['y'] += 230 - $p['h'];
 	}
 
-	placeImage($canvas, $pX, $pY, $pW, $pH, $pPath);
+	placeImage($canvas, $portrait);
 } else {
 	$nameModifier = -150;
 	$detailsModifier = -220;
 }
 
-placeImage($canvas, 1442, 802 - $boxHeightModifier, 76, 76, "teamlogos/" . $teamrow["logo"]);
+placeImage($canvas, array('x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => "teamlogos/" . $teamrow["logo"]));
 
-shadowedText($canvas, 560 + $nameModifier, 805 - $boxHeightModifier, 535 - $nameModifier - $positionWidthModifier, 70, $row["first"] . " " . $row["last"], "west", "fontN", "white");
-shadowedText($canvas, 1100 - $positionWidthModifier, 800 - $boxHeightModifier, 150, 80, $row["num"], "center", "fontN", "white");
-shadowedText($canvas, 1210 - $positionWidthModifier, 800 - $boxHeightModifier, 130 + $positionWidthModifier, 80, $row["pos"], "center", "fontN", "white");
-shadowedText($canvas, 1300, 800 - $boxHeightModifier, 140, 80, $row["year"], "center", "fontN", "white");
+shadowedText($canvas, array('x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white"));
+shadowedText($canvas, array('x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+shadowedText($canvas, array('x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+shadowedText($canvas, array('x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 
 $details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"];
 if ($row["weight"] . length > 0) {
@@ -122,13 +120,13 @@ if (!$size[0]) {
 	}
 	$detailsGravity = "center";
 }
-plainText($canvas, 630 + $detailsModifier, 884 - $boxHeightModifier, 880 - $detailsModifier, 33, $details, $detailsGravity, "fontN", "white");
+plainText($canvas, array('x' => 630 + $detailsModifier, 'y' => 884 - $boxHeightModifier, 'w' => 880 - $detailsModifier, 'h' => 33, 'text' => $details, 'gravity' => $detailsGravity, 'font' => "fontN", 'color' => "white"));
 
 if ($stype && $stype != "txt") {
 	if ($lastSeason == true) {
-		shadowedText($canvas, 410, 995, 172, 30, 'Last Season:', 'center', 'fontN', 'white');
+		shadowedText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 	} else if ($row["team"] == career) {
-		shadowedText($canvas, 410, 995, 172, 30, 'Career Stats:', 'center', 'fontN', 'white');
+		shadowedText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 	}
 	$statsBoxWidth = 880;
 	$statsBoxX = 650;
@@ -144,7 +142,7 @@ if ($stype && $stype != "txt") {
 	$boxW = $statsBoxWidth / ($i - 2);
 	$totalwidths = 0;
 	for ($j = 2; $j < $i; $j++) {
-		$totalwidths += getTextWidth($boxW, 80, $row[$j + 8], "fontN");
+		$totalwidths += getTextWidth(array('w' => $boxW, 'h' => 80, 'text' => $row[$j + 8], 'font' => "fontN"));
 	}
 
 
@@ -154,10 +152,10 @@ if ($stype && $stype != "txt") {
 
 
 	for ($j = 2; $j < $i; $j++) {
-		$thisWidth = getTextWidth($boxW, 80, $row[$j + 8], "fontN");
+		$thisWidth = getTextWidth(array('w' => $boxW, 'h' => 80, 'text' => $row[$j + 8], 'font' => "fontN"));
 		$statsBoxX -=($boxW - $thisWidth) / 2;
-		plainText($canvas, $statsBoxX, 915, $boxW, 40, $slabel[$j], "center", "fontN", "white");
-		plainText($canvas, $statsBoxX, 955, $boxW, 80, $row[$j + 8], "center", "fontN", "white");
+		plainText($canvas, array('x' => $statsBoxX, 'y' => 915, 'w' => $boxW, 'h' => 40, 'text' => $slabel[$j], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+		plainText($canvas, array('x' => $statsBoxX, 'y' => 955, 'w' => $boxW, 'h' => 80, 'text' => $row[$j + 8], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 		$statsBoxX += ($boxW - $thisWidth) / 2 + $thisWidth + $spacing;
 	}
 }

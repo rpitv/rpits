@@ -31,28 +31,29 @@ if ($xml->geo->blackBox) {
 	foreach ($xml->geo->blackBox as $box) {
 
 		$l = dbFetch($id, $box);
-		blackBox($canvas, $l["x"], $l["y"], $l["w"], $l["h"]);
+		blackBox($canvas, $l);
 	}
 }
 
 if ($xml->geo->slantRectangle) {
 	foreach ($xml->geo->slantRectangle as $slantRectangle) {
 		$sR = tokenReplace(dbFetch($id, $slantRectangle));
-		slantRectangle($canvas, $sR["x"], $sR["y"], $sR["w"], $sR["h"], $sR["color"]);
+		slantRectangle($canvas, $sR);
 	}
 }
 
 if ($xml->overlay->shadowText) {
 	foreach ($xml->overlay->shadowText as $text) {
 		$t = tokenReplace(dbFetch($id, $text));
-		shadowedText($canvas, $t["x"], $t["y"], $t["w"], $t["h"], $t["text"], $t["gravity"], $t["font"], $t["color"]);
+		shadowedText($canvas, $t);
 	}
 }
 
 if ($xml->overlay->plainText) {
 	foreach ($xml->overlay->plainText as $text) {
 		$t = tokenReplace(dbFetch($id, $text));
-		plainText($canvas, $t["x"], $t["y"], $t["w"], $t["h"], $t["text"], $t["gravity"], $t["font"], $t["color"], true);
+		$t['wordWrap'] = true;
+		plainText($canvas, $t);
 	}
 }
 
@@ -60,7 +61,7 @@ if ($xml->overlay->placeImage) {
 	foreach ($xml->overlay->placeImage as $image) {
 
 		$l = tokenReplace(dbFetch($id, $image));
-		placeImage($canvas, $l["x"], $l["y"], $l["w"], $l["h"], $l["path"]);
+		placeImage($canvas, $l);
 	}
 }
 
