@@ -77,6 +77,7 @@ function EditableTable(options) {
 			var val = $(this).find('input').length > 0 ? $(this).find('input').val() : $(this).text();
 			if(name && name != 'id') {
 				columns += name + ', ';
+				val = val.replace(/'/g, "\\'");
 				values += "'" + val + "', ";
 			}
 		});
@@ -109,6 +110,7 @@ function EditableTable(options) {
 			var name = td.attr('name');
 			var val = td.find('input').length > 0 ? td.find('input').val() : td.text();
 			if(name && name != 'id') {
+				val = val.replace(/'/g, "\\'");
 				sql += "" + name + "='" + val + "', ";
 			} else if(name == 'id') {
 				id = val;
