@@ -162,6 +162,10 @@ function blackBox(&$canvas, $o) {
 
 function defaultText($o) {
 
+	if($o['case'] == 'upper') {
+		$o['text'] = strtoupper($o['text']);
+	}
+
 	global $gravities, $fonts;
 	$text = new Imagick();
 	$text->setFont($fonts[$o['font']]);

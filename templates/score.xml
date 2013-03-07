@@ -27,15 +27,15 @@
   <overlay>
     <placeImage name="hLogo" x="570" y="808" w="100" h="100" path="teamlogos/rpi.png" />
     <placeImage name="vLogo" x="570" y="668" w="100" h="100" path="teamlogos/test.png" />
-    
-    <shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="VISITING"/>
-    <shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="RENSSELAER"/>
-    
+
+    <shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="VISITING" case="upper"/>
+    <shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="RENSSELAER" case="upper"/>
+
     <shadowText name="vScore" x="1200" y="670" w="200" h="110" gravity="center" font="font" color="white" text="0"/>
     <shadowText name="hScore" x="1200" y="810" w="200" h="110" gravity="center" font="font" color="white" text="0"/>
-    
+
     <shadowText name="gameStatus" x="720" y="950" w="390" h="40" gravity="center" font="fontN" color="white" text="End of 1st Period" />
-    
-  </overlay>  
-  
+
+  </overlay>
+
 </template>
