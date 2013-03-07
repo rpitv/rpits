@@ -103,10 +103,13 @@ while($row = mysql_fetch_array($result)){
 		echo("    <td>" . $row["start"] . "</td>\n");
 		echo("    <td>" . $row["end"] . "</td>\n");
 		echo("    <td>" . $row["womens"] . "</td>\n");
-		if($row["statsid"])
-		  echo("    <td><a href=\"statsloader.php?tid=" . $row["statsid"] . "\">Stats</a></td>\n");
-		else
+		if(intval($row["statsid"]) != 0) {
+		  echo("    <td><a href=\"statsloader.php?tid=" . $row["statsid"] . "\">CHN Stats (Men only)</a></td>\n");
+		} else if(strlen($row["statsid"])> 1) {
+			echo("    <td><a href=\"chsloader.php?url=http://collegehockeystats.net/1213/teamstats/" . $row["statsid"] . "&team=".$row["name"]."\">CHS Stats (No +/-)</a></td>\n");
+		} else {
 		  echo("<td></td>");
+		}
 		echo("    <td><a href=\"" . $_SERVER['PHP_SELF'] . "?edit=1&id=" . $row["id"] .  "\">Edit</a></td>\n");
 		echo("	</tr>");
           }
@@ -115,11 +118,11 @@ while($row = mysql_fetch_array($result)){
 <?
 }
 ?>
-<tr>	
-	<form action="teamedit.php" method="GET" > 
-	<td>Add</td> 
+<tr>
+	<form action="teamedit.php" method="GET" >
+	<td>Add</td>
 	<td><input type="text" name="name" /></td>
-	<td></td>		
+	<td></td>
 	<td><input type="text" size="3" name="colorr" /></td>
 	<td><input type="text" size="3" name="colorg" /></td>
 	<td><input type="text" size="3" name="colorb" /></td>
