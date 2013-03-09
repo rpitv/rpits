@@ -137,7 +137,7 @@ function blackBox(&$canvas, $o) {
 	$draw1->composite(Imagick::COMPOSITE_OVER, 0, 0, 5, 5, $tile);
 	$draw1->popPattern();
 	$draw1->setFillPatternURL('#gradient');
-	$draw1->rectangle(0, 0, $o['w'], $h);
+	$draw1->rectangle(0, 0, $o['w'], $o['h']);
 	$rectangle->drawImage($draw1);
 
 	$gradient = new Imagick();
