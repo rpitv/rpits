@@ -16,59 +16,59 @@
 		<blackBox name="body" x="200" y="490" w="1520" h="550" />
 		<slantRectangle name="title-bar" x="160" y="425" w="1600" h="70" color="red" />
 
-		<slantRectangle name="1-hSeedBox" x="240" y="555" w="120" h="70" color="#303030" />
-		<slantRectangle name="1-hTeamBar" x="325" y="555" w="450" h="70" color="#DF1B1D" />
-		<slantRectangle name="1-hScoreBox" x="740" y="555" w="120" h="70" color="#303030" />
-		<slantRectangle name="1-vSeedBox" x="240" y="630" w="120" h="70" color="#303030" />
-		<slantRectangle name="1-vTeamBar" x="325" y="630" w="450" h="70" color="#EE0000" />
-		<slantRectangle name="1-vScoreBox" x="740" y="630" w="120" h="70" color="#303030" />
+		<slantRectangle name="1-tSeedBox" x="240" y="555" w="120" h="70" color="#303030" />
+		<slantRectangle name="1-tTeamBar" x="325" y="555" w="450" h="70" color="#DF1B1D" />
+		<slantRectangle name="1-tScoreBox" x="740" y="555" w="120" h="70" color="#303030" />
+		<slantRectangle name="1-bSeedBox" x="240" y="630" w="120" h="70" color="#303030" />
+		<slantRectangle name="1-bTeamBar" x="325" y="630" w="450" h="70" color="#EE0000" />
+		<slantRectangle name="1-bScoreBox" x="740" y="630" w="120" h="70" color="#303030" />
 
 
-		<slantRectangle name="2-hSeedBox" x="240" y="855" w="120" h="70" color="#303030" />
-		<slantRectangle name="2-hTeamBar" x="325" y="855" w="450" h="70" color="#004737" />
-		<slantRectangle name="2-hScoreBox" x="740" y="855" w="120" h="70" color="#303030" />
-		<slantRectangle name="2-vSeedBox" x="240" y="930" w="120" h="70" color="#303030" />
-		<slantRectangle name="2-vTeamBar" x="325" y="930" w="450" h="70" color="#C4112F" />
-		<slantRectangle name="2-vScoreBox" x="740" y="930" w="120" h="70" color="#303030" />
+		<slantRectangle name="2-tSeedBox" x="240" y="855" w="120" h="70" color="#303030" />
+		<slantRectangle name="2-tTeamBar" x="325" y="855" w="450" h="70" color="#004737" />
+		<slantRectangle name="2-tScoreBox" x="740" y="855" w="120" h="70" color="#303030" />
+		<slantRectangle name="2-bSeedBox" x="240" y="930" w="120" h="70" color="#303030" />
+		<slantRectangle name="2-bTeamBar" x="325" y="930" w="450" h="70" color="#C4112F" />
+		<slantRectangle name="2-bScoreBox" x="740" y="930" w="120" h="70" color="#303030" />
 
 
-		<slantRectangle name="C-hSeedBox" x="1040" y="705" w="120" h="70" color="#303030" />
-		<slantRectangle name="C-hTeamBar" x="1125" y="705" w="450" h="70" color="#606060" />
-		<slantRectangle name="C-hScoreBox" x="1540" y="705" w="120" h="70" color="#303030" />
-		<slantRectangle name="C-vSeedBox" x="1040" y="780" w="120" h="70" color="#303030" />
-		<slantRectangle name="C-vTeamBar" x="1125" y="780" w="450" h="70" color="#606060" />
-		<slantRectangle name="C-vScoreBox" x="1540" y="780" w="120" h="70" color="#303030" />
+		<slantRectangle name="C-tSeedBox" x="1040" y="705" w="120" h="70" color="#303030" />
+		<slantRectangle name="C-tTeamBar" x="1125" y="705" w="450" h="70" color="#606060" />
+		<slantRectangle name="C-tScoreBox" x="1540" y="705" w="120" h="70" color="#303030" />
+		<slantRectangle name="C-bSeedBox" x="1040" y="780" w="120" h="70" color="#303030" />
+		<slantRectangle name="C-bTeamBar" x="1125" y="780" w="450" h="70" color="#606060" />
+		<slantRectangle name="C-bScoreBox" x="1540" y="780" w="120" h="70" color="#303030" />
 
 	</geo>
 	<overlay>
 		<shadowText name="titleText" x="160" y="430" w="1600" h="60" gravity="center" font="fontN" color="white" text="ECAC Women's Hockey Championship Bracket" />
 
-		<shadowText name="3-label" x="240" y="515" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #1" />
-		<shadowText name="3-vScore" x="740" y="560" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-hScore" x="740" y="635" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-vScore" x="240" y="560" w="120" h="60" gravity="center" font="fontN" color="white" text="1." />
-		<shadowText name="3-hScore" x="240" y="635" w="120" h="60" gravity="center" font="fontN" color="white" text="5." />
-		<shadowText name="3-vName" x="365" y="560" w="360" h="60" gravity="west" font="fontN" color="white" text="CORNELL" />
-		<shadowText name="3-hName" x="365" y="635" w="360" h="60" gravity="west" font="fontN" color="white" text="ST. LAWRENCE" />
-		<shadowText name="3-label" x="240" y="705" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 1:00 ET" />
+		<shadowText name="1-topLabel" x="240" y="515" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #1" />
+		<shadowText name="1-tScore" x="740" y="560" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="1-bScore" x="740" y="635" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="1-tSeed" x="240" y="565" w="120" h="50" gravity="center" font="fontN" color="white" text="1." />
+		<shadowText name="1-bSeed" x="240" y="640" w="120" h="50" gravity="center" font="fontN" color="white" text="5." />
+		<shadowText name="1-tName" x="365" y="565" w="360" h="50" gravity="west" font="fontN" color="white" text="CORNELL" />
+		<shadowText name="1-bName" x="365" y="640" w="360" h="50" gravity="west" font="fontN" color="white" text="ST. LAWRENCE" />
+		<shadowText name="1-botLabel" x="240" y="705" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 1:00 ET" />
 
-		<shadowText name="3-label" x="240" y="815" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #2" />
-		<shadowText name="3-vScore" x="740" y="860" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-hScore" x="740" y="935" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-vScore" x="240" y="860" w="120" h="60" gravity="center" font="fontN" color="white" text="2." />
-		<shadowText name="3-hScore" x="240" y="935" w="120" h="60" gravity="center" font="fontN" color="white" text="3." />
-		<shadowText name="3-vName" x="365" y="860" w="360" h="60" gravity="west" font="fontN" color="white" text="CLARKSON" />
-		<shadowText name="3-hName" x="365" y="935" w="360" h="60" gravity="west" font="fontN" color="white" text="HARVARD" />
-		<shadowText name="3-label" x="240" y="1005" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 4:00 ET" />
+		<shadowText name="2-topLabel" x="240" y="815" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #2" />
+		<shadowText name="2-tScore" x="740" y="860" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-bScore" x="740" y="935" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-tScore" x="240" y="865" w="120" h="50" gravity="center" font="fontN" color="white" text="2." />
+		<shadowText name="2-bScore" x="240" y="940" w="120" h="50" gravity="center" font="fontN" color="white" text="3." />
+		<shadowText name="2-tName" x="365" y="865" w="360" h="50" gravity="west" font="fontN" color="white" text="CLARKSON" />
+		<shadowText name="2-bName" x="365" y="940" w="360" h="50" gravity="west" font="fontN" color="white" text="HARVARD" />
+		<shadowText name="2-botLabel" x="240" y="1005" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 4:00 ET" />
 
-		<shadowText name="3-label" x="1040" y="665" w="620" h="35" gravity="center" font="fontN" color="white" text="Championship" />
-		<shadowText name="3-vScore" x="1540" y="710" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-hScore" x="1540" y="785" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
-		<shadowText name="3-vScore" x="1040" y="710" w="120" h="60" gravity="center" font="fontN" color="white" text=" " />
-		<shadowText name="3-hScore" x="1040" y="785" w="120" h="60" gravity="center" font="fontN" color="white" text=" " />
-		<shadowText name="3-vName" x="1165" y="710" w="360" h="60" gravity="west" font="fontN" color="white" text=" " />
-		<shadowText name="3-hName" x="1165" y="785" w="360" h="60" gravity="west" font="fontN" color="white" text=" " />
-		<shadowText name="3-label" x="1040" y="855" w="620" h="35" gravity="center" font="fontN" color="white" text="Sunday, March 10th - 1:00 ET" />
+		<shadowText name="C-topLabel" x="1040" y="665" w="620" h="35" gravity="center" font="fontN" color="white" text="Championship" />
+		<shadowText name="C-tScore" x="1540" y="710" w="120" h="60" gravity="center" font="fontN" color="white" text=" " />
+		<shadowText name="C-bScore" x="1540" y="785" w="120" h="60" gravity="center" font="fontN" color="white" text=" " />
+		<shadowText name="C-tScore" x="1040" y="715" w="120" h="50" gravity="center" font="fontN" color="white" text=" " />
+		<shadowText name="C-bScore" x="1040" y="790" w="120" h="50" gravity="center" font="fontN" color="white" text=" " />
+		<shadowText name="C-tName" x="1165" y="710" w="360" h="50" gravity="west" font="fontN" color="white" text=" " />
+		<shadowText name="C-bName" x="1165" y="785" w="360" h="50" gravity="west" font="fontN" color="white" text=" " />
+		<shadowText name="C-botLabel" x="1040" y="855" w="620" h="35" gravity="center" font="fontN" color="white" text="Sunday, March 10th - 1:00 ET" />
 
 
 	</overlay>
