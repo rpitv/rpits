@@ -87,14 +87,14 @@ $detailsModifier = 0;
 
 if ($size[0]) {
 
-	$portrait = array('w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+	$p = array('w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
 
 	if ($size[0] * 1.2 > $size[1]) {
 		$p['h'] = $size[1] / ($size[0] / $p['w']);
 		$p['y'] += 230 - $p['h'];
 	}
 
-	placeImage($canvas, $portrait);
+	placeImage($canvas, $p);
 } else {
 	$nameModifier = -150;
 	$detailsModifier = -220;
