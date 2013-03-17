@@ -166,6 +166,10 @@ function defaultText($o) {
 		$o['text'] = strtoupper($o['text']);
 	}
 
+	if($o['text'] == '') {
+		$o['text'] = ' ';
+	}
+
 	global $gravities, $fonts;
 	$text = new Imagick();
 	$text->setFont($fonts[$o['font']]);
