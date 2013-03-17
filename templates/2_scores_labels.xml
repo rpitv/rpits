@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+  <info>
+    <name>Score Lower Third</name>
+    <description></description>
+  </info>
+  <defs>
+    <color name="white">#FFFFFF</color>
+    <color name="blackbg">#303030</color>
+    <font name="fontN">fonts/GothamNarrow-Bold.otf</font>
+    <font name="fontX">fonts/GothamXNarrow-Bold.otf</font>
+    <font name="font">fonts/Gotham-Bold.ttf</font>
+  </defs>
+	<geo>
+
+		<blackBox name="body" x="200" y="710" w="1520" h="330" />
+		<slantRectangle name="title-bar" x="160" y="645" w="1600" h="70" color="red" />
+
+		<slantRectangle name="3-vTeamBar" x="375" y="785" w="500" h="70" color="#004737" />
+		<slantRectangle name="3-vScoreBox" x="240" y="770" w="180" h="100" color="#303030" />
+		<slantRectangle name="3-StatusBox" x="840" y="785" w="240" h="70" color="#303030" />
+		<slantRectangle name="3-hTeamBar" x="1045" y="785" w="500" h="70" color="#740F0A" />
+		<slantRectangle name="3-hScoreBox" x="1505" y="770" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="4-vTeamBar" x="375" y="935" w="500" h="70" color="#FF5200" />
+		<slantRectangle name="4-vScoreBox" x="240" y="920" w="180" h="100" color="#303030" />
+		<slantRectangle name="4-StatusBox" x="840" y="935" w="240" h="70" color="#303030" />
+		<slantRectangle name="4-hTeamBar" x="1045" y="935" w="500" h="70" color="#C4112F" />
+		<slantRectangle name="4-hScoreBox" x="1505" y="920" w="180" h="100" color="#303030" />
+	</geo>
+	<overlay>
+
+		<shadowText name="titleText" x="160" y="650" w="1600" h="60" gravity="center" font="fontN" color="white" text="Saturday Scoreboard" />
+
+		<shadowText name="2-label" x="200" y="745" w="1520" h="35" gravity="center" font="fontN" color="white" text="HEA Semifinal #2" />
+		<shadowText name="2-vScore" x="240" y="775" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-hScore" x="1505" y="775" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-vName" x="375" y="790" w="500" h="60" gravity="center" font="fontN" color="white" text="CLARKSON" />
+		<shadowText name="2-hName" x="1045" y="790" w="500" h="60" gravity="center" font="fontN" color="white" text="UNION" />
+		<shadowText name="2-Status" x="865" y="797" w="180" h="46" gravity="center" font="fontN" color="white" text="3:30 ET" />
+
+		<shadowText name="3-label" x="200" y="895" w="1520" h="35" gravity="center" font="fontN" color="white" text="ECAC Semifinal #2" />
+		<shadowText name="3-vScore" x="240" y="925" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="3-hScore" x="1505" y="925" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="3-vName" x="375" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="PRINCETON" />
+		<shadowText name="3-hName" x="1045" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="HARVARD" />
+		<shadowText name="3-Status" x="865" y="947" w="180" h="46" gravity="center" font="fontN" color="white" text="4:00 ET" />
+	</overlay>
+
+</template>
