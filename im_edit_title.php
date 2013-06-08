@@ -3,7 +3,6 @@
 <script src="js/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>-->
 <?php
 include("include.php");
-include("im_render_queue.php");
 
 $titleId = $_GET["id"];
 
