@@ -16,10 +16,14 @@ $id = $_GET["id"]; // Get id (to return status on)
 <h1>Queue:</h1>
 <p id="list"></p>
 
-<script type="text/javascript">	
+<script type="text/javascript">
+
+function addToQueue(){
 	renderQueue.push("<?= $tid ?>"); // Add title id to the queue
 	$('#list').innerHTML = $('#list').innerHTML += '<br/><span tid="<?= $tid ?>"> <?= $tid ?> </span>';
-	
+};
+
+function processQueue(){
 	while ( renderQueue.length() > 0 )
 	{
 		$.ajax({	// Render something
@@ -31,6 +35,6 @@ $id = $_GET["id"]; // Get id (to return status on)
 			}
 		});
 	}
-	
+};
 
 </script>
