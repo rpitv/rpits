@@ -3,6 +3,7 @@
 <script src="js/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>-->
 <?php
 include("include.php");
+include("im_render_queue.php");
 
 $titleId = $_GET["id"];
 
@@ -74,40 +75,27 @@ echo '</div>'
 			data: $(this).serializeArray(),
 			success: function(data) {
 				form.children("input:last").attr("value", data);
-
-				/*var startMilliseconds = new Date().getTime();
-          $.ajax({
-            type:"GET",
-            url: "render_template.php",
-            success: function(){
-              var response = new Date().getTime() - startMilliseconds
-              form.children("input:last").attr("value", "Updated - Done - " + response + " ms");
-            }
-          });*/
 			}
 		});
     return false;
 	});
 	$("#render").click(function() {
-		var button = $(this).html("Rendering");
-    $.ajax({	/////////////////////////////////////////////////////////////////////////////////////////////////////////////// TODO: Render Queue Call Here
-			type: "GET",
-			url: "im_render_title.php?id="+$(this).attr("tid"),
-			//data: $(this).serializeArray(),
+		var button = $(this).html("Queueing Render");
+    $.ajax({	// Post info to queue
+			type: "POST",
+			url: "im_render_queue.php",
+			data: $(this).attr("tid"),	// Send title id to queue
 			success: function(data) {
-				button.html("Done Rendering");
-
-				/*var startMilliseconds = new Date().getTime();
-          $.ajax({
-            type:"GET",
-            url: "render_template.php",
-            success: function(){
-              var response = new Date().getTime() - startMilliseconds
-              form.children("input:last").attr("value", "Updated - Done - " + response + " ms");
-            }
-          });*/
+				button.html("Render Queued");
 			}
 		});
+	$.ajax({	// Get status of render
+			type: "GET",
+			url: "im_render_queue.php?id="+$(this).attr("tid"), // Inquire about title id
+			success: function(data) {
+				button.html("Done Rendering");
+			}
+	});
     return false;
 	});
 </script>

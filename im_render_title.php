@@ -27,6 +27,7 @@ $canvas->newImage(1920, 1080, "none", "png");
 
 $xml = new SimpleXMLElement($contents);
 
+// Compose the image from the template
 if ($xml->geo->blackBox) {
 	foreach ($xml->geo->blackBox as $box) {
 
@@ -65,14 +66,17 @@ if ($xml->overlay->placeImage) {
 	}
 }
 
+// Display canvas as png image when php page is requested.
 header("Content-Type: image/png");
 echo $canvas;
 
+// Generate thumbnail image of the title for UI purposes.
 $thumb = $canvas->clone();
 $thumb->cropImage(1440, 1080, 0, 0);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
 $thumb->writeImage('thumbs/' . $titleRow["filename"] . '.png');
 
+// Generate the output file of the title.
 $canvas->setImageDepth(8);
 $canvas->writeImage('out/' . $titleRow["filename"] . '.png');
 ?>
