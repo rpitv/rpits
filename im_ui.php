@@ -65,6 +65,8 @@ if (!$eventId) {
 	<div id="actions"></div>
 	<div id="log"></div>
 	<div id="loadtarget"></div>
+	
+	<!-- test commit on graphics machine -->
 	<?php
 }
 ?>
