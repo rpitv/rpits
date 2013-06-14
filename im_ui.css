@@ -22,7 +22,7 @@ body > div
 #tabstrip
 {
   background:#AAAAAA;
-	height:75px;
+  height:75px;
   top:150px;
   left:25px;
 }
@@ -123,11 +123,11 @@ body > div
 }
 .tab
 {
-	background-color:white;
+  background-color:white;
   position:relative;
   float:left;
   height:20px;
-	bottom:0px;
+  bottom:0px;
   margin-top:38px;
   margin-right:4px;
   padding:10px;
@@ -138,8 +138,8 @@ body > div
 }
 .active
 {
-    border-bottom:none;
-    padding-bottom:5px;
+  border-bottom:none;
+  padding-bottom:5px;
 }
 #preview img
 {
@@ -191,27 +191,49 @@ edit_target
 {
   display:block;
 }
-#add-title{
+#add-title
+{
   height:50px;
   bottom:0px;
   position:absolute;
   background-color:black;
 }
-#eventSelector {
-	position:absolute;
-	padding:10px;
-	border: solid 3px black;
-	-webkit-box-shadow: 5px 5px 5px #444;
-	-webkit-border-radius: 10px;
+#eventSelector
+{
+  position:absolute;
+  padding:10px;
+  border: solid 3px black;
+  -webkit-box-shadow: 5px 5px 5px #444;
+  -webkit-border-radius: 10px;
 }
 
-#eventSelector ul {
-	list-style: none;
-	margin:0px;
-	padding:0px;
+#eventSelector ul
+{
+  list-style: none;
+  margin:0px;
+  padding:0px;
 }
 
-#eventSelector h2 {
-	text-align:center;
-	margin: 0px;
+#eventSelector h2
+{
+  text-align:center;
+  margin: 0px;
 }
+
+#renderQueue
+{
+  float: left;
+  width: 140px;
+  top: 5%;
+  height: 95:%;
+  background-color: blue;
+}
+
+.queueItem
+{
+  padding: 3px;
+  float: left;
+  clear: both;
+  /*background-color: rgb(0,255,0);*/
+}
+

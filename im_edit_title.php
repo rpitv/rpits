@@ -79,23 +79,8 @@ echo '</div>'
     return false;
 	});
 	$("#render").click(function() {
-		var button = $(this).html("Queueing Render");
-    $.ajax({	// Post info to queue
-			type: "POST",
-			url: "im_render_queue.php",
-			data: $(this).attr("tid"),	// Send title id to queue
-			success: function(data) {
-				button.html("Render Queued");
-			}
-		});
-	$.ajax({	// Get status of render
-			type: "GET",
-			url: "im_render_queue.php?id="+$(this).attr("tid"), // Inquire about title id
-			success: function(data) {
-				button.html("Done Rendering");
-			}
-	});
-    return false;
+    window.renderQueue.addToQueue(<?= $titleId ?>);
+		var button = $(this).html("Render Queued");
 	});
 </script>
 

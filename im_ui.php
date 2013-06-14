@@ -4,6 +4,7 @@
 <script src="js/jquery.scrollintoview.js" type="text/javascript"></script>
 <script src="im.js" type="text/javascript"></script>
 <script src="im_ui.js" type="text/javascript"></script>
+<script src="renderQueue.js" type="text/javascript"></script>
 
 <?php
 include("include.php");
@@ -65,8 +66,13 @@ if (!$eventId) {
 	<div id="actions"></div>
 	<div id="log"></div>
 	<div id="loadtarget"></div>
-	
-	<!-- test commit on graphics machine -->
+	<div id="renderQueue">
+    <div class="label">Queue</div>
+    <button id="test" name="test" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.addToQueue('string1')">Test</button>
+    <button id="prune" name="prune" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.pruneQueue()">Prune</button>
+    <button id="process" name="process" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.processQueue(0)">Process</button>
+    <button id="destroy" name="destroy" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.destroyQueue()">Destroy</button>
+  </div>
 	<?php
 }
 ?>
