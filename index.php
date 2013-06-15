@@ -23,11 +23,7 @@ include('init.php');
 	<li><a href="im_stype.php">Stat Type label editor</a> - Edit labels associated with stats</li>
 	<li><a href="im_billboards.php">Billboards Editor</a> - Full-frame 1920x1080 PNGs sent as is to the keyer</li>
 </ul>
-<p>Outdated/Discontinued Pages</p>	
-<ul>
-	<li><a href="ui.php">Titles UI (GD/SVG based)</a> - Encapsulate SD titles in an SVG and send to keyer, no longer supported
-	<li><a href="generaltitle.php">General Title Generator</a> - Edit non-player titles such as lineups, opening titles, statistics, PP/PK, etc</li>
-</ul>
+
 <img src="imagick.php" style="width:700px;height:60px;" alt="If this text is visible, your Imagick install is not configured correctly." />
 
 </body>
