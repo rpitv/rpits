@@ -166,12 +166,12 @@ $filename = $row["num"] . $row["first"] . $row["last"];
 
 $canvas->setImageDepth(8);
 
-$canvas->writeImage('out/' . $filename . '.png');
+$canvas->writeImage(realpath('out/' . $filename . '.png'));
 
 $thumb = $canvas->clone();
 $thumb->cropImage(318, 239, 398, 794);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage('thumbs/' . $filename . '.png');
+$thumb->writeImage(realpath('thumbs/' . $filename . '.png'));
 
 header("Content-Type: image/png");
 echo $canvas;

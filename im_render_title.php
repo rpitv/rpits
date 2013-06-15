@@ -71,8 +71,8 @@ echo $canvas;
 $thumb = $canvas->clone();
 $thumb->cropImage(1440, 1080, 0, 0);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage('thumbs/' . $titleRow["filename"] . '.png');
+$thumb->writeImage(realpath('thumbs/' . $titleRow["filename"] . '.png'));
 
 $canvas->setImageDepth(8);
-$canvas->writeImage('out/' . $titleRow["filename"] . '.png');
+$canvas->writeImage(realpath('out/' . $titleRow["filename"] . '.png'));
 ?>
