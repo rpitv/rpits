@@ -21,7 +21,7 @@ if (!$eventId) {
 			while ($row = mysql_fetch_array($result)) {
 				echo('<li><a href="im_ui.php?eventId=' . $row["id"] . '">' . $row["name"] . ' (' . $row["team1"] . ' vs. ' . $row["team2"] . ')</a></li>');
 			}
-			echo('<li><a href="#" id="editEvents">Edit / Add /Remove Events</a></li>');
+			echo('<li><a href="#" id="editEvents">Edit / Add / Remove Events</a></li>');
 			?>
 		</ul>
 		<div id="eventEditor"></div>
@@ -73,6 +73,11 @@ if (!$eventId) {
     <button id="process" name="process" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.processQueue(0)">Process</button>
     <button id="destroy" name="destroy" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.destroyQueue()">Destroy</button>
   </div>
+
+<script type="text/javascript"> // Used for page leave checking
+  var eventIdNum = <?= $eventId ?>;
+</script>
+
 	<?php
 }
 ?>

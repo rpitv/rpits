@@ -88,7 +88,9 @@
 
 $(window).on('beforeunload', function()
 {
-  return "WARNING: Leaving or reloading will mess up the queue.\n\nQueueing is very important in the titling system and the UK.\n";
+  if (eventIdNum) { // Only warn when in the LIVE UI
+    return "WARNING: Leaving or reloading will mess up the queue.\n\nQueueing is very important in the titling system and the UK.\n";
+  }
 });
 
 
