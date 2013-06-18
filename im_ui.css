@@ -223,10 +223,12 @@ edit_target
 #renderQueue
 {
   float: left;
+  text-align: center;
   width: 140px;
-  top: 5%;
-  height: 95:%;
-  background-color: blue;
+  top: 25px;
+  min-height: 250px;
+  background-color: #AAA ;
+  border: solid 3px black;
 }
 
 .queueItem
@@ -234,6 +236,55 @@ edit_target
   padding: 3px;
   float: left;
   clear: both;
-  /*background-color: rgb(0,255,0);*/
 }
 
+@font-face
+{
+  font-family: IconicFill;
+  src: url('assets/iconic_fill.svg') format("svg"),
+  url('assets/iconic_fill.otf') format("opentype");
+}
+
+#queueMenu
+{
+  min-height: 25px;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  border-top: solid black 2px;
+  border-bottom: solid black 2px;
+  background-color: blue;
+}
+.queueMenuButton
+{
+  display: inline-block;
+  position: relative;
+  width: 35px;
+  font-family: IconicFill;
+  font-size: 24pt;
+  padding: 2px;
+  padding-top: 0;
+  padding-bottom: 8px;
+  margin: 2px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: red;
+}
+.queueMenuButton:hover
+{
+  
+}
+
+#process:before
+{
+  content:'\e048';
+}
+#prune:before
+{
+  content:'\e009';
+}
+#destroy:before
+{
+  content:'\2714';
+}

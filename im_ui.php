@@ -68,10 +68,14 @@ if (!$eventId) {
 	<div id="loadtarget"></div>
 	<div id="renderQueue">
     <div class="label">Queue</div>
-    <button id="test" name="test" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.addToQueue('string1')">Test</button>
-    <button id="prune" name="prune" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.pruneQueue()">Prune</button>
+    <div id="queueMenu">
+      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0)"></div>
+      <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()"></div>
+      <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()"></div>
+    </div>
+    <!--<button id="prune" name="prune" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.pruneQueue()">Prune</button>
     <button id="process" name="process" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.processQueue(0)">Process</button>
-    <button id="destroy" name="destroy" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.destroyQueue()">Destroy</button>
+    <button id="destroy" name="destroy" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.destroyQueue()">Destroy</button>-->
   </div>
 
 <script type="text/javascript"> // Used for page leave checking
