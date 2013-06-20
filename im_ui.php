@@ -69,9 +69,9 @@ if (!$eventId) {
 	<div id="renderQueue">
     <div class="label">Queue</div>
     <div id="queueMenu">
-      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0)"></div>
-      <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()"></div>
-      <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()"></div>
+      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0)">&#xe047;</div>
+      <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()">&#x2796;</div>
+      <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()">&#x2713;</div>
     </div>
     <!--<button id="prune" name="prune" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.pruneQueue()">Prune</button>
     <button id="process" name="process" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.processQueue(0)">Process</button>

@@ -263,10 +263,10 @@ edit_target
   width: 35px;
   font-family: IconicFill;
   font-size: 24pt;
-  padding: 2px;
+  padding: 4px;
   padding-top: 0;
   padding-bottom: 8px;
-  margin: 2px;
+  margin: 0px;
   margin-top: 0;
   margin-bottom: 0;
   background-color: red;
@@ -275,16 +275,24 @@ edit_target
 {
   
 }
+/*
+[data-icon]:before
+{
+  font-family: IconicFill;
+  content: attr(data-icon);
+}
 
 #process:before
 {
-  content:'\e048';
+  content:'\e047';
+  content: attr(data-icon);
 }
 #prune:before
 {
-  content:'\e009';
+  content:'\2796';
+  content: attr(data-icon);
 }
 #destroy:before
 {
-  content:'\2714';
-}
+  content:'\2713';
+}*/
