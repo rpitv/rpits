@@ -4,7 +4,8 @@
     queue: [],
     process: 0,
     
-    addToQueue: function(tid) // Add a render job to the queue
+    /////////////////////////////////////////////////////////////
+    addToQueue: function(tid) // Add a render job to the queue //
     {
       if (this.queue.length == 0) // Show queue if it was hidden
       {
@@ -23,8 +24,9 @@
         this.addToQueue(tid);
       }
     },
-
-    processQueue: function(index, recursive) // Start rendering queue (single pass)
+    
+    //////////////////////////////////////////////////////////////////////////////////
+    processQueue: function(index, recursive) // Start rendering queue (single pass) //
     {
       if (this.queue.length == 0) // Don't mess with an empty queue
       {
@@ -34,15 +36,13 @@
       else if ((process == 1) && (recursive == 0)) // If processing is happening when called from the UI...
       {
         process = 0; // Pause the processing (naive)
-        $("#process").html("&#xe047;");
+        $("#process").html("&#xe047;"); // Play Icon
       }
       else
       {
         process = 1; // Processing starts
-        $("#process").html("&#xe049;");
+        $("#process").html("&#xe049;"); // Pause Icon
       }
-
-      //alert("This allows the page to render, but there must be a better way.");
 
     	$.ajax({	// Render a title 
     		type: "GET",
@@ -71,17 +71,18 @@
           else
           {
             process = 0; // Processing has ended
-            $("#process").html("&#xe047;");
+            setTimeout('$("#process").html("&#xe047;")', 801); // Play Icon (timed after color updates)
           }
         }.bind(renderQueue)
     	});
     },
 
-    pruneQueue: function() // Remove finished jobs from list
+    ///////////////////////////////////////////////////////////
+    pruneQueue: function() // Remove finished jobs from list //
     {
       if (this.queue.length == 0)
       {
-        $("#renderQueue").fadeOut(400); // Hide empty queue
+        setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
       }
       $(".queueItem").each( function(i)
       {
@@ -94,7 +95,8 @@
       });
     },
 
-    destroyQueue: function() // Erase queue without predjudice
+    /////////////////////////////////////////////////////////////
+    destroyQueue: function() // Erase queue without predjudice //
     {
       if(confirm("Permanently remove all jobs?"))
       {
@@ -120,6 +122,6 @@ $(window).on('beforeunload', function()
 
 $(document).ready( function()
 {
-  $("#renderQueue").hide();
+  $("#renderQueue").hide(); // Hide queue status box until it is needed.
 });
 
