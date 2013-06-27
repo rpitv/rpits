@@ -5,6 +5,11 @@
     
     addToQueue: function(tid) // Add a render job to the queue
     {
+      if (this.queue.length == 0) // Show queue if it was hidden
+      {
+        $("#renderQueue").fadeIn(400);
+      }
+
       if ($("#q"+tid).length == 0) // check for duplicates
       { 
         var startNum = this.queue.push(tid); // Add title id to the queue
@@ -39,10 +44,12 @@
         async: false,
         timeout: 20000,
     		success: function(data) {
-          //$("#q"+this.queue[index]).hide()
-          $("#q"+this.queue[index]).css("background-color", "00FF00"); // Mark as green on list
-          //$("#q"+this.queue[index]).show();
-          this.queue.splice(index,1); // Remove first element from queue (it is now doneii)
+          $("#q"+this.queue[index]).fadeOut(400, function(){
+            $(this).css("background-color", "00FF00"); // Mark as green on the list
+          });
+          $("#q"+this.queue[index]).fadeIn(400);
+          
+          this.queue.splice(index,1); // Remove first element from queue (it is now done)
           }.bind(renderQueue),
         error: function() {
     			$("#q"+this.queue[index]).css("background-color", "FF0000"); // Mark as red on list
@@ -64,11 +71,17 @@
 
     pruneQueue: function() // Remove finished jobs from list
     {
+      if (this.queue.length == 0)
+      {
+        $("#renderQueue").fadeOut(400); // Hide empty queue
+      }
       $(".queueItem").each( function(i)
       {
         if ($(this).css("background-color") == "rgb(0, 255, 0)")
         {
-          $(this).remove();
+          $(this).fadeOut(400, function(){
+            $(this).remove();
+          });
         };
       });
     },
@@ -82,6 +95,7 @@
         {
           $(this).remove();
         });
+        $("#renderQueue").fadeOut(400); // Hide empty queue
       }
     }
 	};
@@ -98,6 +112,6 @@ $(window).on('beforeunload', function()
 
 $(document).ready( function()
 {
-
+  $("#renderQueue").hide();
 });
 
