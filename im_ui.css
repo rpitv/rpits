@@ -261,6 +261,7 @@ edit_target
   display: inline-block;
   position: relative;
   width: 35px;
+  cursor: pointer;
   font-family: IconicFill;
   font-size: 24pt;
   padding: 4px;
