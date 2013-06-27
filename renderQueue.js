@@ -2,6 +2,7 @@
 {
 	window.renderQueue = {
     queue: [],
+    process: 0,
     
     addToQueue: function(tid) // Add a render job to the queue
     {
@@ -23,15 +24,21 @@
       }
     },
 
-    processQueue: function(index) // Start rendering queue (single pass)
+    processQueue: function(index, recursive) // Start rendering queue (single pass)
     {
       if (this.queue.length == 0) // Don't mess with an empty queue
       {
         alert("Render Queue is already complete!");
         return;
       }
+      else if ((process == 1) && (recursive == 0)) // If processing is happening when called from the UI...
+      {
+        process = 0; // Pause the processing (naive)
+        $("#process").html("&#xe047;");
+      }
       else
       {
+        process = 1; // Processing starts
         $("#process").html("&#xe049;");
       }
 
@@ -41,7 +48,7 @@
     		type: "GET",
     		url: "im_render_title.php?id="+this.queue[index],
         accepts: "image/png",
-        async: false,
+        async: true,
         timeout: 20000,
     		success: function(data) {
           $("#q"+this.queue[index]).fadeOut(400, function(){
@@ -57,12 +64,13 @@
     		}.bind(renderQueue),
         complete: function() {
           // Check before recursively calling
-          if ((this.queue.length != 0) && (this.queue.length > index))
+          if ((this.queue.length != 0) && (this.queue.length > index) && (process == 1))
           {
-            setTimeout(this.processQueue(index), 0);
+            setTimeout(this.processQueue(index, 1));
           }
           else
           {
+            process = 0; // Processing has ended
             $("#process").html("&#xe047;");
           }
         }.bind(renderQueue)
