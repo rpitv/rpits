@@ -63,7 +63,7 @@ foreach ($xml->overlay->placeImage as $image) {
 
 echo '</div>'
 ?><br style="clear:both" />
-<button tid="<?= $titleId ?>" id="render" name="Render" style="width:200px;margin-bottom:70px;margin-top:70px;" >Render</button>
+<button tid="<?= $titleId ?>" id="render" name="Render" style="position: fixed; bottom: 48.75%; width: 150px;">Render</button>
 <script type="text/javascript">
 	$(".edit_form").submit(function() {
 		var form = $(this);
