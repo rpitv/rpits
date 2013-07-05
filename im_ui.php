@@ -44,8 +44,6 @@ if (!$eventId) {
 	}
 	?>
 
-	<div id="program"><div class="label">Program</div><div class="image"></div></div>
-	<div id="preview"><div class="label">Preview</div><div class="image"></div></div>
 	<div id="edit"></div>
 	<div id="pane">
 	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
@@ -64,8 +62,6 @@ if (!$eventId) {
 	</div>
 	<div id="input"><input type="text" /></div>
 	<div id="actions"></div>
-	<div id="log"></div>
-	<div id="loadtarget"></div>
 	<div id="renderQueue">
     <div class="label">Queue</div>
     <button id="test" name="test" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.addToQueue('string1')">Test</button>
