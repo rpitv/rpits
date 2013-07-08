@@ -63,7 +63,7 @@ foreach ($xml->overlay->placeImage as $image) {
 
 echo '</div>'
 ?><br style="clear:both" />
-<button tid="<?= $titleId ?>" id="render" name="Render" style="position: fixed; bottom: 48.75%; width: 150px;">Render</button>
+<button tid="<?= $titleId ?>" id="render" name="Render"> <!--style="position: fixed; bottcm: 48.75%; width: 150px;">-->Force Render</button>
 <script type="text/javascript">
 	$(".edit_form").submit(function() {
 		var form = $(this);
@@ -74,6 +74,7 @@ echo '</div>'
 			data: $(this).serializeArray(),
 			success: function(data) {
 				form.children("input:last").attr("value", data);
+        window.renderQueue.addToQueue(<?= $titleId ?>);
 			}
 		});
     return false;
