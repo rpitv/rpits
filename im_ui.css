@@ -79,6 +79,10 @@ body > div
   /*margin: 0px -12px;*/
   vertical-align:middle;
 }
+.ui-sortable
+{
+  cursor:default;
+}
 .ui-sortable-helper
 {
   background:white;
@@ -124,7 +128,7 @@ body > div
 }
 .tab
 {
-  background-color:white;
+  background-color:#ccc;
   position:relative;
   float:left;
   height:20px;
@@ -136,9 +140,12 @@ body > div
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border:2px solid black;
+  cursor: default;
+  -webkit-user-select: none;
 }
 .active
 {
+  background-color:white;
   border-bottom:none;
   padding-bottom:5px;
 }
@@ -156,7 +163,7 @@ body > div
   top:0px;
   overflow:hidden;
 }
-edit_target
+.edit_target
 {
   overflow:scroll;
   position:absolute;
@@ -221,6 +228,7 @@ edit_target
   margin: 0px;
 }
 
+
 #renderQueue
 {
   float: left;
@@ -230,13 +238,22 @@ edit_target
   min-height: 250px;
   background-color: #AAA ;
   border: solid 3px black;
+  -webkit-user-select: none;
+  cursor: default;
 }
 
 .queueItem
 {
-  padding: 3px;
+  padding: 0px;
+  padding-left: 7px;
+  padding-right: 75px;
   float: left;
   clear: both;
+  background-color: #ccc;
+}
+.queueItem pre
+{
+  margin-left: 5px;
 }
 
 @font-face
@@ -256,6 +273,7 @@ edit_target
   border-top: solid black 2px;
   border-bottom: solid black 2px;
   background-color: blue;
+  -webkit-user-select: none;
 }
 .queueMenuButton
 {
@@ -272,10 +290,30 @@ edit_target
   margin-top: 0;
   margin-bottom: 0;
   background-color: red;
+  -webkit-user-select: none;
 }
 .queueMenuButton:hover
 {
   
+}
+
+.queueItemButton
+{
+  display: inline-block;
+  position: relative;
+  float: left;
+  cursor: pointer;
+  font-family: IconicFill;
+  font-size: 16pt;
+
+  padding: 0;
+  padding-right: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+  margin: 0;
+  margin-top: 7px;
+  margin-right: 3px;
+  background-color: orange;
 }
 /*
 [data-icon]:before

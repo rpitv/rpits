@@ -16,7 +16,7 @@
       { 
         var startNum = this.queue.push(tid); // Add title id to the queue
         var titleName = $("#"+tid).text(); // Get actual title for queue status box
-    	  $('#renderQueue').append('<span id="q'+ tid +'" class="queueItem"><pre> ' + titleName +' </pre></span>');
+    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + (startNum-1) + ')">&#xe05a;</div><div class="queueItemButton">&#x2191;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
       {
@@ -25,6 +25,29 @@
       }
     },
     
+    /////////////////////////////////////////////////////////////////////////
+    removeFromQueue: function(index) // Remove a single item from the queue //
+    {
+      if (!this.queue[index]) // See if it is even there
+      {
+        this.pruneQueue(); // prune queue if not
+        return;
+      }
+
+      var tempID = this.queue[index];
+      this.queue.splice(index, 1);
+
+      if (this.queue.length == 0)
+      {
+        setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
+      }
+
+      $("#q"+tempID).fadeOut(400, function(){
+        $("#q"+tempID).remove();
+      });
+
+    },
+
     //////////////////////////////////////////////////////////////////////////////////
     processQueue: function(index, recursive) // Start rendering queue (single pass) //
     {
