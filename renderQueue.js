@@ -16,7 +16,7 @@
       { 
         var startNum = this.queue.push(tid); // Add title id to the queue
         var titleName = $("#"+tid).text(); // Get actual title for queue status box
-    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + (startNum-1) + ')">&#xe05a;</div><div class="queueItemButton">&#x2191;</div><pre> ' + titleName + '</pre></div>');
+    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#xe05a;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')">&#xe043;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
       {
@@ -25,9 +25,11 @@
       }
     },
     
-    /////////////////////////////////////////////////////////////////////////
-    removeFromQueue: function(index) // Remove a single item from the queue //
+    /////////////////////////////////////////////////////////////////////////////
+    removeFromQueue: function(castaway) // Remove a single item from the queue //
     {
+      var index = this.queue.indexOf(castaway);
+
       if (!this.queue[index]) // See if it is even there
       {
         this.pruneQueue(); // prune queue if not
@@ -46,6 +48,27 @@
         $("#q"+tempID).remove();
       });
 
+    },
+
+    ////////////////////////////////////////////////////////////////////////////
+    moveInQueue: function(destination, traveler) // Move an item in the queue //
+    {
+      var startIndex = this.queue.indexOf(traveler);
+
+      var tempItem = this.queue.splice(startIndex,1);
+      var tempName = this.queue[destination];
+
+      //alert(tempItem[0]);
+      //alert(tempName);
+
+      $("#q"+tempItem[0]).fadeOut(400, function(){
+        $(this).insertBefore( $("#q"+tempName) );
+        $(this).fadeIn(400);
+      });
+      
+      this.queue.splice(destination, 0, tempItem[0]);
+
+      //alert(this.queue[destination]);
     },
 
     //////////////////////////////////////////////////////////////////////////////////
