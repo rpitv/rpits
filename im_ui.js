@@ -120,7 +120,7 @@ ui.titleObjectShim = function(el) {
 	title.id = el.attr('id');
 	
 	return title;
-}
+};
 
 ui.applyListeners = function() {
 	$(document).keydown(function(event) {
@@ -132,11 +132,10 @@ ui.applyListeners = function() {
 		}
 		
 		// Spacebar, takes on/off of program
-		if (event.keyCode == RPITS.constants.KEYCODE.ENTER) {
+		if (event.keyCode == RPITS.constants.KEYCODE.SPACEBAR) {
 			event.preventDefault();
 			if(/*ui.program.active()*/ $('.on-program').length > 0)	{
 				var activeEl = $(".on-program");
-				//var activeTitle = ui.titles.getTitleByIdType(activeEl.data('id'),activeEl.data('type'));
 				var activeTitle = ui.titleObjectShim(activeEl);
 				ui.program.off();
 				activeEl.removeClass("on-program");
@@ -152,130 +151,76 @@ ui.applyListeners = function() {
 				//else
 				//  $("#options").load('putter.php?command=dirty_level/0');
 			}
-		}
-		// c, cuts without taking down existing graphic.
-		else if (event.keyCode == '67')
-		{
+		}	else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C)	{ 	// c, cuts without taking down existing graphic.
 			$(".on-program").removeClass("on-program");
-			$(".selected").addClass("on-program");
-			$("#program").addClass("on");
-			$("#program .label").text("Program - " + $(".selected").text());
-			$("#program .image").html($("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
-			$("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
-			{
-				$("#log").append($("#loadtarget").html());
-				$("#log").animate({
-					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
-				}, 200);
-			});
-		}
-
-		// Enter, pops up search/input window
-		else if(event.keyCode == '13') // Enter
-		{
+			var activeEl = $(".selected");
+			activeEl.addClass("on-program");
+			activeTitle = ui.titleObjectShim(activeEl);
+			ui.program.on(activeTitle);
+			ui.keyer.put(activeTitle);
+		}	else if(event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
-			if($("#input").is(":visible"))
-			{
+			if($("#input").is(":visible")) {
 				$("#input input").blur();
 				$("#input").hide();
 				var data = $("#input input").val();
 				$("li").removeClass("selected");
 				var target = $("li:visible:containsC("+data+"):first");
 				target.addClass("selected");
-				target.scrollintoview({
-					duration: 0
-				});
+				target.scrollintoview({duration: 0});
 				$("li").removeClass("on-edit");
 				$("li").removeClass("on-preview");
 				target.addClass("on-preview");
-				$("#preview .label").text("Preview - " + target.text());
-				//$("#preview .edit_target").html("");
+				
+				ui.preview.on(ui.titleObjectShim(target));
 				$("#edit").hide();
-				$("#preview .image").html($("<img src=\"" + target.children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
-			}
-			else
-			{
+			}	else {
 				$("#input").show();
 				$("#input input").focus();
 				$("#input input").val("");
 			}
-		}
-		// R key, for previewing
-		else if(event.keyCode == '82')
-		{
+			
+		}	else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_R) { // R key, for previewing
 			$("li").removeClass("on-edit");
 			$("li").removeClass("on-preview");
-			$(".selected").addClass("on-preview");
-			$("#preview .label").text("Preview - " + $(".selected").text());
-			//$("#preview .edit_target").html("");
+			var activeEl =	$(".selected")
+			activeEl.addClass("on-preview");
+			ui.preview.on(ui.titleObjectShim(activeEl));
 			$("#edit").hide();
-			$("#preview .image").html($("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
-		}
-
-		// E key, for editing
-		else if(event.keyCode == '69')
-		{
+			
+		}	else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
 			$("li").removeClass("on-preview");
 			$("li").removeClass("on-edit");
 			$(".selected").addClass("on-edit");
 			$("#preview .label").text("Editing " + $(".selected").text());
-			if($(".selected").attr("type")=="general")
-			{
-				//$("#preview .image").html("");
-				$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"),function()
-				{
+			if($(".selected").attr("type") == "general") {
+				$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"), function() {
 					$("#edit").show();
 				});
-
-
-			}
-			else
-			{
+			}	else {
+				ui.keyer.onPreview(ui.titleObjectShim($(".selected")));
 				$("#edit").hide();
-				$("#preview .image").html($("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
 			}
-		}
-
-		// Down arrow key
-		else if(event.keyCode == '40')
-		{
+		}	else if(event.keyCode == '40') { 		// Down arrow key
 			event.preventDefault();
-			if($(".selected + li").length > 0)
-			{
+			if($(".selected + li").length > 0) {
 				$(".selected + li").addClass("selected");
 				$(".selected:first").removeClass("selected");
-				$(".selected").scrollintoview({
-					duration: 0
-				});
+				$(".selected").scrollintoview({duration: 0});
 			}
-		}
-
-		// Up arrow key
-		else if(event.keyCode == '38')
-		{
+		} else if(event.keyCode == '38') { // Up arrow key
 			event.preventDefault();
-			if($(".selected").prev("li").length > 0)
-			{
+			if($(".selected").prev("li").length > 0) {
 				$(".selected").prev("li").addClass("selected");
 				$(".selected:last").removeClass("selected");
-				$(".selected").scrollintoview({
-					duration: 0
-				});       
+				$(".selected").scrollintoview({duration: 0});       
 			}
-		}
-
-		// Tab key -- cycles to next tab
-		else if (event.keyCode == '9')
-		{
+		}	else if (event.keyCode == '9') { // Tab key -- cycles to next tab
 			event.preventDefault();
-			if($(".active + .tab").length == 0) // if we're at the end of the tab row
-			{
+			if($(".active + .tab").length == 0) { // if we're at the end of the tab row
 				$(".tab").removeClass("active");
 				$(".tab:first").addClass("active");
-
-			}
-			else // otherwise
-			{
+			}	else {  // otherwise
 				$(".active + .tab").addClass("active");
 				$(".tab.active:first").removeClass("active");
 			}
@@ -285,15 +230,13 @@ ui.applyListeners = function() {
 			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').addClass("active");
 			$("li").removeClass("selected");
 			$(".titles.active li:first").addClass("selected");
-			$(".selected").scrollintoview({
-				duration: 0
-			});
+			$(".selected").scrollintoview({duration: 0});
 		}
 	});
-}
+};
 
 
-$(document).ready(function(){
+$(document).ready(function() {
 
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
 	ui.preview = new RPITS.ui.Monitor({name:'Preview',id:'preview'});
@@ -304,8 +247,8 @@ $(document).ready(function(){
 	ui.applyListeners();
 	
 	resizeWindow();
-	$(".titles").each(function(){
-		$(this).load($(this).attr("request"),function(){
+	$(".titles").each(function() {
+		$(this).load($(this).attr("request"),function() {
 			$(this).hide();
 			$(".active").show();
 			$(".titles.active li:first").addClass("selected");
@@ -313,12 +256,10 @@ $(document).ready(function(){
 		$(".active").show();
 		$(".titles.active li:first").addClass("selected");
 	});
-	$(".tab").click(function()
-	{
-		if($(this).hasClass("active"))
+	$(".tab").click(function() {
+		if($(this).hasClass("active")) {
 			return;
-		else
-		{
+		} else {
 			$(".tab").removeClass("active");
 			$(this).addClass("active");
 			$('.titles').removeClass("active");
@@ -336,70 +277,37 @@ $(document).ready(function(){
 			distance:40
 		});
 		$( ".titles" ).disableSelection();
-    
 	});
+	
 	// Disabled this as it caused confusion with arrow-key movement
 	//$("li").live("mouseover",function(){
 	//  $(".selected").removeClass("selected");
 	//  $(this).addClass("selected");
 	//});
-    
-    
+        
 	// Double Click to take something on/off of program
-	$("li").live("dblclick",function()
-	{
-		if($(this).hasClass("on-program"))
-		{
-			$("li").removeClass("on-program");
-			$("#program .label").text("Program");
-			$("#program .image").html("");
-			$("#program").removeClass("on");
-			$("#loadtarget").load('putter.php?command=dissolve_out/15',function()
-			{
-				$("#log").append($("#loadtarget").html());
-				$("#log").animate({
-					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
-				}, 200);
-			});
+	$("li").live("dblclick",function() {
+		var activeEl = $(this);
+		var activeTitle = ui.titleObjectShim(activeEl);
+		$("li").removeClass("on-program");
+		if(activeEl.hasClass("on-program")) {
+			ui.program.off();
+			ui.keyer.offProgram();
+		}	else {
+			activeEl.addClass("on-program");
+			ui.program.on(activeTitle);
+			ui.keyer.onProgram(activeTitle);
 		}
-		else
-		{
-			$("li").removeClass("on-program");
-			$(this).addClass("on-program");
-			$("#program .label").text("Program - " + $(this).text());
-			$("#program .image").html($("<img src=\"" + $(this).children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
-			$("#program").addClass("on");
-			$("#loadtarget").load('putter.php?path='+$(".selected").children().first().attr("path"),function()
-			{
-				$("#log").append($("#loadtarget").html());
-				$("#log").animate({
-					scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
-				}, 200);
-				$("#loadtarget").load('putter.php?command=dissolve_in/15',function()
-				{
-					$("#log").append($("#loadtarget").html());
-					$("#log").animate({
-						scrollTop: $("#log").prop("scrollHeight") - $('#log').height()
-					}, 200);
-				});
-			});
-		// send request to putter.php?src=$(this).children().first().attr("src")
-		}
-
 	});
 	$("li").live("click",function(){
-		$(".selected").removeClass("selected");
-		$(this).addClass("selected");
-		$("li").removeClass("on-preview");
-		$("li").removeClass("on-edit");
-		$(this).addClass("on-preview");
-		$("#preview .label").text("Preview - " + $(this).text());
+		var activeEl = $(this);
+		$("li").removeClass("on-preview on-edit selected");
+		activeEl.addClass("selected on-preview");
+		ui.preview.on(ui.titleObjectShim(activeEl));
 		$("#edit").hide();
 		document.activeElement.blur();
-		$("#preview .image").html($("<img src=\"" + $(this).children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
 	});
-	$('#editEvents').live('click',function()
-	{
+	$('#editEvents').live('click',function() {
 		$('#eventSelector').empty();
 		var eventsTable = new EditableTable({
 			db: 'rpits',
@@ -416,8 +324,6 @@ $(document).ready(function(){
 			}
 		});
 		eventsTable.loadTable(0,30);
-		
-		
 	});
 });
 
