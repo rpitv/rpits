@@ -157,10 +157,104 @@
 	};
 }());
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queue the lower third title on score change //
+{                                                                   // Score Lower Third has TitleID of 136             //
+  //alert("scoreTitleUpdate called with \nHome: " + homeTeamScore + "\nAway: " + awayTeamScore + "\nString: " + gameStatus);
+
+  var url = "/scoreboard/";
+  var tempHome = -1;
+  var tempAway = -1;
+
+  var tempStatus = "Current Score"
+  var updateStatus = "136=gameStatus&text=" + tempStatus;
+
+
+  $.getJSON(url+"team/1", function(data) { // 1 is home
+    $.each(data, function(key, value) {
+      if (key == "score")
+      {
+        if (parseInt(homeTeamScore) == -9001)
+        {
+          homeTeamScore = value;
+          return;
+        }
+
+        tempHome = value;
+        var updateHome = "136=hScore&text=" + tempHome;
+
+        if (parseInt(tempHome) != parseInt(homeTeamScore))
+        {
+          $.ajax({
+            type: "POST",
+            async: false,
+            url: "cdb_update.php",
+            data: updateHome,
+            success: function() {
+              homeTeamScore = tempHome;
+              $.ajax({
+                type: "POST",
+                url: "cdb_update.php",
+                data: updateStatus,
+                success: function() {
+                  window.renderQueue.addToQueue( 136 ); // Score Lower Third tid = 136
+                }
+              });
+            }
+          });
+        }
+
+        return;
+      }
+    });
+  });
+
+  $.getJSON(url+"team/0", function(data) { // 0 is away
+    $.each(data, function(key, value) {
+      if (key == "score")
+      {
+        if (parseInt(awayTeamScore) == -9001)
+        {
+          awayTeamScore = value;
+          return;
+        }
+
+        tempAway = value;
+        var updateAway = "136=vScore&text=" + tempAway;
+
+        if (parseInt(tempAway) != parseInt(awayTeamScore))
+        {
+          $.ajax({
+            type: "POST",
+            async: false,
+            url: "cdb_update.php",
+            data: updateAway,
+            success: function() {
+              awayTeamScore = tempAway;
+              $.ajax({
+                type: "POST",
+                url: "cdb_update.php",
+                data: updateStatus,
+                success: function() {
+                  window.renderQueue.addToQueue( 136 ); // Score Lower Third tid = 136
+                }
+              });
+            }
+          });
+        }
+        
+        return;
+      }
+    });
+  });
+
+  setTimeout(function(){scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus);}, 10000);
+};
+
 
 $(window).on('beforeunload', function()
 {
-  if (eventIdNum) { // Only warn when in the LIVE UI
+  if ((eventIdNum) && (parseInt(window.renderQueue.queue.length) != 0)){ // Only in the LIVE UI on empty queue
     return "WARNING: Leaving or reloading will mess up the queue.\n\nQueueing is very important in the titling system and the UK.\n";
   }
 });
@@ -169,5 +263,9 @@ $(window).on('beforeunload', function()
 $(document).ready( function()
 {
   $("#renderQueue").hide(); // Hide queue status box until it is needed.
+
+  if (eventIdNum) { // Only in the LIVE UI
+    setTimeout(function(){scoreTitleUpdate( -9001, -9001, "Current Score")}, 1000); // Start auto score update
+  }
 });
 
