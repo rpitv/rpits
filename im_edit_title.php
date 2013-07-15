@@ -79,9 +79,15 @@ echo '</div>'
 		});
     return false;
 	});
-	$("#render").click(function() {
-    window.renderQueue.addToQueue(<?= $titleId ?>);
-		var button = $(this).html("Render Queued");
+	$("#render").click(function() { // Force Render
+    var button = $(this).html("Rendering");
+    $.ajax({
+      type: "GET",
+      url: "im_render_title.php?id="+$(this).attr("tid"),
+      success: function(data) {
+        button.html("Done Rendering");
+      }
+    });
 	});
 </script>
 
