@@ -1,6 +1,4 @@
-console.log("outside IIFE");
 (function() {
-	console.log("inside IIFE");
 	RPITS = {};
 
 	RPITS.ui = {};
