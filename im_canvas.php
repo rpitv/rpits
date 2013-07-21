@@ -6,9 +6,9 @@ $id = $_GET["id"];
 ?>
 <!--<link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all">-->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all">
-<script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-<script type="text/javascript" src="js/jquery.color-2.0b1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery.color-2.0b1.min.js"></script>
+<script type="text/javascript" src="js/lib/jquery-ui-1.8.12.custom.min.js"></script>
 <style type="text/css">
   #ccontainer
   {

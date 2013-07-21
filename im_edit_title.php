@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="im_edit.css" media="screen" />
-<!--<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
-<script src="js/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>-->
+<!--<script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
+<script src="js/lib/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>-->
 <?php
 include("include.php");
 

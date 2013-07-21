@@ -51,7 +51,7 @@ if($eventId > 0) {
 	<input type="submit" name="add" value="Add" />
 </form>
 
-<script src="js/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="js/lib/jquery-1.8.3.js" type="text/javascript"></script>
 <style type="text/css">
 	.title button {
 		float:right;
