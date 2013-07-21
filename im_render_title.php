@@ -10,24 +10,28 @@ $path = $_GET["path"];
 $result = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
 $titleRow = mysql_fetch_array($result);
 
-$template_id = $titleRow["template"];
+$parentId = $titleRow["parent"];
 
-$result = dbquery("SELECT * from templates where id=\"$template_id\" LIMIT 1;");
-$templateRow = mysql_fetch_array($result);
-
-if ($path) {
-	$templateRow["path"] = $path;
+if(!is_numeric($parentId)) {
+	die("Recursive parent inheritance is not yet supported");
 }
 
-$templateXML = fopen($templateRow["path"], "r");
-$contents = stream_get_contents($templateXML);
+$result = dbquery("SELECT * from titles where id='$parentId' LIMIT 1;");
+$parentRow = mysql_fetch_array($result);
+
+if ($path) {
+	$parentRow["path"] = $path;
+}
+
+$parentXML = fopen($parentRow["parent"], "r");
+$contents = stream_get_contents($parentXML);
 
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
 
 $xml = new SimpleXMLElement($contents);
 
-// Compose the image from the template
+// Compose the image from the parent
 if ($xml->geo->blackBox) {
 	foreach ($xml->geo->blackBox as $box) {
 

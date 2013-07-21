@@ -26,8 +26,8 @@ $eventId = $_GET["eventId"];
 <?
 if($_GET["add"] == 'Add') {
 	$name = $_GET["name"];
-	$templateId = $_GET["template"];
-	dbquery("INSERT INTO titles (name,template) VALUES ('$name','$templateId');");
+	$parentId = $_GET["parent"];
+	dbquery("INSERT INTO titles (name,parent) VALUES ('$name','$parentId');");
 	$titleId = mysql_insert_id();
 	dbquery("INSERT INTO event_title (event,title) VALUES ('$eventId','$titleId');");
 	$eventTitleId = mysql_insert_id();
@@ -38,9 +38,9 @@ if($eventId > 0) {
 ?>
 <p><strong>Create and attach new title to this event</strong></p>
 <form action="im_event_title.php" method="GET">
-	Template: <select name="template" >
+	Parent: <select name="parent" >
 		<?
-		$result = dbquery('SELECT * FROM templates');
+		$result = dbquery("SELECT * FROM titles WHERE parent REGEXP '^[0-9]+$';");
 		while ($row = mysql_fetch_array($result)) {
 			echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
 		}	?>
@@ -126,11 +126,11 @@ $(function() {
 <div id="titleList">
 <?
 
-$result = dbquery("SELECT *, event_title.id as etid, templates.name as template_name, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title JOIN templates ON titles.template = templates.id WHERE event_title.event = $eventId ORDER BY titles.id ASC");
+$result = dbquery("SELECT *, event_title.id as etid, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title WHERE event_title.event = $eventId ORDER BY titles.id ASC");
 while ($row = mysql_fetch_array($result)) {
   echo('<div id="' . $row["title_id"] . '" class="title">' .
 			'<img src="thumbs/' . $row["title_name"] . $row["title_id"] . '.png" path="out/' . $row["title_name"] . $row["title_id"] . '.png" height="38" />' . 
-					'<span class="titleName">' . $row["title_name"] . '</span> (' . $row["template_name"] . ')' .
+					'<span class="titleName">' . $row["title_name"] . '</span>' .
 			'<button class="delete">Delete</button><button class="rename">Rename</button>' . 
 			'<button class="edit">Edit</button><button class="preview">Preview</button></div>');
 }

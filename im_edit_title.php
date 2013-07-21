@@ -9,14 +9,6 @@ $titleId = $_GET["id"];
 $titleResult = dbquery("SELECT * from titles where id=\"$titleId\" LIMIT 1;");
 $titleRow = mysql_fetch_array($titleResult);
 
-$templateId = $titleRow["template"];
-
-$templateResult = dbquery("SELECT * from templates where id=\"$templateId\" LIMIT 1;");
-$templateRow = mysql_fetch_array($templateResult);
-
-$templateXML = fopen($templateRow["path"], "r");
-$contents = stream_get_contents($templateXML);
-
 function printEditableRow($row, $id, $type) {
 	$val = $row[$type];
 	$val = str_replace('\n', PHP_EOL, $val);
@@ -35,6 +27,20 @@ function printEditableRow($row, $id, $type) {
 	echo '</form></div>';
 	echo '</div>';
 }
+
+$parentId = $titleRow["parent"];
+
+// Recursive parents are not yet permitted
+if(!is_numeric($parentId)) {
+	die("Recursive parent inheritance is not yet supported");
+}
+
+$parentResult = dbquery("SELECT * from titles where id=\"$parentId\" LIMIT 1;");
+
+$parentRow = mysql_fetch_array($parentResult);
+
+$parentXML = fopen($parentRow["parent"], "r");
+$contents = stream_get_contents($parentXML);
 
 $xml = new SimpleXMLElement($contents);
 echo '<div id="editTitle">';

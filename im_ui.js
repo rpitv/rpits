@@ -23,7 +23,7 @@ ui.titleObjectShim = function(el) {
 	title.type = el.attr('type');
 	title.id = el.attr('id');
 	title.getFilename = function() {
-		return this.name + this.id;
+		return this.name + this.id + '.png';
 	}
 	
 	return title;

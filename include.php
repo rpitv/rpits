@@ -13,6 +13,9 @@ function dbqueryl($query) {
 	return $result;
 }
 
+/*
+ * THESE FUNCTIONS REQUIRE RE-WRITING TO SUPPORT THE NEW PARENT INHERITANCE MODEL
+ * 
 function listOfGeos($id) {
 	$geos = array();
 	$title = dbquery("SELECT * from titles left join templates on titles.template=templates.id where titles.id='$id'  ");
@@ -49,7 +52,7 @@ function dbFetchAll($id, $name) {
 		}
 	}
 	return $data;
-}
+}*/
 
 function stripDBFetch($attrs) {
 	$result = array();

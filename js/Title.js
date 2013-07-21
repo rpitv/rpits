@@ -3,8 +3,8 @@
 		id: 0,
 		name: '',
 		parent: '',
-		getFilename : function() {
-			return this.name + this.id;
+		getFilename: function() {
+			return this.name + this.id + '.png';
 		}
 	};
 })();
