@@ -32,7 +32,7 @@ console.log("outside IIFE");
 			this.title = title;
 			this.el.addClass('on');
 			this.label.text(this.options.name + ' - ' + title.name);
-			var image = $('<img src="out/'+title.filename+'">');
+			var image = $('<img src="out/'+title.getFilename()+'">');
 			image.width(this.el.css('width'));
 			this.image.html(image);
 		};
@@ -81,7 +81,7 @@ console.log("outside IIFE");
 		};
 
 		this.put = function(title,callback) {
-			this.doXHR(this.base + '?path=out/' + title.filename,callback);
+			this.doXHR(this.base + '?path=out/' + title.getFilename(),callback);
 		};
 
 		this.offProgram = function(duration) {

@@ -2,6 +2,9 @@
 	RPITS.ui.Title = {
 		id: 0,
 		name: '',
-		parent: ''
+		parent: '',
+		getFilename : function() {
+			return this.name + this.id;
+		}
 	};
 })();

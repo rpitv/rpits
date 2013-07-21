@@ -26,9 +26,8 @@ $eventId = $_GET["eventId"];
 <?
 if($_GET["add"] == 'Add') {
 	$name = $_GET["name"];
-	$filename = $_GET["filename"];
 	$templateId = $_GET["template"];
-	dbquery("INSERT INTO titles (name,filename,template) VALUES ('$name','$filename','$templateId');");
+	dbquery("INSERT INTO titles (name,template) VALUES ('$name','$templateId');");
 	$titleId = mysql_insert_id();
 	dbquery("INSERT INTO event_title (event,title) VALUES ('$eventId','$titleId');");
 	$eventTitleId = mysql_insert_id();
@@ -46,7 +45,7 @@ if($eventId > 0) {
 			echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
 		}	?>
 	</select>
-	Name: <input type="text" name="name" />, Filename: <input type="text" name="filename">.png
+	Name: <input type="text" name="name" />
 	<input type="hidden" name="eventId" value="<?= $eventId ?>" />
 	<input type="submit" name="add" value="Add" />
 </form>
@@ -127,10 +126,10 @@ $(function() {
 <div id="titleList">
 <?
 
-$result = dbquery("SELECT *, event_title.id as etid, titles.filename as Tfilename, templates.name as template_name, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title JOIN templates ON titles.template = templates.id WHERE event_title.event = $eventId ORDER BY titles.id ASC");
+$result = dbquery("SELECT *, event_title.id as etid, templates.name as template_name, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title JOIN templates ON titles.template = templates.id WHERE event_title.event = $eventId ORDER BY titles.id ASC");
 while ($row = mysql_fetch_array($result)) {
   echo('<div id="' . $row["title_id"] . '" class="title">' .
-			'<img src="thumbs/' . $row["Tfilename"] . '.png" path="out/' . $row["Tfilename"] . '.png" height="38" />' . 
+			'<img src="thumbs/' . $row["title_name"] . $row["title_id"] . '.png" path="out/' . $row["title_name"] . $row["title_id"] . '.png" height="38" />' . 
 					'<span class="titleName">' . $row["title_name"] . '</span> (' . $row["template_name"] . ')' .
 			'<button class="delete">Delete</button><button class="rename">Rename</button>' . 
 			'<button class="edit">Edit</button><button class="preview">Preview</button></div>');

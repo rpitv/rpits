@@ -20,9 +20,11 @@ $.extend($.expr[":"], {
 ui.titleObjectShim = function(el) {
 	var title = {};
 	title.name = el.text();
-	title.filename = el.find('img').attr('path').substr(4);
 	title.type = el.attr('type');
 	title.id = el.attr('id');
+	title.getFilename = function() {
+		return this.name + this.id;
+	}
 	
 	return title;
 };
