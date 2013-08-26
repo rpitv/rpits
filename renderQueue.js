@@ -144,7 +144,11 @@
     /////////////////////////////////////////////////////////////
     destroyQueue: function() // Erase queue without predjudice //
     {
-      if(confirm("Permanently remove all jobs?"))
+      if (this.queue.length == 0) // Don't bother prompting if done
+      {
+        this.pruneQueue();
+      }
+      else if(confirm("Permanently remove all jobs?"))
       {
         this.queue.length = 0;
         $(".queueItem").each( function()
@@ -159,15 +163,24 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queue the lower third title on score change //
-{                                                                   // Score Lower Third has TitleID of 136             //
+{
   //alert("scoreTitleUpdate called with \nHome: " + homeTeamScore + "\nAway: " + awayTeamScore + "\nString: " + gameStatus);
 
   var url = "/scoreboard/";
   var tempHome = -1;
   var tempAway = -1;
+  var scoreTitleId = -1;
+  
+  $("#pane ul li").each( function() {
+    if ($(this).text().indexOf("(Score Lower Third)") > 0)
+    {
+      scoreTitleId = $(this).attr('id');
+      return;
+    }
+  });
 
   var tempStatus = "Current Score"
-  var updateStatus = "136=gameStatus&text=" + tempStatus;
+  var updateStatus = scoreTitleId + "=gameStatus&text=" + tempStatus;
 
 
   $.getJSON(url+"team/1", function(data) { // 1 is home
@@ -181,7 +194,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
         }
 
         tempHome = value;
-        var updateHome = "136=hScore&text=" + tempHome;
+        var updateHome = scoreTitleId + "=hScore&text=" + tempHome;
 
         if (parseInt(tempHome) != parseInt(homeTeamScore))
         {
@@ -197,7 +210,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
                 url: "cdb_update.php",
                 data: updateStatus,
                 success: function() {
-                  window.renderQueue.addToQueue( 136 ); // Score Lower Third tid = 136
+                  window.renderQueue.addToQueue( scoreTitleId );
                 }
               });
             }
@@ -220,7 +233,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
         }
 
         tempAway = value;
-        var updateAway = "136=vScore&text=" + tempAway;
+        var updateAway = scoreTitleId + "=vScore&text=" + tempAway;
 
         if (parseInt(tempAway) != parseInt(awayTeamScore))
         {
@@ -236,7 +249,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
                 url: "cdb_update.php",
                 data: updateStatus,
                 success: function() {
-                  window.renderQueue.addToQueue( 136 ); // Score Lower Third tid = 136
+                  window.renderQueue.addToQueue( ScoreTitleId );
                 }
               });
             }
