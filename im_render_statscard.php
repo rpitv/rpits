@@ -116,7 +116,7 @@ $detailsGravity = "west";
 if (!$size[0]) {
 	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"];
 	if ($row["weight"] . length > 0) {
-		$details .= "       Weightt: " . $row["weight"];
+		$details .= "       Weight: " . $row["weight"];
 	}
 	$detailsGravity = "center";
 }
