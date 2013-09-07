@@ -49,8 +49,9 @@ body > div
 }
 #edit
 {
-  overflow:scroll;
-  position:absolute;
+  overflow: scroll;
+  overflow-x: hidden; /* I've never seen need for x-axis scrolling. */
+  position: absolute;
   top:25px;
   right:25px;
   background-color: rgba(255,255,255,.9);
@@ -78,6 +79,10 @@ body > div
   margin-right:10px;
   /*margin: 0px -12px;*/
   vertical-align:middle;
+}
+.ui-sortable
+{
+  cursor:default;
 }
 .ui-sortable-helper
 {
@@ -124,7 +129,7 @@ body > div
 }
 .tab
 {
-  background-color:white;
+  background-color:#ccc;
   position:relative;
   float:left;
   height:20px;
@@ -136,9 +141,12 @@ body > div
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border:2px solid black;
+  cursor: default;
+  -webkit-user-select: none;
 }
 .active
 {
+  background-color:white;
   border-bottom:none;
   padding-bottom:5px;
 }
@@ -156,7 +164,7 @@ body > div
   top:0px;
   overflow:hidden;
 }
-edit_target
+.edit_target
 {
   overflow:scroll;
   position:absolute;
@@ -221,20 +229,111 @@ edit_target
   margin: 0px;
 }
 
+
 #renderQueue
 {
   float: left;
+  text-align: center;
   width: 140px;
-  top: 5%;
-  height: 95:%;
-  background-color: blue;
+  top: 25px;
+  min-height: 250px;
+  background-color: #AAA ;
+  border: solid 3px black;
+  -webkit-user-select: none;
+  cursor: default;
 }
 
 .queueItem
 {
-  padding: 3px;
+  padding: 0px;
+  padding-left: 7px;
+  padding-right: 75px;
   float: left;
   clear: both;
-  /*background-color: rgb(0,255,0);*/
+  background-color: #ccc;
+}
+.queueItem pre
+{
+  margin-left: 5px;
 }
 
+@font-face
+{
+  font-family: IconicFill;
+  src: url('assets/iconic_fill.svg') format("svg"),
+  url('assets/iconic_fill.otf') format("opentype");
+}
+
+#queueMenu
+{
+  min-height: 25px;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  border-top: solid black 2px;
+  border-bottom: solid black 2px;
+  background-color: blue;
+  -webkit-user-select: none;
+}
+.queueMenuButton
+{
+  display: inline-block;
+  position: relative;
+  width: 35px;
+  cursor: pointer;
+  font-family: IconicFill;
+  font-size: 24pt;
+  padding: 4px;
+  padding-top: 0;
+  padding-bottom: 8px;
+  margin: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: red;
+  -webkit-user-select: none;
+}
+.queueMenuButton:hover
+{
+  
+}
+
+.queueItemButton
+{
+  display: inline-block;
+  position: relative;
+  float: left;
+  cursor: pointer;
+  font-family: IconicFill;
+  font-size: 16pt;
+
+  padding: 0;
+  padding-right: 7px;
+  padding-bottom: 7px;
+  padding-left: 7px;
+  margin: 0;
+  margin-top: 7px;
+  margin-right: 3px;
+  background-color: orange;
+}
+/*
+[data-icon]:before
+{
+  font-family: IconicFill;
+  content: attr(data-icon);
+}
+
+#process:before
+{
+  content:'\e047';
+  content: attr(data-icon);
+}
+#prune:before
+{
+  content:'\2796';
+  content: attr(data-icon);
+}
+#destroy:before
+{
+  content:'\2713';
+}*/

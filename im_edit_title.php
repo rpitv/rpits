@@ -69,7 +69,7 @@ foreach ($xml->overlay->placeImage as $image) {
 
 echo '</div>'
 ?><br style="clear:both" />
-<button tid="<?= $titleId ?>" id="render" name="Render" style="width:200px;margin-bottom:70px;margin-top:70px;" >Render</button>
+<button tid="<?= $titleId ?>" id="render" name="Render"> <!--style="position: fixed; bottcm: 48.75%; width: 150px;">-->Force Render</button>
 <script type="text/javascript">
 	$(".edit_form").submit(function() {
 		var form = $(this);
@@ -80,13 +80,20 @@ echo '</div>'
 			data: $(this).serializeArray(),
 			success: function(data) {
 				form.children("input:last").attr("value", data);
+        window.renderQueue.addToQueue(<?= $titleId ?>);
 			}
 		});
     return false;
 	});
-	$("#render").click(function() {
-    window.renderQueue.addToQueue(<?= $titleId ?>);
-		var button = $(this).html("Render Queued");
+	$("#render").click(function() { // Force Render
+    var button = $(this).html("Rendering");
+    $.ajax({
+      type: "GET",
+      url: "im_render_title.php?id="+$(this).attr("tid"),
+      success: function(data) {
+        button.html("Done Rendering");
+      }
+    });
 	});
 </script>
 
