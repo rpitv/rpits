@@ -7,67 +7,19 @@ $id = $_GET["id"];
 
 $path = $_GET["path"];
 
-$result = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
-$titleRow = mysql_fetch_array($result);
-
-$parentId = $titleRow["parent"];
-
-if(!is_numeric($parentId)) {
-	die("Recursive parent inheritance is not yet supported");
-}
-
-$result = dbquery("SELECT * from titles where id='$parentId' LIMIT 1;");
-$parentRow = mysql_fetch_array($result);
+$title;
 
 if ($path) {
-	$parentRow["path"] = $path;
+	$title = getTitleFromXML($path);
+} else {
+	$title = getTitle($id);
 }
-
-$parentXML = fopen($parentRow["parent"], "r");
-$contents = stream_get_contents($parentXML);
 
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
 
-$xml = new SimpleXMLElement($contents);
-
-// Compose the image from the parent
-if ($xml->geo->blackBox) {
-	foreach ($xml->geo->blackBox as $box) {
-
-		$l = dbFetch($id, $box);
-		blackBox($canvas, $l);
-	}
-}
-
-if ($xml->geo->slantRectangle) {
-	foreach ($xml->geo->slantRectangle as $slantRectangle) {
-		$sR = tokenReplace(dbFetch($id, $slantRectangle));
-		slantRectangle($canvas, $sR);
-	}
-}
-
-if ($xml->overlay->shadowText) {
-	foreach ($xml->overlay->shadowText as $text) {
-		$t = tokenReplace(dbFetch($id, $text));
-		shadowedText($canvas, $t);
-	}
-}
-
-if ($xml->overlay->plainText) {
-	foreach ($xml->overlay->plainText as $text) {
-		$t = tokenReplace(dbFetch($id, $text));
-		$t['wordWrap'] = true;
-		plainText($canvas, $t);
-	}
-}
-
-if ($xml->overlay->placeImage) {
-	foreach ($xml->overlay->placeImage as $image) {
-
-		$l = tokenReplace(dbFetch($id, $image));
-		placeImage($canvas, $l);
-	}
+foreach ($title['geos'] as $geo) {
+	$geo['type']($canvas, $geo);
 }
 
 // Display canvas as png image when php page is requested.

@@ -13,46 +13,59 @@ function dbqueryl($query) {
 	return $result;
 }
 
-/*
- * THESE FUNCTIONS REQUIRE RE-WRITING TO SUPPORT THE NEW PARENT INHERITANCE MODEL
- * 
-function listOfGeos($id) {
-	$geos = array();
-	$title = dbquery("SELECT * from titles left join templates on titles.template=templates.id where titles.id='$id'  ");
-	$result = mysql_fetch_array($title);
-	$templateXML = fopen($result["path"], "r");
-	$contents = stream_get_contents($templateXML);
-	$xml = new SimpleXMLElement($contents);
-	foreach ($xml->geo->children() as $geo) {
-		$name = (string) $geo["name"];
-		$geos[$name] = $geo->getName();
+function getTitle($id) {
+
+	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
+	$title = mysql_fetch_assoc($titleResult);
+
+	// null checking
+
+	if(is_numeric($title["parent"])) {
+		$parent = getTitle($title["parent"]);
+	} else {
+		$parent = getTitleFromXML($title["parent"]);
 	}
-	foreach ($xml->overlay->children() as $geo) {
-		$name = (string) $geo["name"];
-		$geos[$name] = $geo->getName();
+
+	$title['geos'] = $parent['geos'];
+	$title['defs'] = $parent['defs'];
+	$title['parentName'] = $parent['name'];
+
+	$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
+	while ($row = mysql_fetch_array($cdbResult)) {
+		$title['geos'][$row['name']][$row['key']] = $row['value'];
 	}
-	return $geos;
+
+	foreach($title['geos'] as $key=>$geo) {
+		$title['geos'][$key] = tokenReplace($geo);
+	}
+
+	return $title;
 }
 
-function dbFetchAll($id, $name) {
-	$data = array();
-	$title = dbquery("SELECT * from titles left join templates on titles.template=templates.id where titles.id='$id'  ");
-	$result = mysql_fetch_array($title);
-	$templateXML = fopen($result["path"], "r");
-	$contents = stream_get_contents($templateXML);
+function getTitleFromXML($path) {
+	$file = fopen($path, "r");
+	$contents = stream_get_contents($file);
 	$xml = new SimpleXMLElement($contents);
-	foreach ($xml->geo->children() as $geo) {
-		if ($geo["name"] == $name) {
-			$data = dbFetch($id, $geo);
-		}
+
+	$title['name'] = (string) $xml->name;
+	$title['geos'] = getAllChildren($xml->geos);
+	$title['defs'] = getAllChildren($xml->defs);
+
+	return $title;
+}
+
+function getAllChildren($xml) {
+	$children = [];
+	$i = 0;
+	foreach($xml->children() as $childXML) {
+		$child = getAttributes($childXML);
+		if($child['order']) die("Attribute 'order' is illegal in RML");
+		$child['order'] = $i;
+		$children[$child['name']] = $child;
+		$i++;
 	}
-	foreach ($xml->overlay->children() as $geo) {
-		if ($geo["name"] == $name) {
-			$data = dbFetch($id, $geo);
-		}
-	}
-	return $data;
-}*/
+	return $children;
+}
 
 function stripDBFetch($attrs) {
 	$result = array();
@@ -74,16 +87,26 @@ function fetchTeam($team) {
 	return array_merge($teamRow,$orgRow);
 }
 
-function dbFetch($id, $xml) {
-	$data = array();
-	foreach ($xml->attributes() as $key => $value) {
-		$data[$key] = (string) $value;
-	}
+function dbFetch($id, $geo) {
 	$result = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\" AND name=\"" . $data["name"] . "\";");
 	while ($row = mysql_fetch_array($result)) {
-		$data[$row["key"]] = $row["value"];
+		$geo[$row["key"]] = $row["value"];
 	}
-	return $data;
+	return $geo;
+}
+
+function getAttributes($xml) {
+	$node = [];
+	foreach ($xml->attributes() as $key => $value) {
+		$node[$key] = (string) $value;
+	}
+	if($node['type']) die("Attribute 'type' is illegal in RML");
+	if($node['value']) die("Attribute 'value' is illegal in RML");
+	$node['type'] = $xml->getName();
+	if((string) $xml) {
+		$node['value'] = (string) $xml;
+	}
+	return $node;
 }
 
 function tokenReplace($data) {
