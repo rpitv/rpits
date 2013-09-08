@@ -21,7 +21,7 @@ else if ($type == "blackBox")
 else if ($type == "plainText")
 	plainText($canvas, 10, 10, $attr["w"], $attr["h"], $attr["text"], $attr["gravity"], $attr["font"], $attr["color"]);
 else if ($type == "shadowText")
-	shadowedText($canvas, 10, 10, $attr["w"], $attr["h"], $attr["text"], $attr["gravity"], $attr["font"], $attr["color"]);
+	shadowText($canvas, 10, 10, $attr["w"], $attr["h"], $attr["text"], $attr["gravity"], $attr["font"], $attr["color"]);
 else if ($type == "placeImage")
 	placeImage($canvas, 10, 10, $attr["w"], $attr["h"], $attr["path"]);
 
