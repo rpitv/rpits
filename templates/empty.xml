@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
-  <info>
-    <name>Score Lower Third</name>
-    <description></description>
-  </info>
-  <defs>
-    <color name="white">#FFFFFF</color>
-    <color name="blackbg">#303030</color>
-    <font name="fontN">fonts/GothamNarrow-Bold.otf</font>
-    <font name="fontX">fonts/GothamXNarrow-Bold.otf</font>
-    <font name="font">fonts/Gotham-Bold.ttf</font>
-  </defs>
-	<geo>
-
-
-
-	</geo>
-	<overlay>
-		
-
-	</overlay>
-
+	<name></name>
+	<description></description>
+	<geos></geos>
 </template>

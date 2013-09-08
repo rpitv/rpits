@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
-  <info>
-    <name>Score Lower Third</name>
-    <description></description>
-  </info>
-  <defs>
-    <color name="white">#FFFFFF</color>
-    <color name="blackbg">#303030</color>
-    <font name="fontN">fonts/GothamNarrow-Bold.otf</font>
-    <font name="fontX">fonts/GothamXNarrow-Bold.otf</font>
-    <font name="font">fonts/Gotham-Bold.ttf</font>
-  </defs>
-	<geo>
-		
+	<name>Score Lower Third</name>
+	<description></description>
+	<geos>
+
 		<blackBox name="body" x="200" y="270" w="1520" h="770" />
 		<slantRectangle name="title-bar" x="160" y="195" w="1600" h="80" color="red" />
-		
 
 		<slantRectangle name="1-vTeamBar" x="375" y="335" w="500" h="70" color="#840032" />
 		<slantRectangle name="1-vScoreBox" x="240" y="320" w="180" h="100" color="#303030" />
@@ -46,8 +36,6 @@
 		<slantRectangle name="5-StatusBox" x="840" y="935" w="240" h="70" color="#303030" />
 		<slantRectangle name="5-hTeamBar" x="1045" y="935" w="500" h="70" color="#C4112F" />
 		<slantRectangle name="5-hScoreBox" x="1505" y="920" w="180" h="100" color="#303030" />	
-	</geo>
-	<overlay>
 
 		<shadowText name="titleText" x="160" y="200" w="1600" h="70" gravity="center" font="fontN" color="white" text="ECAC Live Scoreboard" />
 
@@ -62,7 +50,7 @@
 		<shadowText name="2-vName" x="375" y="490" w="500" h="60" gravity="center" font="fontN" color="white" text="QUINNIPIAC" />
 		<shadowText name="2-hName" x="1045" y="490" w="500" h="60" gravity="center" font="fontN" color="white" text="DARTMOUTH" />
 		<shadowText name="2-Status" x="865" y="490" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
-		
+
 		<shadowText name="3-vScore" x="240" y="625" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
 		<shadowText name="3-hScore" x="1505" y="625" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
 		<shadowText name="3-vName" x="375" y="640" w="500" h="60" gravity="center" font="fontN" color="white" text="CORNELL" />
@@ -80,6 +68,6 @@
 		<shadowText name="5-vName" x="375" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="PRINCETON" />
 		<shadowText name="5-hName" x="1045" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="HARVARD" />
 		<shadowText name="5-Status" x="865" y="940" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
-	</overlay>
-				
+	</geos>
+
 </template>

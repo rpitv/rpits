@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template>
-  <info>
-    <name>Score Lower Third</name>
-    <description></description>
-  </info>
-  <defs>
-    <color name="white">#FFFFFF</color>
-    <color name="blackbg">#303030</color>
-    <font name="fontN">fonts/GothamNarrow-Bold.otf</font>
-    <font name="fontX">fonts/GothamXNarrow-Bold.otf</font>
-    <font name="font">fonts/Gotham-Bold.ttf</font>
-  </defs>
-	<geo>
+	<info>
+	<name>Score Lower Third</name>
+	<description></description>
+	<geos>
 
 		<blackBox name="body" x="200" y="490" w="1520" h="550" />
 		<slantRectangle name="title-bar" x="160" y="425" w="1600" h="70" color="red" />
@@ -39,8 +31,8 @@
 		<slantRectangle name="C-bTeamBar" x="1125" y="780" w="450" h="70" color="#606060" />
 		<slantRectangle name="C-bScoreBox" x="1540" y="780" w="120" h="70" color="#303030" />
 
-	</geo>
-	<overlay>
+
+
 		<shadowText name="titleText" x="160" y="430" w="1600" h="60" gravity="center" font="fontN" color="white" text="ECAC Women's Hockey Championship Bracket" />
 
 		<shadowText name="1-topLabel" x="240" y="515" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #1" />
@@ -71,6 +63,6 @@
 		<shadowText name="C-botLabel" x="1040" y="855" w="620" h="35" gravity="center" font="fontN" color="white" text="Sunday, March 10th - 1:00 ET" />
 
 
-	</overlay>
+	</geos>
 
 </template>

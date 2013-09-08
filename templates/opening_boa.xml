@@ -1,33 +1,31 @@
 <template>
-  <geo>
-    <slantRectangle name="AwayTeamDetailsBar" x="630" y="470" w="710" h="60" color="#333" />
-    <slantRectangle name="AwayTeamBar" x="660" y="340" w="880" h="130" color="#F00" />
-    <slantRectangle name="AwayTeamBox" x="360" y="320" w="380" h="230" color="#FFF" />
+	<geos>
+		<slantRectangle name="AwayTeamDetailsBar" x="630" y="470" w="710" h="60" color="#333" />
+		<slantRectangle name="AwayTeamBar" x="660" y="340" w="880" h="130" color="#F00" />
+		<slantRectangle name="AwayTeamBox" x="360" y="320" w="380" h="230" color="#FFF" />
 
-    <slantRectangle name="HomeTeamDetailsBar" x="630" y="740" w="710" h="60" color="#333" />
-    <slantRectangle name="HomeTeamBar" x="660" y="610" w="880" h="130" color="#0F0" />
-    <slantRectangle name="HomeTeamBox" x="360" y="590" w="380" h="230" color="#FFF" />
+		<slantRectangle name="HomeTeamDetailsBar" x="630" y="740" w="710" h="60" color="#333" />
+		<slantRectangle name="HomeTeamBar" x="660" y="610" w="880" h="130" color="#0F0" />
+		<slantRectangle name="HomeTeamBox" x="360" y="590" w="380" h="230" color="#FFF" />
 
-    <slantRectangle name="VenueBar" x="390" y="860" w="700" h="70" color="#F00" />
-    <slantRectangle name="CityDateBar" x="365" y="930" w="500" h="50" color="#333" />
+		<slantRectangle name="VenueBar" x="390" y="860" w="700" h="70" color="#F00" />
+		<slantRectangle name="CityDateBar" x="365" y="930" w="500" h="50" color="#333" />
 
-  </geo>
-  <overlay>
-    <shadowText name="AwayTeamDetails" x="670" y="475" w="650" h="50" gravity="west" font="fontN" color="white" text="Engineers" />
-    <shadowText name="HomeTeamDetails" x="670" y="745" w="650" h="50" gravity="west" font="fontN" color="white" text="Not Engineers" />
+		<shadowText name="AwayTeamDetails" x="670" y="475" w="650" h="50" gravity="west" font="fontN" color="white" text="Engineers" />
+		<shadowText name="HomeTeamDetails" x="670" y="745" w="650" h="50" gravity="west" font="fontN" color="white" text="Not Engineers" />
 
-    <shadowText name="AwayTeamRecord" x="1000" y="475" w="300" h="50" gravity="east" font="fontN" color="white" text="12-3-7 ECAC" />
-    <shadowText name="HomeTeamRecord" x="1000" y="745" w="300" h="50" gravity="east" font="fontN" color="white" text="12-3-7 ECAC" />
+		<shadowText name="AwayTeamRecord" x="1000" y="475" w="300" h="50" gravity="east" font="fontN" color="white" text="12-3-7 ECAC" />
+		<shadowText name="HomeTeamRecord" x="1000" y="745" w="300" h="50" gravity="east" font="fontN" color="white" text="12-3-7 ECAC" />
 
-    <shadowText name="AwayTeamName" x="740" y="345" w="720" h="120" gravity="west" font="fontN" case="upper" color="white" text="RENSSELAER" />
-    <shadowText name="HomeTeamName" x="740" y="615" w="720" h="120" gravity="west" font="fontN" case="upper" color="white" text="NOT RENSSELAER" />
+		<shadowText name="AwayTeamName" x="740" y="345" w="720" h="120" gravity="west" font="fontN" case="upper" color="white" text="RENSSELAER" />
+		<shadowText name="HomeTeamName" x="740" y="615" w="720" h="120" gravity="west" font="fontN" case="upper" color="white" text="NOT RENSSELAER" />
 
-    <shadowText name="Venue" x="435" y="865" w="610" h="60" gravity="west" font="fontN" color="white" text="Boardwalk Hall" />
-    <shadowText name="City" x="400" y="935" w="430" h="40" gravity="west" font="fontN" color="white" text="Atlantic City, NJ" />
+		<shadowText name="Venue" x="435" y="865" w="610" h="60" gravity="west" font="fontN" color="white" text="Boardwalk Hall" />
+		<shadowText name="City" x="400" y="935" w="430" h="40" gravity="west" font="fontN" color="white" text="Atlantic City, NJ" />
 
-    <placeImage name="AwayLogo" x="450" y="335" w="200" h="200" path="teamlogos/rpi.png" />
-    <placeImage name="HomeLogo" x="450" y="605" w="200" h="200" path="teamlogos/rpi.png" />
+		<placeImage name="AwayLogo" x="450" y="335" w="200" h="200" path="teamlogos/rpi.png" />
+		<placeImage name="HomeLogo" x="450" y="605" w="200" h="200" path="teamlogos/rpi.png" />
 		<placeImage name="Sponsor Logo" x="420" y="55" w="1140" h="250" path="billboards/boa_banner.png" />
-  </overlay>
+	</geos>
 
-  </template>
+</template>

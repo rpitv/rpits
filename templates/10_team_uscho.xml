@@ -1,17 +1,14 @@
 <template>
-  <info>
-    <name>Large Box</name>
-    <description>Single text box + title with logo box</description>
-  </info>
-  <geo>
-    <blackBox name="body" x="430" y="500" w="1060" h="530" />
-    <slantRectangle name="titleBar" x="400" y="440" w="1120" h="70" color="red"/>
-  </geo>
-  <overlay>
-    <shadowText name="titleText" x="440" y="445" w="1040" h="60" gravity="west" font="fontN" color="white" text="USCHO.com Women's Poll" />
-    <plainText name="placeColumn" x="425" y="525" w="100" h="500" gravity="east" font="fontN" color="white" text="1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10." />
+	<name>Large Box</name>
+	<description>Single text box + title with logo box</description>
+	<geos>
+		<blackBox name="body" x="430" y="500" w="1060" h="530" />
+		<slantRectangle name="titleBar" x="400" y="440" w="1120" h="70" color="red"/>
+
+		<shadowText name="titleText" x="440" y="445" w="1040" h="60" gravity="west" font="fontN" color="white" text="USCHO.com Women's Poll" />
+		<plainText name="placeColumn" x="425" y="525" w="100" h="500" gravity="east" font="fontN" color="white" text="1.\n2.\n3.\n4.\n5.\n6.\n7.\n8.\n9.\n10." />
 		<plainText name="teamColumn" x="555" y="525" w="960" h="500" gravity="west" font="fontN" color="white" text="Minnesota\nBoston College\nCornell\nBoston University\nClarkson\nWisconsin\nHarvard\nNorth Dakota\nMercyhurst\nNortheastern" />
 		<plainText name="recordColumn" x="1060" y="525" w="200" h="500" gravity="center" font="fontN" color="white" text="36-0-0\n26-5-3\n25-5-1\n24-5-3\n28-8-0\n23-9-2\n23-5-3\n25-10-1\n26-6-1\n22-10-2" />
 		<plainText name="conferencesColumn" x="1290" y="525" w="200" h="500" gravity="center" font="fontN" color="white" text="WCHA\nHEA\nECAC\nHEA\nECAC\nWCHA\nECAC\nWCHA\nCHA\nHEA" />
-  </overlay>
+	</geos>
 </template>

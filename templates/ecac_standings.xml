@@ -1,15 +1,11 @@
 <template>
-  <info>
-    <name>Large Box</name>
-    <description>Single text box + title with logo box</description>
-  </info>
-  <geo>
-    <blackBox name="body" x="430" y="300" w="1060" h="730" />
-    <slantRectangle name="titleBar" x="400" y="250" w="1120" h="60" color="red"/>
-  </geo>
-  <overlay>
-    <shadowText name="titleText" x="440" y="255" w="1040" h="50" gravity="west" font="fontN" color="white" text="ECAC Standings" />
-    <plainText name="placeColumn" x="445" y="325" w="50" h="700" gravity="east" font="fontN" color="white" text="1\n2\n3\n4\n\n5\n6\n7\n8\n\n9\n10\n11\n12" />
+	<name>Large Box</name>
+	<description>Single text box + title with logo box</description>
+	<geos>
+		<blackBox name="body" x="430" y="300" w="1060" h="730" />
+		<slantRectangle name="titleBar" x="400" y="250" w="1120" h="60" color="red"/>
+		<shadowText name="titleText" x="440" y="255" w="1040" h="50" gravity="west" font="fontN" color="white" text="ECAC Standings" />
+		<plainText name="placeColumn" x="445" y="325" w="50" h="700" gravity="east" font="fontN" color="white" text="1\n2\n3\n4\n\n5\n6\n7\n8\n\n9\n10\n11\n12" />
 		<plainText name="teamColumn" x="595" y="325" w="960" h="700" gravity="west" font="fontN" color="white" text="Quinnipiac\nRensselaer\nYale\nSt. Lawrence\n\nUnion\nClarkson\nPrinceton\nDartmouth\n\nBrown\nColgate\nCornell\nHarvard" />
 		<plainText name="pointsColumn" x="930" y="325" w="100" h="700" gravity="center" font="fontN" color="white" text="30\n19\n19\n18\n\n18\n17\n17\n17\n\n15\n13\n12\n9" />
 		<plainText name="confRecordColumn" x="1060" y="325" w="200" h="700" gravity="center" font="fontN" color="white" text="14-1-2\n8-6-3\n9-7-1\n7-6-4\n\n7-6-4\n7-7-3\n7-7-3\n7-7-3\n\n5-7-5\n5-9-3\n5-10-2\n4-12-1" />
@@ -30,5 +26,5 @@
 		<placeImage name="team10Logo" x="520" y="870" w="50" h="50" path="teamlogos/colgate.png" />
 		<placeImage name="team11Logo" x="520" y="920" w="50" h="50" path="teamlogos/cornell.png" />
 		<placeImage name="team12Logo" x="520" y="970" w="50" h="50" path="teamlogos/harvard.png" />
-  </overlay>
+	</geos>
 </template>
