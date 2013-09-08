@@ -102,10 +102,10 @@ if ($size[0]) {
 
 placeImage($canvas, array('x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => "teamlogos/" . $teamrow["logo"]));
 
-shadowedText($canvas, array('x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white"));
-shadowedText($canvas, array('x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
-shadowedText($canvas, array('x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
-shadowedText($canvas, array('x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+shadowText($canvas, array('x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white"));
+shadowText($canvas, array('x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+shadowText($canvas, array('x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+shadowText($canvas, array('x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 
 $details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"];
 if ($row["weight"] . length > 0) {
@@ -124,9 +124,9 @@ plainText($canvas, array('x' => 630 + $detailsModifier, 'y' => 884 - $boxHeightM
 
 if ($stype && $stype != "txt") {
 	if ($lastSeason == true) {
-		shadowedText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+		shadowText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 	} else if ($row["team"] == career) {
-		shadowedText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
+		shadowText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 	}
 	$statsBoxWidth = 880;
 	$statsBoxX = 650;

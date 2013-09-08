@@ -202,7 +202,7 @@ function getTextWidth($o) {
 	return $geo["width"];
 }
 
-function shadowedText(&$canvas, $o) {
+function shadowText(&$canvas, $o) {
 	$text = defaultText($o);
 	$shadow = $text->clone();
 	$stroke = $text->clone();
