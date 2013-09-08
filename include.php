@@ -27,7 +27,6 @@ function getTitle($id) {
 	}
 
 	$title['geos'] = $parent['geos'];
-	$title['defs'] = $parent['defs'];
 	$title['parentName'] = $parent['name'];
 
 	$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
@@ -48,8 +47,8 @@ function getTitleFromXML($path) {
 	$xml = new SimpleXMLElement($contents);
 
 	$title['name'] = (string) $xml->name;
+	
 	$title['geos'] = getAllChildren($xml->geos);
-	$title['defs'] = getAllChildren($xml->defs);
 
 	return $title;
 }
