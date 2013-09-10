@@ -66,6 +66,51 @@ function getAllChildren($xml) {
 	return $children;
 }
 
+function getGeoHash($geo) {
+	unset($geo['x']);
+	unset($geo['y']);
+	unset($geo['name']);
+	unset($geo['order']);
+	return $geo['type'] . '_' . hash('md4',json_encode($geo));
+}
+
+function addGeoToCanvas($canvas,$geo,$bustCache = false) {
+	$data = getGeoFromCache($geo);
+
+	if(!$data || $bustCache) {
+		$data = renderGeo($geo);
+		saveGeoToCache($geo,$data);
+	}
+
+	$im = new Imagick();
+	$im->readImageBlob($data);
+	$canvas->compositeImage($im, imagick::COMPOSITE_OVER, $geo['x']-10, $geo['y']-10);
+}
+
+function renderGeo($geo) {
+	$x = 10; $y = 10; $w = 20; $h = 20;
+	$canvas = new Imagick();
+	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", "png");
+	$geo['x'] = $x;
+	$geo['y'] = $y;
+	$geo['type']($canvas, $geo);
+
+	return $canvas;
+}
+
+function getGeoFromCache($geo) {
+	$hash = getGeoHash($geo);
+	$png = @file_get_contents("cache/$hash.png");
+	if(!$png)
+		return false;
+	return $png;
+}
+
+function saveGeoToCache($geo,$data) {
+	$hash = getGeoHash($geo);
+	if(!@file_put_contents("cache/$hash.png",$data)) die ('Error writing Geo to cache');
+}
+
 function stripDBFetch($attrs) {
 	$result = array();
 	foreach ($attrs as $key => $value) {

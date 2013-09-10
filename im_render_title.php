@@ -7,6 +7,8 @@ $id = $_GET["id"];
 
 $path = $_GET["path"];
 
+$bustCache = $_GET['bustCache'] || false;
+
 $title;
 
 if ($path) {
@@ -19,7 +21,7 @@ $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
 
 foreach ($title['geos'] as $geo) {
-	$geo['type']($canvas, $geo);
+	addGeoToCanvas($canvas,$geo,$bustCache);
 }
 
 // Display canvas as png image when php page is requested.
