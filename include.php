@@ -214,4 +214,16 @@ function mysqlQueryToJsonArray($query) {
 	return json_encode($data);
 }
 
+function timestamp ($str) {
+	global $metrics, $startTime, $lastTime;
+	$now = microtime(true);
+	if($metrics) {
+		printf("%.5f",($now - $startTime));
+		echo ' - ';
+		printf("%.5f",($now - $lastTime));
+		echo ' - '. $str . '<br>';
+	}
+	$lastTime = $now;
+}
+
 ?>

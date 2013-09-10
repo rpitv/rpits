@@ -17,24 +17,37 @@ if ($path) {
 	$title = getTitle($id);
 }
 
+timestamp ('pre-Imagick');
+
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
+$canvas->setImageDepth(8);
+
+timestamp('post allocation');
 
 foreach ($title['geos'] as $geo) {
 	addGeoToCanvas($canvas,$geo,$bustCache);
 }
 
+timestamp ('post geos');
+
 // Display canvas as png image when php page is requested.
-header("Content-Type: image/png");
-echo $canvas;
+if(!$metrics) {
+	header("Content-Type: image/png");
+	echo $canvas;
+}
 
 // Generate thumbnail image of the title for UI purposes.
+
 $thumb = $canvas->clone();
 $thumb->cropImage(1440, 1080, 0, 0);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
 $thumb->writeImage(realpath('thumbs') . '/' . $titleRow["name"] . $titleRow["id"] . '.png');
 
+timestamp('post thumbs');
+
 // Generate the output file of the title.
-$canvas->setImageDepth(8);
 $canvas->writeImage(realpath('out') . '/' . $titleRow["name"] . $titleRow["id"] . '.png');
+
+timestamp ('post out');
 ?>
