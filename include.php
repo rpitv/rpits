@@ -75,22 +75,18 @@ function getGeoHash($geo) {
 }
 
 function addGeoToCanvas($canvas,$geo,$bustCache = false) {
-	$data = getGeoFromCache($geo);
-
-	if(!$data || $bustCache) {
-		$data = renderGeo($geo);
-		saveGeoToCache($geo,$data);
-	}
-
-	$im = new Imagick();
-	$im->readImageBlob($data);
+	$im = getGeoFromCache($geo);
+	if(!$im || $bustCache) {
+		$im = renderGeo($geo);
+		saveGeoToCache($geo,$im);
+	} 
 	$canvas->compositeImage($im, imagick::COMPOSITE_OVER, $geo['x']-10, $geo['y']-10);
 }
 
 function renderGeo($geo) {
 	$x = 10; $y = 10; $w = 20; $h = 20;
 	$canvas = new Imagick();
-	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", "png");
+	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", IMGFMT);
 	$geo['x'] = $x;
 	$geo['y'] = $y;
 	$geo['type']($canvas, $geo);
@@ -100,15 +96,18 @@ function renderGeo($geo) {
 
 function getGeoFromCache($geo) {
 	$hash = getGeoHash($geo);
-	$png = @file_get_contents("cache/$hash.png");
-	if(!$png)
+	$path = realpath('cache') . "/$hash." . IMGFMT;
+	if(file_exists($path)) {
+		$img = new Imagick($path);
+		return $img;
+	} else {
 		return false;
-	return $png;
+	}
 }
 
-function saveGeoToCache($geo,$data) {
+function saveGeoToCache($geo,$im) {
 	$hash = getGeoHash($geo);
-	if(!@file_put_contents("cache/$hash.png",$data)) die ('Error writing Geo to cache');
+	$im->writeImage(realpath("cache")."/" . $hash . '.' . IMGFMT) or die ('Error writing Geo to cache');
 }
 
 function stripDBFetch($attrs) {

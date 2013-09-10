@@ -20,7 +20,7 @@ if ($path) {
 timestamp ('pre-Imagick');
 
 $canvas = new Imagick();
-$canvas->newImage(1920, 1080, "none", "png");
+$canvas->newImage(1920, 1080, "none", IMGFMT);
 $canvas->setImageDepth(8);
 
 timestamp('post allocation');
@@ -33,7 +33,7 @@ timestamp ('post geos');
 
 // Display canvas as png image when php page is requested.
 if(!$metrics) {
-	header("Content-Type: image/png");
+	header("Content-Type: image/" . IMGFMT);
 	echo $canvas;
 }
 
@@ -42,12 +42,12 @@ if(!$metrics) {
 $thumb = $canvas->clone();
 $thumb->cropImage(1440, 1080, 0, 0);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage(realpath('thumbs') . '/' . $titleRow["name"] . $titleRow["id"] . '.png');
+$thumb->writeImage(realpath('thumbs') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
 
 timestamp('post thumbs');
 
 // Generate the output file of the title.
-$canvas->writeImage(realpath('out') . '/' . $titleRow["name"] . $titleRow["id"] . '.png');
+$canvas->writeImage(realpath('out') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
 
 timestamp ('post out');
 ?>
