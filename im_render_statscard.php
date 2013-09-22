@@ -5,7 +5,7 @@ include("imagick_include.php");
 
 $id = $_GET["id"];
 $cacheno = $_GET["c"];
-$lastSeason = false;
+$lastSeason = true;
 
 
 mysql_select_db("rpihockey");
@@ -166,12 +166,12 @@ $filename = $row["num"] . $row["first"] . $row["last"];
 
 $canvas->setImageDepth(8);
 
-$canvas->writeImage(realpath('out/' . $filename . '.png'));
+$canvas->writeImage(realpath('out') . '/' . $filename . '.png');
 
 $thumb = $canvas->clone();
 $thumb->cropImage(318, 239, 398, 794);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage(realpath('thumbs/' . $filename . '.png'));
+$thumb->writeImage(realpath('thumbs') . '/' . $filename . '.png');
 
 header("Content-Type: image/png");
 echo $canvas;
