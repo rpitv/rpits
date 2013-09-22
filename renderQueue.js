@@ -118,6 +118,7 @@
           {
             process = 0; // Processing has ended
             setTimeout('$("#process").html("&#xe047;")', 801); // Play Icon (timed after color updates)
+            setTimeout( 'renderQueue.pruneQueue()' , 401); // Prune when finished
           }
         }.bind(renderQueue)
     	});
