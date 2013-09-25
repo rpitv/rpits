@@ -242,7 +242,7 @@ $(document).ready(function(){
     
     
 	// Double Click to take something on/off of program
-	$("li").live("dblclick",function()
+	/*$("li").live("dblclick",function()
 	{
 		if($(this).hasClass("on-program"))
 		{
@@ -281,9 +281,9 @@ $(document).ready(function(){
 			});
 		// send request to putter.php?src=$(this).children().first().attr("src")
 		}
+	});*/
 
-	});
-	$("li").live("click",function(){
+$("li").live("click",function(){
 		$(".selected").removeClass("selected");
 		$(this).addClass("selected");
 		$("li").removeClass("on-preview");

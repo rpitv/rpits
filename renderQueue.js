@@ -16,7 +16,7 @@
       { 
         var startNum = this.queue.push(tid); // Add title id to the queue
         var titleName = $("#"+tid).text(); // Get actual title for queue status box
-    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#xe05a;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')">&#xe043;</div><pre> ' + titleName + '</pre></div>');
+    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
       {
