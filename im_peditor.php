@@ -66,7 +66,7 @@ $(function() {
   <form action="im_peditor.php" method="get">
 	<?
 	$query = "SELECT * FROM teams";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG BECAUSE REILLY PROBABLY CODED THIS PART POORLY</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 	while($row = mysql_fetch_array($result)) {
 	  echo("<div style=\"float:left;width:100px\"><img width=\"30\" src=\"teamlogos/" . $row["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $row["name"] . "\"></div>");
 	} ?>

@@ -133,11 +133,16 @@ $(document).keydown(function(event)
 			$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"),function()
 			{
 				$("#edit").show();
-			});
-          
-          
+			});          
 		}
-		else
+    else if ($(".selected").attr("type")=="player")
+    {
+      $("#edit").load("im_edit_ptitle.php?id=" + $(".selected").attr("id"),function()
+			{
+				$("#edit").show();
+			});  
+    }
+    else
 		{
 			$("#edit").hide();
 			$("#preview .image").html($("<img src=\"" + $(".selected").children().first().attr("path")+'?'+Math.random() + "\" />").width(ui.viewerWidth));
