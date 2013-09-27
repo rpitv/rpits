@@ -66,7 +66,7 @@ echo '</div>'
     var button = $(this).html("Rendering");
     $.ajax({
       type: "GET",
-      url: "im_render_title.php?id="+$(this).attr("tid"),
+      url: "im_render_statscard.php?id="+$(this).attr("tid")+"&c=1",
       success: function(data) {
         button.html("Done Rendering");
       }
