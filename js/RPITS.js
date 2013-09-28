@@ -30,7 +30,7 @@
 			this.title = title;
 			this.el.addClass('on');
 			this.label.text(this.options.name + ' - ' + title.name);
-			var image = $('<img src="out/'+title.getFilename()+'">');
+			var image = $('<img src="out/'+title.getFilename() + '?rand=' + Date.now() +'">');
 			image.width(this.el.css('width'));
 			this.image.html(image);
 		};
