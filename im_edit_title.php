@@ -6,9 +6,6 @@ include("include.php");
 
 $titleId = $_GET["id"];
 
-$titleResult = dbquery("SELECT * from titles where id=\"$titleId\" LIMIT 1;");
-$titleRow = mysql_fetch_array($titleResult);
-
 function printEditableRow($row, $id, $type) {
 	$val = $row[$type];
 	$val = str_replace('\n', PHP_EOL, $val);
@@ -28,43 +25,37 @@ function printEditableRow($row, $id, $type) {
 	echo '</div>';
 }
 
-$parentId = $titleRow["parent"];
+$title = getTitle($titleId);
+$geos = groupGeosByType($title['geos']);
 
-// Recursive parents are not yet permitted
-if(!is_numeric($parentId)) {
-	die("Recursive parent inheritance is not yet supported");
-}
-
-$parentResult = dbquery("SELECT * from titles where id=\"$parentId\" LIMIT 1;");
-
-$parentRow = mysql_fetch_array($parentResult);
-
-$parentXML = fopen($parentRow["parent"], "r");
-$contents = stream_get_contents($parentXML);
-
-$xml = new SimpleXMLElement($contents);
 echo '<div id="editTitle">';
-echo "<h3>Shadow Text</h3>";
-foreach ($xml->overlay->shadowText as $text) {
-	$t = dbFetch($titleId, $text);
-	printEditableRow($t, $titleId, 'text');
-}
-echo "<h3>Normal Text</h3>";
-foreach ($xml->overlay->plainText as $text) {
-	$t = dbFetch($titleId, $text);
-	printEditableRow($t, $titleId, 'text');
-}
-echo "<h3>Color Bars</h3>";
 
-foreach ($xml->geo->slantRectangle as $slantRectangle) {
-	$t = dbFetch($titleId, $slantRectangle);
-	printEditableRow($t, $titleId, 'color');
+if($geos['shadowText']) {
+	echo "<h3>Shadow Text</h3>";
+	foreach ($geos['shadowText'] as $geo) {
+		printEditableRow($geo, $titleId, 'text');
+	}
 }
-echo "<h3>Images</h3>";
 
-foreach ($xml->overlay->placeImage as $image) {
-	$t = dbFetch($titleId, $image);
-	printEditableRow($t, $titleId, 'path');
+if($geos['plainText']) {
+	echo "<h3>Normal Text</h3>";
+	foreach ($geos['plainText'] as $geo) {
+		printEditableRow($geo, $titleId, 'text');
+	}
+}
+
+if($geos['slantRectangle']) {
+	echo "<h3>Color Bars</h3>";
+	foreach ($geos['slantRectangle'] as $geo) {
+		printEditableRow($geo, $titleId, 'color');
+	}
+}
+
+if($geos['placeImage']) {
+	echo "<h3>Images</h3>";
+	foreach ($geos['placeImage'] as $geo) {
+		printEditableRow($geo, $titleId, 'path');
+	}
 }
 
 echo '</div>'

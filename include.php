@@ -225,4 +225,15 @@ function timestamp ($str) {
 	$lastTime = $now;
 }
 
+function groupGeosByType($geos) {
+	$return = Array();
+	foreach($geos as $geo) {
+		if(!$return[$geo['type']]) {
+			$return[$geo['type']] = Array();
+		}
+		$return[$geo['type']][] = $geo;
+	}
+	return $return;
+}
+
 ?>
