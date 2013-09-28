@@ -8,6 +8,6 @@
 
 		<placeImage name="logo" x="450" y="810" w="80" h="80" path="teamlogos/rpi.png" />
 		<shadowText name="titleText" x="580" y="825" w="1040" h="50" gravity="west" font="fontN" color="white" text="Want to see it again?" />
-		<plainText name="bodyText" x="450" y="910" w="1020" h="80" gravity="west" font="fontN" color="white" text="Visit rpitv.org tomorrow to see this game streaming on demand in high definition." />
+		<plainText name="bodyText" x="450" y="910" w="1020" h="80" gravity="west" font="fontN" color="white" wordWrap="true" text="Visit rpitv.org tomorrow to see this game streaming on demand in high definition." />
 	</geos>
 </template>
