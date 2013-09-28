@@ -185,6 +185,20 @@ $(document).ready(function() {
 		});
 		$( ".titles" ).disableSelection();
 	});
+
+	$('#updateAll').on('click',function() {
+		$.getJSON($('.tab.active').attr('request') + '&checkHash=true',function(data) {
+			var added = false;
+			for(var id in data) {
+				if(!data[id]) {
+					added = true;
+					renderQueue.addToQueue(id);
+				}
+			}
+			if(added) renderQueue.processQueue();
+		});
+	});
+
 	
 	// Disabled this as it caused confusion with arrow-key movement
 	//$("li").live("mouseover",function(){

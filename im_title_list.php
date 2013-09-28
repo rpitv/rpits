@@ -6,6 +6,21 @@ $event = $_GET["event"];
 $team = $_GET["team"];
 $thing = $_GET["thing"];
 
+$checkHash = $_GET["checkHash"];
+
+if($checkHash && $event > 0) {
+	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
+	$list = array();
+	while ($row = mysql_fetch_assoc($result)) {
+		$title = getTitle($row['title']);
+		if($title) {
+			$list[$title['id']] = checkHashForTitle($title);
+		}
+	}
+	echo json_encode($list);
+	exit();
+}
+
 $result;
 if ($thing == "billboards") {
 	//echo("<h1>Not Implemented</h1>");
@@ -14,9 +29,12 @@ if ($thing == "billboards") {
 		echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards/" . $row["file_name"] . "\" path=\"billboards/" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
 	}
 } else if ($event > 0) {
-	$result = dbquery("SELECT *, event_title.id as etid, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title WHERE event_title.event = $event ORDER BY titles.id ASC");
-	while ($row = mysql_fetch_array($result)) {
-		echo("<li type=\"general\" id=\"" . $row["title_id"] . "\"><img src=\"thumbs/" . $row["name"] . $row["title_id"] . ".png\" path=\"out/" . $row["title_name"] . $row["title_id"] . ".png\" height=\"38\" />" . $row["title_name"] . "</li>\n");
+	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
+	while ($row = mysql_fetch_assoc($result)) {
+		$title = getTitle($row['title']);
+		if($title) {
+			echo("<li type=\"general\" id=\"" . $title["id"] . "\"><img src=\"thumbs/" . $title["name"] . $title["id"] . ".png\" path=\"out/" . $title["name"] . $title["id"] . ".png\" height=\"38\" />" . $title["name"] . "</li>\n");
+		}
 	}
 } else if ($event == -1) {
 	$result = dbquery("SELECT *, titles.id as title_id, titles.name as title_name FROM titles");

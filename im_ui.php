@@ -59,6 +59,7 @@ if (!$eventId) {
 	  <div class="tab" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
 		<? if ($team3) { ?><div class="tab" request="im_title_list.php?team=<?= $team3 ?>" tid="3"><?= $team3 ?> Players</div> <? } ?>
 	  <div class="tab" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
+		<button id="updateAll">Update All</button>
 	</div>
 	<div id="input"><input type="text" /></div>
 	<div id="actions"></div>
