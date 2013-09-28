@@ -26,31 +26,40 @@ function getTitle($id) {
 		$parent = getTitleFromXML($title["parent"]);
 	}
 
-	$title['geos'] = $parent['geos'];
-	$title['parentName'] = $parent['name'];
+	if($parent) {
 
-	$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
-	while ($row = mysql_fetch_array($cdbResult)) {
-		$title['geos'][$row['name']][$row['key']] = $row['value'];
+		$title['geos'] = $parent['geos'];
+		$title['parentName'] = $parent['name'];
+
+		$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
+		while ($row = mysql_fetch_array($cdbResult)) {
+			$title['geos'][$row['name']][$row['key']] = $row['value'];
+		}
+
+		foreach($title['geos'] as $key=>$geo) {
+			$title['geos'][$key] = tokenReplace($geo);
+		}
+
+		return $title;
 	}
-
-	foreach($title['geos'] as $key=>$geo) {
-		$title['geos'][$key] = tokenReplace($geo);
-	}
-
-	return $title;
+	return false;
 }
 
 function getTitleFromXML($path) {
-	$file = fopen($path, "r");
-	$contents = stream_get_contents($file);
-	$xml = new SimpleXMLElement($contents);
+	if($path) {
+		$file = fopen($path, "r");
+		if($file) {
+			$contents = stream_get_contents($file);
+			$xml = new SimpleXMLElement($contents);
 
-	$title['name'] = (string) $xml->name;
-	
-	$title['geos'] = getAllChildren($xml->geos);
+			$title['name'] = (string) $xml->name;
 
-	return $title;
+			$title['geos'] = getAllChildren($xml->geos);
+
+			return $title;
+		}
+	}
+	return false;
 }
 
 function getAllChildren($xml) {
