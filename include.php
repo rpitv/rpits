@@ -236,4 +236,20 @@ function groupGeosByType($geos) {
 	return $return;
 }
 
+function checkHashForTitle($title) {
+	$geoHash = hash('md4',json_encode($title['geos']));
+	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $title['id'] . "' LIMIT 1");
+	$cacheRow = mysql_fetch_assoc($result);
+
+	if($geoHash == $cacheRow["hash"]) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function getHashForTitle($title) {
+	return $geoHash = hash('md4',json_encode($title['geos']));
+}
+
 ?>

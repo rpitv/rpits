@@ -4,17 +4,22 @@ include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
-
 $path = $_GET["path"];
-
 $bustCache = $_GET['bustCache'] || false;
 
 $title;
-
 if ($path) {
 	$title = getTitleFromXML($path);
 } else {
 	$title = getTitle($id);
+}
+
+if(checkHashForTitle($title) && $bustCache == false) {
+	$img = file_get_contents(realpath('out') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
+	if($img) {
+		header("Content-Type: image/" . IMGFMT);
+		echo $img;
+	}
 }
 
 timestamp ('pre-Imagick');
@@ -48,6 +53,8 @@ timestamp('post thumbs');
 
 // Generate the output file of the title.
 $canvas->writeImage(realpath('out') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
+
+dbquery("REPLACE INTO cache SET `key`='$id', `hash`='" . getHashForTitle($title) . "';");
 
 timestamp ('post out');
 ?>
