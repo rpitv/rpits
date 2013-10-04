@@ -64,11 +64,13 @@ echo '</div>'
 	});
 	$("#render").click(function() { // Force Render
     var button = $(this).html("Rendering");
+    var renderTid = $(this).attr("tid");
     $.ajax({
       type: "GET",
-      url: "im_render_statscard.php?id="+$(this).attr("tid")+"&c=1",
+      url: "im_render_statscard.php?id="+renderTid+"&c=1",
       success: function(data) {
         button.html("Done Rendering");
+        window.renderQueue.removeFromQueue(renderTid);
       }
     });
 	});

@@ -81,11 +81,13 @@ echo '</div>'
 	});
 	$("#render").click(function() { // Force Render
     var button = $(this).html("Rendering");
+    var renderTid = $(this).attr("tid");
     $.ajax({
       type: "GET",
-      url: "im_render_title.php?id="+$(this).attr("tid"),
+      url: "im_render_title.php?id="+renderTid,
       success: function(data) {
         button.html("Done Rendering");
+        window.renderQueue.removeFromQueue(renderTid);
       }
     });
 	});
