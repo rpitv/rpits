@@ -166,20 +166,13 @@ $filename = $row["num"] . $row["first"] . $row["last"];
 
 $canvas->setImageDepth(8);
 
-<<<<<<< HEAD
 $canvas->writeImage(realpath('out') . '/' . $filename . '.png');
-=======
-$canvas->writeImage(realpath('out/' . $filename . '.png'));
->>>>>>> c6e5a42... Fix writeImage realpath issues on PHP 5.4 w/ Imagick
 
 $thumb = $canvas->clone();
+
 $thumb->cropImage(318, 239, 398, 794);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-<<<<<<< HEAD
 $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.png');
-=======
-$thumb->writeImage(realpath('thumbs/' . $filename . '.png'));
->>>>>>> c6e5a42... Fix writeImage realpath issues on PHP 5.4 w/ Imagick
 
 header("Content-Type: image/png");
 echo $canvas;
