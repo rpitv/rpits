@@ -94,7 +94,7 @@ ui.applyListeners = function() {
 			activeEl.addClass("on-preview");
 			ui.preview.on(ui.titleObjectShim(activeEl));
 			$("#edit").hide();
-			
+    
 		}	else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
 			$("li").removeClass("on-preview");
 			$("li").removeClass("on-edit");
@@ -104,7 +104,11 @@ ui.applyListeners = function() {
 				$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"), function() {
 					$("#edit").show();
 				});
-			}	else {
+			}	else if ($(".selected").attr("type") == "general") {
+				$("#edit").load("im_edit_ptitle.php?id=" + $(".selected").attr("id"),function() {
+					$("#edit").show();
+				});
+			} else {
 				ui.keyer.onPreview(ui.titleObjectShim($(".selected")));
 				$("#edit").hide();
 			}
@@ -207,7 +211,10 @@ $(document).ready(function() {
 	//});
         
 	// Double Click to take something on/off of program
-	$("li").live("dblclick",function() {
+	//
+	// Disabled by Ben due to potential for "Oh SHIT!"
+
+	/*$("li").live("dblclick",function() {
 		var activeEl = $(this);
 		var activeTitle = ui.titleObjectShim(activeEl);
 		$("li").removeClass("on-program");
@@ -219,7 +226,7 @@ $(document).ready(function() {
 			ui.program.on(activeTitle);
 			ui.keyer.onProgram(activeTitle);
 		}
-	});
+	});*/
 	$("li").live("click",function(){
 		var activeEl = $(this);
 		$("li").removeClass("on-preview on-edit selected");

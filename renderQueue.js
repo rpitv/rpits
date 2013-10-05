@@ -12,11 +12,13 @@
         $("#renderQueue").fadeIn(400);
       }
 
+      var ttype = $("#"+tid).attr("type");
+      
       if ($("#q"+tid).length == 0) // check for duplicates
       { 
-        var startNum = this.queue.push(tid); // Add title id to the queue
-        var titleName = $("#"+tid).text(); // Get actual title for queue status box
-    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#xe05a;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')">&#xe043;</div><pre> ' + titleName + '</pre></div>');
+        var startNum = this.queue.push({'id':tid, 'type':ttype}); // Add title id to the queue
+        var titleName = $("#"+tid).text().trim(); // Get actual title for queue status box
+    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
       {
@@ -28,7 +30,16 @@
     /////////////////////////////////////////////////////////////////////////////
     removeFromQueue: function(castaway) // Remove a single item from the queue //
     {
-      var index = this.queue.indexOf(castaway);
+      var ttype = $("#"+castaway).attr("type");
+      var index, i;
+      //var index = this.queue.indexOf({'id':castaway, 'type':ttype});
+      for (i=0; i < this.queue.length; i++) // I know this is the nieve way...
+      {
+        if (this.queue[i].id == castaway)
+        {
+          index = i;
+        }
+      }
 
       if (!this.queue[index]) // See if it is even there
       {
@@ -36,7 +47,7 @@
         return;
       }
 
-      var tempID = this.queue[index];
+      var tempID = this.queue[index].id;
       this.queue.splice(index, 1);
 
       if (this.queue.length == 0)
@@ -53,15 +64,22 @@
     ////////////////////////////////////////////////////////////////////////////
     moveInQueue: function(destination, traveler) // Move an item in the queue //
     {
-      var startIndex = this.queue.indexOf(traveler);
+      var ttype = $("#"+traveler).attr("type");
+ 
+      var startIndex, i;
+      //var index = this.queue.indexOf({'id':castaway, 'type':ttype});
+      for (i=0; i < this.queue.length; i++) // I know this is the nieve way...
+      {
+        if (this.queue[i].id == traveler)
+        {
+          index = i;
+        }
+      }
 
       var tempItem = this.queue.splice(startIndex,1);
-      var tempName = this.queue[destination];
+      var tempName = this.queue[destination].id;
 
-      //alert(tempItem[0]);
-      //alert(tempName);
-
-      $("#q"+tempItem[0]).fadeOut(400, function(){
+      $("#q"+tempItem[0].id).fadeOut(400, function(){
         $(this).insertBefore( $("#q"+tempName) );
         $(this).fadeIn(400);
       });
@@ -90,22 +108,31 @@
         $("#process").html("&#xe049;"); // Pause Icon
       }
 
+      var url_str;
+
+      if (this.queue[index].type == "general")
+      {
+        url_str = "im_render_title.php?id="+this.queue[index].id;
+      } else if (this.queue[index].type == "player") {
+        url_str = "im_render_statscard.php?id="+this.queue[index].id+"&c=1";
+      }
+
     	$.ajax({	// Render a title 
     		type: "GET",
-    		url: "im_render_title.php?id="+this.queue[index],
+    		url: url_str,
         accepts: "image/png",
         async: true,
         timeout: 20000,
     		success: function(data) {
-          $("#q"+this.queue[index]).fadeOut(400, function(){
+          $("#q"+this.queue[index].id).fadeOut(400, function(){
             $(this).css("background-color", "00FF00"); // Mark as green on the list
           });
-          $("#q"+this.queue[index]).fadeIn(400);
+          $("#q"+this.queue[index].id).fadeIn(400);
           
           this.queue.splice(index,1); // Remove first element from queue (it is now done)
           }.bind(renderQueue),
         error: function() {
-    			$("#q"+this.queue[index]).css("background-color", "FF0000"); // Mark as red on list
+    			$("#q"+this.queue[index].id).css("background-color", "FF0000"); // Mark as red on list
           index += 1;
     		}.bind(renderQueue),
         complete: function() {
@@ -118,6 +145,7 @@
           {
             process = 0; // Processing has ended
             setTimeout('$("#process").html("&#xe047;")', 801); // Play Icon (timed after color updates)
+            setTimeout( 'renderQueue.pruneQueue()' , 408); // Prune when finished
           }
         }.bind(renderQueue)
     	});
@@ -155,7 +183,7 @@
         {
           $(this).remove();
         });
-        $("#renderQueue").fadeOut(400); // Hide empty queue
+        $("#renderQueue").fadeOut(402); // Hide empty queue
       }
     }
 	};

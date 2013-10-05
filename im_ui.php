@@ -69,10 +69,7 @@ if (!$eventId) {
       <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0, 0)">&#xe047;</div>
       <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()">&#x2796;</div>
       <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()">&#x2713;</div>
-    </div>
-    <!--<button id="prune" name="prune" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.pruneQueue()">Prune</button>
-    <button id="process" name="process" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.processQueue(0)">Process</button>
-    <button id="destroy" name="destroy" style="margin-bottom:10px;bottom:10px;" onclick="window.renderQueue.destroyQueue()">Destroy</button>-->
+    </div>    
   </div>
 
 <script type="text/javascript"> // Used for page leave checking

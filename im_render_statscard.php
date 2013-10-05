@@ -5,7 +5,7 @@ include("imagick_include.php");
 
 $id = $_GET["id"];
 $cacheno = $_GET["c"];
-$lastSeason = false;
+$lastSeason = true;
 
 
 mysql_select_db("rpihockey");
@@ -116,7 +116,7 @@ $detailsGravity = "west";
 if (!$size[0]) {
 	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"];
 	if ($row["weight"] . length > 0) {
-		$details .= "       Weightt: " . $row["weight"];
+		$details .= "       Weight: " . $row["weight"];
 	}
 	$detailsGravity = "center";
 }
@@ -171,6 +171,7 @@ $canvas->setImageDepth(8);
 $canvas->writeImage(realpath('out') . '/' . $filename . '.png');
 
 $thumb = $canvas->clone();
+
 $thumb->cropImage(318, 239, 398, 794);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
 $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.png');
