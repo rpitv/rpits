@@ -123,7 +123,9 @@ if (!$size[0]) {
 plainText($canvas, array('x' => 630 + $detailsModifier, 'y' => 884 - $boxHeightModifier, 'w' => 880 - $detailsModifier, 'h' => 33, 'text' => $details, 'gravity' => $detailsGravity, 'font' => "fontN", 'color' => "white"));
 
 if ($stype && $stype != "txt") {
-	if ($lastSeason == true) {
+	if ($lastSeason == true && !$size[0]) {
+		plainText($canvas, array('x' => 420, 'y' => 965, 'w' => 80, 'h' => 60, 'text' => 'Last\nSeason:', 'gravity' => "west", 'font' => "fontN", 'color' => "white"));
+	}	else if ($lastSeason == true) {
 		shadowText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 	} else if ($row["team"] == career) {
 		shadowText($canvas, array('x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
