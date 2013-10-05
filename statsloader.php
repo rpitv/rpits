@@ -5,7 +5,10 @@ mysql_select_db("rpihockey");
 
 $tid = $_GET["tid"];
 
-$page = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=$tid","r");
+//$page = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=$tid","r");
+//Just to make it pull last season
+$page = fopen("http://www.collegehockeynews.com/stats/team/Rensselaer/48/overall,20122013","r");
+
 $contents = stream_get_contents($page);
 
 $values = parser($contents);
