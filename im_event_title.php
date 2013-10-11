@@ -55,7 +55,7 @@ From an XML template: 	<select name="parent">
 <form action="im_event_title.php" method="GET">
 	From existing title: <select name="parent" >
 		<?
-		$result = dbquery("SELECT * FROM titles WHERE parent REGEXP '^[0-9]+$';");
+		$result = dbquery("SELECT * FROM titles");
 		while ($row = mysql_fetch_array($result)) {
 			echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
 		}	?>
