@@ -1,6 +1,6 @@
 <?
 
-include ("init.php");
+include ($includePath . "init.php");
 mysql_select_db("rpits");
 
 function dbquery($query) {

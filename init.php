@@ -1,11 +1,11 @@
 <?php
 
-if(!file_exists('config.php'))
+if(!file_exists($includePath . 'config.php'))
 {
 	die("<h1>Please rename config.sample.php to config.php and edit MYSQL server information appropriately.</h1>");
 }
 
-include('config.php');
+include($includePath . 'config.php');
 
 if(!defined('IMGFMT')) {
 	define('IMGFMT','png');
