@@ -14,7 +14,7 @@
 $includePath = '../';
 include($includePath . 'include.php');
 
-mysql_select_db("prod_mirror");
+mysql_select_db("rpits");
 
 echo '<pre>';
 
