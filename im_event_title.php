@@ -35,10 +35,25 @@ if($_GET["add"] == 'Add') {
 
 if($eventId > 0) {
 
-?>
+
+	?>
 <p><strong>Create and attach new title to this event</strong></p>
 <form action="im_event_title.php" method="GET">
-	Parent: <select name="parent" >
+From an XML template: 	<select name="parent">
+	<?
+		$templates = glob("templates/*.xml");
+		foreach($templates as $template) {
+			echo '<option value="'.$template.'">'.$template.'</option>';
+		}
+	?>
+	</select>
+	Name: <input type="text" name="name" />
+	<input type="hidden" name="eventId" value="<?= $eventId ?>" />
+	<input type="submit" name="add" value="Add" />
+</form>
+-OR-
+<form action="im_event_title.php" method="GET">
+	From existing title: <select name="parent" >
 		<?
 		$result = dbquery("SELECT * FROM titles WHERE parent REGEXP '^[0-9]+$';");
 		while ($row = mysql_fetch_array($result)) {
