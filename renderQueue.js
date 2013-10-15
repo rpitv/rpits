@@ -92,6 +92,9 @@
     //////////////////////////////////////////////////////////////////////////////////
     processQueue: function(index, recursive) // Start rendering queue (single pass) //
     {
+
+      index = index ? index : 0;
+
       if (this.queue.length == 0) // Don't mess with an empty queue
       {
         alert("Render Queue is already complete!");
