@@ -5,6 +5,7 @@ include("include.php");
 $event = $_GET["event"];
 $team = $_GET["team"];
 $thing = $_GET["thing"];
+$format = $_GET["format"];
 
 $checkHash = $_GET["checkHash"];
 
@@ -21,6 +22,8 @@ if($checkHash && $event > 0) {
 	exit();
 }
 
+$list = array();
+
 $result;
 if ($thing == "billboards") {
 	//echo("<h1>Not Implemented</h1>");
@@ -32,7 +35,9 @@ if ($thing == "billboards") {
 	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
 	while ($row = mysql_fetch_assoc($result)) {
 		$title = getTitle($row['title']);
-		if($title) {
+		if($title && $format == 'json') {
+			$list[] = $title;
+		} else if($title) {
 			echo("<li type=\"general\" id=\"" . $title["id"] . "\"><img src=\"thumbs/" . $title["name"] . $title["id"] . ".png\" path=\"out/" . $title["name"] . $title["id"] . ".png\" height=\"38\" />" . $title["name"] . "</li>\n");
 		}
 	}
@@ -56,5 +61,9 @@ if ($thing == "billboards") {
 		echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"out/" . $path . ".png\" src=\"thumbs/" . $path . ".png\" width=\"40\" />" . $title_name . "</li>\n");
 	}
 	mysql_select_db("rpits");
+}
+
+if($format == 'json') {
+	echo json_encode($list);
 }
 ?>
