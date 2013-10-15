@@ -95,7 +95,7 @@ function addGeoToCanvas($canvas,$geo,$bustCache = false) {
 function renderGeo($geo) {
 	$x = 10; $y = 10; $w = 20; $h = 20;
 	$canvas = new Imagick();
-	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", IMGFMT);
+	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", 'tga');
 	$canvas->setImageDepth(8);
 	$canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
 	$geo['x'] = $x;
@@ -107,7 +107,7 @@ function renderGeo($geo) {
 
 function getGeoFromCache($geo) {
 	$hash = getGeoHash($geo);
-	$path = realpath('cache') . "/$hash." . IMGFMT;
+	$path = realpath('cache') . "/$hash." . 'tga';
 	if(file_exists($path)) {
 		$img = new Imagick($path);
 		$img->setImageDepth(8);
@@ -120,7 +120,7 @@ function getGeoFromCache($geo) {
 
 function saveGeoToCache($geo,$im) {
 	$hash = getGeoHash($geo);
-	$im->writeImage(realpath("cache")."/" . $hash . '.' . IMGFMT) or die ('Error writing Geo to cache');
+	$im->writeImage(realpath("cache")."/" . $hash . '.' . 'tga') or die ('Error writing Geo to cache');
 }
 
 function stripDBFetch($attrs) {
