@@ -12,6 +12,7 @@ include('init.php');
 </head>
 <body>
 <h1>RPI TV Hockey Title Management System</h1>
+<p style="font-family:'Arial',sans-serif;font-size:12px;font-weight:bold"><img src="rpits.jpg" style="vertical-align:-1px;"/> is proud to be a part of <img src="rpigs.jpg" style="vertical-align:-1px" /></p>
 <h2>List of Current Pages</h2>
 <ul>
 	<li><a href="im_ui.php">Titles UI (ImageMagick based)</a> - Send titles to keyer, edit general titles. Also edit events and their participants</li>
