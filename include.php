@@ -96,6 +96,8 @@ function renderGeo($geo) {
 	$x = 10; $y = 10; $w = 20; $h = 20;
 	$canvas = new Imagick();
 	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", IMGFMT);
+	$canvas->setImageDepth(8);
+	$canvas->setimagecolorspace(imagick::COLORSPACE_RGB);
 	$geo['x'] = $x;
 	$geo['y'] = $y;
 	$geo['type']($canvas, $geo);
@@ -108,6 +110,8 @@ function getGeoFromCache($geo) {
 	$path = realpath('cache') . "/$hash." . IMGFMT;
 	if(file_exists($path)) {
 		$img = new Imagick($path);
+		$canvas->setImageDepth(8);
+		$img->setimagecolorspace(imagick::COLORSPACE_RGB);
 		return $img;
 	} else {
 		return false;

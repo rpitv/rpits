@@ -69,6 +69,8 @@ if ($row["pos"][0] == 'W') {
 
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
+$canvas->setImageDepth(8);
+$canvas->setimagecolorspace(imagick::COLORSPACE_RGB);
 
 
 

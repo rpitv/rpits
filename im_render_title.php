@@ -27,6 +27,7 @@ timestamp ('pre-Imagick');
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", IMGFMT);
 $canvas->setImageDepth(8);
+$canvas->setimagecolorspace(imagick::COLORSPACE_RGB);
 
 timestamp('post allocation');
 
