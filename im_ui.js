@@ -22,10 +22,16 @@ ui.titleObjectShim = function(el) {
 	title.name = el.text();
 	title.type = el.attr('type');
 	title.id = el.attr('id');
+	title.path = el.children('img').attr('path');
 	title.getFilename = function() {
-		return this.name + this.id + '.png';
-	}
-	
+		if(this.type == 'general') {
+			return this.name + this.id + '.png';
+		} else if (this.type == 'player') {
+			return this.path;
+		} else {
+			console.error("whatever this title type is, it isn't supported.");
+		}
+	};
 	return title;
 };
 
