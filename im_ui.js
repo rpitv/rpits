@@ -28,6 +28,8 @@ ui.titleObjectShim = function(el) {
 			return this.name + this.id + '.png';
 		} else if (this.type == 'player') {
 			return this.path;
+		} else if (this.type == 'billboard'){
+			return '../' + this.path; // this is not a long-term solution
 		} else {
 			console.error("whatever this title type is, it isn't supported.");
 		}
