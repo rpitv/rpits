@@ -92,7 +92,7 @@
 			this.title = title;
 			duration = duration || title.durationIn || DURATION_IN;
 			this.put(title,function() {
-				this.command('dissolve_in' + duration);
+				this.command('dissolve_in/' + duration);
 			}.bind(this));
 		};
 	};
