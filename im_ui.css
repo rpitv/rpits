@@ -173,7 +173,7 @@ body > div
   height:486px;
   width:864px;
 }
-#program .on
+#program.on
 {
   border:10px solid red;
   margin:-10px;
