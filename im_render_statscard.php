@@ -4,9 +4,9 @@ include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
-$cacheno = $_GET["c"];
 $lastSeason = true;
 
+$bustCache = $_GET["bustCache"] || $_GET["c"]; // backward compatability
 
 mysql_select_db("rpihockey");
 
@@ -41,7 +41,7 @@ $result = dbquery("SELECT * from cache WHERE `key` = '$key'");
 $cacherow = mysql_fetch_array($result);
 $cacherow["hash"] = addslashes($cacherow["hash"]);
 
-if ($cacherow["hash"] == $hash && $cacheno != 1) {
+if ($cacherow["hash"] == $hash && !$bustCache) {
 	$png = file_get_contents("out/$oldkey.png");
 	if ($png) {
 		header('Content-Type: image/png');

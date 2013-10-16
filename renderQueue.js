@@ -5,19 +5,21 @@
     process: 0,
     
     /////////////////////////////////////////////////////////////
-    addToQueue: function(tid) // Add a render job to the queue //
+    addToQueue: function(tid,bustCache) // Add a render job to the queue //
     {
+			bustCache = bustCache || false;
+
       if (this.queue.length == 0) // Show queue if it was hidden
       {
         $("#renderQueue").fadeIn(400);
       }
 
-      var ttype = $("#"+tid).attr("type");
+      var ttype = $(".titles.active #"+tid).attr("type");
       
       if ($("#q"+tid).length == 0) // check for duplicates
       { 
-        var startNum = this.queue.push({'id':tid, 'type':ttype}); // Add title id to the queue
-        var titleName = $("#"+tid).text().trim(); // Get actual title for queue status box
+        var startNum = this.queue.push({'id':tid, 'type':ttype, bustCache:bustCache}); // Add title id to the queue
+        var titleName = $(".titles.active #"+tid).text().trim(); // Get actual title for queue status box
     	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
@@ -113,12 +115,18 @@
 
       var url_str;
 
+			var bustCache = '?bustCache=true';
+
       if (this.queue[index].type == "general")
       {
         url_str = "im_render_title.php?id="+this.queue[index].id;
       } else if (this.queue[index].type == "player") {
-        url_str = "im_render_statscard.php?id="+this.queue[index].id+"&c=1";
+        url_str = "im_render_statscard.php?id="+this.queue[index].id;
       }
+
+			if(this.queue[index].bustCache) {
+				url_str += bustCache;
+			}
 
     	$.ajax({	// Render a title 
     		type: "GET",

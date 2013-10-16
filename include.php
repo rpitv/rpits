@@ -13,6 +13,18 @@ function dbqueryl($query) {
 	return $result;
 }
 
+function queryAssoc($query,$db = false) {
+	if($db) {
+		mysql_select_db($db);
+	}
+	$queryResult = dbquery($query);
+	$array = array();
+	while($row = mysql_fetch_assoc($queryResult)) {
+		$array[] = $row;
+	}
+	return $array;
+}
+
 function getTitle($id) {
 
 	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");

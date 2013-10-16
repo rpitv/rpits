@@ -199,10 +199,12 @@ $(document).ready(function() {
 	$('#updateAll').on('click',function() {
 		$.getJSON($('.tab.active').attr('request') + '&checkHash=true',function(data) {
 			var added = false;
+			var bustCache = $('#updateAllForce:checked').val();
+			var type = $('.tab.active').attr('type');
 			for(var id in data) {
-				if(!data[id]) {
+				if(!data[id] || bustCache || type == 'player') {
 					added = true;
-					renderQueue.addToQueue(id);
+					renderQueue.addToQueue(id,bustCache);
 				}
 			}
 			if(added) renderQueue.processQueue();

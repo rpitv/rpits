@@ -9,13 +9,22 @@ $format = $_GET["format"];
 
 $checkHash = $_GET["checkHash"];
 
-if($checkHash && $event > 0) {
-	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
+if($checkHash) {
 	$list = array();
-	while ($row = mysql_fetch_assoc($result)) {
-		$title = getTitle($row['title']);
-		if($title) {
-			$list[$title['id']] = checkHashForTitle($title);
+	if($event > 0) {
+		$titles = queryAssoc("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
+		foreach($titles as $titleRow) {
+			$title = getTitle($titleRow['title']);
+			if($title) {
+				$list[$title['id']] = checkHashForTitle($title);
+			}
+		}
+	} else if ($team) {
+		// Player hash has yet to be standardizes, so return all players as true for now
+		$players = queryAssoc("SELECT * from players WHERE team='$team' ORDER BY num ASC",'rpihockey');
+		// TODO: move players in to rpits database
+		foreach($players as $player) {
+			$list[$player['id']] = true;
 		}
 	}
 	echo json_encode($list);

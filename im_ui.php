@@ -54,12 +54,12 @@ if (!$eventId) {
 	</div>
 	<div id="tabstrip">
 	  <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
-	  <div class="tab active" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
-	  <div class="tab" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
-	  <div class="tab" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
+	  <div class="tab active" type="general" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
+	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
+	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
 		<? if ($team3) { ?><div class="tab" request="im_title_list.php?team=<?= $team3 ?>" tid="3"><?= $team3 ?> Players</div> <? } ?>
-	  <div class="tab" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
-		<button id="updateAll">Update All</button>
+	  <div class="tab" type="billboards" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
+		<button id="updateAll">Update All</button><input id="updateAllForce" type="checkbox" value="true" />
 	</div>
 	<div id="input"><input type="text" /></div>
 	<div id="actions"></div>
