@@ -112,7 +112,7 @@ ui.applyListeners = function() {
 				$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"), function() {
 					$("#edit").show();
 				});
-			}	else if ($(".selected").attr("type") == "general") {
+			}	else if ($(".selected").attr("type") == "player") {
 				$("#edit").load("im_edit_ptitle.php?id=" + $(".selected").attr("id"),function() {
 					$("#edit").show();
 				});
