@@ -157,6 +157,8 @@ ui.applyListeners = function() {
 
 $(document).ready(function() {
 
+	if(!ui.eventId) return;
+
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
 	ui.preview = new RPITS.ui.Monitor({name:'Preview',id:'preview'});
 	ui.log = new RPITS.ui.Console();

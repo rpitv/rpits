@@ -43,7 +43,7 @@ if (!$eventId) {
 		$team2 = "hobartf";
 	}
 	?>
-
+	<script> ui.eventId = <?= $eventId ?>;</script>
 	<div id="edit"></div>
 	<div id="pane">
 	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
