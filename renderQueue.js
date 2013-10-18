@@ -115,7 +115,7 @@
 
       var url_str;
 
-			var bustCache = '?bustCache=true';
+			var bustCache = '&bustCache=true';
 
       if (this.queue[index].type == "general")
       {
