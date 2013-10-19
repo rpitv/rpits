@@ -4,13 +4,13 @@
 	<geos>
 		<blackBox name="body" x="380" y="180" w="1160" h="820" />
 		<slantRectangle name="titleBar" x="410" y="110" w="1140" h="70" color="red"/>
-		<slantRectangle name="LeftNameBar" x="400" y="690" w="510" h="60" color="red"/>
-		<slantRectangle name="RightNameBar" x="1010" y="690" w="510" h="60" color="green"/>
+		<slantRectangle name="LeftNameBar" x="400" y="690" w="510" h="60" color="{e.h.color}"/>
+		<slantRectangle name="RightNameBar" x="1010" y="690" w="510" h="60" color="{e.v.color}"/>
 		<slantRectangle name="logoBoxLeft" x="305" y="70" w="270" h="150" color="white"/>
 		<slantRectangle name="logoBoxRight" x="1350" y="70" w="270" h="150" color="white"/>
 		
-		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="teamlogos/rpi.png" />
-		<placeImage name="RightLogo" x="1425" y="85" w="120" h="120" path="teamlogos/dart.png" />
+		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="{e.h.logo}" />
+		<placeImage name="RightLogo" x="1425" y="85" w="120" h="120" path="{e.v.logo}" />
 		<placeImage name="LeftGoalie" x="430" y="210" w="450" h="450" path="teams/rpiimgs/JasonKasdorf.png" />
 		<placeImage name="RightGoalie" x="1050" y="210" w="450" h="450" path="teams/dartimgs/CabMorris.png" />
 		<shadowText name="LeftName" x="430" y="695" w="450" h="50" gravity="center" font="fontN" color="white" text="33 - Jason Kasdorf - Fr" />
