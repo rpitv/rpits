@@ -157,6 +157,25 @@ ui.applyListeners = function() {
 
 $(document).ready(function() {
 
+	$('#editEvents').on('click',function() {
+		$('#eventSelector').empty();
+		var eventsTable = new EditableTable({
+			db: 'rpits',
+			dbTable: 'events',
+			columnHeaders: ['ID','Name','Team 1','Team 2'],
+			uneditableColumns: ['id'],
+			element: $('#eventSelector'),
+			callback: function() {
+				console.log("callback fired");
+				$('#eventSelector').append($('<button>Done</button>').on('click', function(){
+					console.log('wtf');
+					window.location = "im_ui.php";
+				}));
+			}
+		});
+		eventsTable.loadTable(0,30);
+	});
+
 	if(!ui.eventId) return;
 
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
@@ -246,24 +265,6 @@ $(document).ready(function() {
 		ui.preview.on(ui.titleObjectShim(activeEl));
 		$("#edit").hide();
 		document.activeElement.blur();
-	});
-	$('#editEvents').live('click',function() {
-		$('#eventSelector').empty();
-		var eventsTable = new EditableTable({
-			db: 'rpits',
-			dbTable: 'events',
-			columnHeaders: ['ID','Name','Team 1','Team 2'],
-			uneditableColumns: ['id'],
-			element: $('#eventSelector'),
-			callback: function() {
-				console.log("callback fired");
-				$('#eventSelector').append($('<button>Done</button>').on('click', function(){
-					console.log('wtf');
-					window.location = "im_ui.php";
-				}));
-			}
-		});
-		eventsTable.loadTable(0,30);
 	});
 });
 
