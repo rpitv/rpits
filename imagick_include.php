@@ -215,6 +215,9 @@ function shadowText(&$canvas, $o) {
 }
 
 function placeImage(&$canvas, $o) {
+	if(!file_exists($path)) {
+		return;
+	}
 	try {
 		$logo = new Imagick();
 		$logo->readImage(realpath($o['path']));

@@ -153,7 +153,12 @@ function fetchTeam($team) {
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
 	$orgRow = mysql_fetch_assoc($orgResource);
 
-	return array_merge($teamRow,$orgRow);
+	if($teamRow && $orgRow) {
+		$teamRow['logo'] = 'teamlogos/' . $teamRow['logo'];
+		return array_merge($teamRow,$orgRow);
+	} else {
+		return false;
+	}
 }
 
 function dbFetch($id, $geo) {
@@ -209,9 +214,11 @@ function getToken($token) {
 
 	$teamRow = fetchTeam($eventRow[$teamColumn]);
 
-	$teamRow['logo'] = 'teamlogos/' . $teamRow['logo'];
-
-	return $teamRow[$tokens[2]];
+	if ($teamRow) {
+		return $teamRow[$tokens[2]];
+	} else {
+		return false;
+	}
 }
 
 function rgbhex($red, $green, $blue) {
