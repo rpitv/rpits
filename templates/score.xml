@@ -9,8 +9,8 @@
 		<font name="font">fonts/Gotham-Bold.ttf</font>
 	</defs>
 	<geos>
-		<slantRectangle name="vTeamBar" x="660" y="680" w="600" h="80" color="#000000" />
-		<slantRectangle name="hTeamBar" x="660" y="820" w="600" h="80" color="#000000" />
+		<slantRectangle name="vTeamBar" x="660" y="680" w="600" h="80" color="{e.v.color}" />
+		<slantRectangle name="hTeamBar" x="660" y="820" w="600" h="80" color="{e.h.color}" />
 
 		<slantRectangle name="vTeamLogoBox" x="520" y="660" w="200" h="120" color="#FFFFFF" />
 		<slantRectangle name="hTeamLogoBox" x="520" y="800" w="200" h="120" color="#FFFFFF" />
@@ -20,11 +20,11 @@
 
 		<slantRectangle name="gameStatusBox" x="680" y="940" w="470" h="60" color="#303030" />
 
-		<placeImage name="hLogo" x="570" y="808" w="100" h="100" path="teamlogos/rpi.png" />
-		<placeImage name="vLogo" x="570" y="668" w="100" h="100" path="teamlogos/test.png" />
+		<placeImage name="hLogo" x="570" y="808" w="100" h="100" path="{e.h.logo}" />
+		<placeImage name="vLogo" x="570" y="668" w="100" h="100" path="{e.v.logo}" />
 
-		<shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="VISITING" case="upper"/>
-		<shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="RENSSELAER" case="upper"/>
+		<shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="{e.v.name}" case="upper"/>
+		<shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="{e.h.name}" case="upper"/>
 
 		<shadowText name="vScore" x="1200" y="670" w="200" h="110" gravity="center" font="font" color="white" text="0"/>
 		<shadowText name="hScore" x="1200" y="810" w="200" h="110" gravity="center" font="font" color="white" text="0"/>
