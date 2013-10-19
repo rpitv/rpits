@@ -215,7 +215,7 @@ function shadowText(&$canvas, $o) {
 }
 
 function placeImage(&$canvas, $o) {
-	if(!file_exists($path)) {
+	if(!file_exists($o['path'])) {
 		return;
 	}
 	try {
