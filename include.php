@@ -154,7 +154,7 @@ function fetchTeam($team) {
 	$orgRow = mysql_fetch_assoc($orgResource);
 
 	if($teamRow && $orgRow) {
-		$orgRow['logo'] = 'teamlogos/' . $teamRow['logo'];
+		$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
 		return array_merge($teamRow,$orgRow);
 	} else {
 		return false;
