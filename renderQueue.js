@@ -4,8 +4,8 @@
     queue: [],
     process: 0,
     
-    /////////////////////////////////////////////////////////////
-    addToQueue: function(tid,bustCache) // Add a render job to the queue //
+    ////////////////////////////////////////////////////////////////////////
+    addToQueue: function(tid, bustCache) // Add a render job to the queue //
     {
 			bustCache = bustCache || false;
 

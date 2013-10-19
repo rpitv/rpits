@@ -81,7 +81,7 @@ echo '</div>'
     var renderTid = $(this).attr("tid");
     $.ajax({
       type: "GET",
-      url: "im_render_title.php?id="+renderTid,
+      url: "im_render_title.php?id="+renderTid+"&bustCache=true",
       success: function(data) {
         button.html("Done Rendering");
         window.renderQueue.removeFromQueue(renderTid);
