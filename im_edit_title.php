@@ -25,7 +25,7 @@ function printEditableRow($row, $id, $type) {
 	echo '</div>';
 }
 
-$title = getTitle($titleId);
+$title = getTitle($titleId,false);
 $geos = groupGeosByType($title['geos']);
 
 echo '<div id="editTitle">';

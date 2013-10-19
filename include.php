@@ -25,15 +25,14 @@ function queryAssoc($query,$db = false) {
 	return $array;
 }
 
-function getTitle($id) {
+function getTitle($id,$withReplacements = true) {
 
 	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
 	$title = mysql_fetch_assoc($titleResult);
 
 	// null checking
-
 	if(is_numeric($title["parent"])) {
-		$parent = getTitle($title["parent"]);
+		$parent = getTitle($title["parent"],$withReplacements);
 	} else {
 		$parent = getTitleFromXML($title["parent"]);
 	}
@@ -48,8 +47,10 @@ function getTitle($id) {
 			$title['geos'][$row['name']][$row['key']] = $row['value'];
 		}
 
-		foreach($title['geos'] as $key=>$geo) {
-			$title['geos'][$key] = tokenReplace($geo);
+		if($withReplacements) {
+			foreach($title['geos'] as $key=>$geo) {
+				$title['geos'][$key] = tokenReplace($geo);
+			}
 		}
 
 		return $title;
