@@ -67,7 +67,11 @@ if ($thing == "billboards") {
 		$title_name = "$num - $first $last";
 		$path = $num . $first . $last;
 		$path = rawurlencode($path);
-		echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"" . $path . ".png\" src=\"thumbs/" . $path . ".png\" width=\"40\" />" . $title_name . "</li>\n");
+		if($format == 'json') {
+			$list[] = getStatscard($row['id']);
+		} else {
+			echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"" . $path . ".png\" src=\"thumbs/" . $path . ".png\" width=\"40\" />" . $title_name . "</li>\n");
+		}
 	}
 	mysql_select_db("rpits");
 }

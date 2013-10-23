@@ -121,7 +121,7 @@
       {
         url_str = "im_render_title.php?id="+this.queue[index].id;
       } else if (this.queue[index].type == "player") {
-        url_str = "im_render_statscard.php?id="+this.queue[index].id;
+        url_str = "im_render_title.php?player="+this.queue[index].id;
       }
 
 			if(this.queue[index].bustCache) {

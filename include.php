@@ -1,6 +1,7 @@
 <?
 
 include ($includePath . "init.php");
+include ($includePath . "getStatscard.php");
 mysql_select_db("rpits");
 
 function dbquery($query) {
@@ -89,10 +90,10 @@ function getAllChildren($xml) {
 }
 
 function getGeoHash($geo) {
-	unset($geo['x']);
-	unset($geo['y']);
-	unset($geo['name']);
-	unset($geo['order']);
+	$ignore = ['x','y','name','order'];
+	foreach($ignore as $i) {
+		unset($geo[$i]);
+	}
 	return $geo['type'] . '_' . hash('md4',json_encode($geo));
 }
 
@@ -134,6 +135,20 @@ function getGeoFromCache($geo) {
 function saveGeoToCache($geo,$im) {
 	$hash = getGeoHash($geo);
 	$im->writeImage(realpath("cache")."/" . $hash . '.' . 'tga') or die ('Error writing Geo to cache');
+}
+
+function getTextWidthFromCache($geo) {
+	$hash = getGeoHash($geo);
+	mysql_select_db('rpits');
+	$result = dbQuery("SELECT * FROM cache WHERE `key` = '$hash' LIMIT 1");
+	$hashRow = mysql_fetch_assoc($result);
+	if($hashRow) {
+		return $hashRow['hash'];
+	} else {
+		$width = getTextWidth($geo);
+		$result = dbQuery("INSERT INTO `cache` (`key`,`hash`) VALUES ('$hash','$width')");
+		return $width;
+	}
 }
 
 function stripDBFetch($attrs) {
@@ -269,9 +284,12 @@ function groupGeosByType($geos) {
 	return $return;
 }
 
-function checkHashForTitle($title) {
+function checkHashForTitle($title,$key = false) {
+	if(!$key) {
+		$key = $title['id'];
+	}
 	$geoHash = hash('md4',json_encode($title['geos']));
-	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $title['id'] . "' LIMIT 1");
+	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $key . "' LIMIT 1");
 	$cacheRow = mysql_fetch_assoc($result);
 
 	if($geoHash == $cacheRow["hash"]) {
