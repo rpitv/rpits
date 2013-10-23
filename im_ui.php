@@ -72,10 +72,6 @@ if (!$eventId) {
     </div>    
   </div>
 
-<script type="text/javascript"> // Used for page leave checking
-  var eventIdNum = <?= $eventId ?>;
-</script>
-
 	<?php
 }
 ?>
