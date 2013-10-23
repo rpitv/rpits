@@ -13,12 +13,10 @@ function getStatscard($id) {
 	// Gather required data
 	//
 
-	mysql_select_db("rpihockey"); // TODO: Migrate all tables over to rpits
-
 	$result = dbquery("SELECT * from players WHERE `id` = '$id'");
 	$row = mysql_fetch_assoc($result);
 
-	$result = dbquery("SELECT * from teams WHERE `name` = '" . $row["team"] . "'");
+	$result = dbquery("SELECT * from statscard_teams WHERE `name` = '" . $row["team"] . "'");
 	$teamrow = mysql_fetch_array($result);
 	$tColor = rgbhex($teamrow["colorr"], $teamrow["colorg"], $teamrow["colorb"]);
 

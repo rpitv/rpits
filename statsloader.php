@@ -1,7 +1,6 @@
 <?php
 
 include ("init.php");
-mysql_select_db("rpihockey");
 
 $tid = $_GET["tid"];
 

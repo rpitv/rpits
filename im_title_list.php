@@ -20,9 +20,8 @@ if($checkHash) {
 			}
 		}
 	} else if ($team) {
-		// Player hash has yet to be standardizes, so return all players as true for now
-		$players = queryAssoc("SELECT * from players WHERE team='$team' ORDER BY num ASC",'rpihockey');
-		// TODO: move players in to rpits database
+		// Player hash has yet to be standardized, so return all players as true for now
+		$players = queryAssoc("SELECT * from players WHERE team='$team' ORDER BY num ASC");
 		foreach($players as $player) {
 			$list[$player['id']] = true;
 		}
@@ -57,7 +56,6 @@ if ($thing == "billboards") {
 	}
 } else {
 	//echo("<h1>Not Implemented</h1>");
-	mysql_select_db("rpihockey");
 	$result = dbquery("SELECT * from players WHERE team='$team' ORDER BY num ASC");
 
 	while ($row = mysql_fetch_array($result)) {
@@ -73,7 +71,6 @@ if ($thing == "billboards") {
 			echo("<li type=\"player\" id=\"" . $row["id"] . "\"><img path=\"" . $path . ".png\" src=\"thumbs/" . $path . ".png\" width=\"40\" />" . $title_name . "</li>\n");
 		}
 	}
-	mysql_select_db("rpits");
 }
 
 if($format == 'json') {

@@ -2,7 +2,6 @@
 
 include ("init.php");
 include ("include.php");
-mysql_select_db("rpits");
 
 $eventId = $_GET["eventId"];
 
@@ -137,7 +136,7 @@ $(function() {
 			var id = button.parent().attr('id');
 			button.siblings('input').replaceWith('<span class="titleName">' + titleName + '</span>');
 			var sql = 'UPDATE titles SET name="' + titleName + '" WHERE id="' + id + '";';
-			$.getJSON('sql.php',{sql: sql, db:'rpits'},function(d) {
+			$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'},function(d) {
 				button.removeClass('save');
 				button.text('Rename');
 			});
@@ -147,7 +146,7 @@ $(function() {
 		var button = $(e.currentTarget);
 		var id = button.parent().attr('id');
 		var sql = 'DELETE FROM event_title WHERE title="' + id + '" AND event="' + eventId + '";';
-		$.getJSON('sql.php',{sql: sql, db:'rpits'},function(d) {
+		$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'},function(d) {
 			button.parent().remove();
 		});
 	})

@@ -1,7 +1,6 @@
 <?php
 
 include("include.php");
-mysql_select_db("rpihockey");
 
 if ($_POST)
 {

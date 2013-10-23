@@ -43,7 +43,10 @@ if (!$eventId) {
 		$team2 = "hobartf";
 	}
 	?>
-	<script> ui.eventId = <?= $eventId ?>;</script>
+	<script>
+		ui.eventId = <?= $eventId ?>;
+		ui.dbName = <?= $mysql_database_name ?>;
+	</script>
 	<div id="edit"></div>
 	<div id="pane">
 	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>

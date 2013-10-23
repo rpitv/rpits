@@ -2,7 +2,6 @@
 
 include ($includePath . "init.php");
 include ($includePath . "getStatscard.php");
-mysql_select_db("rpits");
 
 function dbquery($query) {
 	$result = mysql_query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
@@ -14,10 +13,7 @@ function dbqueryl($query) {
 	return $result;
 }
 
-function queryAssoc($query,$db = false) {
-	if($db) {
-		mysql_select_db($db);
-	}
+function queryAssoc($query) {
 	$queryResult = dbquery($query);
 	$array = array();
 	while($row = mysql_fetch_assoc($queryResult)) {
@@ -139,7 +135,6 @@ function saveGeoToCache($geo,$im) {
 
 function getTextWidthFromCache($geo) {
 	$hash = getGeoHash($geo);
-	mysql_select_db('rpits');
 	$result = dbQuery("SELECT * FROM cache WHERE `key` = '$hash' LIMIT 1");
 	$hashRow = mysql_fetch_assoc($result);
 	if($hashRow) {
