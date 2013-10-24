@@ -37,11 +37,40 @@ ui.titleObjectShim = function(el) {
 	return title;
 };
 
+
 ui.applyListeners = function() {
+	var ctrlPress=0;
+	var shiftPress=0;
+	
+	$(document).keyup(function(event){
+		if(event.keyCode == '16'){
+			shiftPress=0;
+		}
+		if(event.keyCode == '17'){
+			ctrlPress=0;
+		}
+	});
+
 	$(document).keydown(function(event) {
 		if(event.keyCode != 13 && $(document.activeElement).filter('#input input').length == 1)	{
 			return;
 		}
+		
+		//check if shift and ctrl are down
+		if(event.keyCode == '16'){
+			shiftPress = 1;
+		}
+		if(event.keyCode == '17'){
+			ctrlPress = 1;
+		}
+
+		//if shift or ctrl are down, abort
+		if(shiftPress || ctrlPress){
+		return;
+		}
+
+
+
 		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") )	{
 			return;
 		}
