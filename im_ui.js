@@ -109,7 +109,7 @@ ui.applyListeners = function() {
 				$("#input").hide();
 				var data = $("#input input").val();
 				$("li").removeClass("selected");
-				var target = $("li:visible:containsC("+data+"):first");
+				var target = $("li:visible:containsC("+data.trim()+"):first");
 				target.addClass("selected");
 				target.scrollintoview({duration: 0});
 				$("li").removeClass("on-edit");
