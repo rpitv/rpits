@@ -70,6 +70,7 @@ echo '</div>'
   });
 
   $(".edit_form").submit(function() {
+    $(this).data("changed", false); // now matches the database
 		var form = $(this);
 		form.children("input:last").attr("value", "Submitting");
     $.ajax({
@@ -87,6 +88,7 @@ echo '</div>'
     var updated = 0;
     $(".edit_form").each(function() {
       if ($(this).data("changed")) {
+        $(this).data("changed", false); // now matches the database
         updated = 1;
         var form = $(this);
 		    form.children("input:last").attr("value", "Submitting");

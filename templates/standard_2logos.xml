@@ -1,0 +1,20 @@
+<template>
+	<name>Two-line w/ Logo on either side</name>
+	<description>Single text box + left title + right title with logo box on either side</description>
+	<geos>
+		<blackBox name="body" x="430" y="880" w="1060" h="120" />
+		<slantRectangle name="titleBarL" x="460" y="820" w="530" h="60" color="red"/>
+		<slantRectangle name="titleBarR" x="966" y="820" w="542" h="60" color="red"/>
+		
+		<slantRectangle name="logoBoxleft" x="400" y="800" w="180" h="100" color="white"/>
+		<slantRectangle name="logoBoxright" x="1355" y="800" w="180" h="100" color="white"/>
+
+		<placeImage name="leftlogo" x="450" y="810" w="80" h="80" path="teamlogos/rpi.png" />
+		<placeImage name="rightlogo" x="1405" y="810" w="80" h="80" path="teamlogos/rpi.png" />
+		
+		<shadowText name="titleTextLeft" x="580" y="825" w="535" h="50" gravity="west" font="fontN" color="white" text="Left" />
+		<shadowText name="titleTextRight" x="820" y="825" w="535" h="50" gravity="east" font="fontN" color="white" text="Right" />
+		
+		<plainText name="bodyText" x="450" y="910" w="1020" h="80" gravity="west" font="fontN" color="white" wordWrap="true" text="Visit rpitv.org tomorrow to see this game streaming on demand in high definition." />
+	</geos>
+</template>

@@ -4,7 +4,7 @@ include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
-$lastSeason = true;
+$lastSeason = false;
 
 $bustCache = $_GET["bustCache"] || $_GET["c"]; // backward compatability
 

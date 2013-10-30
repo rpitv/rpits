@@ -1,0 +1,27 @@
+<template>
+	<geos>
+
+		<slantRectangle name="OverbarLeft" x="391" y="118" w="100" h="50" color="red" />
+	
+		
+		
+		<slantRectangle name="OverbarRight" x="660" y="118" w="100" h="50" color="red" />
+
+		<slantRectangle name="Underbar" x="473" y="118" w="205" h="50" color="#333" />
+		<shadowText name="UnderbarText" x="473" y="123" w="205" h="45" text="Left" color="white" gravity="center" font="fontN" />
+		
+
+
+		
+		
+		<shadowText name="Away SOG" x="420" y="123" w="40" h="40" text="0" color="white" gravity="center" font="fontN" />
+		<shadowText name="Home SOG" x="689" y="123" w="40" h="40" text="0" color="white" gravity="center" font="fontN" />
+		
+		
+		<placeImage name="scoreboard" x="0" y="0" w="1920" h="1080" path="other_graphics/scoreboard.png" />
+
+
+
+	</geos>
+
+</template>

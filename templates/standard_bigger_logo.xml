@@ -1,0 +1,14 @@
+<template>
+	<name>Two-line w/ Double - Sized Logo</name>
+	<description>Single text box + title with huge logo box</description>
+	<geos>
+		<blackBox name="body" x="430" y="880" w="1060" h="120" />
+		<slantRectangle name="titleBar" x="460" y="820" w="1060" h="60" color="red"/>
+		<slantRectangle name="logoBox" x="350" y="810" w="360" h="200" color="white"/>
+
+		<placeImage name="logo" x="450" y="830" w="160" h="160" path="teamlogos/rpi.png" />
+		
+		<shadowText name="titleText" x="710" y="825" w="800" h="50" gravity="west" font="fontN" color="white" text="Want to see it again?" />
+		<plainText name="bodyText" x="675" y="910" w="815" h="80" gravity="west" font="fontN" color="white" wordWrap="true" text="Visit rpitv.org tomorrow to see this game streaming on demand in high definition." />
+	</geos>
+</template>
