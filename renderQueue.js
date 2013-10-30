@@ -75,19 +75,20 @@
         if (this.queue[i].id == traveler)
         {
           index = i;
+          break;
         }
       }
 
-      var tempItem = this.queue.splice(startIndex,1);
-      var tempName = this.queue[destination].id;
+      var tempTraveler = this.queue.splice(index, 1); // remove traveler
+      this.queue.splice(destination, 0, tempTraveler[0]);
 
-      $("#q"+tempItem[0].id).fadeOut(400, function(){
+      var tempName = this.queue[destination+1].id;
+
+      $("#q"+tempTraveler[0].id).fadeOut(400, function(){
         $(this).insertBefore( $("#q"+tempName) );
         $(this).fadeIn(400);
       });
-      
-      this.queue.splice(destination, 0, tempItem[0]);
-
+     
       //alert(this.queue[destination]);
     },
 
