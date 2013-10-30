@@ -60,9 +60,16 @@ if($geos['placeImage']) {
 
 echo '</div>'
 ?><br style="clear:both" />
+
 <button tid="<?= $titleId ?>" id="render" name="Render">Force Render</button>
+<button tid="<?= $titleId ?>" id="updateAll" name="UpdateAll">Update All</button>
+
 <script type="text/javascript">
-	$(".edit_form").submit(function() {
+  $(".edit_form").change( function() { // keep track of changed values
+    $(this).data("changed", true);
+  });
+
+  $(".edit_form").submit(function() {
 		var form = $(this);
 		form.children("input:last").attr("value", "Submitting");
     $.ajax({
@@ -76,6 +83,27 @@ echo '</div>'
 		});
     return false;
 	});
+  $("#updateAll").click(function() { // Update All
+    var updated = 0;
+    $(".edit_form").each(function() {
+      if ($(this).data("changed")) {
+        updated = 1;
+        var form = $(this);
+		    form.children("input:last").attr("value", "Submitting");
+        $.ajax({
+			    type: "POST",
+			    url: "cdb_update.php",
+			    data: $(this).serializeArray(),
+			    success: function(data) {
+				    form.children("input:last").attr("value", data);
+  			  }
+		    });
+      }
+      if (updated) {
+        window.renderQueue.addToQueue(<?= $titleId ?>);
+      }
+    });
+  });
 	$("#render").click(function() { // Force Render
     var button = $(this).html("Rendering");
     var renderTid = $(this).attr("tid");
