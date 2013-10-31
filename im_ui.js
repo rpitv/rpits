@@ -31,7 +31,7 @@ ui.titleObjectShim = function(el) {
 		} else if (this.type == 'billboard'){
 			return '../' + this.path; // this is not a long-term solution
 		} else {
-			console.error("whatever this title type is, it isn't supported.");
+			console.error("Whatever this title type is, it isn't supported.");
 		}
 	};
 	return title;
@@ -66,7 +66,7 @@ ui.applyListeners = function() {
 
 		//if shift or ctrl are down, abort
 		if(shiftPress || ctrlPress){
-		return;
+		  return;
 		}
 
 
