@@ -124,7 +124,8 @@ function slantRectangle(&$canvas, $o) {
 
 function fillRectangle($w,$h,$color) {
 	if(preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
-		$groups = explode(',',$matches[1]);
+		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
+		$groups = explode(',',$commaRemoved);
 		$direction = explode(' ',trim($groups[0]));
 		$stops = [];
 
@@ -148,7 +149,7 @@ function fillRectangle($w,$h,$color) {
 					die('FATAL ERROR: middle stops must have a %');
 				}
 			}
-			$stops[] = array('color'=>$stop[0],'stop'=>$dist);
+			$stops[] = array('color'=> str_replace('|',',',$stop[0]),'stop'=>$dist);
 		}
 		assert(count($stops) > 2);
 		assert(count($direction) == 2);
