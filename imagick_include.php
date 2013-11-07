@@ -128,19 +128,19 @@ function fillRectangle($w,$h,$color) {
 		$direction = explode(' ',$groups[0]);
 		$stops = [];
 
-		$i = 1;
+		$startIndex = 1;
 
 		$firstGroup = explode(' ',$groups[0]);
 		if($firstGroup[0] != 'to') {
-			$i = 0;
+			$startIndex = 0;
 			$direction = ['to','bottom'];
 		}
 
-		for(; $i < count($groups); $i++) {
+		for($i = $startIndex; $i < count($groups); $i++) {
 			$stop = explode(' ',$groups[$i]);
 			$dist = $stop[1];
 			if(!$dist) {
-				if($i-1 == 0) {
+				if($i == $startIndex) {
 					$dist = '0%';
 				} else if ($i+1 == count($groups)) {
 					$dist = '100%';
