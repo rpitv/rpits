@@ -151,7 +151,7 @@ function fillRectangle($w,$h,$color) {
 			}
 			$stops[] = array('color'=> str_replace('|',',',$stop[0]),'stop'=>$dist);
 		}
-		assert(count($stops) > 2);
+		assert(count($stops) >= 2);
 		assert(count($direction) == 2);
 
 		if($stops[0]['stop'] != '0px' && $stops[0]['stop'] != '0%') {
