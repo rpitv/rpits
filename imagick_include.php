@@ -125,19 +125,19 @@ function slantRectangle(&$canvas, $o) {
 function fillRectangle($w,$h,$color) {
 	if(preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
 		$groups = explode(',',$matches[1]);
-		$direction = explode(' ',$groups[0]);
+		$direction = explode(' ',trim($groups[0]));
 		$stops = [];
 
 		$startIndex = 1;
 
-		$firstGroup = explode(' ',$groups[0]);
+		$firstGroup = explode(' ',trim($groups[0]));
 		if($firstGroup[0] != 'to') {
 			$startIndex = 0;
 			$direction = ['to','bottom'];
 		}
 
 		for($i = $startIndex; $i < count($groups); $i++) {
-			$stop = explode(' ',$groups[$i]);
+			$stop = explode(' ',trim($groups[$i]));
 			$dist = $stop[1];
 			if(!$dist) {
 				if($i == $startIndex) {
