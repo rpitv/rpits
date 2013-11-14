@@ -5,6 +5,7 @@
 include("include.php");
 
 $titleId = $_GET["id"];
+$eventId = $_GET["eventId"];
 
 function printEditableRow($row, $id, $type) {
 	$val = $row[$type];
@@ -25,7 +26,7 @@ function printEditableRow($row, $id, $type) {
 	echo '</div>';
 }
 
-$title = getTitle($titleId,false);
+$title = getTitle($titleId,$eventId,false);
 $geos = groupGeosByType($title['geos']);
 
 echo '<div id="editTitle">';
@@ -111,7 +112,7 @@ echo '</div>'
     var renderTid = $(this).attr("tid");
     $.ajax({
       type: "GET",
-      url: "im_render_title.php?id="+renderTid+"&bustCache=true",
+      url: "im_render_title.php?id="+renderTid+"&bustCache=true" + (ui.eventId ? '&eventId=' + ui.eventId : ''),
       success: function(data) {
         button.html("Done Rendering");
         window.renderQueue.removeFromQueue(renderTid);

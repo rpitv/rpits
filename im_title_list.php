@@ -14,7 +14,7 @@ if($checkHash) {
 	if($event > 0) {
 		$titles = queryAssoc("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
 		foreach($titles as $titleRow) {
-			$title = getTitle($titleRow['title']);
+			$title = getTitle($titleRow['title'],$event);
 			if($title) {
 				$list[$title['id']] = checkHashForTitle($title);
 			}
@@ -42,7 +42,7 @@ if ($thing == "billboards") {
 } else if ($event > 0) {
 	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
 	while ($row = mysql_fetch_assoc($result)) {
-		$title = getTitle($row['title']);
+		$title = getTitle($row['title'],$event);
 		if($title && $format == 'json') {
 			$list[] = $title;
 		} else if($title) {

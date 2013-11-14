@@ -120,7 +120,7 @@
 
       if (this.queue[index].type == "general")
       {
-        url_str = "im_render_title.php?id="+this.queue[index].id;
+        url_str = "im_render_title.php?id="+this.queue[index].id+'&eventId='+ui.eventId;
       } else if (this.queue[index].type == "player") {
         url_str = "im_render_title.php?player="+this.queue[index].id;
       }

@@ -3,7 +3,8 @@
 include_once("include.php");
 include_once("imagick_include.php");
 
-$id = $_GET["id"];
+$titleId = $_GET["id"];
+$eventId = $_GET["eventId"];
 $path = $_GET["path"];
 $player = $_GET["player"];
 $bustCache = $_GET['bustCache'] || false;
@@ -19,9 +20,9 @@ if ($path) {
 	$filename = $title["num"] . $title["first"] . $title["last"];
 	$key = 'p'.$title['id'];
 } else {
-	$title = getTitle($id);
+	$title = getTitle($titleId,$eventId);
 	$filename = $title["name"] . $title["id"];
-	$key = $id;
+	$key = $titleId;
 }
 
 if(checkHashForTitle($title,$key) && $bustCache == false) {

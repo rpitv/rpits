@@ -22,14 +22,13 @@ function queryAssoc($query) {
 	return $array;
 }
 
-function getTitle($id,$withReplacements = true) {
-
+function getTitle($id,$eventId,$withReplacements = true) {
 	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
 	$title = mysql_fetch_assoc($titleResult);
 
 	// null checking
 	if(is_numeric($title["parent"])) {
-		$parent = getTitle($title["parent"],$withReplacements);
+		$parent = getTitle($title["parent"],$eventId,$withReplacements);
 	} else {
 		$parent = getTitleFromXML($title["parent"]);
 	}
@@ -46,7 +45,7 @@ function getTitle($id,$withReplacements = true) {
 
 		if($withReplacements) {
 			foreach($title['geos'] as $key=>$geo) {
-				$title['geos'][$key] = tokenReplace($geo);
+				$title['geos'][$key] = tokenReplace($geo,$eventId);
 			}
 		}
 
@@ -193,42 +192,38 @@ function getAttributes($xml) {
 	return $node;
 }
 
-function tokenReplace($data) {
+function tokenReplace($data,$eventId) {
 	foreach($data as $key => $string) {
 		$matches = array();
 
 		preg_match_all('/\{(.*?)\}/', $string, $matches);
 		$tokens = $matches[1];
 		foreach($tokens as $token) {
-			$string = preg_replace('/\{'.$token.'\}/',getToken($token),$string);
+			$replacement = getToken($token,$eventId);
+			$string = preg_replace('/\{'.$token.'\}/',$replacement,$string);
 		}
 		$data[$key] = $string;
 	}
 	return $data;
 }
 
-// This is hardcoded and not ideal, but it will suffice for now
-// and become a more open standard later
-// example: {e.h.color} is the home team's color for event 1
-function getToken($token) {
+// example: {e.h.color} is the home team's color for the passed in event
+function getToken($token,$eventId) {
 	$tokens = explode('.',$token);
 
-	if($tokens[0] != 'e' && $tokens[0] != 'event')
-		return '';
-
-	$eventId = 1; // bad
-	$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
-	$eventRow = mysql_fetch_assoc($eventResource);
-
-	$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
-
-	$teamRow = fetchTeam($eventRow[$teamColumn]);
-
-	if ($teamRow) {
-		return $teamRow[$tokens[2]];
-	} else {
-		return false;
+	// Event based replacement (future expansion on this front is likely)
+	if($tokens[0] == 'e') {
+		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
+		$eventRow = mysql_fetch_assoc($eventResource);
+		if($eventRow) {
+			$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
+			$teamRow = fetchTeam($eventRow[$teamColumn]);
+			if ($teamRow) {
+				return $teamRow[$tokens[2]];
+			}
+		}
 	}
+	return false;
 }
 
 function rgbhex($red, $green, $blue) {
