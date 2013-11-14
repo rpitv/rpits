@@ -16,15 +16,12 @@
 
 <?
 include ("init.php");
-mysql_select_db("rpihockey");
 
 $cache = $_GET["cache"];
 if ($cache)
 {
-	mysql_select_db("rpits");
   $query = "TRUNCATE TABLE cache";
   $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-	mysql_select_db("rpihockey");
 }?>
 <h3>genall.php</h3>
 <form action="genall.php" method="GET">
@@ -36,7 +33,7 @@ if ($cache)
 Team 1: <select name="team1">
 <?
 
-$query = "SELECT * from teams";
+$query = "SELECT * from statscard_teams";
 $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 while($row = mysql_fetch_array($result)){
 	echo("  <option>" . $row["name"] . "</option>");

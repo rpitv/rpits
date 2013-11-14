@@ -2,10 +2,13 @@
 
 function EditableTable(options) {
 
-	if(!options.db)
+	if(!options.db) {
+		alert('Warning: No database selected, using "rpits"');
 		options.db = 'rpits';
-	if(!options.dbTable)
+	}
+	if(!options.dbTable) {
 		return 'No database table selected';
+	}
 
 	this.options = options;
 

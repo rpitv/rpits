@@ -4,8 +4,6 @@
 <?php
 include("include.php");
 
-mysql_select_db("rpihockey");
-
 $titleId = $_GET["id"];
 
 $titleResult = dbquery("SELECT * from players where id=\"$titleId\" LIMIT 1;");

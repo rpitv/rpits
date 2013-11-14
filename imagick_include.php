@@ -37,11 +37,7 @@ function slantRectangle(&$canvas, $o) {
 		$bottomdark->compositeImage($gradient1, imagick::COMPOSITE_OVER, 0, 0);
 		$bottomdark->compositeImage($gradient2, imagick::COMPOSITE_OVER, 0, ($o['h'] / 2) - ($o['h'] / 7));
 
-		$background = new Imagick();
-		$background->newPseudoImage($o['w'], $o['h'], "xc:".$o['color']);
-
-
-
+		$background = fillRectangle($o['w'], $o['h'], $o['color']);
 
 		$background->compositeImage($lefttoright, imagick::COMPOSITE_MULTIPLY, 0, 0);
 
@@ -124,6 +120,72 @@ function slantRectangle(&$canvas, $o) {
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
+}
+
+function fillRectangle($w,$h,$color) {
+	if(preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
+		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
+		$groups = explode(',',$commaRemoved);
+		$direction = explode(' ',trim($groups[0]));
+		$stops = [];
+
+		$startIndex = 1;
+
+		$firstGroup = explode(' ',trim($groups[0]));
+		if($firstGroup[0] != 'to') {
+			$startIndex = 0;
+			$direction = ['to','bottom'];
+		}
+
+		for($i = $startIndex; $i < count($groups); $i++) {
+			$stop = explode(' ',trim($groups[$i]));
+			$dist = $stop[1];
+			if(!$dist) {
+				if($i == $startIndex) {
+					$dist = '0%';
+				} else if ($i+1 == count($groups)) {
+					$dist = '100%';
+				} else {
+					die('FATAL ERROR: middle stops must have a %');
+				}
+			}
+			$stops[] = array('color'=> str_replace('|',',',$stop[0]),'stop'=>$dist);
+		}
+		assert(count($stops) >= 2);
+		assert(count($direction) == 2);
+
+		if($stops[0]['stop'] != '0px' && $stops[0]['stop'] != '0%') {
+			array_unshift($stops,array('color'=>$stops[0]['color'],'stop'=>'0%'));
+		}
+		if($stops[count($stops)-1]['stop'] != '100%') {
+			array_push($stops,array('color'=>$stops[count($stops)-1]['color'],'stop'=>'100%'));
+		}
+		$x = $w;
+		$y = $h;
+		if($direction[1] == 'left' || $direction[1] == 'right') {
+			$x = $h;
+			$y = $w;
+		}
+		$result = new Imagick();
+		$result->newPseudoImage($x, $y, "xc:none");
+		for($i = 0; $i < count($stops)-1; $i++) {
+			$pctHeight = intval($stops[$i+1]['stop']) - intval($stops[$i]['stop']);
+			$height = ceil($y*($pctHeight)/100);
+			assert ($height > 0);
+			$step = new Imagick();
+			//echo $width . ' ' . "gradient:".$stops[$i]['color'].'-'.$stops[$i+1]['color'] . ' ' . ceil($x*intval($stops[$i]['stop'])/100) . "<br>";
+			$step->newPseudoImage($x,$height,"gradient:".$stops[$i]['color'].'-'.$stops[$i+1]['color']);
+			$result->compositeImage($step, Imagick::COMPOSITE_OVER, 0,ceil($y*intval($stops[$i]['stop'])/100));
+		}
+		$rotationList = array('left'=>90,'right'=>270,'top'=>180,'bottom'=>0);
+		$result->rotateImage(new ImagickPixel(), $rotationList[$direction[1]]);
+		return $result;
+	} else {
+		$result = new Imagick();
+		$result->newPseudoImage($w, $h, "xc:$color");
+		return $result;
+	}
+	
 }
 
 function blackBox(&$canvas, $o) {

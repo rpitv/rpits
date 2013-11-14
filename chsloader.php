@@ -2,7 +2,6 @@
 
 include ("init.php");
 include ("include.php");
-mysql_select_db("rpihockey");
 
 $team = $_GET["team"];
 $url = $_GET["url"];

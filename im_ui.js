@@ -189,7 +189,7 @@ $(document).ready(function() {
 	$('#editEvents').on('click',function() {
 		$('#eventSelector').empty();
 		var eventsTable = new EditableTable({
-			db: 'rpits',
+			db: ui.dbName,
 			dbTable: 'events',
 			columnHeaders: ['ID','Name','Team 1','Team 2'],
 			uneditableColumns: ['id'],

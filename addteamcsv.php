@@ -1,7 +1,6 @@
 <title>Team Roster Adder (via CSV)</title>
 <?
 include ("init.php");
-mysql_select_db("rpihockey");
 $team_sel = $_POST["team_sel"];
 $csv = $_POST["csv"];
 

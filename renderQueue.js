@@ -122,7 +122,7 @@
       {
         url_str = "im_render_title.php?id="+this.queue[index].id;
       } else if (this.queue[index].type == "player") {
-        url_str = "im_render_statscard.php?id="+this.queue[index].id;
+        url_str = "im_render_title.php?player="+this.queue[index].id;
       }
 
 			if(this.queue[index].bustCache) {
@@ -307,7 +307,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
 
 $(window).on('beforeunload', function()
 {
-  if ((eventIdNum) && (parseInt(window.renderQueue.queue.length) != 0)){ // Only in the LIVE UI on empty queue
+  if ((ui.eventId) && (parseInt(window.renderQueue.queue.length) != 0)){ // Only in the LIVE UI on empty queue
     return "WARNING: Leaving or reloading will mess up the queue.\n\nQueueing is very important in the titling system and the UK.\n";
   }
 });
@@ -317,7 +317,7 @@ $(document).ready( function()
 {
   $("#renderQueue").hide(); // Hide queue status box until it is needed.
 
-  if (eventIdNum) { // Only in the LIVE UI
+  if (ui.eventId) { // Only in the LIVE UI
     setTimeout(function(){scoreTitleUpdate( -9001, -9001, "Current Score")}, 1000); // Start auto score update
   }
 });

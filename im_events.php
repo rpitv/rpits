@@ -6,7 +6,7 @@
 	$(function() {
 
 		var eventsTable = new EditableTable({
-			db: 'rpits',
+			db: '<?= $mysql_database_name ?>',
 			dbTable: 'events',
 			columnHeaders: ['ID','Name','Team 1','Team 2'],
 			uneditableColumns: ['id'],

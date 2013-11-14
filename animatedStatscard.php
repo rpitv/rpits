@@ -7,13 +7,10 @@ $id = $_GET["id"];
 $cacheno = $_GET["c"];
 $lastSeason = false;
 
-
-mysql_select_db("rpihockey");
-
 $result = dbquery("SELECT * from players WHERE `id` = '$id'");
 $row = mysql_fetch_array($result);
 
-$result = dbquery("SELECT * from teams WHERE `name` = '" . $row["team"] . "'");
+$result = dbquery("SELECT * from statscard_teams WHERE `name` = '" . $row["team"] . "'");
 $teamrow = mysql_fetch_array($result);
 $tColor = rgbhex($teamrow["colorr"], $teamrow["colorg"], $teamrow["colorb"]);
 
@@ -22,8 +19,6 @@ if ($stype != "txt") {
 	$result = dbquery("SELECT * FROM stattype WHERE `type`  = '$stype'");
 	$slabel = mysql_fetch_array($result);
 }
-
-mysql_select_db("rpits");
 
 //
 // CACHING SECTION

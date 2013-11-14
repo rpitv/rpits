@@ -1,25 +1,37 @@
 <?php
 
-include("include.php");
-include("imagick_include.php");
+include_once("include.php");
+include_once("imagick_include.php");
 
 $id = $_GET["id"];
 $path = $_GET["path"];
+$player = $_GET["player"];
 $bustCache = $_GET['bustCache'] || false;
 
 $title;
+$filename;
+$key;
+
 if ($path) {
 	$title = getTitleFromXML($path);
+} else if ($player) {
+	$title = getStatscard($player);
+	$filename = $title["num"] . $title["first"] . $title["last"];
+	$key = 'p'.$title['id'];
 } else {
 	$title = getTitle($id);
+	$filename = $title["name"] . $title["id"];
+	$key = $id;
 }
 
-if(checkHashForTitle($title) && $bustCache == false) {
-	$img = file_get_contents(realpath('out') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
-	if($img) {
+if(checkHashForTitle($title,$key) && $bustCache == false) {
+	$img = file_get_contents(realpath('out') . '/' . $filename . '.' . IMGFMT);
+	timestamp('Echoing cached version');
+	if($img && !$metrics) {
 		header("Content-Type: image/" . IMGFMT);
 		echo $img;
 	}
+	exit();
 }
 
 timestamp ('pre-Imagick');
@@ -48,14 +60,14 @@ if(!$metrics) {
 $thumb = $canvas->clone();
 $thumb->cropImage(1440, 1080, 0, 0);
 $thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage(realpath('thumbs') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
+$thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
 
 timestamp('post thumbs');
 
 // Generate the output file of the title.
-$canvas->writeImage(realpath('out') . '/' . $title["name"] . $title["id"] . '.' . IMGFMT);
+$canvas->writeImage(realpath('out') . '/' . $filename . '.' . IMGFMT);
 
-dbquery("REPLACE INTO cache SET `key`='$id', `hash`='" . getHashForTitle($title) . "';");
+dbquery("REPLACE INTO cache SET `key`='$key', `hash`='" . getHashForTitle($title) . "';");
 
 timestamp ('post out');
 ?>

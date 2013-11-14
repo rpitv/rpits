@@ -1,7 +1,6 @@
 <title>Player Editor</title>
 <?
 include ("init.php");
-mysql_select_db("rpihockey");
 
 $team_sel = $_POST["team_sel"];
 
@@ -108,7 +107,7 @@ if($team_sel)
   <h2>Select a team</h2>
   <form action="peditor.php" method="post">
 	<?
-	$query = "SELECT * FROM teams";
+	$query = "SELECT * FROM statscard_teams";
 	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 	while($row = mysql_fetch_array($result))
 	{

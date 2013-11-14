@@ -1,7 +1,6 @@
 <?php
 
 include ("init.php");
-mysql_select_db("rpihockey");
 
 $team_sel = $_GET["team_sel"];
 
@@ -17,7 +16,7 @@ if($team_sel)
 $(function() {
 
 	var eventsTable = new EditableTable({
-		db: 'rpihockey',
+		db: '<?= $mysql_database_name ?>',
 		dbTable: 'players',
 		columnHeaders: ['ID','Num','First','Last','Pos','Height','Weight','Year','Hometown','SType','S1','S2','S3','S4','S5','S6','S7','S8','Team'],
 		uneditableColumns: ['id'],
@@ -65,7 +64,7 @@ $(function() {
   <h2>Select a team</h2>
   <form action="im_peditor.php" method="get">
 	<?
-	$query = "SELECT * FROM teams";
+	$query = "SELECT * FROM statscard_teams";
 	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG BECAUSE REILLY PROBABLY CODED THIS PART POORLY</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 	while($row = mysql_fetch_array($result)) {
 	  echo("<div style=\"float:left;width:100px\"><img width=\"30\" src=\"teamlogos/" . $row["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $row["name"] . "\"></div>");
