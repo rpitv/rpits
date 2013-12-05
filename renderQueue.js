@@ -19,7 +19,7 @@
       if ($("#q"+tid).length == 0) // check for duplicates
       { 
         var startNum = this.queue.push({'id':tid, 'type':ttype, bustCache:bustCache}); // Add title id to the queue
-        var titleName = $(".titles.active #"+tid).text().trim(); // Get actual title for queue status box
+        var titleName = $(".titles #"+tid).text().trim(); // Get actual title for queue status box
     	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + titleName + '</pre></div>');
       }
       else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")

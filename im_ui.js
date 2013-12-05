@@ -81,6 +81,8 @@ ui.applyListeners = function() {
 			return;
 		}
 		
+		
+		
 		// Spacebar, takes on/off of program
 		if (event.keyCode == RPITS.constants.KEYCODE.SPACEBAR) {
 			event.preventDefault();
@@ -185,6 +187,12 @@ ui.applyListeners = function() {
 			$("li").removeClass("selected");
 			$(".titles.active li:first").addClass("selected");
 			$(".selected").scrollintoview({duration: 0});
+		}   else if (event.keyCode == '81') { //q key renders queue
+			renderQueue.processQueue();
+		}	else if (event.keyCode == '70') { //f force render			
+			document.getElementById("render").click();
+		}   else if (event.keyCode == '85') { //u updates all
+			document.getElementById("updateAll").click();
 		}
 	});
 };

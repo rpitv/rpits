@@ -85,6 +85,7 @@ echo '</div>'
 		});
     return false;
 	});
+	
   $("#updateAll").click(function() { // Update All
     var updated = 0;
     $(".edit_form").each(function() {
