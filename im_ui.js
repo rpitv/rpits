@@ -50,7 +50,12 @@ ui.applyListeners = function() {
 			ctrlPress=0;
 		}
 	});
-
+	
+	$(window).blur(function() {
+    shiftPress=0;
+	ctrlPress=0;
+})
+	
 	$(document).keydown(function(event) {
 		if(event.keyCode != 13 && $(document.activeElement).filter('#input input').length == 1)	{
 			return;
@@ -64,12 +69,13 @@ ui.applyListeners = function() {
 			ctrlPress = 1;
 		}
 
+		
 		//if shift or ctrl are down, abort
 		if(shiftPress || ctrlPress){
-		  return;
+		 return;
 		}
 
-
+		
 
 		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") )	{
 			return;
