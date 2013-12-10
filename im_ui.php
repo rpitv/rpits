@@ -56,6 +56,8 @@ if (!$eventId) {
 	  <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
 	</div>
 	<div id="tabstrip">
+	<span id = "help" style = "font-size:11px"> Up/Down - Select; Left/Right - Tab; E - Edit; R - Preview; Q - Queue; Space - Bring Up/Down;
+		F - Force Render; U - Update All; C - Cut</span>
 	  <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
 	  <div class="tab active" type="general" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
 	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>

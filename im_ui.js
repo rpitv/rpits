@@ -171,7 +171,7 @@ ui.applyListeners = function() {
 				$(".selected:last").removeClass("selected");
 				$(".selected").scrollintoview({duration: 0});       
 			}
-		}	else if (event.keyCode == '9') { // Tab key -- cycles to next tab
+		}	else if (event.keyCode == '39') { // Right key -- cycles to next tab
 			event.preventDefault();
 			if($(".active + .tab").length == 0) { // if we're at the end of the tab row
 				$(".tab").removeClass("active");
@@ -187,7 +187,30 @@ ui.applyListeners = function() {
 			$("li").removeClass("selected");
 			$(".titles.active li:first").addClass("selected");
 			$(".selected").scrollintoview({duration: 0});
-		}   else if (event.keyCode == '81') { //q key renders queue
+		}   else if (event.keyCode == '37') { // Left key -- cycles to prev tab, requires completely different code than right
+			event.preventDefault();
+			var prevTab, lastTab, activeTab;
+			lastTab = $(".tab:last")[0];			
+			$(".tab").each(function() {
+				if ($(this).hasClass("active")) {
+					prevTab = lastTab;
+					activeTab = this;
+				}
+				lastTab = this;
+			});
+			
+			$(prevTab).addClass("active");
+			$(activeTab).removeClass("active");			
+			
+			$('.titles').removeClass("active");
+			$('.titles').hide();
+			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').show();
+			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').addClass("active");
+			$("li").removeClass("selected");
+			$(".titles.active li:first").addClass("selected");
+			$(".selected").scrollintoview({duration: 0});
+		}
+			else if (event.keyCode == '81') { //q key renders queue
 			renderQueue.processQueue();
 		}	else if (event.keyCode == '70') { //f force render			
 			document.getElementById("render").click();
