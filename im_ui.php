@@ -45,27 +45,11 @@ if (!$eventId) {
 	?>
 	<script>
 		ui.eventId = <?= $eventId ?>;
-		ui.dbName = <?= $mysql_database_name ?>;
+		ui.dbName = '<?= $mysql_database_name ?>';
 	</script>
 	<div id="edit"></div>
-	<div id="pane">
-	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
-	  <ul class="titles" request="im_title_list.php?team=<?= $team1 ?>"></ul>
-	  <ul class="titles" request="im_title_list.php?team=<?= $team2 ?>"></ul>
-	<? if ($team3) { ?><ul class="titles" request="im_title_list.php?team=<?= $team3 ?>"></ul><? } ?>
-	  <ul class="titles" request="im_title_list.php?thing=billboards"></ul>
-	</div>
-	<div id="tabstrip">
-	<span id = "help" style = "font-size:11px"> Up/Down - Select; Left/Right - Tab; E - Edit; R - Preview; Q - Queue; Space - Bring Up/Down;
-		F - Force Render; U - Update All; C - Cut</span>
-	  <!--<div class="tab active" request="im_title_list.php">All Titles</div>-->
-	  <div class="tab active" type="general" request="im_title_list.php?event=<?= $eventId ?>" tid="0"><?= $eventName ?> Titles</div>
-	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
-	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
-		<? if ($team3) { ?><div class="tab" request="im_title_list.php?team=<?= $team3 ?>" tid="3"><?= $team3 ?> Players</div> <? } ?>
-	  <div class="tab" type="billboards" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
-		<button id="updateAll">Update All</button><input id="updateAllForce" type="checkbox" value="true" />
-	</div>
+	<div id="pane"></div>
+	<div id="tabstrip"></div>
 	<div id="input"><input type="text" /></div>
 	<div id="actions"></div>
 	<div id="renderQueue">

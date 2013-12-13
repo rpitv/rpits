@@ -1,5 +1,15 @@
 'use strict'
 
+function getSingleRow(db,table,whereClause,callback) {
+	$.getJSON("sql.php",{db:db,sql:"SELECT * FROM " + table + " WHERE " + whereClause + " LIMIT 1"},function(data) {
+		var result = {};
+		for(var key in data.columns) {
+			result[data.columns[key]] = data.rows[0][key];
+		}
+		callback(result);
+	});
+}
+
 function EditableTable(options) {
 
 	if(!options.db) {

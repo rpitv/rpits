@@ -48,7 +48,7 @@ function getTitle($id,$eventId,$withReplacements = true) {
 				$title['geos'][$key] = tokenReplace($geo,$eventId);
 			}
 		}
-
+		$title['type'] = 'general';
 		return $title;
 	}
 	return false;
@@ -97,7 +97,7 @@ function addGeoToCanvas($canvas,$geo,$bustCache = false) {
 	if(!$im || $bustCache) {
 		$im = renderGeo($geo);
 		saveGeoToCache($geo,$im);
-	} 
+	}
 	$canvas->compositeImage($im, imagick::COMPOSITE_OVER, $geo['x']-10, $geo['y']-10);
 }
 

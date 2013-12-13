@@ -3,7 +3,7 @@ var includes = [
 	'js/Title.js'
 ];
 
-// might be better to attempt this in PHP?
+// might be better to append the includes in PHP?
 
 for(var script in includes) {
 	document.write('<script src="'+includes[script]+'"></script>');
@@ -17,31 +17,10 @@ $.extend($.expr[":"], {
 	}
 });
 
-ui.titleObjectShim = function(el) {
-	var title = {};
-	title.name = el.text();
-	title.type = el.attr('type');
-	title.id = el.attr('id');
-	title.path = el.children('img').attr('path');
-	title.getFilename = function() {
-		if(this.type == 'general') {
-			return this.name + this.id + '.png';
-		} else if (this.type == 'player') {
-			return this.path;
-		} else if (this.type == 'billboard'){
-			return '../' + this.path; // this is not a long-term solution
-		} else {
-			console.error("Whatever this title type is, it isn't supported.");
-		}
-	};
-	return title;
-};
-
-
 ui.applyListeners = function() {
 	var ctrlPress=0;
 	var shiftPress=0;
-	
+
 	$(document).keyup(function(event){
 		if(event.keyCode == '16'){
 			shiftPress=0;
@@ -68,103 +47,67 @@ ui.applyListeners = function() {
 		if(event.keyCode == '17'){
 			ctrlPress = 1;
 		}
-
 		
 		//if shift or ctrl are down, abort
 		if(shiftPress || ctrlPress){
 		 return;
 		}
-
-		
-
 		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") )	{
 			return;
 		}
-		
-		
+
+		var selected = $(".selected");
 		
 		// Spacebar, takes on/off of program
 		if (event.keyCode == RPITS.constants.KEYCODE.SPACEBAR) {
 			event.preventDefault();
-			if(/*ui.program.active()*/ $('.on-program').length > 0)	{
-				var activeEl = $(".on-program");
-				var activeTitle = ui.titleObjectShim(activeEl);
+			if(ui.program.active())	{
 				ui.program.off();
-				activeEl.removeClass("on-program");
 				ui.keyer.offProgram();
-			}	else {
-				var activeEl = $(".selected");
-				activeEl.addClass("on-program");
-				activeTitle = ui.titleObjectShim(activeEl);
-				ui.program.on(activeTitle);
-				ui.keyer.onProgram(activeTitle);
-				//if($(".on-program").attr("id") == 10)
-				//  $("#options").load('putter.php?command=dirty_level/1');
-				//else
-				//  $("#options").load('putter.php?command=dirty_level/0');
+			} else {
+				ui.program.on(selected);
+				ui.keyer.onProgram(selected);
 			}
-		}	else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C)	{ 	// c, cuts without taking down existing graphic.
-			$(".on-program").removeClass("on-program");
-			var activeEl = $(".selected");
-			activeEl.addClass("on-program");
-			activeTitle = ui.titleObjectShim(activeEl);
-			ui.program.on(activeTitle);
-			ui.keyer.put(activeTitle);
-		}	else if(event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C)	{ 	// c, cuts without taking down existing graphic.
+			ui.program.on(selected);
+			ui.keyer.put(selected);
+		} else if(event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
 			if($("#input").is(":visible")) {
 				$("#input input").blur();
 				$("#input").hide();
 				var data = $("#input input").val();
-				$("li").removeClass("selected");
+				$("#pane li").removeClass("selected");
 				var target = $("li:visible:containsC("+data.trim()+"):first");
 				target.addClass("selected");
 				target.scrollintoview({duration: 0});
-				$("li").removeClass("on-edit");
-				$("li").removeClass("on-preview");
-				target.addClass("on-preview");
-				
-				ui.preview.on(ui.titleObjectShim(target));
+				ui.preview.on(target);
 				$("#edit").hide();
 			}	else {
 				$("#input").show();
 				$("#input input").focus();
 				$("#input input").val("");
 			}
-			
-		}	else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_R) { // R key, for previewing
-			$("li").removeClass("on-edit");
-			$("li").removeClass("on-preview");
-			var activeEl =	$(".selected")
-			activeEl.addClass("on-preview");
-			ui.preview.on(ui.titleObjectShim(activeEl));
-			$("#edit").hide();
-    
-		}	else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
+		} else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_R) { // R key, for previewing
+			ui.preview.on(selected);
+			$("#edit").hide();    
+		} else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
 			$("li").removeClass("on-preview");
 			$("li").removeClass("on-edit");
 			$(".selected").addClass("on-edit");
-			$("#preview .label").text("Editing " + $(".selected").text());
-			if($(".selected").attr("type") == "general") {
-				$("#edit").load("im_edit_title.php?id=" + $(".selected").attr("id"), function() {
+			var title = selected.data('title');
+			$("#preview .label").text("Editing " + title.getDisplayName());
+			$("#edit").load(title.getEditURL(), function() {
 					$("#edit").show();
-				});
-			}	else if ($(".selected").attr("type") == "player") {
-				$("#edit").load("im_edit_ptitle.php?id=" + $(".selected").attr("id"),function() {
-					$("#edit").show();
-				});
-			} else {
-				ui.keyer.onPreview(ui.titleObjectShim($(".selected")));
-				$("#edit").hide();
-			}
-		}	else if(event.keyCode == '40') { 		// Down arrow key
+			});
+		} else if(event.keyCode == RPITS.constants.KEYCODE.ARROW_DOWN) { // Down arrow key
 			event.preventDefault();
 			if($(".selected + li").length > 0) {
 				$(".selected + li").addClass("selected");
 				$(".selected:first").removeClass("selected");
 				$(".selected").scrollintoview({duration: 0});
 			}
-		} else if(event.keyCode == '38') { // Up arrow key
+		} else if(event.keyCode == RPITS.constants.KEYCODE.ARROW_UP) { // Up arrow key
 			event.preventDefault();
 			if($(".selected").prev("li").length > 0) {
 				$(".selected").prev("li").addClass("selected");
@@ -173,53 +116,54 @@ ui.applyListeners = function() {
 			}
 		}	else if (event.keyCode == '39') { // Right key -- cycles to next tab
 			event.preventDefault();
-			if($(".active + .tab").length == 0) { // if we're at the end of the tab row
-				$(".tab").removeClass("active");
-				$(".tab:first").addClass("active");
-			}	else {  // otherwise
-				$(".active + .tab").addClass("active");
-				$(".tab.active:first").removeClass("active");
+			if($(".active.tab").next('.tab').length) { // if we're at the end of the tab row
+				ui.tabs.switchLists($(".tab.active").next('.tab'));
+			} else {  // otherwise
+				ui.tabs.switchLists($(".tab:first"));
 			}
-			$('.titles').removeClass("active");
-			$('.titles').hide();
-			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').show();
-			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').addClass("active");
-			$("li").removeClass("selected");
-			$(".titles.active li:first").addClass("selected");
-			$(".selected").scrollintoview({duration: 0});
-		}   else if (event.keyCode == '37') { // Left key -- cycles to prev tab, requires completely different code than right
+		} else if (event.keyCode == '37') { // Left key -- cycles to prev tab, requires completely different code than right
 			event.preventDefault();
-			var prevTab, lastTab, activeTab;
-			lastTab = $(".tab:last")[0];			
-			$(".tab").each(function() {
-				if ($(this).hasClass("active")) {
-					prevTab = lastTab;
-					activeTab = this;
-				}
-				lastTab = this;
-			});
-			
-			$(prevTab).addClass("active");
-			$(activeTab).removeClass("active");			
-			
-			$('.titles').removeClass("active");
-			$('.titles').hide();
-			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').show();
-			$('.titles[request|="'+$(".tab.active").attr("request")+'"]').addClass("active");
-			$("li").removeClass("selected");
-			$(".titles.active li:first").addClass("selected");
-			$(".selected").scrollintoview({duration: 0});
-		}
-			else if (event.keyCode == '81') { //q key renders queue
+			if($(".active.tab").prev('.tab').length) {
+				ui.tabs.switchLists($(".tab.active").prev('.tab'))
+			} else {
+				ui.tabs.switchLists($(".tab:last"));
+			}
+		} else if (event.keyCode == '81') { //q key renders queue
 			renderQueue.processQueue();
 		}	else if (event.keyCode == '70') { //f force render			
 			document.getElementById("render").click();
-		}   else if (event.keyCode == '85') { //u updates all
+		} else if (event.keyCode == '85') { //u updates all
 			document.getElementById("updateAll").click();
 		}
 	});
-};
 
+	// Click to Preview title
+	$(document).on('click','#pane li',function(e) {
+		ui.preview.on($(e.currentTarget));
+		$("#edit").hide();
+	});
+	// Click tabs to switch lists
+	$(document).on('click','#tabstrip .tab',function(e) {
+		ui.tabs.switchLists($(e.currentTarget));
+	});
+
+	$(document).on('click','#updateAll',function() {
+		var list = $('.tab.active').data('list');
+		$.getJSON(list.url + '&checkHash=true',function(data) {
+			var added = false;
+			var bustCache = $('#updateAllForce:checked').val();
+			var type = $('.tab.active').data('type');
+			for(var id in data) {
+				if(!data[id] || bustCache || type == 'player') {
+					added = true;
+					renderQueue.addToQueue(list.getTitleById(id),bustCache);
+				}
+			}
+			if(added) renderQueue.processQueue();
+		});
+	});
+
+};
 
 $(document).ready(function() {
 
@@ -245,37 +189,17 @@ $(document).ready(function() {
 	if(!ui.eventId) return;
 
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
-	ui.preview = new RPITS.ui.Monitor({name:'Preview',id:'preview'});
+	ui.preview = new RPITS.ui.Monitor({name:'Preview',id:'preview',remove:'on-edit'});
 	//ui.log = new RPITS.ui.Console();
 	
 	ui.keyer = new RPITS.Keyer();
 	
 	ui.applyListeners();
+
+	ui.tabs = new RPITS.ui.ListTabs(ui.eventId,{dbName:ui.dbName,billboards:false});
 	
 	resizeWindow();
-	$(".titles").each(function() {
-		$(this).load($(this).attr("request"),function() {
-			$(this).hide();
-			$(".active").show();
-			$(".titles.active li:first").addClass("selected");
-		});
-		$(".active").show();
-		$(".titles.active li:first").addClass("selected");
-	});
-	$(".tab").click(function() {
-		if($(this).hasClass("active")) {
-			return;
-		} else {
-			$(".tab").removeClass("active");
-			$(this).addClass("active");
-			$('.titles').removeClass("active");
-			$('.titles').hide();
-			$('.titles[request|="'+$(this).attr("request")+'"]').show();
-			$('.titles[request|="'+$(this).attr("request")+'"]').addClass("active");
-			$("li").removeClass("selected");
-			$(".titles.active li:first").addClass("selected");
-		}
-	});
+	/*
 	$(function() {
 		$( ".titles" ).sortable({
 			placeholder: "ui-state-highlight",
@@ -284,54 +208,7 @@ $(document).ready(function() {
 		});
 		$( ".titles" ).disableSelection();
 	});
-
-	$('#updateAll').on('click',function() {
-		$.getJSON($('.tab.active').attr('request') + '&checkHash=true',function(data) {
-			var added = false;
-			var bustCache = $('#updateAllForce:checked').val();
-			var type = $('.tab.active').attr('type');
-			for(var id in data) {
-				if(!data[id] || bustCache || type == 'player') {
-					added = true;
-					renderQueue.addToQueue(id,bustCache);
-				}
-			}
-			if(added) renderQueue.processQueue();
-		});
-	});
-
-	
-	// Disabled this as it caused confusion with arrow-key movement
-	//$("li").live("mouseover",function(){
-	//  $(".selected").removeClass("selected");
-	//  $(this).addClass("selected");
-	//});
-        
-	// Double Click to take something on/off of program
-	//
-	// Disabled by Ben due to potential for "Oh SHIT!"
-
-	/*$("li").live("dblclick",function() {
-		var activeEl = $(this);
-		var activeTitle = ui.titleObjectShim(activeEl);
-		$("li").removeClass("on-program");
-		if(activeEl.hasClass("on-program")) {
-			ui.program.off();
-			ui.keyer.offProgram();
-		}	else {
-			activeEl.addClass("on-program");
-			ui.program.on(activeTitle);
-			ui.keyer.onProgram(activeTitle);
-		}
-	});*/
-	$("li").live("click",function(){
-		var activeEl = $(this);
-		$("li").removeClass("on-preview on-edit selected");
-		activeEl.addClass("selected on-preview");
-		ui.preview.on(ui.titleObjectShim(activeEl));
-		$("#edit").hide();
-		document.activeElement.blur();
-	});
+	*/
 });
 
 $(window).resize(resizeWindow);
@@ -340,13 +217,13 @@ function resizeWindow() {
 	if(!ui.lockResize) {
 		ui.maxLeftWidth = 800;
 		ui.viewerHeight = (window.innerHeight - 75)/2;
-		ui.viewerWidth = ui.viewerHeight * 16/9
+		ui.viewerWidth = ui.viewerHeight * 16/9;
 		ui.sideMargins = 25;
 		ui.leftWidth = window.innerWidth - ui.viewerWidth - 75;
 		if((window.innerWidth - ui.viewerWidth - 25) > ui.maxLeftWidth) {
 			ui.sideMargins = (window.innerWidth - ui.viewerWidth - 25 - ui.maxLeftWidth)/2;
 			ui.leftWidth = ui.maxLeftWidth;
-		}	
+		}
 		$('#program,#preview,#edit,#program img,#preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
 		$('#pane').height(window.innerHeight - 250);
 		$('#pane,#tabstrip,#log').width(ui.leftWidth).css('left',ui.sideMargins);
