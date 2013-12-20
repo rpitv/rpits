@@ -22,8 +22,8 @@ body > div
 #tabstrip
 {
   background:#AAAAAA;
-  height:75px;
-  top:150px;
+  height:50px;
+  top:175px;
   left:25px;
 }
 #pane
@@ -131,7 +131,7 @@ body > div
 
 #help
 {
-padding: 0 5px;
+  padding:0 5px;
 }
 
 .tab
@@ -144,7 +144,7 @@ padding: 0 5px;
   margin-top:12px;
   margin-right:4px;
   padding:10px;
-  padding-bottom:3px;
+  padding-bottom:4px;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border:2px solid black;
@@ -155,7 +155,7 @@ padding: 0 5px;
 {
   background-color:white;
   border-bottom:none;
-  padding-bottom:5px;
+  padding-bottom:6px;
 }
 #preview img
 {
@@ -252,12 +252,15 @@ padding: 0 5px;
 
 .queueItem
 {
+  text-align: left;
+  min-width: 140px;
   padding: 0px;
   padding-left: 7px;
   padding-right: 75px;
   float: left;
   clear: both;
-  background-color: #ccc;
+  background-color: rgba(204,204,204,.5);
+  pointer-events: none;
 }
 .queueItem pre
 {
@@ -280,7 +283,6 @@ padding: 0 5px;
   margin: 0;
   border-top: solid black 2px;
   border-bottom: solid black 2px;
-  background-color: blue;
   -webkit-user-select: none;
 }
 .queueMenuButton
@@ -291,13 +293,11 @@ padding: 0 5px;
   cursor: pointer;
   font-family: IconicFill;
   font-size: 24pt;
-  padding: 4px;
-  padding-top: 0;
-  padding-bottom: 8px;
-  margin: 0px;
+  padding: 0 4px 8px 4px;
+  margin: px;
   margin-top: 0;
   margin-bottom: 0;
-  background-color: red;
+  background-color: #9a5515;
   -webkit-user-select: none;
 }
 .queueMenuButton:hover
@@ -322,6 +322,15 @@ padding: 0 5px;
   margin-top: 7px;
   margin-right: 3px;
   background-color: orange;
+  pointer-events: auto;
+}
+
+#updateAllContainer
+{
+  position: relative;
+  float: right;
+  margin-top: 20px;
+  margin-right: 4px;
 }
 /*
 [data-icon]:before

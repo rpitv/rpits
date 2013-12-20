@@ -5,7 +5,7 @@ include_once("imagick_include.php");
 
 function getStatscard($id) {
 
-	$lastSeason = true;
+	$lastSeason = false;
 
 	timestamp ('Get Statscard');
 
