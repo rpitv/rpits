@@ -10,7 +10,11 @@
 include("include.php");
 
 $eventId = $_GET["eventId"];
-
+?>
+<script>
+	ui.dbName = '<?= $mysql_database_name ?>';
+</script>
+<?
 if (!$eventId) {
 	?>
 	<div id="eventSelector">
@@ -28,7 +32,11 @@ if (!$eventId) {
 	</div>
 	<?
 } else {
-
+  ?>
+  <script>
+  	ui.eventId = <?= $eventId ?>;
+  </script>
+  <?
 	if ($eventId > 0) {
 		$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
 		$row = mysql_fetch_array($result);
@@ -43,10 +51,6 @@ if (!$eventId) {
 		$team2 = "hobartf";
 	}
 	?>
-	<script>
-		ui.eventId = <?= $eventId ?>;
-		ui.dbName = <?= $mysql_database_name ?>;
-	</script>
 	<div id="edit"></div>
 	<div id="pane">
 	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
