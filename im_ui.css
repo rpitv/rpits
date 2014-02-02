@@ -23,12 +23,12 @@ body > div
 {
   background:#AAAAAA;
   height:50px;
-  top:175px;
+  top:25px;
   left:25px;
 }
 #pane
 {
-  top:225px;
+  top:75px;
   left:25px;
   overflow-x:hidden;
   overflow-y:scroll;

@@ -348,7 +348,7 @@ function resizeWindow() {
 			ui.leftWidth = ui.maxLeftWidth;
 		}	
 		$('#program,#preview,#edit,#program img,#preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
-		$('#pane').height(window.innerHeight - 250);
+		$('#pane').height(window.innerHeight - 100);
 		$('#pane,#tabstrip,#log').width(ui.leftWidth).css('left',ui.sideMargins);
 	}
 }
