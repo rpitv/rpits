@@ -104,11 +104,14 @@
 
 	RPITS.ui.ListTabs.prototype.renderTabs = function() {
 		var tabs = $('<div id="tabstrip">');
-		tabs.append('<span id = "help" style = "font-size:11px"> Up/Down - Select; Left/Right - Tab; E - Edit; R - Preview; Q - Queue; Space - Bring Up/Down; F - Force Render; U - Update All; C - Cut</span>');
+		//tabs.append('<span id = "help" style = "font-size:11px"> Up/Down - Select; Left/Right - Tab; E - Edit; R - Preview; Q - Queue; Space - Bring Up/Down; F - Force Render; U - Update All; C - Cut</span>');
 		for(var key in this.lists) {
 			tabs.append(this.lists[key].renderTab());
 		}
-		tabs.append('<button id="updateAll">Update All</button><input id="updateAllForce" type="checkbox" value="true" />');
+		var updateAll = $('<div id="updateAllContainer">');
+		updateAll.append('<button id="updateAll">Update All</button>');
+		updateAll.append('<label>Force:<input id="updateAllForce" type="checkbox" value="true" /></label>');
+		tabs.append(updateAll);
 		tabs.children('.tab').first().addClass('active');
 		tabs.attr('style',$('#tabstrip').attr('style'));
 		$('#tabstrip').replaceWith(tabs);
