@@ -300,6 +300,30 @@ $(document).ready(function() {
 		});
 	});
 
+    $('#bugUp').on('click', function() {
+	$.ajax({
+		url: '/bugcontrol/bug_up',
+		success: function () {
+			console.log("Bug Up");
+		},
+		error: function () {
+			console.log("Error: unable to toggle bug up");
+		}
+	});
+        
+    });
+
+    $('#bugDown').on('click', function() {
+	$.ajax({
+		url: '/bugcontrol/bug_down',
+		success: function () {
+			console.log("Bug Down");
+		},
+		error: function () { 
+			console.log("Error: unable to toggle bug down");
+		}
+	});
+    });
 	
 	// Disabled this as it caused confusion with arrow-key movement
 	//$("li").live("mouseover",function(){

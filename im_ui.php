@@ -51,7 +51,8 @@ if (!$eventId) {
 		$team2 = "hobartf";
 	}
 	?>
-	<div id="edit"></div>
+
+	<div id="edit"> </div>
 	<div id="pane">
 	  <ul class="titles active" request="im_title_list.php?event=<?= $eventId ?>"><div id="add-title"></div></ul>
 	  <ul class="titles" request="im_title_list.php?team=<?= $team1 ?>"></ul>
@@ -67,10 +68,11 @@ if (!$eventId) {
 	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team1 ?>" tid="1"><?= $team1 ?> Players</div>
 	  <div class="tab" type="player" request="im_title_list.php?team=<?= $team2 ?>" tid="2"><?= $team2 ?> Players</div>
 		<? if ($team3) { ?><div class="tab" request="im_title_list.php?team=<?= $team3 ?>" tid="3"><?= $team3 ?> Players</div> <? } ?>
-	  <div class="tab" type="billboards" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>
-		<div id="updateAllContainer">
-      <button id="updateAll">Update All</button>
-      <label>Force:<input id="updateAllForce" type="checkbox" value="true" /></label>
+	  <div class="tab" type="billboards" request="im_title_list.php?thing=billboards" tid="4">Billboards</div>	
+        <div id="updateAllContainer">
+        <button id="bugUp">Up</button> <button id="bugDown">Down</button>
+        <button id="updateAll">Update All</button>
+        <label>Force:<input id="updateAllForce" type="checkbox" value="true" /></label>
 	  </div>
   </div>
 	<div id="input"><input type="text" /></div>
