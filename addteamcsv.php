@@ -20,15 +20,23 @@ if($csv)
 else
 { 
 ?>
+
 <h1>Add Team Roster via CSV</h1>
-<p>Entries should be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8<br/>
-Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>
-Missing information or stats at the end of the line can be ignored.</p>
 <form action="addteamcsv.php" method="POST">
-<input type="text" name="team_sel" size="10" />
-<textarea name="csv" rows="30" cols="100"></textarea>
-<input type="submit" name="Submit" />
+  <label>Team Name:
+    <input type="text" name="team_sel" size="10" /> (Form: organization-team)
+  </label>
+  <br/>
+  <label>Pull from CollegeHockeyStats URL: (not working yet)
+    <input type="text" name="pull_url" size="100" />
+    <button name="pull" onclick="alert(pull_url.value)">Parse Roster</button>
+  </label>
+  <br/>
+  <p>Entries should be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8<br/>
+  Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>
+  Missing information or stats at the end of the line can be ignored.</p>
+  <textarea name="csv" rows="30" cols="100"></textarea>
+  <input type="submit" name="Submit" />
 </form>
 <? } ?>
-
 
