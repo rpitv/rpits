@@ -1,11 +1,32 @@
 <?php
 
 include ("include.php");
+include ("chn_scraper.php");
 
 $team_sel = $_GET["team_sel"];
 
 if($team_sel)
 {
+?>
+
+<form action="im_peditor.php" style="display:inline-block" ><input type="submit" name="stats" value="Update All Stats"/><input type="hidden" name="team_sel" value="<?= $team_sel ?>"/></form>
+
+<?
+if($_GET['stats']) {
+	$team = fetchTeam($team_sel);
+	$chn = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=" . $team['chn_id'],"r");
+	$contents = stream_get_contents($chn);
+	$data = parser($contents);
+	$output = '<table id="details">';
+	foreach($data as $players) {
+		$output .= update($players);
+	}
+	$output .= "</table>";
+	echo ' - Updated, details <a href="#details">below the table</a>.<div class="playerTable"></div>' . $output;
+} else {
+	echo '<div class="playerTable"></div>';
+}
+
 ?>
 
 <script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
@@ -20,7 +41,7 @@ $(function() {
 		dbTable: 'players',
 		columnHeaders: ['ID','Num','First','Last','Pos','Height','Weight','Year','Hometown','SType','S1','S2','S3','S4','S5','S6','S7','S8','Team'],
 		uneditableColumns: ['id'],
-		element: $('body'),
+		element: $('.playerTable'),
 		displayFunction: {
 			id: function(id) {
 				return $('<a href="im_render_title.php?player='+id+'">'+id+'</a>');
