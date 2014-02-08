@@ -40,10 +40,9 @@ function EditableTable(options) {
 	}
 
 	this._toggleEditable = function(e) {
-		if($(e.target).closest('td:not(.editable)').length) return true;
+		if($(e.target).closest('td:not(.editable):not(.action),td.displayFunction').length) return true;
 		var row = $(e.currentTarget);
 		var cell = $(e.target);
-		console.log(row);
 		if(!row.hasClass('editing')) {
 			row.addClass('editing');
 			row.find('button.action').text('Save');
@@ -100,7 +99,7 @@ function EditableTable(options) {
 		var sql = 'INSERT INTO ' + options.dbTable + ' (' + columns + ') VALUES (' + values + ');';
 		var data = new Object();
 		data.sql = sql;
-		data.db = options.db
+		data.db = options.db;
 		$.getJSON('sql.php',data,function(d) {
 			$('.editableTable').find('tr.erow').last().children().first().html(d.id);
 			// ^^ That's not good code ^^
@@ -142,12 +141,21 @@ function EditableTable(options) {
 			var td = $(this);
 			if(td.find('input').length == 0) {
 				var value = td.text();
-				var klass = td.attr('class');
-				td.html($('<input type="text" />').addClass(klass).val(value));
+				var classes = td.attr('class');
+				td.html($('<input type="text" />').addClass(classes).val(value));
 				td.addClass('editing');
 			} else {
 				td.removeClass('editing');
-				td.html(td.find('input').val());
+				if(td.hasClass('displayFunction')) {
+					var classes = td.attr('class').split(" ");
+					for(var i = 0; i < classes.length;i++) {
+						if(options.displayFunction[classes[i]]) {
+							td.html(options.displayFunction[classes[i]](td.find('input').val()));
+						}
+					}
+				} else {
+					td.html(td.find('input').val());
+				}
 			}
 		});
 	}
@@ -194,6 +202,7 @@ function EditableTable(options) {
 				td.attr('name',data.columns[j]);
 				if(options.displayFunction && typeof options.displayFunction[data.columns[j]] === 'function' && i < data.rows.length) {
 					td.html(options.displayFunction[data.columns[j]](data.rows[i][j]));
+					td.addClass('displayFunction');
 				} else if(i < data.rows.length) {
 					td.text(data.rows[i][j]);
 				} else {
