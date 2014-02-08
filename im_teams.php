@@ -11,7 +11,23 @@ $(function() {
 		db: '<?= $mysql_database_name ?>',
 		dbTable: 'teams',
 		uneditableColumns: ['id'],
-		element: $('#teamsList')
+		element: $('#teamsList'),
+		displayFunction: {
+			chn_id: function(id) {
+				if(id != 0) {
+					return $('<a href="statsloader.php?tid='+id+'">'+id+'</a>');
+				} else {
+					return 'N/A';
+				}
+			},
+			chs_abbrev: function(chs) {
+				if(chs) {
+					return $('<a href="http://www.collegehockeystats.net/1314/teamstats/'+chs+'">'+chs+'</a>');
+				} else {
+					return '';
+				}
+			}
+		}
 	});
 	eventsTable.loadTable(0,30);
 
