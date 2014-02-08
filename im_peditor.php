@@ -69,10 +69,11 @@ $(function() {
   <h2>Select a team</h2>
   <form action="im_peditor.php" method="get">
 	<?
-	$query = "SELECT * FROM statscard_teams";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG BECAUSE REILLY PROBABLY CODED THIS PART POORLY</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$query = "SELECT * FROM teams";
+	$result = dbquery($query);
 	while($row = mysql_fetch_array($result)) {
-	  echo("<div style=\"float:left;width:100px\"><img width=\"30\" src=\"teamlogos/" . $row["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $row["name"] . "\"></div>");
+		$team = fetchTeam($row['player_abbrev']);
+	  echo("<div style=\"float:left;width:100px\"><img width=\"30\" src=\"" . $team["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $team["player_abbrev"] . "\"></div>");
 	} ?>
  </form>
  <? } ?>

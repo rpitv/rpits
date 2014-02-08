@@ -16,9 +16,7 @@ function getStatscard($id) {
 	$result = dbquery("SELECT * from players WHERE `id` = '$id'");
 	$row = mysql_fetch_assoc($result);
 
-	$result = dbquery("SELECT * from statscard_teams WHERE `name` = '" . $row["team"] . "'");
-	$teamrow = mysql_fetch_array($result);
-	$tColor = rgbhex($teamrow["colorr"], $teamrow["colorg"], $teamrow["colorb"]);
+	$team = fetchTeam($row['team']);
 
 	$stype = $row["stype"];
 	if ($stype != "txt") {
@@ -59,9 +57,9 @@ function getStatscard($id) {
 
 	$geos[] = array('type' => 'blackBox', 'name' => 'Backdrop', 'x' => 400, 'y' => 870 - $boxHeightModifier, 'w' => 1120, 'h' => 160 + $boxHeightModifier);
 
-	$geos[] = array('type' => 'slantRectangle', 'name' => 'nameBar', 'x' => 360, 'y' => 800 - $boxHeightModifier, 'w' => 780, 'h' => 80, 'color' => $tColor);
+	$geos[] = array('type' => 'slantRectangle', 'name' => 'nameBar', 'x' => 360, 'y' => 800 - $boxHeightModifier, 'w' => 780, 'h' => 80, 'color' => $team['color']);
 	$geos[] = array('type' => 'slantRectangle', 'name' => 'numberBox', 'x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030");
-	$geos[] = array('type' => 'slantRectangle', 'name' => 'positionBox', 'x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'color' => $tColor);
+	$geos[] = array('type' => 'slantRectangle', 'name' => 'positionBox', 'x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'color' => $team['color']);
 	$geos[] = array('type' => 'slantRectangle', 'name' => 'yearBox', 'x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'color' => "#303030");
 	$geos[] = array('type' => 'slantRectangle', 'name' => 'logoBox', 'x' => 1400, 'y' => 800 - $boxHeightModifier, 'w' => 160, 'h' => 80, 'color' => "white");
 
@@ -94,7 +92,7 @@ function getStatscard($id) {
 	// Print team logo, name, num, pos, year
 	//
 
-	$geos[] = array('type' => 'placeImage', 'name' => 'teamLogo', 'x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => "teamlogos/" . $teamrow["logo"]);
+	$geos[] = array('type' => 'placeImage', 'name' => 'teamLogo', 'x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => $team['logo']);
 
 	$geos[] = array('type' => 'shadowText', 'name' => 'name', 'x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 	$geos[] = array('type' => 'shadowText', 'name' => 'number', 'x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");

@@ -156,7 +156,7 @@ function stripDBFetch($attrs) {
 }
 
 function fetchTeam($team) {
-	$teamResource = dbQuery("SELECT * FROM teams WHERE abbrev='$team'");
+	$teamResource = dbQuery("SELECT * FROM teams WHERE player_abbrev='$team'");
 	$teamRow = mysql_fetch_assoc($teamResource);
 
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
