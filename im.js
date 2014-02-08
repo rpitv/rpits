@@ -40,6 +40,7 @@ function EditableTable(options) {
 	}
 
 	this._toggleEditable = function(e) {
+		if($(e.target).closest('td:not(.editable)').length) return true;
 		var row = $(e.currentTarget);
 		var cell = $(e.target);
 		console.log(row);
@@ -192,7 +193,7 @@ function EditableTable(options) {
 
 				td.attr('name',data.columns[j]);
 				if(options.displayFunction && typeof options.displayFunction[data.columns[j]] === 'function' && i < data.rows.length) {
-					td.html(options.displayFunction[j].call(data.rows[i][j]));
+					td.html(options.displayFunction[data.columns[j]](data.rows[i][j]));
 				} else if(i < data.rows.length) {
 					td.text(data.rows[i][j]);
 				} else {

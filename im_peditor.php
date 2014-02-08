@@ -1,6 +1,6 @@
 <?php
 
-include ("init.php");
+include ("include.php");
 
 $team_sel = $_GET["team_sel"];
 
@@ -20,7 +20,12 @@ $(function() {
 		dbTable: 'players',
 		columnHeaders: ['ID','Num','First','Last','Pos','Height','Weight','Year','Hometown','SType','S1','S2','S3','S4','S5','S6','S7','S8','Team'],
 		uneditableColumns: ['id'],
-		element: $('body')
+		element: $('body'),
+		displayFunction: {
+			id: function(id) {
+				return $('<a href="im_render_title.php?player='+id+'">'+id+'</a>');
+			}
+		}
 	});
 	eventsTable.loadTable(0,100,'team = "<?= $team_sel ?>"','NUM ASC');
 	
