@@ -1,17 +1,3 @@
-// Pass in the table DOM Object, and the number of initial rows not containing data
-function parse_table_object(tableObject, rowsToSkip) {
-  if (rowsToSkip === undefined) {
-    rowsToSkip = 1; // assume 1 header row
-  }
-
-  //var second = string.charAt(1);
-  if (second === second.toLowerCase() && second !== second.toUpperCase())
-  {
-    // second character is a lowercase letter
-  }
-
-}
-
 // Pass in the table HTML, and the number of initial rows not containing data
 function parse_table_HTML(table_HTML, rowsToSkip) {
   if (rowsToSkip === undefined) {
@@ -101,3 +87,16 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
 function parse_page_for_table(pageHTML) {
   
 }
+
+function validateFinalSubmission(){
+  if (($('#team_box').val()=="")||($('#team_box').val()==null)) {
+    alert('Please enter a team name for the player(s).');
+    $('#team_box').select();
+    return false;
+  } else if ($('#team_box').val().indexOf('-') < 0) {
+    alert('Please follow the team name format "organization-team".');
+    $('#team_box').select();
+    return false;
+  }
+}
+

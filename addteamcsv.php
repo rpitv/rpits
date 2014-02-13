@@ -39,9 +39,9 @@ else
 </label>
 
 <br/>
-<form action="addteamcsv.php" method="POST">
+<form action="addteamcsv.php" method="POST" onsubmit="return validateFinalSubmission();">
   <label>Team Name:
-    <input type="text" name="team_sel" size="10" /> (Form: organization-team)
+    <input id="team_box" type="text" name="team_sel" size="10" /> (Form: organization-team)
   </label>
   <p>Entries should be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8<br/>
   Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>
