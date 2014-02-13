@@ -1,3 +1,5 @@
+// THIS FILE IS A TAB CHARACTER DISASTER
+
 (function()
 {
 	window.renderQueue = {
@@ -5,27 +7,38 @@
     process: 0,
     
     ////////////////////////////////////////////////////////////////////////
-    addToQueue: function(tid, bustCache) // Add a render job to the queue //
+    addToQueue: function(title, bustCache) // Add a render job to the queue //
     {
+			// sorry Ben, I ruined your allman braces
+			if(!(title instanceof RPITS.ui.Title)) {
+				var i = 0,foundTitle;
+				for(var key in ui.tabs.lists) {
+					foundTitle = ui.tabs.lists[key].getTitleById(title);
+					if(foundTitle) {
+						title = foundTitle;
+						break;
+					}
+				}
+			}
+
+			console.log(title);
+			
 			bustCache = bustCache || false;
 
       if (this.queue.length == 0) // Show queue if it was hidden
       {
         $("#renderQueue").fadeIn(400);
-      }
-
-      var ttype = $(".titles.active #"+tid).attr("type");
+			}
       
-      if ($("#q"+tid).length == 0) // check for duplicates
+      if ($("#q"+title.id).length == 0) // check for duplicates
       { 
-        var startNum = this.queue.push({'id':tid, 'type':ttype, bustCache:bustCache}); // Add title id to the queue
-        var titleName = $(".titles #"+tid).text().trim(); // Get actual title for queue status box
-    	  $('#renderQueue').append('<div id="q'+ tid +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + tid + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ tid +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + titleName + '</pre></div>');
+        this.queue.push({title:title, bustCache:bustCache}); // Add title id to the queue
+    	  $('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
       }
-      else if ($("#q"+tid).css("background-color") == "rgb(0, 255, 0)")
+      else if ($("#q"+title.id).css("background-color") == "rgb(0, 255, 0)")
       {
-        $("#q"+tid).remove();
-        this.addToQueue(tid);
+        $("#q"+title.id).remove();
+        this.addToQueue(title,bustCache);
       }
     },
     
@@ -37,7 +50,7 @@
       //var index = this.queue.indexOf({'id':castaway, 'type':ttype});
       for (i=0; i < this.queue.length; i++) // I know this is the nieve way...
       {
-        if (this.queue[i].id == castaway)
+        if (this.queue[i].title.id == castaway)
         {
           index = i;
         }
@@ -49,7 +62,7 @@
         return;
       }
 
-      var tempID = this.queue[index].id;
+      var tempID = this.queue[index].title.id;
       this.queue.splice(index, 1);
 
       if (this.queue.length == 0)
@@ -68,11 +81,11 @@
     {
       var ttype = $("#"+traveler).attr("type");
  
-      var startIndex, i;
+      var startIndex, i, index;
       //var index = this.queue.indexOf({'id':castaway, 'type':ttype});
       for (i=0; i < this.queue.length; i++) // I know this is the nieve way...
       {
-        if (this.queue[i].id == traveler)
+        if (this.queue[i].title.id == traveler)
         {
           index = i;
           break;
@@ -82,9 +95,9 @@
       var tempTraveler = this.queue.splice(index, 1); // remove traveler
       this.queue.splice(destination, 0, tempTraveler[0]);
 
-      var tempName = this.queue[destination+1].id;
+      var tempName = this.queue[destination+1].title.id;
 
-      $("#q"+tempTraveler[0].id).fadeOut(400, function(){
+      $("#q"+tempTraveler[0].title.id).fadeOut(400, function(){
         $(this).insertBefore( $("#q"+tempName) );
         $(this).fadeIn(400);
       });
@@ -114,20 +127,9 @@
         $("#process").html("&#xe049;"); // Pause Icon
       }
 
-      var url_str;
+			var bustCache = this.queue[index].bustCache ? '&bustCache=true' : '';
 
-			var bustCache = '&bustCache=true';
-
-      if (this.queue[index].type == "general")
-      {
-        url_str = "im_render_title.php?id="+this.queue[index].id+'&eventId='+ui.eventId;
-      } else if (this.queue[index].type == "player") {
-        url_str = "im_render_title.php?player="+this.queue[index].id;
-      }
-
-			if(this.queue[index].bustCache) {
-				url_str += bustCache;
-			}
+			var url_str = this.queue[index].title.getRenderURL() + bustCache;
 
     	$.ajax({	// Render a title 
     		type: "GET",
@@ -136,15 +138,15 @@
         async: true,
         timeout: 20000,
     		success: function(data) {
-          $("#q"+this.queue[index].id).fadeOut(400, function(){
+          $("#q"+this.queue[index].title.id).fadeOut(400, function(){
             $(this).css("background-color", "00FF00"); // Mark as green on the list
           });
-          $("#q"+this.queue[index].id).fadeIn(400);
+          $("#q"+this.queue[index].title.id).fadeIn(400);
           
           this.queue.splice(index,1); // Remove first element from queue (it is now done)
           }.bind(renderQueue),
         error: function() {
-    			$("#q"+this.queue[index].id).css("background-color", "FF0000"); // Mark as red on list
+    			$("#q"+this.queue[index].title.id).css("background-color", "FF0000"); // Mark as red on list
           index += 1;
     		}.bind(renderQueue),
         complete: function() {
@@ -212,9 +214,9 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) // Auto-queu
   var scoreTitleId = -1;
   
   $("#pane ul li").each( function() {
-    if ($(this).text().indexOf("(Score Lower Third)") > 0)
+    if ($(this).text().indexOf("Score Lower Third") > 0)
     {
-      scoreTitleId = $(this).attr('id');
+      scoreTitleId = $(this).data('title').id;
       return;
     }
   });

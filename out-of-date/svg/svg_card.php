@@ -37,8 +37,8 @@ if($stype != "txt")
       if($row[$i+8] > 0)
 	$row[$i+8] = "+" . $row[$i+8];
     }
-    $lbox = imagettfbbox($lsize, 0, "fonts/GothamNarrow-Bold.otf", $slabel[$i]);
-    $sbox = imagettfbbox($ssize, 0, "fonts/GothamNarrow-Bold.otf", $row[$i+8]);
+    $lbox = imagettfbbox($lsize, 0, "../../fonts/GothamNarrow-Bold.otf", $slabel[$i]);
+    $sbox = imagettfbbox($ssize, 0, "../../fonts/GothamNarrow-Bold.otf", $row[$i+8]);
     $owidth += max($lbox[2],$sbox[2]);
     $warray[] = max($lbox[2],$sbox[2]);
   }
@@ -62,11 +62,11 @@ if($stype != "txt")
 
 $name_size = 27;
 $name_voffset = 0;
-$box = imagettfbbox($name_size, 0, "fonts/GothamNarrow-Bold.otf", $row["first"] ." ".$row["last"]);
+$box = imagettfbbox($name_size, 0, "../../fonts/GothamNarrow-Bold.otf", $row["first"] ." ".$row["last"]);
 while($box[2]>255)
 {
   $name_size--;
-  $box = imagettfbbox($name_size, 0, "fonts/GothamNarrow-Bold.otf", $row["first"] ." ".$row["last"]);
+  $box = imagettfbbox($name_size, 0, "../../fonts/GothamNarrow-Bold.otf", $row["first"] ." ".$row["last"]);
   $name_voffset += .5;
 }
 $name_size *= 4/3;
@@ -85,7 +85,7 @@ $name_size *= 4/3;
 <path d="M 1680 0 L 1680 1080" stroke="#000000" stroke-width="5"/>*/?>
 <svg x="400" y="784" width="1120" height="900" viewBox="0 0 640 480" version="1.1">
 <?
-$font = "fonts/GothamNarrow-Bold.otf";
+$font = "../../fonts/GothamNarrow-Bold.otf";
 $fbinary = fread(fopen($font, "r"),filesize($font));
 /*
   <style type="text/css">
