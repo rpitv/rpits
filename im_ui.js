@@ -176,9 +176,7 @@ $(document).ready(function() {
 			uneditableColumns: ['id'],
 			element: $('#eventSelector'),
 			callback: function() {
-				console.log("callback fired");
 				$('#eventSelector').append($('<button>Done</button>').on('click', function(){
-					console.log('wtf');
 					window.location = "im_ui.php";
 				}));
 			}
