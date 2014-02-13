@@ -63,6 +63,10 @@ body > div
   list-style-type:none;
   margin:0px;
   padding:0px;
+	display: none;
+}
+#pane ul.active {
+	display: block;
 }
 #pane li
 {

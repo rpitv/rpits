@@ -130,9 +130,8 @@
 		$('#tabstrip .tab').removeClass('active');
 		el.addClass('active');
 		$('.titles').removeClass("active");
-		$('.titles').hide();
 		var listId = $('.tab.active').data('tabIdentifier');
-		$('.titles[data-list-identifier='+listId+']').show().addClass('active');
+		$('.titles[data-list-identifier='+listId+']').addClass('active');
 		$("li").removeClass("selected");
 		$(".titles.active li:first").addClass("selected");
 		$(".selected").scrollintoview({duration: 0});
