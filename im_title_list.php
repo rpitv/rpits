@@ -23,7 +23,7 @@ if($checkHash) {
 		// Player hash has yet to be standardized, so return all players as true for now
 		$players = queryAssoc("SELECT * from players WHERE team='$team' ORDER BY num ASC");
 		foreach($players as $player) {
-			$list[$player['id']] = true;
+			$list[$player['id']] = false;
 		}
 	}
 	echo json_encode($list);
