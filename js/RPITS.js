@@ -190,6 +190,9 @@
 		};
 
 		this.put = function(title,callback) {
+			if(!(title instanceof RPITS.ui.Title)) {
+				title = title.data('title');
+			}
 			this.doXHR(this.base + '?path=out/' + title.getFilename(),callback);
 		};
 
