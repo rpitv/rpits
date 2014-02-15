@@ -13,6 +13,9 @@ $(function() {
 		uneditableColumns: ['id'],
 		element: $('#teamsList'),
 		displayFunction: {
+      org: function(organ) {
+        return $('<a href="im_organizations.php">'+organ+'</a>');
+      },
 			chn_id: function(id) {
 				if(id != 0) {
 					return $('<a href="statsloader.php?tid='+id+'">'+id+'</a>');
