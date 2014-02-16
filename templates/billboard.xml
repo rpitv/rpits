@@ -1,0 +1,11 @@
+<template>
+	<name>Billboard</name>
+	<description>Send 1920x1080 Image to keyer</description>
+	<geos>
+		
+
+		<placeImage name="1920x1080 Image" x="0" y="0" w="1920" h="1080" path="billboards/bees_1080.png" />
+		
+		
+	</geos>
+</template>
