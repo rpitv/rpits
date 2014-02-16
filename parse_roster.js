@@ -12,7 +12,8 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
   $('#tableEntry').hide();
   $('#showTableEntry').show();
 
-  var num_players = 0
+  var num_players = 0;
+  var num_rows = 0;
   var submission_string = '';
   var temp1 = '';
   var temp2 = '';
@@ -20,6 +21,7 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
 
   $('tr').slice(rowsToSkip).each(function(){
     num_players++;
+    num_rows = $(this).find('td').length;
 
     $(this).find('td').each(function(index){
       switch (index){
@@ -55,16 +57,23 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
       case 4: // parse height
         temp_stats[4] = $(this).text().trim() + '|';
         break;
-      case 5: // parse weight
-        temp_stats[5] = $(this).text().trim() + '|';
+      case 5: // parse weight (M)
+        if (num_rows == 9) {
+            temp_stats[5] = $(this).text().trim() + '|';
+          } else { //handedness (W)
+            //temp_stats[5] = $(this).text().trim() + '|';
+          }
         break;
-      case 6: // parse handedness
+      case 6: // parse handedness (M), age (W)
         
         break;
-      case 7: // parse age
+      case 7: // parse age (M), hometown + etc. (W)
         //submission_string += $(this).text().trim() + '|';
+        if (num_rows == 8) {
+          temp_stats[7] = $(this).text().trim().split(' / ')[0];
+        }
         break;
-      case 8: // parse hometown and prev team
+      case 8: // parse hometown and prev team (M)
         temp1 = $(this).text().trim();
         temp2 = temp1.split(' / ');
         temp_stats[7] = temp2[0];
