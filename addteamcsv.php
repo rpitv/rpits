@@ -51,5 +51,6 @@ else
 </form>
 <script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="./parse_roster.js"></script>
+<script src="./state_province.js"></script>
 <? } ?>
 
