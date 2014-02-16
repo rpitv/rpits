@@ -69,8 +69,18 @@ ui.applyListeners = function() {
 				ui.keyer.onProgram(selected);
 			}
 		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C)	{ 	// c, cuts without taking down existing graphic.
-			ui.program.on(selected);
-			ui.keyer.put(selected);
+			if(ui.program.active()) {
+				if(ui.program.active() == selected.data('title')) {
+					ui.program.off();
+					ui.keyer.offProgram(1);
+				} else {
+					ui.program.on(selected);
+					ui.keyer.put(selected);
+				}
+			} else {
+				ui.program.on(selected);
+				ui.keyer.onProgram(selected,1);
+			}	
 		} else if(event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
 			if($("#input").is(":visible")) {
