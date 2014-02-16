@@ -111,6 +111,7 @@
 		var updateAll = $('<div id="updateAllContainer">');
 		updateAll.append('<button id="updateAll">Update All</button>');
 		updateAll.append('<label>Force:<input id="updateAllForce" type="checkbox" value="true" /></label>');
+		updateAll.append('<button id="bugUp">Up</button><button id="bugDown">Down</button>');
 		tabs.append(updateAll);
 		tabs.children('.tab').first().addClass('active');
 		tabs.attr('style',$('#tabstrip').attr('style'));

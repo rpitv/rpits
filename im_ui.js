@@ -163,6 +163,29 @@ ui.applyListeners = function() {
 		});
 	});
 
+	$(document).on('click','#bugUp',function() {
+		$.ajax({
+			url: '/bugcontrol/bug_up',
+			success: function () {
+				console.log("Bug Up");
+			},
+			error: function () {
+				console.log("Error: unable to toggle bug up");
+			}
+		});
+	});
+	$(document).on('click','#bugDown', function() {
+		$.ajax({
+			url: '/bugcontrol/bug_down',
+			success: function () {
+				console.log("Bug Down");
+			},
+			error: function () {
+				console.log("Error: unable to toggle bug down");
+			}
+		});
+	});
+
 };
 
 $(document).ready(function() {
