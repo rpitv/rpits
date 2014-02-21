@@ -74,7 +74,7 @@ function getStatscard($id) {
 
 	if ($size[0]) {
 		// there is a headshot
-		$p = array('type' => 'placeImage', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
 
 		// center align title and send to baseline if title is too narrow
 		if ($size[0] * 1.2 > $size[1]) {

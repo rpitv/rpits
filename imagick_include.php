@@ -276,20 +276,46 @@ function shadowText(&$canvas, $o) {
 	$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 }
 
+function placeHeadshot(&$canvas, $o) {
+	if(!file_exists($o['path'])) {
+		return;
+	}
+	try {
+		$headshot = new Imagick();
+		$headshot->readImage(realpath($o['path']));
+
+		// This might cause problems with non-Player Portraits if aspect ratios are off.
+		$size = @getimagesize($o['path']);
+		$headshot->cropImage($size[0], $size[0] * 1.2, 0, 0);
+
+		$headshot->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
+		$canvas->compositeImage($headshot, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+	} catch (Exception $e) {
+		echo 'Error: ', $e->getMessage(), "";
+	}
+}
 function placeImage(&$canvas, $o) {
 	if(!file_exists($o['path'])) {
 		return;
 	}
 	try {
-		$logo = new Imagick();
-		$logo->readImage(realpath($o['path']));
-
-		// This might cause problems with non-Player Portraits if aspect ratios are off.
-		$size = @getimagesize($o['path']);
-		$logo->cropImage($size[0], $size[0] * 1.2, 0, 0);
-
-		$logo->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
-		$canvas->compositeImage($logo, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$img = new Imagick();
+		$img->readImage(realpath($o['path']));
+		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
+		$canvas->compositeImage($canvas, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+	} catch (Exception $e) {
+		echo 'Error: ', $e->getMessage(), "";
+	}
+}
+function placeTexture(&$canvas, $o) {
+	if(!file_exists($o['path'])) {
+		return;
+	}
+	try {
+		$texture = new Imagick();
+		$texture->readImage(realpath($o['path']));
+		$texture->cropImage($o[w], $o[h], 0, 0);
+		$canvas->compositeImage($texture, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
