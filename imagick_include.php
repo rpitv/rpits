@@ -310,7 +310,7 @@ function placeImage(&$canvas, $o) {
 		$img = new Imagick();
 		$img->readImage(realpath($o['path']));
 		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
-		$canvas->compositeImage($canvas, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
