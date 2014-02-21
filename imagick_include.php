@@ -149,6 +149,10 @@ function fillRectangle($w,$h,$color) {
 					die('FATAL ERROR: middle stops must have a %');
 				}
 			}
+			if(strpos($stop[0],'texture') !== false) {
+				// the technology isn't there yet
+				$stop[0] = 'grey';
+			}
 			$stops[] = array('color'=> str_replace('|',',',$stop[0]),'stop'=>$dist);
 		}
 		assert(count($stops) >= 2);
@@ -173,12 +177,16 @@ function fillRectangle($w,$h,$color) {
 			$height = ceil($y*($pctHeight)/100);
 			assert ($height > 0);
 			$step = new Imagick();
-			//echo $width . ' ' . "gradient:".$stops[$i]['color'].'-'.$stops[$i+1]['color'] . ' ' . ceil($x*intval($stops[$i]['stop'])/100) . "<br>";
 			$step->newPseudoImage($x,$height,"gradient:".$stops[$i]['color'].'-'.$stops[$i+1]['color']);
 			$result->compositeImage($step, Imagick::COMPOSITE_OVER, 0,ceil($y*intval($stops[$i]['stop'])/100));
 		}
 		$rotationList = array('left'=>90,'right'=>270,'top'=>180,'bottom'=>0);
 		$result->rotateImage(new ImagickPixel(), $rotationList[$direction[1]]);
+		return $result;
+	} else if(preg_match('/texture\((.+)\)/', $color,$matches)) {
+		$result = new Imagick();
+		$result->readImage(realpath($matches[1]));
+		$result->cropimage($w,$h, 0, 0);
 		return $result;
 	} else {
 		$result = new Imagick();
