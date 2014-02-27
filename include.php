@@ -170,6 +170,14 @@ function fetchTeam($team) {
 	}
 }
 
+function fetchOrg($org) {
+	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $org . "'");
+	$orgRow = mysql_fetch_assoc($orgResource);
+
+	$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
+	return $orgRow;
+}
+
 function dbFetch($id, $geo) {
 	$result = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\" AND name=\"" . $data["name"] . "\";");
 	while ($row = mysql_fetch_array($result)) {
