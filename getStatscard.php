@@ -234,7 +234,7 @@ function getStatscard($id) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'scoreNumber', 'x' => $scoreNumPos+$centerMod, 'y' => $numY, 'w' => 300, 'h' => 60, 'text' => $row['s1'], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 		}
 		$geos[] = array('type' => 'shadowText', 'name' => 'round', 'x' => $roundPos+$centerMod, 'y' => $labelY, 'w' => 250, 'h' => 40, 'text' => 'Round', 'gravity' => "east", 'font' => "fontN", 'color' => "white");
-		$geos[] = array('type' => 'shadowText', 'name' => 'roundNumber', 'x' => $roundNumPos+$centerMod, 'y' => $numY, 'w' => 300, 'h' => 60, 'text' => $team['statsid'], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
+		$geos[] = array('type' => 'shadowText', 'name' => 'roundNumber', 'x' => $roundNumPos+$centerMod, 'y' => $numY, 'w' => 300, 'h' => 60, 'text' => $team['chn_id'], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 
 		$geos[] = array('type' => 'shadowText', 'name' => 'totalScore', 'x' => $totalPos+$centerMod, 'y' => $labelY, 'w' => 350, 'h' => 40, 'text' => 'Total Score', 'gravity' => "east", 'font' => "fontN", 'color' => "white");
 		$geos[] = array('type' => 'shadowText', 'name' => 'scoreAmount', 'x' => $totalNumPos+$centerMod, 'y' => $numY, 'w' => 300, 'h' => 60, 'text' => $row['s2'], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
