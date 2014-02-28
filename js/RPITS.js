@@ -125,6 +125,13 @@
 		}
 		this.pane.children('.titles').first().addClass('active').children('li').first().addClass('selected');
 		$('#pane').replaceWith(this.pane);
+
+		$( "ul.titles" ).sortable({
+			placeholder: "ui-state-highlight",
+			helper : 'clone',
+			distance:40
+		});
+		$( "ul.titles" ).disableSelection();
 	};
 
 	RPITS.ui.ListTabs.prototype.switchLists = function(el) {

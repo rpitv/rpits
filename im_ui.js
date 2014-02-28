@@ -229,17 +229,7 @@ $(document).ready(function() {
 
 	ui.tabs = new RPITS.ui.ListTabs(ui.eventId,{dbName:ui.dbName,billboards:false});
 	
-	resizeWindow();
-	/*
-	$(function() {
-		$( ".titles" ).sortable({
-			placeholder: "ui-state-highlight",
-			helper : 'clone',
-			distance:40
-		});
-		$( ".titles" ).disableSelection();
-	});
-	*/
+	resizeWindow();	
 });
 
 $(window).resize(resizeWindow);
