@@ -15,7 +15,7 @@ $(function() {
 		//hideColumns: ['hidden','start','end','logor','logob','logog'],
 		element: $('#teamsList')
 	});
-	eventsTable.loadTable(0,30);
+	eventsTable.loadTable(0,100);
 
 });
 
