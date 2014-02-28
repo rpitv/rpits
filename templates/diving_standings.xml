@@ -1,5 +1,5 @@
 <template>
 	<geos>
-		<divingStandings name="irrelevant" x="00" w="1920" h="1080" y="0" team="mdive" sort="last" limit="15" offset="0" titleText="Men's 1m Standings" roundText="After 1st Round" />
+		<divingStandings name="irrelevant" w="1920" x="0" h="1080" y="0" team="mdive" sort="last" limit="15" offset="0" titleText="Men's 1m Standings" roundText="After 1st Round" hideLastColumn="false" labelText="Total Score" sortDirection="DESC" hideRankColumn="false" numericalSort="true" />
 	</geos>
 </template>

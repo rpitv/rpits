@@ -64,10 +64,13 @@ if($geos['placeImage']) {
 }
 
 if($geos['divingStandings']) {
+	$ignore = array(' ','y','w','h','name','order','type','x');
 	echo "<h3>Diving Standings</h3>";
 	foreach($geos['divingStandings'] as $geo) {
 		foreach($geo as $key=>$prop) {
-			printEditableRow($geo,$titleId,$key,$key);
+			if(!array_search($key,$ignore)) {
+				printEditableRow($geo,$titleId,$key,$key);
+			}
 		}
 	}
 }

@@ -6,7 +6,16 @@ function divingStandings(&$canvas, $geo) {
 	$sort = $geo['sort'];
 	$team = $geo['team'];
 	$limit = $geo['limit'];
-	$sql = "SELECT * FROM players WHERE `team`='" . $team . "' ORDER BY (0 + " . $sort . ") DESC LIMIT " . $limit;
+	$offset = $geo['offset'];
+	$dir = $geo['sortDirection'];
+
+	$sort = $geo['sort'];
+	if($geo['numericalSort'] == 'true') {
+		$sort = '(0 + ' . $sort . ')';
+	}
+
+
+	$sql = "SELECT * FROM players WHERE `team`='" . $team . "' ORDER BY " . $sort . " " . $dir . " LIMIT " . $offset . ','. $limit;
 
 	$result = dbQuery($sql);
 
@@ -29,9 +38,11 @@ function divingStandings(&$canvas, $geo) {
 
 	slantRectangle($canvas,array('x'=>$geo['x']-35,'y'=>$yLocation-130,'w'=>1270,'h'=>70,'color'=>'red'));
 	shadowText($canvas,array('x'=>$geo['x'],'y'=>$yLocation-125,'gravity'=>'center','w'=>1200,'h'=>60,'text'=>$geo['titleText'],'font'=>'fontN','color'=>'white'));
+
+	shadowText($canvas,array('x'=>$geo['x']+1030,'y'=>$yLocation-50,'gravity'=>'east','w'=>150,'h'=>50,'text'=>$geo['labelText'],'font'=>'fontN','color'=>'white'));
 	
 
-	$place = 0;
+	$place = $offset;
 
 	foreach($players as $player) {
 		$place++;
@@ -41,18 +52,17 @@ function divingStandings(&$canvas, $geo) {
 		} else {
 			$team = fetchTeam($player['team']);
 		}
-		shadowText($canvas,array('x'=>$geo['x'],'y'=>$yOffset,'gravity'=>'east','w'=>65,'h'=>$rowHeight,'text'=>$place,'font'=>'fontN','color'=>'white'));
+		if($geo['hideRankColumn'] == 'false') {
+			shadowText($canvas,array('x'=>$geo['x'],'y'=>$yOffset,'gravity'=>'east','w'=>65,'h'=>$rowHeight,'text'=>$place,'font'=>'fontN','color'=>'white'));
+		}
 		placeImage($canvas,array('x'=>$geo['x']+75,'y'=>$yOffset,'w'=>65,'h'=>$rowHeight,'path'=>$team['logo']));
-		shadowText($canvas,array('x'=>$geo['x']+150,'y'=>$yOffset,'gravity'=>'west','w'=>450,'h'=>$rowHeight,'text'=>$player['first'] . ' ' . $player['last'],'font'=>'fontN','color'=>'white'));
-		shadowText($canvas,array('x'=>$geo['x']+610,'y'=>$yOffset,'gravity'=>'west','w'=>560,'h'=>$rowHeight,'text'=>$team['name'],'font'=>'fontN','color'=>'white'));
-		shadowText($canvas,array('x'=>$geo['x']+1080,'y'=>$yOffset,'gravity'=>'east','w'=>100,'h'=>$rowHeight,'text'=>$player[$geo['sort']],'font'=>'fontN','color'=>'white'));
+		shadowText($canvas,array('x'=>$geo['x']+150,'y'=>$yOffset,'gravity'=>'west','w'=>425,'h'=>$rowHeight,'text'=>$player['first'] . ' ' . $player['last'],'font'=>'fontN','color'=>'white'));
+		shadowText($canvas,array('x'=>$geo['x']+585,'y'=>$yOffset+4,'gravity'=>'west','w'=>485,'h'=>$rowHeight-8,'text'=>$team['name'],'font'=>'fontN','color'=>'white'));
+		if($geo['hideLastColumn'] == 'false') {
+			shadowText($canvas,array('x'=>$geo['x']+1080,'y'=>$yOffset,'gravity'=>'east','w'=>100,'h'=>$rowHeight,'text'=>$player[$geo['sort']],'font'=>'fontN','color'=>'white'));
+		}
 		$yOffset += $rowHeight;
 	}
-	
-	//print_r($players);
-
-
-
 }
 
 ?>
