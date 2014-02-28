@@ -62,6 +62,6 @@ if ($team2 = $_GET["team2"]){
 	$result = dbquery("SELECT * from players WHERE team = '$team2' ORDER BY num");
 	echo("<h3>Team 2: " . $team2 . "</h3>\n");
 	while($row = mysql_fetch_array($result)){
-		echo('<div class="title"><a href="im_render_title.php?id=' . $row["id"] . '&bustCache=true"><img src="im_render_title.php?player=' . $row["id"] . '"></a></div>');
+		echo('<div class="title"><a href="im_render_title.php?player=' . $row["id"] . '&bustCache=true"><img src="im_render_title.php?player=' . $row["id"] . '"></a></div>');
 	}
 }
