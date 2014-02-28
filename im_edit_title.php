@@ -7,13 +7,17 @@ include("include.php");
 $titleId = $_GET["id"];
 $eventId = $_GET["eventId"];
 
-function printEditableRow($row, $id, $type) {
+function printEditableRow($row, $id, $type, $prop = false) {
 	$val = $row[$type];
 	$val = str_replace('\n', PHP_EOL, $val);
 	$newlines = substr_count($val, PHP_EOL);
 	$name = $row["name"];
 	echo '<div class="row">';
-	echo '<div class="label">' . $name . '</div>';
+	if($prop) {
+		echo '<div class="label">' . $prop . '</div>';
+	} else {
+		echo '<div class="label">' . $name . '</div>';
+	}
 	echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
 	echo '<input type="hidden" name="' . $id . '" value="' . $name . '" />';
 	if ($newlines > 0) {
@@ -56,6 +60,15 @@ if($geos['placeImage']) {
 	echo "<h3>Images</h3>";
 	foreach ($geos['placeImage'] as $geo) {
 		printEditableRow($geo, $titleId, 'path');
+	}
+}
+
+if($geos['divingStandings']) {
+	echo "<h3>Diving Standings</h3>";
+	foreach($geos['divingStandings'] as $geo) {
+		foreach($geo as $key=>$prop) {
+			printEditableRow($geo,$titleId,$key,$key);
+		}
 	}
 }
 
