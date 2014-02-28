@@ -32,7 +32,7 @@ $(function() {
 			}
 		}
 	});
-	eventsTable.loadTable(0,30);
+	eventsTable.loadTable(0,100);
 
 });
 
