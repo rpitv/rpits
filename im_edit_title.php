@@ -79,7 +79,7 @@ echo '</div>'
 ?><br style="clear:both" />
 
 <button tid="<?= $titleId ?>" id="render" name="Render">Force Render</button>
-<button tid="<?= $titleId ?>" id="updateAll" name="UpdateAll">Update All</button>
+<button tid="<?= $titleId ?>" id="updateFields" name="UpdateFields">Update All</button>
 
 <script type="text/javascript">
   $(".edit_form").change( function() { // keep track of changed values
@@ -102,7 +102,7 @@ echo '</div>'
     return false;
 	});
 	
-  $("#updateAll").click(function() { // Update All
+  $("#updateFields").click(function() { // Update All
     var updated = 0;
     $(".edit_form").each(function() {
       if ($(this).data("changed")) {
