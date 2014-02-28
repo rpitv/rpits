@@ -244,9 +244,6 @@ function EditableTable(options) {
 			}
 
 			td.attr('name',data.columns[j]);
-			if(options.displayFunction && typeof options.displayFunction[data.columns[j]] === 'function' && i < data.rows.length) {
-				td.html(options.displayFunction[j].call(data.rows[i][j]));
-			}
 			dataRow.append(td);
 		}
 		dataRow.append('<td class="action"><button class="action">Add</button></td>');
