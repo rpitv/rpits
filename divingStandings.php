@@ -14,8 +14,28 @@ function divingStandings(&$canvas, $geo) {
 		$sort = '(0 + ' . $sort . ')';
 	}
 
-
+	if ($team == 'ecac'){
+	$team = "rpi-mh,dart-mh,yale-mh,union-mh,clark-mh,brown-mh,colgate-mh,quin-mh,stl-mh,prin-mh,cornell-mh,harvard-mh";
+	$teamarray = explode(',', $team);
+	$finalteamstring = "";
+	foreach($teamarray as $strval){
+		$finalteamstring = $finalteamstring . "`team`='" . trim($strval) . "' OR ";
+	}
+	$finalteamstring = substr($finalteamstring, 0, -4);
+	$sql = "SELECT * FROM `players` WHERE NOT `pos`='G' AND (" . $finalteamstring . ") ORDER BY " . $sort . " " . $dir . " LIMIT " . $offset . ','. $limit;
+	}
+	else if(strpos($team, ',') !== false){
+	$teamarray = explode(',', $team);
+	$finalteamstring = "";
+	foreach($teamarray as $strval){
+		$finalteamstring = $finalteamstring . "`team`='" . trim($strval) . "' OR ";
+	}
+		$finalteamstring = substr($finalteamstring, 0, -4);
+		$sql = "SELECT * FROM `players` WHERE NOT `pos`='G' AND (" . $finalteamstring . ") ORDER BY " . $sort . " " . $dir . " LIMIT " . $offset . ','. $limit;
+	}
+	else{
 	$sql = "SELECT * FROM players WHERE `team`='" . $team . "' ORDER BY " . $sort . " " . $dir . " LIMIT " . $offset . ','. $limit;
+	}
 
 	$result = dbQuery($sql);
 

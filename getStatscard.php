@@ -112,7 +112,16 @@ function getStatscard($id) {
 			$p['h'] = $size[1] / ($size[0] / $p['w']);
 			$p['y'] += 230 - $p['h'];
 		}
-
+		
+		if($stype == 'dive') {
+			if($row['s2'] > 0){
+			$nameModifier = 15;
+			}
+			else{
+			$nameModifier = 45;
+			}
+		}
+		
 		$geos[] = $p;
 	} else {
 		$nameModifier = -150;
