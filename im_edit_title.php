@@ -74,6 +74,17 @@ if($geos['divingStandings']) {
 		}
 	}
 }
+if($geos['flexBox']) {
+	$ignore = array(' ','y','w','h','name','order','type','x');
+	echo "<h3>Flex Box</h3>";
+	foreach($geos['flexBox'] as $geo) {
+		foreach($geo as $key=>$prop) {
+			if(!array_search($key,$ignore)) {
+				printEditableRow($geo,$titleId,$key,$key);
+			}
+		}
+	}
+}
 
 echo '</div>'
 ?><br style="clear:both" />
