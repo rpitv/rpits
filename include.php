@@ -232,6 +232,16 @@ function getToken($token,$eventId) {
 				return $teamRow[$tokens[2]];
 			}
 		}
+	} else if ($tokens[0] == 'o') {
+		$org = fetchOrg($tokens[1]);
+		if($org) {
+			return $org[$tokens[2]];
+		}
+	} else if ($tokens[0] == 't') {
+		$team = fetchTeam($tokens[1]);
+		if($team) {
+			return $team[$tokens[2]];
+		}
 	}
 	return false;
 }
