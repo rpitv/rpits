@@ -2,8 +2,41 @@
 <?
 include ("init.php");
 include ("include.php");
+ini_set("auto_detect_line_endings", true);
 $team_sel = $_POST["team_sel"];
 $csv = $_POST["csv"];
+$chs_prefix = $_GET["pull_url"];
+
+if($_GET['pull_url']) {
+  $chs = fopen("http://www.collegehockeystats.net/1314/rosters/" . $chs_prefix, "r");
+  $contents = addslashes(stream_get_contents($chs));
+  $contents = str_replace(chr(10), '', $contents);
+  $contents = str_replace(chr(13), '', $contents);
+  //$contents = preg_replace('/\p{C}+/u', '', $contents);
+  $contents = stristr($contents, "<TABLE");
+  $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
+  ?> 
+  
+  <script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
+  <script src="./parse_roster.js"></script>
+
+  <div id="other_page" style=""></div>
+
+  <script>
+    var content_html = "<?= $contents ?>";
+  </script>
+  <script>
+    $("#other_page").html(content_html);
+    //alert($("#other_page .rostable").first().html());
+    $("#other_page").html("<table>"+$("#other_page .rostable").first().html()+"</table>");
+    //$("#tableHTML").val("wat");//$("#other_page").html());
+    //parse_table_HTML($("#other_page").html());
+  </script>
+
+
+
+  <?
+}
 
 if($csv)
 {
@@ -23,17 +56,19 @@ else
 ?>
 
 <h1>Add Team Roster via CSV</h1>
-
-<label>Pull from CollegeHockeyStats URL: (not working yet)
-  <input type="text" name="pull_url" size="100" />
-  <button name="pull" onclick="alert(pull_url.value)">Pull Roster</button>
-</label>
+<form action="addteamcsv.php">
+  <label>Pull from CollegeHockeyStats URL: (not working yet)
+    <input type="text" name="pull_url" size="100" />
+    <input type="submit" name="pull" onclick=""></button>
+  </label>
+</form>
 <br/>
 <label>Parse HTML Table:<br/>
   <div id="rosterTable" style="visibility: auto;"></div>
   <div id="tableEntry">
     <textarea id="tableHTML" rows="10" cols="100"></textarea>
     <button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Roster</button>
+    <button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>
   </div>
   <button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Form</button>
 </label>

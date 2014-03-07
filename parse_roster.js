@@ -92,11 +92,6 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
 
 }
 
-// Pass in an entire page of HTML
-function parse_page_for_table(pageHTML) {
-  
-}
-
 function validateFinalSubmission(){
   if (($('#team_box').val()=="")||($('#team_box').val()==null)) {
     alert('Please enter a team name for the player(s).');
