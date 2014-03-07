@@ -128,10 +128,36 @@
 
 		$( "ul.titles" ).sortable({
 			placeholder: "ui-state-highlight",
-			helper : 'clone',
-			distance:40
+			helper: 'clone',
+			distance:40,
+			stop: function() {
+				this.saveListOrder();
+			}.bind(this)
 		});
 		$( "ul.titles" ).disableSelection();
+	};
+
+	RPITS.ui.ListTabs.prototype.saveListOrder = function() {
+		var listId = $('.tab.active').data('tabIdentifier');
+		if(listId == 'titles') {
+			var list = this.lists[list];
+			var newList = [];
+			var simpleList = [];
+			$('.titles.active > li').each(function(){
+				newList.push($(this).data('title'));
+			});
+			for(var i = 0; i < newList.length; i++) {
+				newList[i].order = i;
+				simpleList.push({
+					id: newList[i].id,
+					order: i
+				});
+			}
+			$.post('im_title_list.php',{saveEvent:ui.eventId,order:simpleList});
+			console.log(simpleList);
+			this.lists[list] = newList;
+			
+		}
 	};
 
 	RPITS.ui.ListTabs.prototype.switchLists = function(el) {

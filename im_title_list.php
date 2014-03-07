@@ -9,6 +9,15 @@ $format = $_GET["format"];
 
 $checkHash = $_GET["checkHash"];
 
+if($_POST["saveEvent"]) {
+	echo '<pre>';
+	print_r($_POST);
+	foreach($_POST['order'] as $title) {
+		dbquery('UPDATE event_title SET `order`="' . $title['order'] . '" WHERE `title`="'.$title['id'].'" AND `event`="'.$_POST['saveEvent'].'"');
+	}
+	exit();
+}
+
 if($checkHash) {
 	$list = array();
 	if($event > 0) {
@@ -40,10 +49,11 @@ if ($thing == "billboards") {
 		echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards/" . $row["file_name"] . "\" path=\"billboards/" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
 	}
 } else if ($event > 0) {
-	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY title ASC");
+	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY `order`,`title` ASC");
 	while ($row = mysql_fetch_assoc($result)) {
 		$title = getTitle($row['title'],$event);
 		if($title && $format == 'json') {
+			$title['order'] = $row['order'];
 			$list[] = $title;
 		} else if($title) {
 			echo("<li type=\"general\" id=\"" . $title["id"] . "\"><img src=\"thumbs/" . $title["name"] . $title["id"] . ".png\" path=\"out/" . $title["name"] . $title["id"] . ".png\" height=\"38\" />" . $title["name"] . "</li>\n");
