@@ -1,0 +1,31 @@
+<template>
+    <geos>
+			<flexBox
+				w="1920"
+				h="1080"
+				x="0"
+				y="0"
+
+				lineHeight="50"
+				bodyText="Two\nLines"
+				boxHeight="auto"
+				boxWidth="600"
+				boxOffset="auto"
+				boxPadding="10"
+
+				titleColor="red"
+				titleHeight="70"
+				titleText="Title"
+				titleGravity="center"
+
+				subTitleColor="#333"
+				subTitleHeight="50"
+				subTitleWidth="-200"
+				subTitleText="Subtitle"
+
+				logoHeight=""
+				logoLeft=""
+				logoRight=""
+			/>
+		</geos>
+</template>
