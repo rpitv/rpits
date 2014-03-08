@@ -86,6 +86,18 @@ if($geos['flexBox']) {
 	}
 }
 
+if($geos['gameSummary']) {
+	$ignore = array(' ','y','w','h','name','order','type','x');
+	echo "<h3>Game Summary</h3>";
+	foreach($geos['gameSummary'] as $geo) {
+		foreach($geo as $key=>$prop) {
+			if(!array_search($key,$ignore)) {
+				printEditableRow($geo,$titleId,$key,$key);
+			}
+		}
+	}
+}
+
 echo '</div>'
 ?><br style="clear:both" />
 

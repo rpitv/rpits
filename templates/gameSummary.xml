@@ -1,0 +1,19 @@
+<template>
+	<geos>
+		<gameSummary
+			w="1920"
+			h="1080"
+			x="0"
+			y="0"
+
+			vTeam="clarkmh"
+			hTeam="rpimh"
+
+			liveStatsXML="http://www.sidearmstats.com/rpi/mhockey/1.xml"
+
+			titleText="Scoring Summary"
+			barColor="red"
+
+		/>
+	</geos>
+</template>
