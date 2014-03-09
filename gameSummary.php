@@ -46,8 +46,13 @@ function scoringPlay($score,$teams) {
 	$a1 = explode(',',$score['assist1']);
 	$a2 = explode(',',$score['assist2']);
 
+	$goalString = ucwords(strtolower($goal[0]));
+	if(strlen($score['seasong'])) {
+		$goalString .= ' (' . $score['seasong'] . ')';
+	}
+
 	plainText($play,array(
-		'text'=>ucwords(strtolower($goal[0])) . ' (' . $score['seasong'] . ')',
+		'text'=>$goalString,
 			'w'=>500,
 			'h'=>45,
 			'x'=>125,
@@ -60,10 +65,16 @@ function scoringPlay($score,$teams) {
 	$assistString = 'Unassisted';
 
 	if($a1[0]) {
-		$assistString = ucwords(strtolower($a1[0])) . ' (' . $score['seasona1'] . ')';
+		$assistString = ucwords(strtolower($a1[0]));
+		if(strlen($score['seasona1'])) {
+			$assistString .= ' (' . $score['seasona1'] . ')';
+		}
 	}
 	if($a2[0]) {
-		$assistString .= ', ' . ucwords(strtolower($a2[0])) . ' (' . $score['seasona2'] . ')';
+		$assistString .= ', ' . ucwords(strtolower($a2[0]));
+		if(strlen($score['seasona2'])) {
+			$assistString .= ' (' . $score['seasona2'] . ')';
+		}
 	}
 	plainText($play,array(
 		'text'=>$assistString,
