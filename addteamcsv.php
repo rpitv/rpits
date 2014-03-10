@@ -1,4 +1,11 @@
 <title>Team Roster Adder (via CSV)</title>
+
+<script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="./parse_roster.js"></script>
+<script src="./state_province.js"></script>
+
+<h1>Add Team Roster via CSV</h1>
+
 <?
 include ("init.php");
 include ("include.php");
@@ -10,29 +17,20 @@ $chs_prefix = $_GET["pull_url"];
 if($_GET['pull_url']) {
   $chs = fopen("http://www.collegehockeystats.net/1314/rosters/" . $chs_prefix, "r");
   $contents = addslashes(stream_get_contents($chs));
-  $contents = str_replace(chr(10), '', $contents);
+  $contents = str_replace(chr(10), '', $contents);  // fix newline issues
   $contents = str_replace(chr(13), '', $contents);
-  //$contents = preg_replace('/\p{C}+/u', '', $contents);
-  $contents = stristr($contents, "<TABLE");
+  $contents = stristr($contents, "<TABLE"); // get only table data from page
   $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
   ?> 
-  
-  <script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
-  <script src="./parse_roster.js"></script>
 
   <div id="other_page" style=""></div>
 
   <script>
     var content_html = "<?= $contents ?>";
-  </script>
-  <script>
     $("#other_page").html(content_html);
-    //alert($("#other_page .rostable").first().html());
     $("#other_page").html("<table>"+$("#other_page .rostable").first().html()+"</table>");
-    //$("#tableHTML").val("wat");//$("#other_page").html());
-    //parse_table_HTML($("#other_page").html());
+    //parse_table_HTML($('#other_page').html());
   </script>
-
 
 
   <?
@@ -55,10 +53,9 @@ else
 { 
 ?>
 
-<h1>Add Team Roster via CSV</h1>
 <form action="addteamcsv.php">
-  <label>Pull from CollegeHockeyStats URL: (not working yet)
-    <input type="text" name="pull_url" size="100" />
+  <label>Enter CollegeHockeyStats abbreviation: 
+    <input type="text" name="pull_url" size="10" />
     <input type="submit" name="pull" onclick=""></button>
   </label>
 </form>
@@ -84,8 +81,6 @@ else
   <textarea id="csv_textarea" name="csv" rows="30" cols="100"></textarea>
   <input type="submit" name="Submit" />
 </form>
-<script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
-<script src="./parse_roster.js"></script>
-<script src="./state_province.js"></script>
+
 <? } ?>
 

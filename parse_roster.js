@@ -19,7 +19,7 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
   var temp2 = '';
   var temp_stats = [[],[],[],[],[],[],[],[]];
 
-  $('tr').slice(rowsToSkip).each(function(){
+  $('#rosterTable tr').slice(rowsToSkip).each(function(){
     num_players++;
     num_rows = $(this).find('td').length;
 
