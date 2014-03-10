@@ -76,9 +76,9 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
         }
         break;
       case 8: // parse hometown and prev team (M)
-        temp1 = $(this).text().trim();
-        temp2 = temp1.split(' / ');
-        temp_stats[7] = temp2[0];
+        temp1 = $(this).text().trim().split(' / ');
+        temp2 = temp1[0].split(', ');
+        temp_stats[7] = temp2[0].replace("\'", "\\\'") + ", " + getAbbr(temp2[1]);
         break;
       }
     });
