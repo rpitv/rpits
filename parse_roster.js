@@ -4,8 +4,8 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
     rowsToSkip = 1; // assume 1 header row
   }
 
-  // Sanitize nbsp weirdness
-  table_HTML = table_HTML.replace(/\&nbsp\;/g, ' ' );
+  // Sanitize nbsp weirdness - or NOT because it is useful for names
+  table_HTML = table_HTML.replace(/\&nbsp\;/g, '|' );
 
   $('#rosterTable').html(table_HTML);
   $('#rosterTable table').css('font-size', '8pt');
@@ -30,13 +30,15 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
         break;
       case 1: // parse FIRST and LAST name and DRAFT
         temp1 = $(this).text().trim().replace("\'", "\\\'");
-        temp2 = temp1.split(' ');
-        
+
+        temp2 = temp1.split('|');
+        temp_stats[1] = temp2.shift() + '|';  // get FIRST name(s)
+
+        temp2 = temp2[0].split(' ');
+
         if (temp2[temp2.length-1].indexOf('(') >= 0) {  // get (DRAFT) out
           temp2.pop();
         }
-
-        temp_stats[1] = temp2.shift() + '|';  // get FIRST name
         
         var last_name = '';
         if (temp2[0]){
@@ -47,7 +49,7 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
         }
         break;
       case 2: // parse year
-        temp1 = $(this).text().trim();
+        temp1 = $(this).text();
         temp2 = temp1.charAt(1).toLowerCase(); 
         temp_stats[6] = temp1.charAt(0) + temp2 + '|';
         break;

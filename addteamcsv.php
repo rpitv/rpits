@@ -1,10 +1,10 @@
-<title>Team Roster Adder (via CSV)</title>
+<title>Team Roster Adder</title>
 
 <script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="./parse_roster.js"></script>
 <script src="./state_province.js"></script>
 
-<h1>Add Team Roster via CSV</h1>
+<h1>Add Team Roster</h1>
 
 <?
 include ("init.php");
