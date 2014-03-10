@@ -23,13 +23,17 @@ if($_GET['pull_url']) {
   $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
   ?> 
 
-  <div id="other_page" style=""></div>
+  <div id="other_page" style="display:none;"></div>
 
   <script>
+  $(document).ready( function(){
     var content_html = "<?= $contents ?>";
     $("#other_page").html(content_html);
     $("#other_page").html("<table>"+$("#other_page .rostable").first().html()+"</table>");
-    //parse_table_HTML($('#other_page').html());
+    $("#CHSabbr").hide()  // hide unneeded things
+    $("#parseTableHTML").hide()
+    parse_table_HTML($('#other_page').html());
+  });
   </script>
 
 
@@ -53,22 +57,25 @@ else
 { 
 ?>
 
-<form action="addteamcsv.php">
+<form id="CHSabbr" action="addteamcsv.php">
   <label>Enter CollegeHockeyStats abbreviation: 
     <input type="text" name="pull_url" size="10" />
     <input type="submit" name="pull" onclick=""></button>
   </label>
 </form>
-<br/>
-<label>Parse HTML Table:<br/>
-  <div id="rosterTable" style="visibility: auto;"></div>
-  <div id="tableEntry">
-    <textarea id="tableHTML" rows="10" cols="100"></textarea>
-    <button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Roster</button>
-    <button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>
-  </div>
-  <button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Form</button>
-</label>
+<!--<button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>-->
+
+<div id="parseTableHTML">
+  <br/>
+  <label>Parse HTML Table:
+    <button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Form</button><br/>
+    <div id="rosterTable" style="visibility: auto;"></div>
+    <div id="tableEntry" style="display:none;">
+      <textarea id="tableHTML" rows="10" cols="100"></textarea>
+      <button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Roster</button>
+    </div>
+  </label>
+</div>
 
 <br/>
 <form action="addteamcsv.php" method="POST" onsubmit="return validateFinalSubmission();">
