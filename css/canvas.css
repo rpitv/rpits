@@ -1,0 +1,120 @@
+body {
+	font-family: sans-serif;
+}
+
+#ccontainer
+{
+	background-color:#888888;
+	width: 60%;
+	height: 90%;
+	padding:0px;
+	margin:0px;
+	/*display: table-cell;*/
+	vertical-align:middle;
+	text-align:center;
+	overflow:scroll;
+	float:left;
+}
+#info-panel
+{
+	padding-left:5px;
+	float:left;
+	height:90%;
+	margin-left:20px;
+	background-color:white;
+	width: 18%;
+}
+#layer-panel
+{
+	/* padding-left:5px; */
+	float:left;
+	height: 90%;
+	margin-left:20px;
+	background-color:white;
+	width: 18%;
+	overflow: scroll;
+}
+#canvas
+{
+	padding:0px;
+	margin:auto auto;
+	width:1920px;
+	height:1080px;
+	background-color:white;
+	position:relative;
+	overflow:hidden;
+	display:inline-block;
+}
+body
+{
+	background-color:#AAAAAA;
+}
+.geo
+{
+	background-color:rgba(128,255,128,0.5);
+	border-style:solid;
+	border-width:1px;
+	border-color:rgba(0,0,0,1);
+	/*background-position: -10px,-10px;*/
+	overflow:visible;
+	opacity:1;
+}
+.geo img
+{
+	pointer-events:none;
+	position:relative;
+	top:-10px;
+	left:-10px;
+}
+.slide
+{
+	width:200px;
+	height:10px;
+	background-color:white;
+	margin-left:20px;
+	margin-bottom:10px;
+	margin-top:30px;
+	display:inline-block;
+	vertical-align:text-bottom;
+}
+.ui-slider-handle
+{
+	width:16px;
+	height:16px;
+	top:-3px;
+	margin-left:-8px;
+	background-color:grey;
+	display:block;
+	position:relative;
+	border:black solid 1px;
+}
+.selected
+{
+	border-color:red;
+	background-color:rgba(255,255,0,0.5);
+}
+.updated
+{
+	border:green solid 2px;
+}
+.outdated
+{
+	border:red solid 2px;
+}
+
+.layer {
+	border-bottom: solid 1px black;
+	padding:  3px;
+}
+
+.layer h3 {
+	margin: 0px;
+}
+
+.layer p {
+    margin: 0px;
+}
+
+.layersel {
+	background-color:yellow;
+}

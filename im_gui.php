@@ -1,10 +1,10 @@
 <?php
 
 include("include.php");
-include("imagick_include.php");
 
 $update = $_GET["update"];
 $id = $_GET["id"];
+$eventId = $_GET["eventId"];
 $name = $_GET["name"];
 $x = $_GET["x"];
 $y = $_GET["y"];
@@ -27,7 +27,7 @@ if ($update) {
 }
 
 if ($load == "attrs") {
-	$result = dbFetchAll($id, $name);
+	$result = getTitle($id,$eventId,false)['geos'][$name];
 	echo("<h2>" . $result["name"] . "</h2>\n");
 	unset($result["name"]);
 	foreach ($result as $key => $value) {
