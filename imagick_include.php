@@ -275,8 +275,7 @@ function getTextWidth($o) {
 function shadowText(&$canvas, $o) {
 	$text = defaultText($o);
 	$shadow = $text->clone();
-	$stroke = $text->clone();
-	$shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
+  $shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
 	$text->colorizeImage($o['color'], 1);
 
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'] + 5, $o['y'] + 5);
@@ -309,7 +308,13 @@ function placeImage(&$canvas, $o) {
 	try {
 		$img = new Imagick();
 		$img->readImage(realpath($o['path']));
-		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
+		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1, true);
+    if($o['shadow'] > 0){
+      $shadow = $img->clone();
+      $shadow->setImageBackgroundColor('black');
+      $shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']);
+      $canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+    }
 		$canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";

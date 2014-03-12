@@ -136,6 +136,10 @@ function getStatscard($id) {
 
 	$geos[] = array('type' => 'shadowText', 'name' => 'name', 'x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 
+  if($row['s7']) {
+    $geos[] = array('type' => 'placeImage', 'name' => 'draftLogo', 'x' => 1040, 'y' => 810 - $boxHeightModifier, 'w' => 60, 'h' => 60, 'shadow' => 5, 'path' => 'other_graphics/NHL/'.$row['s7'].'.png');
+  }
+
 	if($stype != 'dive') {
 		$geos[] = array('type' => 'shadowText', 'name' => 'number', 'x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		$geos[] = array('type' => 'shadowText', 'name' => 'position', 'x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
