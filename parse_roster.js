@@ -37,7 +37,8 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
         temp2 = temp2[0].split(' ');
 
         if (temp2[temp2.length-1].indexOf('(') >= 0) {  // get (DRAFT) out
-          temp2.pop();
+          temp1 = temp2.pop();
+          temp1 = temp1.substr(1,3);
         }
         
         var last_name = '';
@@ -78,7 +79,7 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
       case 8: // parse hometown and prev team (M)
         temp1 = $(this).text().trim().split(' / ');
         temp2 = temp1[0].split(', ');
-        temp_stats[7] = temp2[0].replace("\'", "\\\'") + ", " + getAbbr(temp2[1]);
+        temp_stats[7] = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
         break;
       }
     });

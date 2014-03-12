@@ -15,7 +15,14 @@ $csv = $_POST["csv"];
 $chs_prefix = $_GET["pull_url"];
 
 if($_GET['pull_url']) {
-  $chs = fopen("http://www.collegehockeystats.net/1314/rosters/" . $chs_prefix, "r");
+  
+  if(date('n')>7){
+    $season = date('y') . (date('y')+1);
+  } else {
+    $season = (date('y')-1) . date('y');
+  }
+
+  $chs = fopen("http://www.collegehockeystats.net/". $season ."/rosters/" . $chs_prefix, "r");
   $contents = addslashes(stream_get_contents($chs));
   $contents = str_replace(chr(10), '', $contents);  // fix newline issues
   $contents = str_replace(chr(13), '', $contents);
