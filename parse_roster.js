@@ -34,8 +34,6 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
         temp2 = temp1.split('|');
         player.first_name = temp2.shift() + '|';  // get FIRST name(s)
 
-        temp2 = temp2[0].split(' ');
-
         if (temp2[temp2.length-1].indexOf('(') >= 0) {  // get (DRAFT) out
           temp1 = temp2.pop();
           player.draft_pick = temp1.substr(1,3);
