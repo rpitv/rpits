@@ -15,6 +15,8 @@ $key;
 
 if ($path) {
 	$title = getTitleFromXML($path);
+	$paths = explode('/',$path);
+	$filename = $paths[1];
 } else if ($player) {
 	$title = getStatscard($player);
 	$filename = $title["num"] . $title["first"] . $title["last"];

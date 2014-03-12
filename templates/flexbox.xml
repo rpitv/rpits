@@ -1,31 +1,34 @@
 <template>
-    <geos>
-			<flexBox
-				w="1920"
-				h="1080"
-				x="0"
-				y="0"
+	<geos>
+		<flexBox
 
-				lineHeight="50"
-				bodyText="Two\nLines"
-				boxHeight="auto"
-				boxWidth="600"
-				boxOffset="auto"
-				boxPadding="10"
+			name="flexBox"
 
-				titleColor="red"
-				titleHeight="70"
-				titleText="Title"
-				titleGravity="center"
+			w="1920"
+			h="1080"
+			x="0"
+			y="0"
 
-				subTitleColor="#333"
-				subTitleHeight="50"
-				subTitleWidth="-200"
-				subTitleText="Subtitle"
+			lineHeight="50"
+			bodyText="Two\nLines"
+			boxHeight="auto"
+			boxWidth="600"
+			boxOffset="auto"
+			boxPadding="10"
 
-				logoHeight=""
-				logoLeft=""
-				logoRight=""
-			/>
-		</geos>
+			titleColor="red"
+			titleHeight="70"
+			titleText="Title"
+			titleGravity="center"
+
+			subTitleColor="#333"
+			subTitleHeight="50"
+			subTitleWidth="-200"
+			subTitleText="Subtitle"
+
+			logoHeight=""
+			logoLeft=""
+			logoRight=""
+		/>
+	</geos>
 </template>
