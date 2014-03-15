@@ -61,9 +61,16 @@ if(!$metrics) {
 // Generate thumbnail image of the title for UI purposes.
 
 $thumb = $canvas->clone();
-$thumb->cropImage(1440, 1080, 0, 0);
-$thumb->resizeImage(53, 40, Imagick::FILTER_TRIANGLE, 1);
-$thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+if ($player) {
+  $thumb->cropImage(427, 240, 350, 795);  
+  $thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
+  $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+
+} else {
+  //$thumb->cropImage(1440, 1080, 0, 0);
+  $thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
+  $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+}
 
 timestamp('post thumbs');
 
