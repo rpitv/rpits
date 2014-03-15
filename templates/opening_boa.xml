@@ -23,8 +23,8 @@
 		<shadowText name="Venue" x="435" y="865" w="610" h="60" gravity="west" font="fontN" color="white" text="Boardwalk Hall" />
 		<shadowText name="City" x="400" y="935" w="430" h="40" gravity="west" font="fontN" color="white" text="Atlantic City, NJ" />
 
-		<placeImage name="AwayLogo" x="450" y="335" w="200" h="200" path="teamlogos/rpi.png" />
-		<placeImage name="HomeLogo" x="450" y="605" w="200" h="200" path="teamlogos/rpi.png" />
+		<placeImage name="AwayLogo" x="450" y="195" w="200" h="200" path="{e.v.logo}" shadow="5" padding="15" />
+		<placeImage name="HomeLogo" x="450" y="475" w="200" h="200" path="{e.h.logo}" shadow="5" padding="15" />
 		<placeImage name="Sponsor Logo" x="420" y="55" w="1140" h="250" path="billboards/boa_banner.png" />
 	</geos>
 

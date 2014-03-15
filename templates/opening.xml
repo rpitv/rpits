@@ -23,8 +23,8 @@
 		<shadowText name="Venue" x="435" y="865" w="610" h="60" gravity="west" font="fontN" color="white" text="Houston Field House" />
 		<shadowText name="City" x="400" y="935" w="430" h="40" gravity="west" font="fontN" color="white" text="Troy, NY" />
 
-		<placeImage name="AwayLogo" x="450" y="195" w="200" h="200" path="{e.v.logo}" />
-		<placeImage name="HomeLogo" x="450" y="475" w="200" h="200" path="{e.h.logo}" />
+		<placeImage name="AwayLogo" x="450" y="195" w="200" h="200" path="{e.v.logo}" shadow="5" padding="15" />
+		<placeImage name="HomeLogo" x="450" y="475" w="200" h="200" path="{e.h.logo}" shadow="5" padding="15" />
 	</geos>
 
 </template>

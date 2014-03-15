@@ -20,8 +20,8 @@
 
 		<slantRectangle name="gameStatusBox" x="680" y="940" w="470" h="60" color="#303030" />
 
-		<placeImage name="hLogo" x="570" y="808" w="100" h="100" path="{e.h.logo}" />
-		<placeImage name="vLogo" x="570" y="668" w="100" h="100" path="{e.v.logo}" />
+		<placeImage name="hLogo" x="570" y="808" w="100" h="100" path="{e.h.logo}" shadow="5" padding="7" />
+		<placeImage name="vLogo" x="570" y="668" w="100" h="100" path="{e.v.logo}" shadow="5" padding="7" />
 
 		<shadowText name="vTeamName" x="720" y="690" w="480" h="60" gravity="west" font="font" color="white" text="{e.v.name}" case="upper"/>
 		<shadowText name="hTeamName" x="720" y="830" w="480" h="60" gravity="west" font="font" color="white" text="{e.h.name}" case="upper"/>

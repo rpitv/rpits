@@ -9,8 +9,8 @@
 		<slantRectangle name="logoBoxleft" x="400" y="800" w="180" h="100" color="white"/>
 		<slantRectangle name="logoBoxright" x="1355" y="800" w="180" h="100" color="white"/>
 
-		<placeImage name="leftlogo" x="450" y="810" w="80" h="80" path="teamlogos/rpi.png" />
-		<placeImage name="rightlogo" x="1405" y="810" w="80" h="80" path="teamlogos/rpi.png" />
+		<placeImage name="leftlogo" x="450" y="810" w="80" h="80" path="teamlogos/rpi.png" shadow="5" padding="2" />
+		<placeImage name="rightlogo" x="1405" y="810" w="80" h="80" path="teamlogos/rpi.png" shadow="5" padding="2" />
 		
 		<shadowText name="titleTextLeft" x="580" y="825" w="535" h="50" gravity="west" font="fontN" color="white" text="Left" />
 		<shadowText name="titleTextRight" x="820" y="825" w="535" h="50" gravity="east" font="fontN" color="white" text="Right" />

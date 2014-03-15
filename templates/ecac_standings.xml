@@ -14,17 +14,17 @@
 		<plainText name="byeLine" x="430" y="528" w="1120" h="40" gravity="center" font="fontN" color="yellow" text="---   First Round Bye   ---" />
 		<plainText name="homeIceLine" x="430" y="778" w="1120" h="40" gravity="center" font="fontN" color="yellow" text="---   Home Ice   ---" />
 		
-		<placeImage name="team1Logo" x="520" y="320" w="50" h="50" path="teamlogos/quin.png" />
-		<placeImage name="team2Logo" x="520" y="370" w="50" h="50" path="teamlogos/rpi.png" />
-		<placeImage name="team3Logo" x="520" y="420" w="50" h="50" path="teamlogos/yale.png" />
-		<placeImage name="team4Logo" x="520" y="470" w="50" h="50" path="teamlogos/stl.png" />
-		<placeImage name="team5Logo" x="520" y="570" w="50" h="50" path="teamlogos/union.png" />
-		<placeImage name="team6Logo" x="520" y="620" w="50" h="50" path="teamlogos/clark.png" />
-		<placeImage name="team7Logo" x="520" y="670" w="50" h="50" path="teamlogos/prince.png" />
-		<placeImage name="team8Logo" x="520" y="720" w="50" h="50" path="teamlogos/dart.png" />
-		<placeImage name="team9Logo" x="520" y="820" w="50" h="50" path="teamlogos/brown.png" />
-		<placeImage name="team10Logo" x="520" y="870" w="50" h="50" path="teamlogos/colgate.png" />
-		<placeImage name="team11Logo" x="520" y="920" w="50" h="50" path="teamlogos/cornell.png" />
-		<placeImage name="team12Logo" x="520" y="970" w="50" h="50" path="teamlogos/harvard.png" />
+		<placeImage name="team1Logo" x="520" y="320" w="50" h="50" path="{o.quinnipiac.logo}" />
+		<placeImage name="team2Logo" x="520" y="370" w="50" h="50" path="{o.rpi.logo}" />
+		<placeImage name="team3Logo" x="520" y="420" w="50" h="50" path="{o.yale.logo}" />
+		<placeImage name="team4Logo" x="520" y="470" w="50" h="50" path="{o.stl.logo}" />
+		<placeImage name="team5Logo" x="520" y="570" w="50" h="50" path="{o.union.logo}" />
+		<placeImage name="team6Logo" x="520" y="620" w="50" h="50" path="{o.clark.logo}" />
+		<placeImage name="team7Logo" x="520" y="670" w="50" h="50" path="{o.princeton.logo}" />
+		<placeImage name="team8Logo" x="520" y="720" w="50" h="50" path="{o.dartmouth.logo}" />
+		<placeImage name="team9Logo" x="520" y="820" w="50" h="50" path="{o.brown.logo}" />
+		<placeImage name="team10Logo" x="520" y="870" w="50" h="50" path="{o.colgate.logo}" />
+		<placeImage name="team11Logo" x="520" y="920" w="50" h="50" path="{o.cornell.logo}" />
+		<placeImage name="team12Logo" x="520" y="970" w="50" h="50" path="{o.harvard.logo}" />
 	</geos>
 </template>

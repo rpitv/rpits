@@ -9,8 +9,8 @@
 		<slantRectangle name="logoBoxLeft" x="305" y="70" w="270" h="150" color="white"/>
 		<slantRectangle name="logoBoxRight" x="1350" y="70" w="270" h="150" color="white"/>
 		
-		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="{e.h.logo}" />
-		<placeImage name="RightLogo" x="1425" y="85" w="120" h="120" path="{e.v.logo}" />
+		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="{e.h.logo}" shadow="5" padding="3" />
+		<placeImage name="RightLogo" x="1425" y="85" w="120" h="120" path="{e.v.logo}" shadow="5" padding="3" />
 		<placeImage name="LeftGoalie" x="430" y="210" w="450" h="450" path="teams/rpiimgs/JasonKasdorf.png" />
 		<placeImage name="RightGoalie" x="1050" y="210" w="450" h="450" path="teams/dartimgs/CabMorris.png" />
 		<shadowText name="LeftName" x="430" y="695" w="450" h="50" gravity="center" font="fontN" color="white" text="33 - Jason Kasdorf - Fr" />
