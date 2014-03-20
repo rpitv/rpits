@@ -36,7 +36,7 @@ function getStatscard($id) {
 	//
 
 	$boxHeightModifier = 0;
-	$positionWidthModifier = 0;
+	$positionWidth = 130;
 
 	// Check to see if there are stats
 	if (!$stype) {
@@ -49,17 +49,14 @@ function getStatscard($id) {
 		$boxHeightModifier = -113;
 	}
 
-	// Check to see if position uses two characters
-	if($stype != dive) {
-		if ($row["pos"][1]) {
-			$positionWidthModifier = 50;
-		}
-		if ($row["pos"][0] == 'W') {
-			$positionWidthModifier += 20;
-		}
+  // Adjust position width
+  if($stype != dive) {
+	  if (strlen($row["pos"])>1) {
+      $positionWidth = 110 + ( .75 * getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['pos'], 'font' => "fontN")) );
+    }
 	}
 
-	$nameBarAdjust = 0;
+  $nameBarAdjust = 0;
 
 	$diveTeam = [];
 
@@ -75,24 +72,17 @@ function getStatscard($id) {
 	// Lay down initial geometry
 	//
 
-
-
-
-
-
-
-
 	$geos[] = array('type' => 'blackBox', 'name' => 'Backdrop', 'x' => 400, 'y' => 870 - $boxHeightModifier, 'w' => 1120, 'h' => 160 + $boxHeightModifier);
 
 	$geos[] = array('type' => 'slantRectangle', 'name' => 'nameBar', 'x' => 360, 'y' => 800 - $boxHeightModifier, 'w' => 780 + $nameBarAdjust, 'h' => 80, 'color' => $team['color']);
 
 	if($stype != 'dive') {
-		$geos[] = array('type' => 'slantRectangle', 'name' => 'numberBox', 'x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030");
-		$geos[] = array('type' => 'slantRectangle', 'name' => 'positionBox', 'x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'color' => $team['color']);
+		$geos[] = array('type' => 'slantRectangle', 'name' => 'numberBox', 'x' => 1230 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030");
+		$geos[] = array('type' => 'slantRectangle', 'name' => 'positionBox', 'x' => 1340 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => $positionWidth, 'h' => 80, 'color' => $team['color']);
 	}
 
-	$geos[] = array('type' => 'slantRectangle', 'name' => 'yearBox', 'x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'color' => "#303030");
-	$geos[] = array('type' => 'slantRectangle', 'name' => 'logoBox', 'x' => 1400, 'y' => 800 - $boxHeightModifier, 'w' => 160, 'h' => 80, 'color' => "white");
+	$geos[] = array('type' => 'slantRectangle', 'name' => 'yearBox', 'x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030");
+	$geos[] = array('type' => 'slantRectangle', 'name' => 'logoBox', 'x' => 1410, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "white");
 
 	//
 	// Headshot setup
@@ -122,6 +112,8 @@ function getStatscard($id) {
 			}
 		}
 		
+    $nameModifier = 10;
+
 		$geos[] = $p;
 	} else {
 		$nameModifier = -150;
@@ -132,20 +124,20 @@ function getStatscard($id) {
 	// Print team logo, name, num, pos, year
 	//
 
-	$geos[] = array('type' => 'placeImage', 'name' => 'teamLogo', 'x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => $team['logo'], 'shadow' => 5, 'padding' => 6);
-
-	$geos[] = array('type' => 'shadowText', 'name' => 'name', 'x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
-
-  if($row['s7']) {  // draft pick graphic
-    $geos[] = array('type' => 'placeImage', 'name' => 'draftLogo', 'x' => 1040, 'y' => 810 - $boxHeightModifier, 'w' => 60, 'h' => 60, 'shadow' => 5, 'path' => 'other_graphics/NHL/'.$row['s7'].'.png');
+  $proSpacer = 0;
+  if ( $row['s7'] and ($stype != 'dive') ) {  // draft pick graphic
+    $geos[] = array('type' => 'placeImage', 'name' => 'draftLogo', 'x' => 1160 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'shadow' => 5, 'padding' => 7, 'path' => 'other_graphics/NHL/'.strtoupper($row['s7']).'.png');
+    $proSpacer = 55;
   }
+	$geos[] = array('type' => 'placeImage', 'name' => 'teamLogo', 'x' => 1447, 'y' => 800 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => $team['logo'], 'shadow' => 5, 'padding' => 6);
+	$geos[] = array('type' => 'shadowText', 'name' => 'name', 'x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 665 - $nameModifier - $positionWidth - $proSpacer, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 
 	if($stype != 'dive') {
-		$geos[] = array('type' => 'shadowText', 'name' => 'number', 'x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
-		$geos[] = array('type' => 'shadowText', 'name' => 'position', 'x' => 1210 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
+		$geos[] = array('type' => 'shadowText', 'name' => 'number', 'x' => 1230 - $positionWidth, 'y' => 803 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
+		$geos[] = array('type' => 'shadowText', 'name' => 'position', 'x' => 1338 - $positionWidth, 'y' => 803 - $boxHeightModifier, 'w' => $positionWidth, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 	}
 
-	$geos[] = array('type' => 'shadowText', 'name' => 'year', 'x' => 1300, 'y' => 800 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
+	$geos[] = array('type' => 'shadowText', 'name' => 'year', 'x' => 1305, 'y' => 803 - $boxHeightModifier, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 
 	//
 	// Details setup

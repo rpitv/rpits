@@ -55,13 +55,17 @@ if (!$stype) {
 }
 
 // Check to see if position uses two characters
-if ($row["pos"][1]) {
-	$positionWidthModifier = 50;
-}
-if ($row["pos"][0] == 'W') {
-	$positionWidthModifier += 20;
-}
+//if ($row["pos"][1]) {
+	$positionWidthModifier = 150;
+//}
+//if ($row["pos"][0] == 'W') {
+//	$positionWidthModifier += 20;
+//}
 
+// Adjust position width
+//if (strlen($row["pos"])>1) {
+//  $positionWidthModifier = 20 + getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['$pos'], 'font' => "fontN"));
+//}
 
 $canvas = new Imagick();
 $canvas->newImage(1920, 1080, "none", "png");
