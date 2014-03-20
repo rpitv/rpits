@@ -59,7 +59,7 @@ function getTitle($id,$eventId,$withReplacements = true) {
 
 function getTitleFromXML($path) {
 	if($path) {
-		$file = fopen($path, "r");
+		$file = @fopen($path, "r");
 		if($file) {
 			$contents = stream_get_contents($file);
 			$xml = new SimpleXMLElement($contents);
