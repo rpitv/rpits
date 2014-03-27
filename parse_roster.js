@@ -71,8 +71,10 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
       case 7: // parse age (M), hometown + etc. (W)
         //player.age += $(this).text().trim() + '|';
         if (num_rows == 8) {
-          player.hometown = $(this).text().trim().split(' / ')[0];
-        }
+          temp1 = $(this).text().trim().split(' / ');
+          temp2 = temp1[0].split(', ');
+          player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+       }
         break;
       case 8: // parse hometown and prev team (M)
         temp1 = $(this).text().trim().split(' / ');
