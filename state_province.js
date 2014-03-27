@@ -29,7 +29,7 @@ var StateAbbreviations =
   "montana": "MT",
   "nebraska": "NE",
   "nevada": "NV",
-  "new hamspire": "NH",
+  "new hampshire": "NH",
   "new jersey": "NJ",
   "new mexico": "NM",
   "new york": "NY",
@@ -67,6 +67,10 @@ var StateAbbreviations =
   "yukon": "YT",
 
   "québec": "QC",
+  "newfoundland": "NL",
+  "labrador": "NL",
+  "newfoundland & labrador": "NL",
+
 };
 
 function getAbbr(full_name) {

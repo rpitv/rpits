@@ -25,7 +25,7 @@ $(function() {
 			},
 			chs_abbrev: function(chs) {
 				if(chs) {
-					return $('<a href="http://www.collegehockeystats.net/1314/teamstats/'+chs+'">'+chs+'</a>');
+					return $('<a href="addteamcsv.php?pull_url='+chs+'&pull=Submit">'+chs+'</a>');
 				} else {
 					return '';
 				}
