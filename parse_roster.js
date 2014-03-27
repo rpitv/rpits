@@ -82,7 +82,15 @@ function parse_table_HTML(table_HTML, rowsToSkip) {
       }
     });
     
-    submission_string += player.number + player.first_name + player.last_name + player.position + player.height + player.weight + player.year + player.hometown;
+    submission_string += player.number + player.first_name + player.last_name + player.position + player.height;
+
+    if (player.weight) {
+      submission_string += player.weight;
+    } else {
+      submission_string += '|';
+    }
+    
+    submission_string += player.year + player.hometown;
 
     if (player.draft_pick) {
       submission_string += '||||||||' + player.draft_pick;
