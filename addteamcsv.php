@@ -29,7 +29,7 @@ if($_GET['pull_url']) {
   $contents = stristr($contents, "<TABLE"); // get only table data from page
   $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
 
-  $result = mysql_query("SELECT player_abbrev FROM teams WHERE chs_abbrev='$chs_prefix'");
+  $result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
   $team_preset = mysql_fetch_assoc($result);
 
   ?> 
@@ -63,7 +63,14 @@ if($csv)
 		mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 		echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel);	
 	}
-	include("peditor.php");
+
+  $result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
+  $chn_puller = mysql_fetch_assoc($result);
+
+  ?>
+  <br/><a href="statsloader.php?tid=<?= $chn_puller['chn_id'] ?>">Update Stats</a>
+	<?
+  include("peditor.php");
 }
 else
 { 
