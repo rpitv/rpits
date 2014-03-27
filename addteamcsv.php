@@ -28,6 +28,10 @@ if($_GET['pull_url']) {
   $contents = str_replace(chr(13), '', $contents);
   $contents = stristr($contents, "<TABLE"); // get only table data from page
   $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
+
+  $result = mysql_query("SELECT player_abbrev FROM teams WHERE chs_abbrev='$chs_prefix'");
+  $team_preset = mysql_fetch_assoc($result);
+
   ?> 
 
   <div id="other_page" style="display:none;"></div>
@@ -40,6 +44,7 @@ if($_GET['pull_url']) {
     $("#CHSabbr").hide()  // hide unneeded things
     $("#parseTableHTML").hide()
     parse_table_HTML($('#other_page').html());
+    $("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
   });
   </script>
 
@@ -66,7 +71,7 @@ else
 
 <form id="CHSabbr" action="addteamcsv.php">
   <label>Enter CollegeHockeyStats abbreviation: 
-    <input type="text" name="pull_url" size="10" />
+    <input type="text" name="pull_url" size="10" maxlength="4" />
     <input type="submit" name="pull" onclick=""></button>
   </label>
 </form>
