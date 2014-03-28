@@ -11,14 +11,16 @@ function printEditableRow($row, $id, $type, $prop = false) {
 	$val = $row[$type];
 	$val = str_replace('\n', PHP_EOL, $val);
 	$newlines = substr_count($val, PHP_EOL);
-	$name = $row["name"];
+	
+  $name = $row["name"];
 	echo '<div class="row">';
 	if($prop) {
 		echo '<div class="label">' . $prop . '</div>';
 	} else {
 		echo '<div class="label">' . $name . '</div>';
 	}
-	echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
+
+  echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
 	echo '<input type="hidden" name="' . $id . '" value="' . $name . '" />';
 	if ($newlines > 0) {
 		echo '<textarea class="noHotkeys" rows="' . ($newlines + 1) . '" name="' . $type . '">' . "\n" . $val . '</textarea>';
@@ -147,6 +149,7 @@ echo '</div>'
       }
     });
   });
+  
 	$("#render").click(function() { // Force Render
     var button = $(this).html("Rendering");
     var renderTid = $(this).attr("tid");
@@ -160,4 +163,3 @@ echo '</div>'
     });
 	});
 </script>
-

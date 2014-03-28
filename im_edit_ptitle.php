@@ -22,7 +22,8 @@ function printEditableRow($id, $row, $value) {
 
 	echo '<div class="row">';
 	echo '<div class="label">' . $value . '</div>';
-	echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
+
+  echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
 	echo '<input type="hidden" name="id" value="' . $id . '" />';
 	if ($newlines > 0) {
 		echo '<textarea class="noHotkeys" rows="' . ($newlines + 1) . '" name="' . $value . '">' . "\n" . $val . '</textarea>';
@@ -33,20 +34,29 @@ function printEditableRow($id, $row, $value) {
 	echo '</form></div>';
 	echo '</div>';
 }
+
 $editableRows = array('num','first','last','pos','height','weight','year','hometown','stype','s1','s2','s3','s4','s5','s6','s7','s8');
 
 echo '<div id="editTitle">';
+
 echo "<h3>Player Data</h3>";
 foreach ($editableRows as $text) {
-	//$t = dbFetch($titleId, $text);
 	printEditableRow($titleId, $titleRow, $text);
 }
 
 echo '</div>'
 ?><br style="clear:both" />
+
 <button tid="<?= $titleId ?>" id="render" name="Render">Force Render</button>
+<button tid="<?= $titleId ?>" id="updateFields" name="UpdateFields">Update All</button>
+
 <script type="text/javascript">
-	$(".edit_form").submit(function() {
+	$(".edit_form").change( function() { // keep track of changed values
+    $(this).data("changed", true);
+  });
+
+  $(".edit_form").submit(function() {
+    $(this).data("changed", false); // now matches the database
 		var form = $(this);
 		form.children("input:last").attr("value", "Submitting");
     $.ajax({
@@ -60,6 +70,30 @@ echo '</div>'
 		});
     return false;
 	});
+
+  $("#updateFields").click(function() { // Update All
+    var updated = 0;
+    $(".edit_form").each(function() {
+      if ($(this).data("changed")) {
+        $(this).data("changed", false); // now matches the database
+        updated = 1;
+        var form = $(this);
+		    form.children("input:last").attr("value", "Submitting");
+        $.ajax({
+			    type: "POST",
+			    url: "cdb_update_p.php",
+			    data: $(this).serializeArray(),
+			    success: function(data) {
+				    form.children("input:last").attr("value", data);
+  			  }
+		    });
+      }
+      if (updated) {
+        window.renderQueue.addToQueue(<?= $titleId ?>);
+      }
+    });
+  });
+
 	$("#render").click(function() { // Force Render
     var button = $(this).html("Rendering");
     var renderTid = $(this).attr("tid");
@@ -73,4 +107,3 @@ echo '</div>'
     });
 	});
 </script>
-
