@@ -12,10 +12,10 @@ include ("include.php");
 ini_set("auto_detect_line_endings", true);
 $team_sel = $_POST["team_sel"];
 $csv = $_POST["csv"];
+$archive = $_POST["archive"];
 $chs_prefix = $_GET["pull_url"];
 
 if($_GET['pull_url']) {
-  
   if(date('n')>7){
     $season = date('y') . (date('y')+1);
   } else {
@@ -48,19 +48,25 @@ if($_GET['pull_url']) {
   });
   </script>
 
-
   <?
 }
 
 if($csv)
 {
-	$lines = explode("\r\n",$csv);
+  if($archive){
+    //echo($archive);
+    $query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
+    mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+    echo("Archived players from the old " . $team_sel . " roster.\n");	
+  }
+
+  $lines = explode("\r\n",$csv);
 	foreach($lines as $line)
 	{
 		$values = explode('|',$line);
 		$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
 		$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
-		mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+		mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 		echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel);	
 	}
 
@@ -85,7 +91,6 @@ else
 <!--<button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>-->
 
 <div id="parseTableHTML">
-  <br/>
   <label>Parse HTML Table:
     <button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Form</button><br/>
     <div id="rosterTable" style="visibility: auto;"></div>
@@ -105,6 +110,9 @@ else
   Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>
   Missing information or stats at the end of the line can be ignored.</p>
   <textarea id="csv_textarea" name="csv" rows="30" cols="100"></textarea>
+  <br/>
+  <input type="checkbox" name="archive" value="1" checked/>ArchiveCurrent Players?
+  <br/>
   <input type="submit" name="Submit" />
 </form>
 
