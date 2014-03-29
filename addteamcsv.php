@@ -1,7 +1,7 @@
 <title>Team Roster Adder</title>
 
 <script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
-<script src="./parse_roster.js"></script>
+<script src="./parseRoster.js"></script>
 <script src="./state_province.js"></script>
 
 <h1>Add Team Roster</h1>
@@ -29,6 +29,14 @@ if($_GET['pull_url']) {
   $contents = stristr($contents, "<TABLE"); // get only table data from page
   $contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
 
+  $chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/teamstats/" . $chs_prefix, "r");
+  $contents_stats = addslashes(stream_get_contents($chs_stats));
+  $contents_stats = str_replace(chr(10), '~', $contents_stats);  // fix newline issues, delimit with '~'
+  $contents_stats = str_replace(chr(13), '', $contents_stats);
+  $contents_stats = stristr($contents_stats, '<PRE CLASS=\"tiny\">'); // get only stats data from page
+  $contents_stats = substr(trim($contents_stats), 20, (strrpos($contents_stats, "</PRE>")-21));
+  $contents_stats = explode('~', $contents_stats);
+
   $result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
   $team_preset = mysql_fetch_assoc($result);
 
@@ -38,12 +46,14 @@ if($_GET['pull_url']) {
 
   <script>
   $(document).ready( function(){
+    var content_stat = <? echo(json_encode($contents_stats)); ?>;
+    
     var content_html = "<?= $contents ?>";
     $("#other_page").html(content_html);
     $("#other_page").html("<table>"+$("#other_page .rostable").first().html()+"</table>");
     $("#CHSabbr").hide()  // hide unneeded things
     $("#parseTableHTML").hide()
-    parse_table_HTML($('#other_page').html());
+    parse_table_HTML($('#other_page').html(), content_stat);
     $("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
   });
   </script>
@@ -54,7 +64,6 @@ if($_GET['pull_url']) {
 if($csv)
 {
   if($archive){
-    //echo($archive);
     $query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
     mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
     echo("Archived players from the old " . $team_sel . " roster.\n");	
@@ -111,7 +120,7 @@ else
   Missing information or stats at the end of the line can be ignored.</p>
   <textarea id="csv_textarea" name="csv" rows="30" cols="100"></textarea>
   <br/>
-  <input type="checkbox" name="archive" value="1" checked/>ArchiveCurrent Players?
+  <input type="checkbox" name="archive" value="1" checked/>Archive Current Players?
   <br/>
   <input type="submit" name="Submit" />
 </form>
