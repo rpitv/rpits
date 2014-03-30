@@ -125,7 +125,8 @@ function slantRectangle(&$canvas, $o) {
 function fillRectangle($w,$h,$color) {
 	if(preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
 		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
-		$groups = explode(',',$commaRemoved);
+		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+$groups = explode(',',$commaRemoved);
 		$direction = explode(' ',trim($groups[0]));
 		$stops = [];
 
@@ -296,6 +297,15 @@ function placeHeadshot(&$canvas, $o) {
 		$headshot->cropImage($size[0], $size[0] * 1.2, 0, 0);
 
 		$headshot->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
+
+    /* add drop shadow */
+    if($o['shadow'] > 0){
+      $shadow = $headshot->clone();
+      $shadow->setImageBackgroundColor('black');
+      $shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
+      $canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+    }
+
 		$canvas->compositeImage($headshot, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";

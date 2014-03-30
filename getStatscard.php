@@ -95,7 +95,11 @@ function getStatscard($id) {
 
 	if ($size[0]) {
 		// there is a headshot
-		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+    if ($stype) {
+		  $p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+    } else {
+      $p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
+    }
 
 		// center align title and send to baseline if title is too narrow
 		if ($size[0] * 1.2 > $size[1]) {
