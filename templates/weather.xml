@@ -30,7 +30,7 @@
 			logoLeft=""
 			logoRight=""
 
-			ZipCode=""
+			ZipCode="other_graphics/weather/sunny.png"
 		/>
 	</geos>
 </template>
