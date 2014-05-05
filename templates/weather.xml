@@ -27,10 +27,10 @@
 			subTitleText=""
 
 			logoHeight="100"
-			logoLeft=""
+			logoLeft="other_graphics/weather/sunny.png"
 			logoRight=""
 
-			ZipCode="other_graphics/weather/sunny.png"
+			ZipCode=""
 		/>
 	</geos>
 </template>
