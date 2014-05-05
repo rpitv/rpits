@@ -201,6 +201,26 @@ function weather(&$canvas,$o,$bustCache = true) {
 			}
 		$use_img = true;
 		}	
+		
+	if (strpos($obj["current_observation"]['weather'], "Scattered Clouds") !== false){
+		if($hour > 20 || $hour < 6){
+			$img_location = 'other_graphics/weather/moon_cloud.png';
+			}
+		else{
+			$img_location = 'other_graphics/weather/partly_cloudy.png';
+			}
+		$use_img = true;
+		}	
+
+	if (strpos($obj["current_observation"]['weather'], "Showers") !== false){
+		if($hour > 20 || $hour < 6){
+			$img_location = 'other_graphics/weather/moon_rain.png';
+			}
+		else{
+			$img_location = 'other_graphics/weather/rain.png';
+			}
+		$use_img = true;
+		}		
 	
 	if($o['logoLeft'] && $logoHeight && $use_img) {
 		$geos[] = array(
