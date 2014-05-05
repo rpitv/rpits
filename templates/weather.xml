@@ -1,0 +1,36 @@
+<template>
+	<geos>
+		<weather
+
+			name="weather"
+
+			w="1920"
+			h="1080"
+			x="0"
+			y="0"
+
+			lineHeight="85"
+			
+			boxHeight="auto"
+			boxWidth="1200"
+			boxOffset="auto"
+			boxPadding="10"
+
+			titleColor="red"
+			titleHeight="70"
+			titleText="Title"
+			titleGravity="center"
+
+			subTitleColor="#333"
+			subTitleHeight="0"
+			subTitleWidth="-200"
+			subTitleText=""
+
+			logoHeight="100"
+			logoLeft=""
+			logoRight=""
+
+			ZipCode=""
+		/>
+	</geos>
+</template>

@@ -5,6 +5,7 @@ include ($includePath . "getStatscard.php");
 include ($includePath . "divingStandings.php");
 include ($includePath . "flexBox.php");
 include ($includePath . "gameSummary.php");
+include ($includePath . "weather.php");
 
 function dbquery($query) {
 	$result = mysql_query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
@@ -113,7 +114,7 @@ function renderGeo($geo) {
 	$geo['x'] = $x;
 	$geo['y'] = $y;
 	$geo['type']($canvas, $geo);
-
+ 
 	return $canvas;
 }
 

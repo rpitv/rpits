@@ -88,6 +88,19 @@ if($geos['flexBox']) {
 	}
 }
 
+if($geos['weather']) {
+	$ignore = array(' ','y','w','h','name','order','type','x', 'logoHeight', 'logoLeft', 'lineHeight', 'boxHeight', 'boxWidth', 'boxOffset', 'boxPadding', 'titleColor', 'titleHeight', 'titleText', 'titleGravity', 'subTitleColor', 'subTitleHeight', 'subTitleWidth', 'subTitleText', 'logoRight' );
+	echo "<h3>Weather Graphic</h3>";
+	
+	foreach($geos['weather'] as $geo) {
+		foreach($geo as $key=>$prop) {
+			if(!array_search($key,$ignore)) {
+				printEditableRow($geo,$titleId,$key,$key);
+			}
+		}
+	}
+}
+
 if($geos['gameSummary']) {
 	$ignore = array(' ','y','w','h','name','order','type','x');
 	echo "<h3>Game Summary</h3>";
