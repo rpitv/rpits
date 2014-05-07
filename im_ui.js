@@ -175,7 +175,8 @@ ui.applyListeners = function() {
 
 	$(document).on('click','#bugUp',function() {
 		$.ajax({
-			url: '/bugcontrol/bug_up',
+			url: '/bugcontrol/dissolve_in/15',
+			type: 'POST',
 			success: function () {
 				console.log("Bug Up");
 			},
@@ -186,7 +187,8 @@ ui.applyListeners = function() {
 	});
 	$(document).on('click','#bugDown', function() {
 		$.ajax({
-			url: '/bugcontrol/bug_down',
+			url: '/bugcontrol/dissolve_out/15',
+			type: 'POST',
 			success: function () {
 				console.log("Bug Down");
 			},

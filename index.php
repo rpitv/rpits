@@ -22,6 +22,7 @@ include('init.php');
 	<li><a href="addteamcsv.php">Add a Roster</a> - Adds a players and their stats to an empty team via CSV</li>
 	<li><a href="im_stype.php">Stat Type label editor</a> - Edit labels associated with stats</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache</li>
+	<li><a href="bugselector.php">Bug Selector</a> - Select 1920x1080 Portable Network Graphic (PNG) for use as a broadcast bug</li>
 </ul>
 <h3>Deprecated Pages</h3>
 <ul>
