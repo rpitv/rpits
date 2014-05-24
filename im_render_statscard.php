@@ -62,8 +62,8 @@ if (!$stype) {
 //	$positionWidthModifier += 20;
 //}
 
-// Adjust position width
-//if (strlen($row["pos"])>1) {
+ Adjust position width
+if (strlen($row["pos"])>1) {
 //  $positionWidthModifier = 20 + getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['$pos'], 'font' => "fontN"));
 //}
 
@@ -103,6 +103,8 @@ if ($size[0]) {
 }
 
 placeImage($canvas, array('x' => 1442, 'y' => 802 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => "teamlogos/" . $teamrow["logo"], 'shadow' => '5'));
+
+
 
 shadowText($canvas, array('x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 535 - $nameModifier - $positionWidthModifier, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white"));
 shadowText($canvas, array('x' => 1100 - $positionWidthModifier, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));

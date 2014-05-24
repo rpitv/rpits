@@ -298,63 +298,65 @@ function placeHeadshot(&$canvas, $o) {
 
 		$headshot->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
 
-    /* add drop shadow */
-    if($o['shadow'] > 0){
-      $shadow = $headshot->clone();
-      $shadow->setImageBackgroundColor('black');
-      $shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
-      $canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-    }
+		/* add drop shadow */
+		if ($o['shadow'] > 0) {
+			$shadow = $headshot->clone();
+			$shadow->setImageBackgroundColor('black');
+			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
+			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		}
 
 		$canvas->compositeImage($headshot, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
 }
+
 function placeImage(&$canvas, $o) {
 	if(!file_exists($o['path'])) {
 		return;
 	}
 	try {
-    if ($o['padding'] > 0) {
-      $o['x'] += $o['padding'];
-      $o['y'] += $o['padding'];
-      $o['w'] -= $o['padding']*2;
-      $o['h'] -= $o['padding']*2;
-    }
+		if ($o['padding'] > 0) {
+			$o['x'] += $o['padding'];
+			$o['y'] += $o['padding'];
+			$o['w'] -= $o['padding']*2;
+			$o['h'] -= $o['padding']*2;
+		}
 
 		$img = new Imagick();
 		$img->readImage(realpath($o['path']));
 		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1, true);
 
-    $actual_w = $img->getImageWidth( );
-    $actual_h = $img->getImageHeight( );
+		$actual_w = $img->getImageWidth( );
+		$actual_h = $img->getImageHeight( );
 
-    /* center image horizontally */
-    if ($actual_w < $o['w']) {
-      $o['x'] += ($o['w'] - $actual_w) / 2;
-    }
+		/* center image horizontally */
+		if ($actual_w < $o['w']) {
+			$o['x'] += ($o['w'] - $actual_w) / 2;
+		}
 
-    /* and vertically */
-    if ($actual_h < $o['h']) {
-      $o['y'] += ($o['h'] - $actual_h) / 2;
-    }
+		/* and vertically */
+		if ($actual_h < $o['h']) {
+			$o['y'] += ($o['h'] - $actual_h) / 2;
+		}
 
-    /* add drop shadow */
-    if($o['shadow'] > 0){
-      $shadow = $img->clone();
-      $shadow->setImageBackgroundColor('black');
-      $shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
-      $canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-    }
+		/* add drop shadow */
+		if($o['shadow'] > 0){
+			$shadow = $img->clone();
+			$shadow->setImageBackgroundColor('black');
+			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
+			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		}
 
-    $canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
 }
+
 function placeTexture(&$canvas, $o) {
-	if(!file_exists($o['path'])) {
+	if (!file_exists($o['path'])) {
 		return;
 	}
 	try {

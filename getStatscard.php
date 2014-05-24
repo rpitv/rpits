@@ -43,20 +43,20 @@ function getStatscard($id) {
 		$boxHeightModifier = -113;
 	}
 
-	if($stype == 'dive' && $row['s2'] > 0) {
+	if ($stype == 'dive' && $row['s2'] > 0) {
 		$boxHeightModifier = -50;
 	} else if ($stype == 'dive') {
 		$boxHeightModifier = -113;
 	}
 
-  // Adjust position width
-  if($stype != dive) {
-	  if (strlen($row["pos"])>1) {
-      $positionWidth = 110 + ( .75 * getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['pos'], 'font' => "fontN")) );
-    }
+	// Adjust position width
+	if ($stype != dive) {
+		if (strlen($row["pos"])>1) {
+			$positionWidth = 110 + ( .75 * getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['pos'], 'font' => "fontN")) );
+		}
 	}
 
-  $nameBarAdjust = 0;
+	$nameBarAdjust = 0;
 
 	$diveTeam = [];
 
@@ -76,7 +76,7 @@ function getStatscard($id) {
 
 	$geos[] = array('type' => 'slantRectangle', 'name' => 'nameBar', 'x' => 360, 'y' => 800 - $boxHeightModifier, 'w' => 780 + $nameBarAdjust, 'h' => 80, 'color' => $team['color']);
 
-	if($stype != 'dive') {
+	if ($stype != 'dive') {
 		$geos[] = array('type' => 'slantRectangle', 'name' => 'numberBox', 'x' => 1230 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'color' => "#303030");
 		$geos[] = array('type' => 'slantRectangle', 'name' => 'positionBox', 'x' => 1340 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => $positionWidth, 'h' => 80, 'color' => $team['color']);
 	}
@@ -93,13 +93,12 @@ function getStatscard($id) {
 	$nameModifier = 0;
 	$detailsModifier = 0;
 
-	if ($size[0]) {
-		// there is a headshot
-    if ($stype) {
-		  $p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
-    } else {
-      $p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
-    }
+	if ($size[0]) { // there is a headshot
+		if ($stype) {
+			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+		} else {
+			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
+		}
 
 		// center align title and send to baseline if title is too narrow
 		if ($size[0] * 1.2 > $size[1]) {
@@ -107,19 +106,18 @@ function getStatscard($id) {
 			$p['y'] += 230 - $p['h'];
 		}
 		
-		if($stype == 'dive') {
-			if($row['s2'] > 0){
-			$nameModifier = 15;
-			}
-			else{
-			$nameModifier = 45;
+		if ($stype == 'dive') {
+			if ($row['s2'] > 0) {
+				$nameModifier = 15;
+			} else {
+				$nameModifier = 45;
 			}
 		}
 		
-    $nameModifier = 10;
+		$nameModifier = 40;
 
 		$geos[] = $p;
-	} else {
+	} else { // no headshot
 		$nameModifier = -150;
 		$detailsModifier = -220;
 	}
@@ -128,15 +126,15 @@ function getStatscard($id) {
 	// Print team logo, name, num, pos, year
 	//
 
-  $proSpacer = 0;
-  if ( $row['s7'] and ($stype != 'dive') ) {  // draft pick graphic
-    $geos[] = array('type' => 'placeImage', 'name' => 'draftLogo', 'x' => 1160 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'shadow' => 5, 'padding' => 7, 'path' => 'other_graphics/NHL/'.strtoupper($row['s7']).'.png');
-    $proSpacer = 55;
-  }
+	$proSpacer = 0;
+	if ($row['s7'] and ($stype != 'dive')) {  // draft pick graphic
+		$geos[] = array('type' => 'placeImage', 'name' => 'draftLogo', 'x' => 1160 - $positionWidth, 'y' => 800 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'shadow' => 5, 'padding' => 7, 'path' => 'other_graphics/NHL/'.strtoupper($row['s7']).'.png');
+		$proSpacer = 55;
+	}
 	$geos[] = array('type' => 'placeImage', 'name' => 'teamLogo', 'x' => 1447, 'y' => 800 - $boxHeightModifier, 'w' => 76, 'h' => 76, 'path' => $team['logo'], 'shadow' => 5, 'padding' => 6);
 	$geos[] = array('type' => 'shadowText', 'name' => 'name', 'x' => 560 + $nameModifier, 'y' => 805 - $boxHeightModifier, 'w' => 665 - $nameModifier - $positionWidth - $proSpacer, 'h' => 70, 'text' => $row["first"] . " " . $row["last"], 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 
-	if($stype != 'dive') {
+	if ($stype != 'dive') {
 		$geos[] = array('type' => 'shadowText', 'name' => 'number', 'x' => 1230 - $positionWidth, 'y' => 803 - $boxHeightModifier, 'w' => 150, 'h' => 80, 'text' => $row["num"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		$geos[] = array('type' => 'shadowText', 'name' => 'position', 'x' => 1338 - $positionWidth, 'y' => 803 - $boxHeightModifier, 'w' => $positionWidth, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 	}
@@ -149,13 +147,13 @@ function getStatscard($id) {
 
 	$details = '';
 
-	if($stype == 'dive') {
+	if ($stype == 'dive') {
 		$details = 'School: ' . $diveTeam['name'] . '       ';
 	}
 
 	$details .= "Hometown: " . $row["hometown"];
 
-	if($row["height"].length > 0) {
+	if ($row["height"].length > 0) {
 		$details .= "       " . "Ht: " . $row["height"];
 
 	}
@@ -178,7 +176,7 @@ function getStatscard($id) {
 	if ($stype && $stype != "txt" && $stype != 'dive') {
 		if ($lastSeason == true && !$size[0]) {
 			$geos[] = array('type' => 'plainText', 'name' => 'lastSeason', 'x' => 420, 'y' => 965, 'w' => 80, 'h' => 60, 'text' => 'Last\nSeason:', 'gravity' => "west", 'font' => "fontN", 'color' => "white");
-		}	else if ($lastSeason == true) {
+		} else if ($lastSeason == true) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'lastSeason', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		} else if ($row["team"] == career) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'careerStats', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");

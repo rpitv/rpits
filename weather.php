@@ -3,29 +3,6 @@
 include_once('include.php');
 include_once('imagick_include.php');
 
-/*
- * lineHeight
- * bodyText
- * boxHeight
- * boxWidth
- * boxOffset
- * boxPadding
- *
- * titleColor
- * titleHeight
- * titleText
- *
- * subTitleColor
- * subTitleHeight
- * subTitleText
- * subTitleWidth
- *
- * logoHeight
- * logoLeft
- * logoRight
- */
-
-
 function weather(&$canvas,$o,$bustCache = true) {
 
 	$logoHeight = 0; $logoHeightDiff = 0; $logoXAdjust = 0;
@@ -52,29 +29,24 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$boxX = ($o['boxOffset']>0) ? $o['boxOffset'] : (1920 - $boxWidth)/2;
 	$boxY = 1080 - $boxHeight - $bottom;
 
-	//
 	// Main Black Box
-	//
 
 	$geos[] = array(
 			'type'=>'blackBox',
 			'x'=>$boxX,
-			'y'=>$boxY	,
+			'y'=>$boxY,
 			'w'=>$boxWidth,
 			'h'=>$boxHeight);
 
-	//
 	// Body Text
-	//
-	
-	// Weather Getting
-	$json_string = 'http://api.wunderground.com/api/9252b3b729b18d24/conditions/q/' . $o['ZipCode'] . '.json';
 
-	
-	$jsondata = file_get_contents($json_string);
-	$obj = json_decode($jsondata, true);
+	// Get weather via wunderground api
+	$json_url = 'http://api.wunderground.com/api/9252b3b729b18d24/conditions/astronomy/q/' . $o['ZipCode'] . '.json';
+	$json_data = file_get_contents($json_url);
+	$obj = json_decode($json_data, true);
 
-	$weather_string = $obj["current_observation"]['weather'] . ' - ' . $obj["current_observation"]['temp_f'] . '°F' . ' - Wind: ' . $obj["current_observation"]['wind_mph'] . " MPH " . $obj["current_observation"]['wind_dir'] ;
+	$weather_string = $obj["current_observation"]['weather'] . ' ' . $obj["current_observation"]['temp_f'] . '°F' . ' - Wind: ' . $obj["current_observation"]['wind_mph'] . " MPH " . $obj["current_observation"]['wind_dir'] ;
+	echo '<script>console.log(\'' . $weather_string . '\')</script>';
 	$weather_top = "Weather: " . $obj["current_observation"]['display_location']['full'] ;
 	$geos[] = array(
 			'type' => 'plainText',
@@ -89,9 +61,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 			'wordWrap' => $lines > 1 ? false : true
 	);
 
-	//
 	// Sub Title Bar
-	//
 
 	$subTitleWidth = $o['subTitleWidth'];
 	if($subTitleWidth < 0) {
@@ -108,9 +78,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 			'color' => $o['subTitleColor']
 	);
 
-	//
 	// Title Bar
-	//
 
 	$geos[] = array(
 				'type' => 'slantRectangle',
@@ -141,87 +109,85 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$titleWAdjust = 0;
 	$logoY = 1080 - $boxHeight - $bottom - ($logoHeight-$o['titleHeight'])/2;
 
-	//
 	// Left Logo
-	//
-	
-	$hour = date('H');
-	$use_img = false;
-	if (strpos($obj["current_observation"]['weather'], "Rain") !== false){
-		$img_location = 'other_graphics/weather/rain.png';
-		$use_img = true;
-		}
-		
-	if (strpos($obj["current_observation"]['weather'], "Cloudy") !== false){
-		$img_location = 'other_graphics/weather/cloudy.png';
-		$use_img = true;
-		}
-		
-	if (strpos($obj["current_observation"]['weather'], "Partly Cloudy") !== false){
-		if($hour > 20 || $hour < 6){
-			$img_location = 'other_graphics/weather/moon_cloud.png';
-			}
-		else{
-			$img_location = 'other_graphics/weather/partly_cloudy.png';
-			}
-		$use_img = true;
-		}
-	
-	if (strpos($obj["current_observation"]['weather'], "Clear") !== false){
-		if($hour > 20 || $hour < 6){
-			$img_location = 'other_graphics/weather/moon.png';
-			}
-		else{
-			$img_location = 'other_graphics/weather/sunny.png';
-			}
-		$use_img = true;
-		}
-	
-	if (strpos($obj["current_observation"]['weather'], "Sunny") !== false){
-		$img_location = 'other_graphics/weather/sunny.png';
-		$use_img = true;
-		}
-	
-	if (strpos($obj["current_observation"]['weather'], "Snow") !== false){
-		$img_location = 'other_graphics/weather/snow.png';
-		$use_img = true;
-		}
-		
-	if (strpos($obj["current_observation"]['weather'], "Thunder") !== false){
-		$img_location = 'other_graphics/weather/thunder_storms.png';
-		$use_img = true;
-		}
-	
-	if (strpos($obj["current_observation"]['weather'], "Overcast") !== false){
-		if($hour > 20 || $hour < 6){
-			$img_location = 'other_graphics/weather/moon_cloud.png';
-			}
-		else{
-			$img_location = 'other_graphics/weather/cloudy.png';
-			}
-		$use_img = true;
-		}	
-		
-	if (strpos($obj["current_observation"]['weather'], "Scattered Clouds") !== false){
-		if($hour > 20 || $hour < 6){
-			$img_location = 'other_graphics/weather/moon_cloud.png';
-			}
-		else{
-			$img_location = 'other_graphics/weather/partly_cloudy.png';
-			}
-		$use_img = true;
-		}	
 
-	if (strpos($obj["current_observation"]['weather'], "Showers") !== false){
-		if($hour > 20 || $hour < 6){
-			$img_location = 'other_graphics/weather/moon_rain.png';
-			}
-		else{
-			$img_location = 'other_graphics/weather/rain.png';
-			}
+	//pull date from data stream for reliability else get server time
+	//time in minutes
+	if (isset($obj['moon_phase']['current_time'])){
+		$current_time = ($obj['moon_phase']['current_time']['hour'])*60 + $obj['moon_phase']['current_time']['minute'];
+	}else {
+		$current_time = date('H')*60 + date('i');
+	}
+	//sunrise/sunset times
+	//30 minutes adjustments account for when it is bright
+	if (isset($obj['sun_phase'])){
+		$sunrise = ($obj['sun_phase']['sunrise']['hour']) * 60 + $obj['sun_phase']['sunrise']['minute'] - 30;
+		$sunset = ($obj['sun_phase']['sunset']['hour']) * 60 + $obj['sun_phase']['sunset']['minute'] + 30;
+	}else {
+		$sunrise = 7 * 60 - 30;
+		$sunset = 20 * 60 + 30;
+	}
+	//choose images based on available imageset
+	$weather_images = array(
+		'Sunny' => 'clear.png',
+		'Clear' => 'clear.png',
+		'Scattered Clouds' => 'partly_cloudy.png',
+		'Partly Cloudy' => 'partly_cloudy.png',
+		'Mostly Cloudy' => 'partly_cloudy.png',
+		'Overcast' => 'snow.png',
+		'Cloudy' => 'cloudy.png',
+		'Rain' => 'clear.png',
+		'Rain Showers' => 'rain.png',
+		'Rain Mist' => 'rain.png',
+		'Drizzle' => 'rain.png',
+		'Hail' => 'hail.png',
+		'Hail Showers' => 'hail.png',
+		'Freezing Rain' => 'sleet.png',
+		'Freezing Drizzle' => 'sleet.png',
+		'Freezing Fog' => 'sleet.png',
+		'Snow' => 'snow.png',
+		'Snow Grains' => 'snow.png',
+		'Snow Showers' => 'snow.png',
+		'Thunder' => 'thunder_storms.png',
+		'Thunderstorm' => 'thunder_storms.png',
+		'Thunderstorms and Rain' => 'thunder_storms.png',
+		'Thunderstorms and Snow' => 'snow.png',
+		'Thunderstorms and Ice Pellets' => 'thunder_storms.png',
+		'Thunderstorms with Hail' => 'thunder_storms.png',
+		'Thunderstorms with Small Hail' => 'thunder_storms.png',
+		'Showers' => 'showers.png',
+		'Mist' => 'fog.png',
+		'Fog' => 'fog.png',
+		'Fog Patches' => 'fog.png',
+		'Shallow Fog' => 'fog.png',
+		'Partial Fog' => 'fog.png',
+		'Windy' => 'windy.png',
+	);
+	//set weather image
+	if(isset($weather_images[$obj['current_observation']['weather']])){
 		$use_img = true;
-		}		
-	
+		$weather = $obj['current_observations']['weather'];
+		$weather = str_replace('Heavy ','',$weather);
+		$weather = str_replace('Light ','',$weather);
+		//set weather image by time of day
+		if ($current_time > $sunrise && $current_time < $sunset){
+			$sun_up = true;
+		}else {
+			$sun_up = false;
+		}
+		if ($sun_up){
+			$use_img = true;
+			$img_location = $weather_images[$weather];
+		}else if(!$sun_up){
+			$use_img = true;
+			$img_location = 'nt_' . $weather_images[$weather];
+		}else {
+			$use_img = false;
+		}
+	}else {
+		$use_img = false;
+	}
+
 	if($o['logoLeft'] && $logoHeight && $use_img) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
@@ -233,7 +199,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 		);
 		$geos[] = array(
 				'type' => 'placeImage',
-				'path' => $img_location,
+				'path' => 'other_graphics/weather/' . $img_location,
 				'x' => $boxX,
 				'y' => $logoY,
 				'w' => $logoHeight,
@@ -241,9 +207,8 @@ function weather(&$canvas,$o,$bustCache = true) {
 		);
 		$titleXAdjust = $titleWAdjust = $logoXAdjust;
 	}
-	//
+
 	// Right Logo
-	//
 	if($o['logoRight'] && $logoHeight) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
@@ -259,14 +224,10 @@ function weather(&$canvas,$o,$bustCache = true) {
 				'x' => $boxX + $boxWidth - $logoHeight,
 				'y' => $logoY,
 				'w' => $logoHeight,
-				'h' => $logoHeight
+				'h' => $logoHeight,
 		);
 		$titleWAdjust += $logoXAdjust;
 	}
-
-
-
-
 
 	$geos[] = array(
 				'type' => 'shadowText',
@@ -277,16 +238,12 @@ function weather(&$canvas,$o,$bustCache = true) {
 				'x' => $boxX + $titleXAdjust,
 				'y' => 1080 - $boxHeight - $bottom + $barTextPad,
 				'w' => $boxWidth - $titleWAdjust,
-				'h' => $o['titleHeight']-$barTextPad*2
-		);
-
-	//echo '<pre>'; print_r($geos);
+				'h' => $o['titleHeight']-$barTextPad*2,
+	);
 
 	foreach($geos as $geo) {
 		addGeoToCanvas($canvas, $geo);
 	}
-
-	//return $localCanvas;
 }
 
 ?>
