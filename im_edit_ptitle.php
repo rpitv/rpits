@@ -15,15 +15,25 @@ if ($stype != "txt") {
 	$slabel = mysql_fetch_array($titleResult);
 }
 
-function printEditableRow($id, $row, $value) {
+function printEditableRow($id, $row, $value, $slabel) {
 	$val = $row[$value];
 	$val = str_replace('\n', PHP_EOL, $val);
 	$newlines = substr_count($val, PHP_EOL);
 
 	echo '<div class="row">';
-	echo '<div class="label">' . $value . '</div>';
 
-  echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
+	// replace s1-s8 with their informative labels
+	if (preg_match( '/^s[1-8]$/', $value) and $slabel[$value[1]+1]) {
+		$label_value = $slabel[$value[1]+1];
+	} else if (preg_match( '/^s[1-8]$/', $value)) {
+		$label_value = $value . ' (hidden)'; // stats w/o label aren't rendered
+	} else {
+		$label_value = $value;
+	}
+
+	echo '<div class="label">' . $label_value . '</div>';
+
+	echo '<div class="form"><form class="edit_form" action="javascript:true" method="GET">';
 	echo '<input type="hidden" name="id" value="' . $id . '" />';
 	if ($newlines > 0) {
 		echo '<textarea class="noHotkeys" rows="' . ($newlines + 1) . '" name="' . $value . '">' . "\n" . $val . '</textarea>';
@@ -41,7 +51,7 @@ echo '<div id="editTitle">';
 
 echo "<h3>Player Data</h3>";
 foreach ($editableRows as $text) {
-	printEditableRow($titleId, $titleRow, $text);
+	printEditableRow($titleId, $titleRow, $text, $slabel);
 }
 
 echo '</div>'
@@ -52,58 +62,58 @@ echo '</div>'
 
 <script type="text/javascript">
 	$(".edit_form").change( function() { // keep track of changed values
-    $(this).data("changed", true);
-  });
+		$(this).data("changed", true);
+	});
 
-  $(".edit_form").submit(function() {
-    $(this).data("changed", false); // now matches the database
+	$(".edit_form").submit(function() {
+		$(this).data("changed", false); // now matches the database
 		var form = $(this);
 		form.children("input:last").attr("value", "Submitting");
-    $.ajax({
+		$.ajax({
 			type: "POST",
 			url: "cdb_update_p.php",
 			data: $(this).serializeArray(),
 			success: function(data) {
 				form.children("input:last").attr("value", data);
-        window.renderQueue.addToQueue(<?= $titleId ?>);
+				window.renderQueue.addToQueue(<?= $titleId ?>);
 			}
 		});
-    return false;
+		return false;
 	});
 
-  $("#updateFields").click(function() { // Update All
-    var updated = 0;
-    $(".edit_form").each(function() {
-      if ($(this).data("changed")) {
-        $(this).data("changed", false); // now matches the database
-        updated = 1;
-        var form = $(this);
-		    form.children("input:last").attr("value", "Submitting");
-        $.ajax({
-			    type: "POST",
-			    url: "cdb_update_p.php",
-			    data: $(this).serializeArray(),
-			    success: function(data) {
-				    form.children("input:last").attr("value", data);
-  			  }
-		    });
-      }
-      if (updated) {
-        window.renderQueue.addToQueue(<?= $titleId ?>);
-      }
-    });
-  });
+	$("#updateFields").click(function() { // Update All
+		var updated = 0;
+		$(".edit_form").each(function() {
+			if ($(this).data("changed")) {
+				$(this).data("changed", false); // now matches the database
+				updated = 1;
+				var form = $(this);
+				form.children("input:last").attr("value", "Submitting");
+				$.ajax({
+					type: "POST",
+					url: "cdb_update_p.php",
+					data: $(this).serializeArray(),
+					success: function(data) {
+						form.children("input:last").attr("value", data);
+					}
+				});
+			}
+			if (updated) {
+				window.renderQueue.addToQueue(<?= $titleId ?>);
+			}
+		});
+	});
 
 	$("#render").click(function() { // Force Render
-    var button = $(this).html("Rendering");
-    var renderTid = $(this).attr("tid");
-    $.ajax({
-      type: "GET",
-      url: "im_render_title.php?player="+renderTid+"&bustCache=true",
-      success: function(data) {
-        button.html("Done Rendering");
-        window.renderQueue.removeFromQueue(renderTid);
-      }
-    });
+		var button = $(this).html("Rendering");
+		var renderTid = $(this).attr("tid");
+		$.ajax({
+			type: "GET",
+			url: "im_render_title.php?player="+renderTid+"&bustCache=true",
+			success: function(data) {
+				button.html("Done Rendering");
+				window.renderQueue.removeFromQueue(renderTid);
+			}
+		});
 	});
 </script>
