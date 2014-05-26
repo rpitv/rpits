@@ -56,17 +56,17 @@ body > div
   top:25px;
   right:25px;
   background-color: rgba(255,255,255,.9);
-	z-index: 1;
+  z-index: 1;
 }
 #pane ul
 {
   list-style-type:none;
   margin:0px;
   padding:0px;
-	display: none;
+  display: none;
 }
 #pane ul.active {
-	display: block;
+  display: block;
 }
 #pane li
 {
@@ -105,7 +105,7 @@ body > div
 }
 .on-edit
 {
-  background:00FF00;
+  background:#00FF00;
 }
 .on-preview
 {
@@ -117,6 +117,7 @@ body > div
 }
 #pane .selected
 {
+  font-weight:bold;
   border:4px solid #aaaaff;
   margin:-4px;
   margin-bottom:-3px;

@@ -18,41 +18,41 @@ $.extend($.expr[":"], {
 });
 
 ui.applyListeners = function() {
-	var ctrlPress=0;
-	var shiftPress=0;
+	var ctrlPress = 0;
+	var shiftPress = 0;
 
-	$(document).keyup(function(event){
-		if(event.keyCode == '16'){
-			shiftPress=0;
+	$(document).keyup(function(event) {
+		if (event.keyCode == '16') {
+			shiftPress = 0;
 		}
-		if(event.keyCode == '17'){
-			ctrlPress=0;
+		if (event.keyCode == '17') {
+			ctrlPress = 0;
 		}
 	});
 	
 	$(window).blur(function() {
-    shiftPress=0;
-	ctrlPress=0;
-})
+		shiftPress=0;
+		ctrlPress=0;
+	});
 	
 	$(document).keydown(function(event) {
-		if(event.keyCode != 13 && $(document.activeElement).filter('#input input').length == 1)	{
+		if (event.keyCode != 13 && $(document.activeElement).filter('#input input').length == 1)	{
 			return;
 		}
 		
 		//check if shift and ctrl are down
-		if(event.keyCode == '16'){
+		if (event.keyCode == '16'){
 			shiftPress = 1;
 		}
-		if(event.keyCode == '17'){
+		if (event.keyCode == '17'){
 			ctrlPress = 1;
 		}
 		
 		//if shift or ctrl are down, abort
-		if(shiftPress || ctrlPress){
-		 return;
+		if (shiftPress || ctrlPress) {
+			return;
 		}
-		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") )	{
+		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") ) {
 			return;
 		}
 
@@ -61,16 +61,16 @@ ui.applyListeners = function() {
 		// Spacebar, takes on/off of program
 		if (event.keyCode == RPITS.constants.KEYCODE.SPACEBAR) {
 			event.preventDefault();
-			if(ui.program.active())	{
+			if (ui.program.active()) {
 				ui.program.off();
 				ui.keyer.offProgram();
 			} else {
 				ui.program.on(selected);
 				ui.keyer.onProgram(selected);
 			}
-		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C)	{ 	// c, cuts without taking down existing graphic.
-			if(ui.program.active()) {
-				if(ui.program.active() == selected.data('title')) {
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C) { 	// c, cuts without taking down existing graphic.
+			if (ui.program.active()) {
+				if (ui.program.active() == selected.data('title')) {
 					ui.program.off();
 					ui.keyer.offProgram(1);
 				} else {
@@ -81,9 +81,9 @@ ui.applyListeners = function() {
 				ui.program.on(selected);
 				ui.keyer.onProgram(selected,1);
 			}	
-		} else if(event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
+		} else if (event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
-			if($("#input").is(":visible")) {
+			if ($("#input").is(":visible")) {
 				$("#input input").blur();
 				$("#input").hide();
 				var data = $("#input input").val();
@@ -93,15 +93,15 @@ ui.applyListeners = function() {
 				target.scrollintoview({duration: 0});
 				ui.preview.on(target);
 				$("#edit").hide();
-			}	else {
+			} else {
 				$("#input").show();
 				$("#input input").focus();
 				$("#input input").val("");
 			}
-		} else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_R) { // R key, for previewing
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_R) { // R key, for previewing
 			ui.preview.on(selected);
 			$("#edit").hide();    
-		} else if(event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_E) { // E key, for editing
 			$("li").removeClass("on-preview");
 			$("li").removeClass("on-edit");
 			$(".selected").addClass("on-edit");
@@ -110,39 +110,39 @@ ui.applyListeners = function() {
 			$("#edit").load(title.getEditURL(), function() {
 					$("#edit").show();
 			});
-		} else if(event.keyCode == RPITS.constants.KEYCODE.ARROW_DOWN) { // Down arrow key
+		} else if (event.keyCode == RPITS.constants.KEYCODE.ARROW_DOWN) { // Down arrow key
 			event.preventDefault();
-			if($(".selected + li").length > 0) {
+			if ($(".selected + li").length > 0) {
 				$(".selected + li").addClass("selected");
 				$(".selected:first").removeClass("selected");
 				$(".selected").scrollintoview({duration: 0});
 			}
-		} else if(event.keyCode == RPITS.constants.KEYCODE.ARROW_UP) { // Up arrow key
+		} else if (event.keyCode == RPITS.constants.KEYCODE.ARROW_UP) { // Up arrow key
 			event.preventDefault();
-			if($(".selected").prev("li").length > 0) {
+			if ($(".selected").prev("li").length > 0) {
 				$(".selected").prev("li").addClass("selected");
 				$(".selected:last").removeClass("selected");
 				$(".selected").scrollintoview({duration: 0});       
 			}
 		}	else if (event.keyCode == '39') { // Right key -- cycles to next tab
 			event.preventDefault();
-			if($(".active.tab").next('.tab').length) { // if we're at the end of the tab row
+			if ($(".active.tab").next('.tab').length) { // if we're at the end of the tab row
 				ui.tabs.switchLists($(".tab.active").next('.tab'));
 			} else {  // otherwise
 				ui.tabs.switchLists($(".tab:first"));
 			}
 		} else if (event.keyCode == '37') { // Left key -- cycles to prev tab, requires completely different code than right
 			event.preventDefault();
-			if($(".active.tab").prev('.tab').length) {
+			if ($(".active.tab").prev('.tab').length) {
 				ui.tabs.switchLists($(".tab.active").prev('.tab'))
 			} else {
 				ui.tabs.switchLists($(".tab:last"));
 			}
-		} else if (event.keyCode == '81') { //q key renders queue
+		} else if (event.keyCode == '81') { // q key renders queue
 			renderQueue.processQueue();
-		}	else if (event.keyCode == '70') { //f force render			
+		}	else if (event.keyCode == '70') { // f force render			
 			document.getElementById("render").click();
-		} else if (event.keyCode == '85') { //u updates all
+		} else if (event.keyCode == '85') { // u updates all
 			document.getElementById("updateAll").click();
 		}
 	});
@@ -163,13 +163,13 @@ ui.applyListeners = function() {
 			var added = false;
 			var bustCache = $('#updateAllForce:checked').val();
 			var type = $('.tab.active').data('type');
-			for(var id in data) {
-				if(!data[id] || bustCache || type == 'player') {
+			for (var id in data) {
+				if (!data[id] || bustCache || type == 'player') {
 					added = true;
 					renderQueue.addToQueue(list.getTitleById(id),bustCache);
 				}
 			}
-			if(added) renderQueue.processQueue();
+			if (added) renderQueue.processQueue();
 		});
 	});
 
@@ -219,7 +219,7 @@ $(document).ready(function() {
 		eventsTable.loadTable(0,30);
 	});
 
-	if(!ui.eventId) return;
+	if (!ui.eventId) return;
 
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
 	ui.preview = new RPITS.ui.Monitor({name:'Preview',id:'preview',remove:'on-edit'});
@@ -237,13 +237,13 @@ $(document).ready(function() {
 $(window).resize(resizeWindow);
 
 function resizeWindow() {
-	if(!ui.lockResize) {
+	if (!ui.lockResize) {
 		ui.maxLeftWidth = 800;
 		ui.viewerHeight = (window.innerHeight - 75)/2;
 		ui.viewerWidth = ui.viewerHeight * 16/9;
 		ui.sideMargins = 25;
 		ui.leftWidth = window.innerWidth - ui.viewerWidth - 75;
-		if((window.innerWidth - ui.viewerWidth - 25) > ui.maxLeftWidth) {
+		if ((window.innerWidth - ui.viewerWidth - 25) > ui.maxLeftWidth) {
 			ui.sideMargins = (window.innerWidth - ui.viewerWidth - 25 - ui.maxLeftWidth)/2;
 			ui.leftWidth = ui.maxLeftWidth;
 		}
