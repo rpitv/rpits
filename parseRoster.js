@@ -159,7 +159,7 @@ function buildSubmissionLine(player) {
 
 	str += player.first_name + '|' + player.last_name + '|';
 	
-	if (player.position) { str += player.height + '|'; } else { str += '|'; }
+	if (player.position) { str += player.position + '|'; } else { str += '|'; }
 	if (player.height) { str += player.height + '|'; } else { str += '|'; }
 	if (player.weight) { str += player.weight + '|'; } else { str += '|'; }
 	if (player.year) { str += player.year + '|'; } else { str += '|'; }
