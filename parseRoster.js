@@ -144,35 +144,152 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 			}
 		});
 
-		submission_string += player.number + '|' + player.first_name + '|' + player.last_name + '|' + player.position + '|' + player.height + '|';
-
-		if (player.weight){
-			submission_string += player.weight + '|';
-		} else {
-			submission_string += '|';
-		}
-
-		submission_string += player.year  + '|' + player.hometown + '|';
-
 		parse_CHS_for_player(stats, player);
-		submission_string += player.stype + '|';
-		for (var z = 1; z<=6; z++) {
-			if (player['s'+z]) { submission_string += player['s'+z]; }
-			submission_string += '|';
-		}
 
-		if (player.draft_pick) {
-			submission_string += player.draft_pick;
-		}
-
-		submission_string += '\n';
-
+		submission_string += buildSubmissionLine(player);
 	});
 
 	$('#csv_textarea').val(submission_string.trim());
 }
 
-function validateFinalSubmission(){
+function buildSubmissionLine(player) {
+	var str = '';
+
+	if (player.number) { str += player.number + '|'; } else { str += '|'; }
+
+	str += player.first_name + '|' + player.last_name + '|';
+	
+	if (player.position) { str += player.height + '|'; } else { str += '|'; }
+	if (player.height) { str += player.height + '|'; } else { str += '|'; }
+	if (player.weight) { str += player.weight + '|'; } else { str += '|'; }
+	if (player.year) { str += player.year + '|'; } else { str += '|'; }
+	if (player.hometown) { str += player.hometown + '|'; } else { str += '|'; }
+	if (player.stype) { str += player.stype + '|'; } else { str += '|'; }
+
+	for (var z = 1; z<=6; z++) {
+		if (player['s'+z]) { str += player['s'+z]; }
+		str += '|';
+	}
+
+	if (player.draft_pick) { str += player.draft_pick; }
+
+	return str + '\n';
+}
+
+function parseRosterSIDEARM(table_HTML, rowsToSkip) {
+	if (rowsToSkip === undefined) {
+		rowsToSkip = 1; // assume 1 header row
+	}
+
+	// Sanitize nbsp weirdness
+	table_HTML = table_HTML.replace(/\&nbsp\;/g, '' );
+
+	$('#rosterSIDEARM').html(table_HTML);
+	$('#rosterSIDEARM table').css('font-size', '8pt');
+	$('#boxSIDEARM').hide();
+
+	c = discoverColumnsSIDEARM();
+
+	var num_players = 0;
+	var num_rows = 0;
+	var submission_string = '';
+	var temp1 = '';
+	var temp2 = '';
+
+	$('#rosterSIDEARM tr').slice(rowsToSkip).each(function() {
+		var player = new Object();
+		num_players++;
+		num_rows = $(this).find('td').length;
+
+		$(this).find('td').each(function(index) {
+			switch (index) {
+				case c.number: // parse number
+					player.number = $(this).text().trim().replace(/\#/g, '');
+					break;
+				case c.name: // parse FIRST and LAST name
+					temp1 = $(this).text().trim().replace("\'", "\\\'");
+
+					temp2 = temp1.split(' ');
+					player.first_name = temp2.shift();  // get FIRST name (assume 1 first name)
+
+					var last_name = '';
+					if (temp2[0]) {
+						temp2.forEach(function(elem){ // get all words in LAST name
+							last_name += elem + ' ';
+						});
+						player.last_name = last_name.trim();
+					}		
+					break;
+				case c.year: // parse year
+					temp1 = $(this).text();
+					temp2 = temp1.charAt(1).toLowerCase(); 
+					player.year = temp1.charAt(0) + temp2;
+					break;
+				case c.position: // parse position
+					player.position = $(this).text().trim();
+					break;
+				case c.height: // parse height
+					player.height = $(this).text().trim();
+					break;
+				case c.weight: // parse weight
+					player.weight = $(this).text().trim();
+					break;
+				case c.hometown: // parse hometown isolated
+					player.hometown = $(this).text().trim().replace("\'", "\\\'");
+					break;
+				case c.hometown_combined: // parse hometown from combined
+					temp1 = $(this).text().trim().split(' / ');
+					temp2 = temp1[0].split(', ');
+					player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+					break;
+			}
+		});
+
+		submission_string += buildSubmissionLine(player);
+	});
+
+	$('#csv_textarea').val(submission_string.trim());
+}
+
+function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
+	var cols = new Object();
+	var index = 0;
+
+	$("#other_page .default_dgrd_header th").each(function() {
+		if ($(this).hasClass('roster_dgrd_header_no')) {
+			cols.number = index;
+		} else if ($(this).hasClass('roster_dgrd_header_full_name')) {
+			cols.name = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_position_short')) {
+			cols.position = index;
+		} else if ($(this).hasClass('roster_dgrd_header_height')) {
+			cols.height = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_weight')) {
+			cols.weight = index;
+		} else if ($(this).hasClass('roster_dgrd_header_academic_year')) {
+			cols.year = index;
+		} else if ($(this).hasClass('roster_dgrd_header_player_hometown')) {
+			cols.hometown = index;
+		} else if ($(this).hasClass('roster_dgrd_player_hometown')) {
+			cols.hometown = index;
+		} else if ($(this).hasClass('roster_dgrd_header_highschool')) {
+			cols.highschool = index;
+		} else if ($(this).hasClass('roster_dgrd_header_hometownhighschool')) {
+			cols.hometown_combined = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_captain')) {
+			cols.captain = index;
+		} else if ($(this).hasClass('roster_dgrd_header_player_major')) {
+			cols.major = index;
+		} else if ($(this).hasClass('roster_dgrd_header_player_previous_school')) {
+			cols.prev_school = index;
+		}
+		index++;
+	});
+
+	return cols;
+}
+	
+function validateFinalSubmission() {
 	if (($('#team_box').val()=="")||($('#team_box').val()==null)) {
 		alert('Please enter a team name for the player(s).');
 		$('#team_box').select();
@@ -183,4 +300,3 @@ function validateFinalSubmission(){
 		return false;
 	}
 }
-
