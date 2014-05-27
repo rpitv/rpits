@@ -262,6 +262,8 @@ function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
 			cols.name = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_position_short')) {
 			cols.position = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_position_long')) {
+			cols.position = index;
 		} else if ($(this).hasClass('roster_dgrd_header_height')) {
 			cols.height = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_weight')) {
