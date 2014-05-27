@@ -76,20 +76,27 @@ if ($_GET['sidearm_url']) {
 	$side = fopen(rawurldecode($SIDEARM_url), "r", false, $context);
 	$contents = addslashes(stream_get_contents($side));
 
-	//echo($contents);
 	$contents = str_replace(chr(10), '', $contents);  // fix newline issues
 	$contents = str_replace(chr(13), '', $contents);
 	$contents = stristr($contents, "<table class=\\\"default_dgrd"); // get only table data from page
-	$contents = substr($contents, 0, (strpos($contents, "table>")+6));
-/*
-	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/teamstats/" . $chs_prefix, "r");
-	$contents_stats = addslashes(stream_get_contents($chs_stats));
+	$contents = substr($contents, 0, (stripos($contents, "table>")+6));
+
+	// SIDEARM stat scraping is on hold
+/*	$base_url = substr($SIDEARM_url, 0, stripos($SIDEARM_url, "roster.aspx"));
+	$path = substr($SIDEARM_url, (stripos($SIDEARM_url, "path=")+5));
+	if (stripos($path, "&")) { // get rid of other args from path
+		$path = substr_replace($path, '', stripos($path, "&"));
+	}
+	$stat_url = $base_url . "cumestats.aspx?path=" . $path . "&year=" . date('Y'); // breaks on winter sports
+	echo($stat_url);*/
+
+/*	$sidearm_stream = fopen($stat_url, "r", false, $context);
+	$sidearm_stats = addslashes(stream_get_contents($sidearm_stream));
 	$contents_stats = str_replace(chr(10), '~', $contents_stats);  // fix newline issues, delimit with '~'
 	$contents_stats = str_replace(chr(13), '', $contents_stats);
 	$contents_stats = stristr($contents_stats, '<PRE CLASS=\"tiny\">'); // get only stats data from page
 	$contents_stats = substr(trim($contents_stats), 20, (strrpos($contents_stats, "</PRE>")-21));
-	$contents_stats = explode('~', $contents_stats);
-*/
+	$contents_stats = explode('~', $contents_stats);*/
 
 ?> 
 
@@ -97,11 +104,7 @@ if ($_GET['sidearm_url']) {
 
 	<script>
 	$(document).ready( function() {
-		//var content_stat = <? echo(json_encode($contents_stats)); ?>;
-
-		//alert(content_html);
 		$("#other_page").html("<?= $contents ?>");
-		//$("#other_page").html("<table>"+$("#other_page #ct100_cplMainContent_dgrdRoster").html()+"</table>");
 		$("#CHSabbr, #parseTableHTML").hide()  // hide unneeded things
 		parseRosterSIDEARM($('#other_page').html());
 	});
