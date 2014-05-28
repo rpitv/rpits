@@ -150,11 +150,10 @@ if ($csv) {
 <!--<button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>-->
 
 <div id="boxSIDEARM">
-	Parse SIDEARM: <button id="showSIDEARM" onclick="$('#urlSIDEARM').toggle()">Toggle SIDEARM URL Box</button><br/>
 	<form id=parseSIDEARM" action="addteamcsv.php">
-		<label>
-			<div id="urlSIDEARM" style="display:none;">
-				<input type="text" name="sidearm_url" size="100" />
+		<label>Parse SIDEARM:
+			<div id="urlSIDEARM" style="display: inline;">
+				<input type="text" name="sidearm_url" size="80" />
 				<input type="submit" name="parseSIDEARMButton" onclick=""></button>
 			</div>
 			<div id="rosterSIDEARM" style="visibility: auto;"></div>
@@ -168,7 +167,7 @@ if ($csv) {
 		<div id="rosterTable" style="visibility: auto;"></div>
 		<div id="tableEntry" style="display:none;">
 			<textarea id="tableHTML" rows="10" cols="100"></textarea>
-			<button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Roster</button>
+			<button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Table</button>
 		</div>
 	</label>
 </div>
