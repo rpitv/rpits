@@ -239,8 +239,7 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					break;
 				case c.hometown_combined: // parse hometown from combined
 					temp1 = $(this).text().trim().split(' / ');
-					temp2 = temp1[0].split(', ');
-					player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+					player.hometown = temp1[0].replace("\'", "\\\'");
 					break;
 			}
 		});
