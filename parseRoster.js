@@ -97,14 +97,8 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 						temp1 = temp2.pop();
 						player.draft_pick = temp1.substr(1,3);
 					}
-
-					var last_name = '';
-					if (temp2[0]) {
-						temp2.forEach(function(elem){ // get all words in LAST name
-							last_name += elem + ' ';
-						});
-						player.last_name = last_name.trim();
-					}
+					
+					player.last_name = temp2.join(" ").trim();
 					break;
 				case 2: // parse year
 					temp1 = $(this).text();
@@ -131,15 +125,11 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 				case 7: // parse age (M), hometown + etc. (W)
 					//player.age += $(this).text().trim();
 					if (num_rows == 8) {
-						temp1 = $(this).text().trim().split(' / ');
-						temp2 = temp1[0].split(', ');
-						player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+						player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
 					}
 					break;
 				case 8: // parse hometown and prev team (M)
-					temp1 = $(this).text().trim().split(' / ');
-					temp2 = temp1[0].split(', ');
-					player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
 					break;
 			}
 		});
@@ -174,6 +164,28 @@ function buildSubmissionLine(player) {
 	if (player.draft_pick) { str += player.draft_pick; }
 
 	return str + '\n';
+}
+
+function sanitizeHometown(place) {
+	place = place.replace("\'", "\\\'");
+
+	if (place.indexOf(",")<0) { return place; }
+
+	var temp = place.split(",");
+	var state = temp.pop().trim();
+	var city = temp.join().trim();
+
+	var state2 = state.replace(/\./g, "");
+
+	if (state2.length <= 2) {
+		state = state2.toUpperCase();
+	} else if (state2 == getAbbr(state2)) {
+		// keep state as-is, even with '.' at end
+	} else {
+		state = getAbbr(state2);
+	}
+
+	return city + ", " + state;
 }
 
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
@@ -211,19 +223,22 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 
 					temp2 = temp1.split(' ');
 					player.first_name = temp2.shift();  // get FIRST name (assume 1 first name)
-
-					var last_name = '';
-					if (temp2[0]) {
-						temp2.forEach(function(elem){ // get all words in LAST name
-							last_name += elem + ' ';
-						});
-						player.last_name = last_name.trim();
-					}		
+					player.last_name = temp2.join(" ").trim();
 					break;
 				case c.year: // parse year
-					temp1 = $(this).text();
-					temp2 = temp1.charAt(1).toLowerCase(); 
-					player.year = temp1.charAt(0) + temp2;
+					temp1 = $(this).text().trim().toLowerCase();
+					if (temp1.indexOf("fr")>=0) {
+						temp2 = "Fr";
+					} else if (temp1.indexOf("so")>=0) {
+						temp2 = "So";
+					} else if (temp1.indexOf("jr")>=0) {
+						temp2 = "Jr";
+					} else if (temp1.indexOf("sr")>=0) {
+						temp2 = "Sr";
+					} else {
+						temp2 = $(this).text().trim();
+					}
+					player.year = temp2;
 					break;
 				case c.position: // parse position
 					player.position = $(this).text().trim();
@@ -235,12 +250,10 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					player.weight = $(this).text().trim();
 					break;
 				case c.hometown: // parse hometown isolated
-					player.hometown = $(this).text().trim().replace("\'", "\\\'");
+					player.hometown = sanitizeHometown($(this).text().trim());
 					break;
 				case c.hometown_combined: // parse hometown from combined
-					temp1 = $(this).text().trim().split(' / ');
-					temp2 = temp1[0].split(', ');
-					player.hometown = (temp2[0]+ ", " + getAbbr(temp2[1])).replace("\'", "\\\'");
+					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
 					break;
 			}
 		});
@@ -261,6 +274,8 @@ function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
 		} else if ($(this).hasClass('roster_dgrd_header_full_name')) {
 			cols.name = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_position_short')) {
+			cols.position = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_position_long')) {
 			cols.position = index;
 		} else if ($(this).hasClass('roster_dgrd_header_height')) {
 			cols.height = index;
