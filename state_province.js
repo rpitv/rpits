@@ -52,6 +52,13 @@ var StateAbbreviations =
 	"wisconsin": "WI",
 	"wyoming": "WY",
 
+	"american samoa": "AS",
+	"guam": "GU",
+	"northern mariana islands": "MP",
+	"puerto rico": "PR",
+	"virgin islands": "VI",
+	"us minor outlying islands": "UM",
+
 	"alberta": "AB",
 	"british columbia": "BC",
 	"manitoba": "MB",
@@ -70,6 +77,27 @@ var StateAbbreviations =
 	"newfoundland": "NL",
 	"labrador": "NL",
 	"newfoundland & labrador": "NL",
+
+	"fla": "FL",
+	"tenn": "TN",
+	"miss": "MS",
+	"ala": "AL",
+	"ill": "IL",
+	"wis": "WI",
+	"calif": "CA",
+	"ark": "AR",
+	"conn": "CT",
+	"mass": "MA",
+	"minn": "MN",
+	"ind": "IN",
+	"mich": "MI",
+	"colo": "CO",
+	"penn": "PA",
+	"ariz": "AZ",
+	"cali": "CA",
+	"tex": "TX",
+	"wash": "WA",
+	"nev": "NV",
 
 };
 
