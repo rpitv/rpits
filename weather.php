@@ -44,9 +44,11 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$json_url = 'http://api.wunderground.com/api/9252b3b729b18d24/conditions/astronomy/q/' . $o['ZipCode'] . '.json';
 	$json_data = file_get_contents($json_url);
 	$obj = json_decode($json_data, true);
-
-	$weather_string = $obj["current_observation"]['weather'] . ' ' . $obj["current_observation"]['temp_f'] . '°F' . ' - Wind: ' . $obj["current_observation"]['wind_mph'] . " MPH " . $obj["current_observation"]['wind_dir'] ;
-	echo '<script>console.log(\'' . $weather_string . '\')</script>';
+	
+	$windspeed = (int)$obj["current_observation"]['wind_mph'];
+	$temperature = (int)$obj["current_observation"]['temp_feee'];
+	
+	$weather_string = $obj["current_observation"]['weather'] . ' ' . $temperature . '°F' . ' - Wind: ' . $windspeed . " MPH " . $obj["current_observation"]['wind_dir'] ;
 	$weather_top = "Weather: " . $obj["current_observation"]['display_location']['full'] ;
 	$geos[] = array(
 			'type' => 'plainText',
@@ -134,7 +136,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 		'Scattered Clouds' => 'partly_cloudy.png',
 		'Partly Cloudy' => 'partly_cloudy.png',
 		'Mostly Cloudy' => 'partly_cloudy.png',
-		'Overcast' => 'snow.png',
+		'Overcast' => 'cloudy.png',
 		'Cloudy' => 'cloudy.png',
 		'Rain' => 'clear.png',
 		'Rain Showers' => 'rain.png',
@@ -166,7 +168,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	//set weather image
 	if(isset($weather_images[$obj['current_observation']['weather']])){
 		$use_img = true;
-		$weather = $obj['current_observations']['weather'];
+		$weather = $obj['current_observation']['weather'];
 		$weather = str_replace('Heavy ','',$weather);
 		$weather = str_replace('Light ','',$weather);
 		//set weather image by time of day
@@ -236,7 +238,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 				'text' => $weather_top,
 				'color' => 'white',
 				'x' => $boxX + $titleXAdjust,
-				'y' => 1080 - $boxHeight - $bottom + $barTextPad,
+				'y' => 1080 - $boxHeight - $bottom + $vbarTextPad,
 				'w' => $boxWidth - $titleWAdjust,
 				'h' => $o['titleHeight']-$barTextPad*2,
 	);
