@@ -3,8 +3,10 @@
 <script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
 <script src="js/lib/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>
 <script src="im.js" type="text/javascript"></script>
-<script type="text/javascript">
 
+<h1>Stat Type Label Editor</h1>
+
+<script type="text/javascript">
 $(function() {
 
 	var eventsTable = new EditableTable({
@@ -16,9 +18,8 @@ $(function() {
 	});
 	eventsTable.loadTable(0,30);
 });
-
-
 </script>
+
 <style type="text/css">
 	tr {
 		height:30px;

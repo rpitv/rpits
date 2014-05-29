@@ -20,7 +20,7 @@ include('init.php');
 	<li><a href="im_peditor.php">Player/Roster Editor</a> - Edit individual players' details and stats, control which players are on which teams</li>
 	<li><a href="im_teams.php">Teams editor</a> and <a href="im_organizations.php">Organizations editor</a> - Edit teams and their respective organizations.</li>
 	<li><a href="addteamcsv.php">Add a Roster</a> - Adds a players and their stats to an empty team via CSV</li>
-	<li><a href="im_stype.php">Stat Type label editor</a> - Edit labels associated with stats</li>
+	<li><a href="stypeEditor.php">Stat Type label editor</a> - Edit labels associated with stats</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache</li>
 	<li><a href="bugSelector.php">Bug Selector</a> - Select 1920x1080 Portable Network Graphic (PNG) for use as a broadcast bug</li>
 </ul>
