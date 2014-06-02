@@ -5,7 +5,7 @@ var includes = [
 
 // might be better to append the includes in PHP?
 
-for(var script in includes) {
+for (var script in includes) {
 	document.write('<script src="'+includes[script]+'"></script>');
 }
 
@@ -31,8 +31,8 @@ ui.applyListeners = function() {
 	});
 	
 	$(window).blur(function() {
-		shiftPress=0;
-		ctrlPress=0;
+		shiftPress = 0;
+		ctrlPress = 0;
 	});
 	
 	$(document).keydown(function(event) {
@@ -41,10 +41,10 @@ ui.applyListeners = function() {
 		}
 		
 		//check if shift and ctrl are down
-		if (event.keyCode == '16'){
+		if (event.keyCode == '16') {
 			shiftPress = 1;
 		}
-		if (event.keyCode == '17'){
+		if (event.keyCode == '17') {
 			ctrlPress = 1;
 		}
 		
@@ -52,7 +52,7 @@ ui.applyListeners = function() {
 		if (shiftPress || ctrlPress) {
 			return;
 		}
-		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys") ) {
+		if ($(document.activeElement).hasClass("noHotkeys") || $(document.activeElement).hasClass("noHotkeys")) {
 			return;
 		}
 
@@ -124,7 +124,7 @@ ui.applyListeners = function() {
 				$(".selected:last").removeClass("selected");
 				$(".selected").scrollintoview({duration: 0});       
 			}
-		}	else if (event.keyCode == '39') { // Right key -- cycles to next tab
+		} else if (event.keyCode == '39') { // Right key -- cycles to next tab
 			event.preventDefault();
 			if ($(".active.tab").next('.tab').length) { // if we're at the end of the tab row
 				ui.tabs.switchLists($(".tab.active").next('.tab'));
@@ -140,7 +140,7 @@ ui.applyListeners = function() {
 			}
 		} else if (event.keyCode == '81') { // q key renders queue
 			renderQueue.processQueue();
-		}	else if (event.keyCode == '70') { // f force render			
+		} else if (event.keyCode == '70') { // f force render			
 			document.getElementById("render").click();
 		} else if (event.keyCode == '85') { // u updates all
 			document.getElementById("updateAll").click();
@@ -177,10 +177,10 @@ ui.applyListeners = function() {
 		$.ajax({
 			url: '/bugcontrol/dissolve_in/15',
 			type: 'POST',
-			success: function () {
+			success: function() {
 				console.log("Bug Up");
 			},
-			error: function () {
+			error: function() {
 				console.log("Error: unable to toggle bug up");
 			}
 		});
@@ -189,10 +189,10 @@ ui.applyListeners = function() {
 		$.ajax({
 			url: '/bugcontrol/dissolve_out/15',
 			type: 'POST',
-			success: function () {
+			success: function() {
 				console.log("Bug Down");
 			},
-			error: function () {
+			error: function() {
 				console.log("Error: unable to toggle bug down");
 			}
 		});
@@ -211,7 +211,7 @@ $(document).ready(function() {
 			uneditableColumns: ['id'],
 			element: $('#eventSelector'),
 			callback: function() {
-				$('#eventSelector').append($('<button>Done</button>').on('click', function(){
+				$('#eventSelector').append($('<button>Done</button>').on('click', function() {
 					window.location = "im_ui.php";
 				}));
 			}
