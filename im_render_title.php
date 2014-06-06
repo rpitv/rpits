@@ -27,10 +27,10 @@ if ($path) {
 	$key = $titleId;
 }
 
-if(checkHashForTitle($title,$key) && $bustCache == false) {
+if (checkHashForTitle($title,$key) && $bustCache == false) {
 	$img = file_get_contents(realpath('out') . '/' . $filename . '.' . IMGFMT);
 	timestamp('Echoing cached version');
-	if($img && !$metrics) {
+	if ($img && !$metrics) {
 		header("Content-Type: image/" . IMGFMT);
 		echo $img;
 	}
@@ -53,7 +53,7 @@ foreach ($title['geos'] as $geo) {
 timestamp ('post geos');
 
 // Display canvas as png image when php page is requested.
-if(!$metrics) {
+if (!$metrics) {
 	header("Content-Type: image/" . IMGFMT);
 	echo $canvas;
 }

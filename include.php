@@ -31,13 +31,13 @@ function getTitle($id,$eventId,$withReplacements = true) {
 	$title = mysql_fetch_assoc($titleResult);
 
 	// null checking
-	if(is_numeric($title["parent"])) {
+	if (is_numeric($title["parent"])) {
 		$parent = getTitle($title["parent"],$eventId,$withReplacements);
 	} else {
 		$parent = getTitleFromXML($title["parent"]);
 	}
 
-	if($parent) {
+	if ($parent) {
 
 		$title['geos'] = $parent['geos'];
 		$title['parentName'] = $parent['name'];
@@ -47,8 +47,8 @@ function getTitle($id,$eventId,$withReplacements = true) {
 			$title['geos'][$row['name']][$row['key']] = $row['value'];
 		}
 
-		if($withReplacements) {
-			foreach($title['geos'] as $key=>$geo) {
+		if ($withReplacements) {
+			foreach ($title['geos'] as $key=>$geo) {
 				$title['geos'][$key] = tokenReplace($geo,$eventId);
 			}
 		}
@@ -59,9 +59,9 @@ function getTitle($id,$eventId,$withReplacements = true) {
 }
 
 function getTitleFromXML($path) {
-	if($path) {
+	if ($path) {
 		$file = @fopen($path, "r");
-		if($file) {
+		if ($file) {
 			$contents = stream_get_contents($file);
 			$xml = new SimpleXMLElement($contents);
 
@@ -78,7 +78,7 @@ function getTitleFromXML($path) {
 function getAllChildren($xml) {
 	$children = [];
 	$i = 0;
-	foreach($xml->children() as $childXML) {
+	foreach ($xml->children() as $childXML) {
 		$child = getAttributes($childXML);
 		if($child['order']) die("Attribute 'order' is illegal in RML");
 		$child['order'] = $i;
@@ -90,7 +90,7 @@ function getAllChildren($xml) {
 
 function getGeoHash($geo) {
 	$ignore = ['x','y','name','order'];
-	foreach($ignore as $i) {
+	foreach ($ignore as $i) {
 		unset($geo[$i]);
 	}
 	return $geo['type'] . '_' . hash('md4',json_encode($geo));
@@ -98,7 +98,7 @@ function getGeoHash($geo) {
 
 function addGeoToCanvas($canvas,$geo,$bustCache = false) {
 	$im = getGeoFromCache($geo);
-	if(!$im || $bustCache) {
+	if (!$im || $bustCache) {
 		$im = renderGeo($geo);
 		saveGeoToCache($geo,$im);
 	}
@@ -121,7 +121,7 @@ function renderGeo($geo) {
 function getGeoFromCache($geo) {
 	$hash = getGeoHash($geo);
 	$path = realpath('cache') . "/$hash." . 'tga';
-	if(file_exists($path)) {
+	if (file_exists($path)) {
 		$img = new Imagick($path);
 		$img->setImageDepth(8);
 		$img->setimagecolorspace(imagick::COLORSPACE_SRGB);
@@ -140,7 +140,7 @@ function getTextWidthFromCache($geo) {
 	$hash = getGeoHash($geo);
 	$result = dbQuery("SELECT * FROM cache WHERE `key` = '$hash' LIMIT 1");
 	$hashRow = mysql_fetch_assoc($result);
-	if($hashRow) {
+	if ($hashRow) {
 		return $hashRow['hash'];
 	} else {
 		$width = getTextWidth($geo);
@@ -166,7 +166,7 @@ function fetchTeam($team) {
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
 	$orgRow = mysql_fetch_assoc($orgResource);
 
-	if($teamRow && $orgRow) {
+	if ($teamRow && $orgRow) {
 		$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
 		return array_merge($teamRow,$orgRow);
 	} else {
@@ -195,22 +195,22 @@ function getAttributes($xml) {
 	foreach ($xml->attributes() as $key => $value) {
 		$node[$key] = (string) $value;
 	}
-	if($node['type']) die("Attribute 'type' is illegal in RML");
-	if($node['value']) die("Attribute 'value' is illegal in RML");
+	if ($node['type']) die("Attribute 'type' is illegal in RML");
+	if ($node['value']) die("Attribute 'value' is illegal in RML");
 	$node['type'] = $xml->getName();
-	if((string) $xml) {
+	if ((string) $xml) {
 		$node['value'] = (string) $xml;
 	}
 	return $node;
 }
 
 function tokenReplace($data,$eventId) {
-	foreach($data as $key => $string) {
+	foreach ($data as $key => $string) {
 		$matches = array();
 
 		preg_match_all('/\{(.*?)\}/', $string, $matches);
 		$tokens = $matches[1];
-		foreach($tokens as $token) {
+		foreach ($tokens as $token) {
 			$replacement = getToken($token,$eventId);
 			$string = preg_replace('/\{'.$token.'\}/',$replacement,$string);
 		}
@@ -224,28 +224,34 @@ function getToken($token,$eventId) {
 	$tokens = explode('.',$token);
 
 	// Event based replacement (future expansion on this front is likely)
-	if($tokens[0] == 'e') {
+	if ($tokens[0] == 'e') {
 		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
 		$eventRow = mysql_fetch_assoc($eventResource);
-		if($eventRow) {
+		if ($eventRow) {
 			$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
-			$teamRow = fetchTeam($eventRow[$teamColumn]);
-			if ($teamRow) {
-				return $teamRow[$tokens[2]];
-			}
+			$newToken = 't.' . $eventRow[$teamColumn] . '.' . implode('.', array_slice($tokens, 2));
+			return getToken($newToken, $eventId);
 		}
 	} else if ($tokens[0] == 'o') {
 		$org = fetchOrg($tokens[1]);
-		if($org) {
+		if ($org) {
 			return $org[$tokens[2]];
 		}
 	} else if ($tokens[0] == 't') {
 		$team = fetchTeam($tokens[1]);
-		if($team) {
+		if ($team and (($tokens[2] == 'p') or ($tokens[2] == 'player'))) {
+			$players = getPlayers($tokens);
+			return "test"
+		} else if ($team) {
 			return $team[$tokens[2]];
 		}
 	}
 	return false;
+}
+
+function getPlayers($tokens) {
+	
+
 }
 
 function rgbhex($red, $green, $blue) {
@@ -276,7 +282,7 @@ function mysqlQueryToJsonArray($query) {
 function timestamp ($str) {
 	global $metrics, $startTime, $lastTime;
 	$now = microtime(true);
-	if($metrics) {
+	if ($metrics) {
 		printf("%.5f",($now - $startTime));
 		echo ' - ';
 		printf("%.5f",($now - $lastTime));
@@ -287,8 +293,8 @@ function timestamp ($str) {
 
 function groupGeosByType($geos) {
 	$return = Array();
-	foreach($geos as $geo) {
-		if(!$return[$geo['type']]) {
+	foreach ($geos as $geo) {
+		if (!$return[$geo['type']]) {
 			$return[$geo['type']] = Array();
 		}
 		$return[$geo['type']][] = $geo;
@@ -297,14 +303,14 @@ function groupGeosByType($geos) {
 }
 
 function checkHashForTitle($title,$key = false) {
-	if(!$key) {
+	if (!$key) {
 		$key = $title['id'];
 	}
 	$geoHash = hash('md4',json_encode($title['geos']));
 	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $key . "' LIMIT 1");
 	$cacheRow = mysql_fetch_assoc($result);
 
-	if($geoHash == $cacheRow["hash"]) {
+	if ($geoHash == $cacheRow["hash"]) {
 		return true;
 	} else {
 		return false;
