@@ -241,7 +241,7 @@ function getToken($token,$eventId) {
 		$team = fetchTeam($tokens[1]);
 		if ($team and (($tokens[2] == 'p') or ($tokens[2] == 'player'))) {
 			$players = getPlayers($tokens);
-			return "test"
+			return "test";
 		} else if ($team) {
 			return $team[$tokens[2]];
 		}
