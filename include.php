@@ -80,7 +80,7 @@ function getAllChildren($xml) {
 	$i = 0;
 	foreach ($xml->children() as $childXML) {
 		$child = getAttributes($childXML);
-		if($child['order']) die("Attribute 'order' is illegal in RML");
+		if ($child['order']) die("Attribute 'order' is illegal in RML");
 		$child['order'] = $i;
 		$children[$child['name']] = $child;
 		$i++;
@@ -224,34 +224,36 @@ function getToken($token,$eventId) {
 	$tokens = explode('.',$token);
 
 	// Event based replacement (future expansion on this front is likely)
-	if ($tokens[0] == 'e') {
+	if (($tokens[0] == 'e') or ($tokens[0] == 'event')) { // prototype for home/visiting teams
 		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
 		$eventRow = mysql_fetch_assoc($eventResource);
-		if ($eventRow) {
+		if ($eventRow) { // pass through to t.team.X.Y.Z
 			$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
 			$newToken = 't.' . $eventRow[$teamColumn] . '.' . implode('.', array_slice($tokens, 2));
 			return getToken($newToken, $eventId);
 		}
-	} else if ($tokens[0] == 'o') {
+	} else if (($tokens[0] == 'o') or ($tokens[0] == 'org')) { // return org element
 		$org = fetchOrg($tokens[1]);
 		if ($org) {
 			return $org[$tokens[2]];
 		}
-	} else if ($tokens[0] == 't') {
+	} else if (($tokens[0] == 't') or ($tokens[0] == 'team')) {
 		$team = fetchTeam($tokens[1]);
 		if ($team and (($tokens[2] == 'p') or ($tokens[2] == 'player'))) {
-			$players = getPlayers($tokens);
-			return "test";
-		} else if ($team) {
+			$playerData = dbQuery("SELECT * FROM players WHERE team='" . $tokens[1] ."' AND " . $tokens[3] . "='" . $tokens[4] . "'");
+			$player = mysql_fetch_array($playerData);
+			if ($tokens[5] == 'name') { // case for full name
+				return $player['first'] . ' ' . $player['last'];
+			} else if (($tokens[5] == 'record') and ($player['stype'] == 'hg')) { // case for goalie record
+				return $player['s2'] . '-' . $player['s3'] . '-' . $player['s4'];
+			} else {
+				return $player[$tokens[5]];
+			}
+		} else if ($team) { // return team element
 			return $team[$tokens[2]];
 		}
 	}
 	return false;
-}
-
-function getPlayers($tokens) {
-	
-
 }
 
 function rgbhex($red, $green, $blue) {

@@ -3,7 +3,7 @@
 	<description>Single text box + title with logo box</description>
 	<geos>
 		<blackBox name="body" x="380" y="180" w="1160" h="820" />
-		<slantRectangle name="titleBar" x="410" y="110" w="1140" h="70" color="red"/>
+		<slantRectangle name="titleBar" x="410" y="110" w="1140" h="70" color="linear-gradient(to right,{e.h.color}, black 50%,  {e.a.color})"/>
 		<slantRectangle name="LeftNameBar" x="400" y="690" w="510" h="60" color="{e.h.color}"/>
 		<slantRectangle name="RightNameBar" x="1010" y="690" w="510" h="60" color="{e.v.color}"/>
 		<slantRectangle name="logoBoxLeft" x="305" y="70" w="270" h="150" color="white"/>
@@ -11,12 +11,12 @@
 		
 		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="{e.h.logo}" shadow="5" padding="3" />
 		<placeImage name="RightLogo" x="1425" y="85" w="120" h="120" path="{e.v.logo}" shadow="5" padding="3" />
-		<placeImage name="LeftGoalie" x="430" y="210" w="450" h="450" path="teams/rpiimgs/JasonKasdorf.png" />
-		<placeImage name="RightGoalie" x="1050" y="210" w="450" h="450" path="teams/dartimgs/CabMorris.png" />
-		<shadowText name="LeftName" x="430" y="695" w="450" h="50" gravity="center" font="fontN" color="white" text="33 - Jason Kasdorf - Fr" />
+		<placeImage name="LeftGoalie" x="430" y="210" w="450" h="450" path="other_graphics/goalies/rpi_diebold.png" />
+		<placeImage name="RightGoalie" x="1050" y="210" w="450" h="450" path="teams/dart-mhimgs/CabMorris.png" />
+		<shadowText name="LeftName" x="430" y="695" w="450" h="50" gravity="center" font="fontN" color="white" text="34 - {e.h.p.num.34.name} - {e.h.p.num.34.year}" />
 		<shadowText name="RightName" x="1050" y="695" w="450" h="50" gravity="center" font="fontN" color="white" text="1 - Cab Morris - Jr" />
 		<shadowText name="titleText" x="430" y="115" w="1060" h="60" gravity="center" font="fontN" color="white" text="Starting Goalies" />
-		<plainText name="LeftColumn" x="455" y="780" w="400" h="210" gravity="center" font="fontN" color="white" text="1-1-0\n2.52\n.906\n0" />
+		<plainText name="LeftColumn" x="455" y="780" w="400" h="210" gravity="center" font="fontN" color="white" text="{e.h.p.num.34.record}\n{e.h.p.num.34.s6}\n{e.h.p.num.34.s5}\n1" />
 		<plainText name="CenterColumn" x="750" y="780" w="400" h="210" gravity="center" font="fontN" color="white" text="Record\nGAA\nSave \%\nShutouts" />
 		<plainText name="RightColumn" x="1075" y="780" w="400" h="210" gravity="center" font="fontN" color="white" text="1-1-0\n2.52\n.906\n0" />
 	</geos>
