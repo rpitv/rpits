@@ -6,7 +6,7 @@ include_once('imagick_include.php');
 function weather(&$canvas,$o,$bustCache = true) {
 
 	$logoHeight = 0; $logoHeightDiff = 0; $logoXAdjust = 0;
-	if(($o['logoLeft'] || $o['logoRight']) && $o['logoHeight'] > 0) {
+	if (($o['logoLeft'] || $o['logoRight']) && $o['logoHeight'] > 0) {
 		$logoHeight = $o['logoHeight'];
 		$logoHeightDiff = ($logoHeight - $o['titleHeight']) / 2;
 		$logoHeightDiff -= $o['subTitleHeight'];
@@ -66,7 +66,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	// Sub Title Bar
 
 	$subTitleWidth = $o['subTitleWidth'];
-	if($subTitleWidth < 0) {
+	if ($subTitleWidth < 0) {
 		$subTitleWidth = $boxWidth+$o['titleHeight'] + $o['subTitleWidth'];
 	}
 	$subTitleX = (1920-$subTitleWidth)/2;
@@ -93,7 +93,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 
 	$barTextPad = 3;
 	
-	if($o['subTitleHeight'] > 0) {
+	if ($o['subTitleHeight'] > 0) {
 		$geos[] = array(
 				'type' => 'shadowText',
 				'font' => 'fontN',
@@ -115,17 +115,17 @@ function weather(&$canvas,$o,$bustCache = true) {
 
 	//pull date from data stream for reliability else get server time
 	//time in minutes
-	if (isset($obj['moon_phase']['current_time'])){
+	if (isset($obj['moon_phase']['current_time'])) {
 		$current_time = ($obj['moon_phase']['current_time']['hour'])*60 + $obj['moon_phase']['current_time']['minute'];
-	}else {
+	} else {
 		$current_time = date('H')*60 + date('i');
 	}
 	//sunrise/sunset times
 	//30 minutes adjustments account for when it is bright
-	if (isset($obj['sun_phase'])){
+	if (isset($obj['sun_phase'])) {
 		$sunrise = ($obj['sun_phase']['sunrise']['hour']) * 60 + $obj['sun_phase']['sunrise']['minute'] - 30;
 		$sunset = ($obj['sun_phase']['sunset']['hour']) * 60 + $obj['sun_phase']['sunset']['minute'] + 30;
-	}else {
+	} else {
 		$sunrise = 7 * 60 - 30;
 		$sunset = 20 * 60 + 30;
 	}
@@ -166,31 +166,31 @@ function weather(&$canvas,$o,$bustCache = true) {
 		'Windy' => 'windy.png',
 	);
 	//set weather image
-	if(isset($weather_images[$obj['current_observation']['weather']])){
+	if (isset($weather_images[$obj['current_observation']['weather']])) {
 		$use_img = true;
 		$weather = $obj['current_observation']['weather'];
 		$weather = str_replace('Heavy ','',$weather);
 		$weather = str_replace('Light ','',$weather);
 		//set weather image by time of day
-		if ($current_time > $sunrise && $current_time < $sunset){
+		if ($current_time > $sunrise && $current_time < $sunset) {
 			$sun_up = true;
-		}else {
+		} else {
 			$sun_up = false;
 		}
-		if ($sun_up){
+		if ($sun_up) {
 			$use_img = true;
 			$img_location = $weather_images[$weather];
-		}else if(!$sun_up){
+		} else if (!$sun_up){
 			$use_img = true;
 			$img_location = 'nt_' . $weather_images[$weather];
-		}else {
+		} else {
 			$use_img = false;
 		}
-	}else {
+	} else {
 		$use_img = false;
 	}
 
-	if($o['logoLeft'] && $logoHeight && $use_img) {
+	if ($o['logoLeft'] && $logoHeight && $use_img) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
 				'color' => 'white',
@@ -211,7 +211,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	}
 
 	// Right Logo
-	if($o['logoRight'] && $logoHeight) {
+	if ($o['logoRight'] && $logoHeight) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
 				'color' => 'white',
@@ -243,7 +243,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 				'h' => $o['titleHeight']-$barTextPad*2,
 	);
 
-	foreach($geos as $geo) {
+	foreach ($geos as $geo) {
 		addGeoToCanvas($canvas, $geo);
 	}
 }

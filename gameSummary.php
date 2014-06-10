@@ -47,7 +47,7 @@ function scoringPlay($score,$teams) {
 	$a2 = explode(',',$score['assist2']);
 
 	$goalString = ucwords(strtolower($goal[0]));
-	if(strlen($score['seasong'])) {
+	if (strlen($score['seasong'])) {
 		$goalString .= ' (' . $score['seasong'] . ')';
 	}
 
@@ -64,13 +64,13 @@ function scoringPlay($score,$teams) {
 
 	$assistString = 'Unassisted';
 
-	if($a1[0]) {
+	if ($a1[0]) {
 		$assistString = ucwords(strtolower($a1[0]));
 		if(strlen($score['seasona1'])) {
 			$assistString .= ' (' . $score['seasona1'] . ')';
 		}
 	}
-	if($a2[0]) {
+	if ($a2[0]) {
 		$assistString .= ', ' . ucwords(strtolower($a2[0]));
 		if(strlen($score['seasona2'])) {
 			$assistString .= ' (' . $score['seasona2'] . ')';
@@ -88,7 +88,7 @@ function scoringPlay($score,$teams) {
 	));
 
 	$time = $score['time'] . '';
-	if($time[0] == '0') {
+	if ($time[0] == '0') {
 		$time = substr($time,1,strlen($time));
 	}
 	//$time = str_replace('0','',$time);
@@ -117,7 +117,6 @@ function scoringPlay($score,$teams) {
 			'color'=>'white'
 	));
 
-
 	return $play;
 }
 
@@ -143,12 +142,12 @@ function gameSummary(&$canvas,$o) {
 	$scores = getGameSummaryInfo($path);
 	$vOffset = 0;
 	$lastPeriod = 0;
-	foreach($scores->score as $score) {
-		if($vOffset+150 > $maxHeight) break;
-		if($vOffset > 0) {
+	foreach ($scores->score as $score) {
+		if ($vOffset+150 > $maxHeight) break;
+		if ($vOffset > 0) {
 			$plays->compositeImage(fillRectangle(960,2,'#FFF'),imagick::COMPOSITE_OVER,0,$vOffset);
 		}
-		if($score['prd']+0 != $lastPeriod) {
+		if ($score['prd']+0 != $lastPeriod) {
 			$lastPeriod = $score['prd']+0;
 			$plays->compositeImage(periodLabel($lastPeriod),imagick::COMPOSITE_OVER,0,$vOffset);
 			$vOffset += 50;

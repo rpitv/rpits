@@ -123,7 +123,7 @@ function slantRectangle(&$canvas, $o) {
 }
 
 function fillRectangle($w,$h,$color) {
-	if(preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
+	if (preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
 		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
 		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
 $groups = explode(',',$commaRemoved);
@@ -133,16 +133,16 @@ $groups = explode(',',$commaRemoved);
 		$startIndex = 1;
 
 		$firstGroup = explode(' ',trim($groups[0]));
-		if($firstGroup[0] != 'to') {
+		if ($firstGroup[0] != 'to') {
 			$startIndex = 0;
 			$direction = ['to','bottom'];
 		}
 
-		for($i = $startIndex; $i < count($groups); $i++) {
+		for ($i = $startIndex; $i < count($groups); $i++) {
 			$stop = explode(' ',trim($groups[$i]));
 			$dist = $stop[1];
-			if(!$dist) {
-				if($i == $startIndex) {
+			if (!$dist) {
+				if ($i == $startIndex) {
 					$dist = '0%';
 				} else if ($i+1 == count($groups)) {
 					$dist = '100%';
@@ -150,7 +150,7 @@ $groups = explode(',',$commaRemoved);
 					die('FATAL ERROR: middle stops must have a %');
 				}
 			}
-			if(strpos($stop[0],'texture') !== false) {
+			if (strpos($stop[0],'texture') !== false) {
 				// the technology isn't there yet
 				$stop[0] = 'grey';
 			}
@@ -159,21 +159,21 @@ $groups = explode(',',$commaRemoved);
 		assert(count($stops) >= 2);
 		assert(count($direction) == 2);
 
-		if($stops[0]['stop'] != '0px' && $stops[0]['stop'] != '0%') {
+		if ($stops[0]['stop'] != '0px' && $stops[0]['stop'] != '0%') {
 			array_unshift($stops,array('color'=>$stops[0]['color'],'stop'=>'0%'));
 		}
-		if($stops[count($stops)-1]['stop'] != '100%') {
+		if ($stops[count($stops)-1]['stop'] != '100%') {
 			array_push($stops,array('color'=>$stops[count($stops)-1]['color'],'stop'=>'100%'));
 		}
 		$x = $w;
 		$y = $h;
-		if($direction[1] == 'left' || $direction[1] == 'right') {
+		if ($direction[1] == 'left' || $direction[1] == 'right') {
 			$x = $h;
 			$y = $w;
 		}
 		$result = new Imagick();
 		$result->newPseudoImage($x, $y, "xc:none");
-		for($i = 0; $i < count($stops)-1; $i++) {
+		for ($i = 0; $i < count($stops)-1; $i++) {
 			$pctHeight = intval($stops[$i+1]['stop']) - intval($stops[$i]['stop']);
 			$height = ceil($y*($pctHeight)/100);
 			assert ($height > 0);
@@ -184,7 +184,7 @@ $groups = explode(',',$commaRemoved);
 		$rotationList = array('left'=>90,'right'=>270,'top'=>180,'bottom'=>0);
 		$result->rotateImage(new ImagickPixel(), $rotationList[$direction[1]]);
 		return $result;
-	} else if(preg_match('/texture\((.+)\)/', $color,$matches)) {
+	} else if (preg_match('/texture\((.+)\)/', $color,$matches)) {
 		$result = new Imagick();
 		$result->readImage(realpath($matches[1]));
 		$result->cropimage($w,$h, 0, 0);
@@ -233,11 +233,11 @@ function blackBox(&$canvas, $o) {
 
 function defaultText($o) {
 
-	if($o['case'] == 'upper') {
+	if ($o['case'] == 'upper') {
 		$o['text'] = strtoupper($o['text']);
 	}
 
-	if($o['text'] == '') {
+	if ($o['text'] == '') {
 		$o['text'] = ' ';
 	}
 
@@ -285,7 +285,7 @@ function shadowText(&$canvas, $o) {
 }
 
 function placeHeadshot(&$canvas, $o) {
-	if(!file_exists($o['path'])) {
+	if (!file_exists($o['path'])) {
 		return;
 	}
 	try {
@@ -313,7 +313,7 @@ function placeHeadshot(&$canvas, $o) {
 }
 
 function placeImage(&$canvas, $o) {
-	if(!file_exists($o['path'])) {
+	if (!file_exists($o['path'])) {
 		return;
 	}
 	try {
@@ -342,7 +342,7 @@ function placeImage(&$canvas, $o) {
 		}
 
 		/* add drop shadow */
-		if($o['shadow'] > 0){
+		if ($o['shadow'] > 0){
 			$shadow = $img->clone();
 			$shadow->setImageBackgroundColor('black');
 			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing

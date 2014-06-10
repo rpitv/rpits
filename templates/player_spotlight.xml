@@ -14,7 +14,7 @@
 		<shadowText name="stat1"		x="410" y="270"		w="495" h="50"		gravity="west" font="fontN" color="white" text="Record: {e.h.p.num.1.record}" />
 		<shadowText name="stat2"		x="410" y="325"		w="495" h="50"		gravity="west" font="fontN" color="white" text="GAA: {e.h.p.num.1.s6}" />
 		<shadowText name="stat3"		x="410" y="380"		w="495" h="50"		gravity="west" font="fontN" color="white" text="Save \%: {e.h.p.num.1.s5}" />
-		<shadowText name="stat4"		x="410" y="435"		w="495" h="50"		gravity="west" font="fontN" color="white" text="{e.v.p.num.1.hometown}" />
+		<shadowText name="stat4"		x="410" y="435"		w="495" h="50"		gravity="west" font="fontN" color="white" text="{e.h.p.num.1.hometown}" />
 		
 		<blackBox name="body2"			x="150" y="535"		w="740" h="395" />
 		<slantRectangle name="nameBar"	x="120" y="500"		w="800" h="70"		color="{e.h.color}"/>

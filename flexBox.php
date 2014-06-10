@@ -29,7 +29,7 @@ include_once('imagick_include.php');
 function flexBox(&$canvas,$o,$bustCache = false) {
 
 	$logoHeight = 0; $logoHeightDiff = 0; $logoXAdjust = 0;
-	if(($o['logoLeft'] || $o['logoRight']) && $o['logoHeight'] > 0) {
+	if (($o['logoLeft'] || $o['logoRight']) && $o['logoHeight'] > 0) {
 		$logoHeight = $o['logoHeight'];
 		$logoHeightDiff = ($logoHeight - $o['titleHeight']) / 2;
 		$logoHeightDiff -= $o['subTitleHeight'];
@@ -85,7 +85,7 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 	//
 
 	$subTitleWidth = $o['subTitleWidth'];
-	if($subTitleWidth < 0) {
+	if ($subTitleWidth < 0) {
 		$subTitleWidth = $boxWidth+$o['titleHeight'] + $o['subTitleWidth'];
 	}
 	$subTitleX = (1920-$subTitleWidth)/2;
@@ -114,7 +114,7 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 
 	$barTextPad = 3;
 	
-	if($o['subTitleHeight'] > 0) {
+	if ($o['subTitleHeight'] > 0) {
 		$geos[] = array(
 				'type' => 'shadowText',
 				'font' => 'fontN',
@@ -136,7 +136,7 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 	// Left Logo
 	//
 
-	if($o['logoLeft'] && $logoHeight) {
+	if ($o['logoLeft'] && $logoHeight) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
 				'color' => 'white',
@@ -158,7 +158,7 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 	//
 	// Right Logo
 	//
-	if($o['logoRight'] && $logoHeight) {
+	if ($o['logoRight'] && $logoHeight) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
 				'color' => 'white',
@@ -196,7 +196,7 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 
 	//echo '<pre>'; print_r($geos);
 
-	foreach($geos as $geo) {
+	foreach ($geos as $geo) {
 		addGeoToCanvas($canvas, $geo);
 	}
 
