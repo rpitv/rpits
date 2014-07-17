@@ -2,6 +2,7 @@
 <script src="js/lib/jquery-1.8.3.js" type="text/javascript"></script>
 <script src="js/lib/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
 <script src="js/lib/jquery.scrollintoview.js" type="text/javascript"></script>
+<script src="js/jscolor/jscolor.js" type="text/javascript"></script>
 <script src="im.js" type="text/javascript"></script>
 <script src="im_ui.js" type="text/javascript"></script>
 <script src="renderQueue.js" type="text/javascript"></script>

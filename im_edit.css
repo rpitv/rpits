@@ -25,3 +25,14 @@
 	clear:both;
 }
 
+@font-face
+{
+  font-family: IconicFill;
+  src: url('assets/iconic_fill.svg') format("svg"),
+  url('assets/iconic_fill.otf') format("opentype");
+}
+.startPicker {
+  font-family: IconicFill;
+  font-size: 20pt;
+  cursor: pointer;
+}

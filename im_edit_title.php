@@ -24,9 +24,12 @@ function printEditableRow($row, $id, $type, $prop = false) {
 	echo '<input type="hidden" name="' . $id . '" value="' . $name . '" />';
 	if ($newlines > 0) {
 		echo '<textarea class="noHotkeys" rows="' . ($newlines + 1) . '" name="' . $type . '">' . "\n" . $val . '</textarea>';
+	} else if ($type == 'color') {
+		echo '<input class="noHotkeys" type="text" name="' . $type . '" value="' . $val . '" /><span class="startPicker">&#xe01e;</span>';
 	} else {
 		echo '<input class="noHotkeys" type="text" name="' . $type . '" value="' . $val . '" />';
 	}
+
 	echo '<input class="submit noHotkeys" type="submit" value="Update" />';
 	echo '</form></div>';
 	echo '</div>';
@@ -38,31 +41,35 @@ $geos = groupGeosByType($title['geos']);
 echo '<div id="editTitle">';
 
 if ($geos['shadowText']) {
-	echo "<h3>Shadow Text</h3>";
+	echo "<div id=\"shadowText\"><h3>Shadow Text</h3>";
 	foreach ($geos['shadowText'] as $geo) {
 		printEditableRow($geo, $titleId, 'text');
 	}
+	echo "</div>";
 }
 
 if ($geos['plainText']) {
-	echo "<h3>Normal Text</h3>";
+	echo "<div id=\"plainText\"><h3>Normal Text</h3>";
 	foreach ($geos['plainText'] as $geo) {
 		printEditableRow($geo, $titleId, 'text');
 	}
+	echo "</div>";
 }
 
 if ($geos['slantRectangle']) {
-	echo "<h3>Color Bars</h3>";
+	echo "<div id=\"colorBars\"><h3>Color Bars</h3>";
 	foreach ($geos['slantRectangle'] as $geo) {
 		printEditableRow($geo, $titleId, 'color');
 	}
+	echo "</div>";
 }
 
 if ($geos['placeImage']) {
-	echo "<h3>Images</h3>";
+	echo "<div id=\"images\"><h3>Images</h3>";
 	foreach ($geos['placeImage'] as $geo) {
 		printEditableRow($geo, $titleId, 'path');
 	}
+	echo "</div>";
 }
 
 if ($geos['divingStandings']) {
@@ -172,6 +179,18 @@ echo '</div>'
 				button.html("Done Rendering");
 				window.renderQueue.removeFromQueue(renderTid);
 			}
+		});
+	});
+
+	$(document).ready(function() {	
+		$(".startPicker").each(function() {
+			$(this).bind( "click", function() {
+				var box = $(this).parent().children("[name='color']");
+				box.addClass('color');
+				jscolor.init();
+				box.focus();
+				$(this).hide();
+			});
 		});
 	});
 </script>
