@@ -18,7 +18,7 @@ $SIDEARM_url = $_GET["sidearm_url"];
 
 //////////////////// CHS Pulling
 if ($_GET['pull_url']) {
-	if (date('n')>7) {
+	if (date('n')>8) {
 		$season = date('y') . (date('y')+1);
 	} else {
 		$season = (date('y')-1) . date('y');
