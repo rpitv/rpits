@@ -1,10 +1,12 @@
 <?php
 
+// deprecated, uses getStatscard.php now
+
 include("include.php");
 include("imagick_include.php");
 
 $id = $_GET["id"];
-$lastSeason = false;
+$lastSeason = true; // sets last season stats flag
 
 $bustCache = $_GET["bustCache"] || $_GET["c"]; // backward compatability
 
