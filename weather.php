@@ -46,7 +46,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$obj = json_decode($json_data, true);
 	
 	$windspeed = (int)$obj["current_observation"]['wind_mph'];
-	$temperature = (int)$obj["current_observation"]['temp_feee'];
+	$temperature = (int)$obj["current_observation"]['temp_f'];
 	
 	$weather_string = $obj["current_observation"]['weather'] . ' ' . $temperature . '°F' . ' - Wind: ' . $windspeed . " MPH " . $obj["current_observation"]['wind_dir'] ;
 	$weather_top = "Weather: " . $obj["current_observation"]['display_location']['full'] ;
