@@ -20,7 +20,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 
 	$text = $o['bodyText'];
 	$text = str_replace('\n', PHP_EOL, $text);
-	$lines = substr_count($text,PHP_EOL)+1;
+ 	$lines = substr_count($text,PHP_EOL)+1;
 
 	$textBoxHeight = ($o['boxHeight'] > 0) ? $o['boxHeight'] : $lines*$o['lineHeight'];
 	$boxHeight = $textBoxHeight + $o['titleHeight'] + $o['subTitleHeight'] + $pad + $logoHeightDiff;
@@ -44,11 +44,20 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$json_url = 'http://api.wunderground.com/api/9252b3b729b18d24/conditions/astronomy/q/' . $o['ZipCode'] . '.json';
 	$json_data = file_get_contents($json_url);
 	$obj = json_decode($json_data, true);
-	
+
 	$windspeed = (int)$obj["current_observation"]['wind_mph'];
 	$temperature = (int)$obj["current_observation"]['temp_f'];
-	
-	$weather_string = $obj["current_observation"]['weather'] . ' ' . $temperature . '°F' . ' - Wind: ' . $windspeed . " MPH " . $obj["current_observation"]['wind_dir'] ;
+
+	$wind_string = "";
+
+	if ($windspeed == 0){
+		$wind_string = " Wind: Calm";
+	}
+	else{
+		$wind_string = " Wind: " . $windspeed . " MPH " . $obj["current_observation"]['wind_dir'];
+	}
+
+	$weather_string = $obj["current_observation"]['weather'] . ' ' . $temperature . '°F' . ' -' . $wind_string ;
 	$weather_top = "Weather: " . $obj["current_observation"]['display_location']['full'] ;
 	$geos[] = array(
 			'type' => 'plainText',
@@ -59,8 +68,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 			'x' => $boxX + $pad,
 			'y' => 1080 - $textBoxHeight - $bottom,
 			'w' => $boxWidth - $pad*2,
-			'h' => $textBoxHeight,
-			'wordWrap' => $lines > 1 ? false : true
+			'h' => $textBoxHeight
 	);
 
 	// Sub Title Bar
@@ -73,7 +81,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 
 	$geos[] = array(
 			'type' => 'slantRectangle',
-			'x' => $subTitleX,
+			'x' => $subTitleX + $pad,
 			'y' => 1080 - $boxHeight - $bottom + $o['titleHeight'],
 			'w' => $subTitleWidth,
 			'h' => $o['subTitleHeight'],
@@ -85,14 +93,14 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$geos[] = array(
 				'type' => 'slantRectangle',
 				'x' => $boxX - $o['titleHeight']/2,
-				'y' => 1080 - $boxHeight - $bottom,
+				'y' => 1080 - $boxHeight - $bottom - 3,
 				'w' => $boxWidth + $o['titleHeight'],
 				'h' => $o['titleHeight'],
 				'color' => $o['titleColor']
 		);
 
 	$barTextPad = 3;
-	
+
 	if ($o['subTitleHeight'] > 0) {
 		$geos[] = array(
 				'type' => 'shadowText',
@@ -138,7 +146,9 @@ function weather(&$canvas,$o,$bustCache = true) {
 		'Mostly Cloudy' => 'partly_cloudy.png',
 		'Overcast' => 'cloudy.png',
 		'Cloudy' => 'cloudy.png',
-		'Rain' => 'clear.png',
+		'Light Rain' => 'rain.png',
+		'Heavy Rain' => 'rain.png',
+		'Rain' => 'rain.png',
 		'Rain Showers' => 'rain.png',
 		'Rain Mist' => 'rain.png',
 		'Drizzle' => 'rain.png',
@@ -211,6 +221,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	}
 
 	// Right Logo
+	/*
 	if ($o['logoRight'] && $logoHeight) {
 		$geos[] = array(
 				'type' => 'slantRectangle',
@@ -230,6 +241,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 		);
 		$titleWAdjust += $logoXAdjust;
 	}
+	*/
 
 	$geos[] = array(
 				'type' => 'shadowText',
