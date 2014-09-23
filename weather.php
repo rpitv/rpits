@@ -187,12 +187,22 @@ function weather(&$canvas,$o,$bustCache = true) {
 		} else {
 			$sun_up = false;
 		}
-		if ($sun_up) {
+		
+		$file_path = 'other_graphics/weather/';
+		$image_day_exists = file_exists($file_path . 'nt_' . $weather_images[$weather]);
+		$image_night_exists = file_exists($file_path . $weather_images[$weather]);
+		
+		if ($sun_up && $image_day_exists) {
 			$use_img = true;
 			$img_location = $weather_images[$weather];
-		} else if (!$sun_up){
-			$use_img = true;
-			$img_location = 'nt_' . $weather_images[$weather];
+		} else if (!$sun_up && ($image_night_exists || $image_day_exists)){
+			if ($image_night_exists){
+				$use_img = true;
+				$img_location = 'nt_' . $weather_images[$weather];
+			}else if ($image_day_exists){
+				$use_img = true;
+				$img_location = $weather_images[$weather];
+			}
 		} else {
 			$use_img = false;
 		}
