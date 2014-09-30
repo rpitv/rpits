@@ -5,7 +5,7 @@ include_once("imagick_include.php");
 
 function getStatscard($id) {
 
-	$lastSeason = true; // sets last season flag
+	$lastSeason = false; // sets last season flag
 
 	timestamp ('Get Statscard');
 
@@ -93,18 +93,20 @@ function getStatscard($id) {
 	$nameModifier = 0;
 	$detailsModifier = 0;
 
-	if ($size[0]) { // there is a headshot
+	//if ($size[0]) { // there is a headshot
+	if (true){	
 		if ($stype) {
-			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+			//$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', '' => $pPath);
 		} else {
 			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
 		}
 
 		// center align title and send to baseline if title is too narrow
-		if ($size[0] * 1.2 > $size[1]) {
-			$p['h'] = $size[1] / ($size[0] / $p['w']);
-			$p['y'] += 230 - $p['h'];
-		}
+		//if ($size[0] * 1.2 > $size[1]) {
+		//	$p['h'] = $size[1] / ($size[0] / $p['w']);
+		//	$p['y'] += 230 - $p['h'];
+		//}
 		
 		if ($stype == 'dive') {
 			if ($row['s2'] > 0) {
@@ -117,10 +119,10 @@ function getStatscard($id) {
 		$nameModifier = 40;
 
 		$geos[] = $p;
-	} else { // no headshot
-		$nameModifier = -150;
-		$detailsModifier = -220;
-	}
+	} //else { // no headshot
+	//	$nameModifier = -150;
+	//	$detailsModifier = -220;
+	//}
 
 	//
 	// Print team logo, name, num, pos, year
@@ -163,9 +165,9 @@ function getStatscard($id) {
 	}
 	$detailsGravity = "west";
 
-	if (!$size[0]) {
-		$detailsGravity = "center";
-	}
+	//if (!$size[0]) {
+	//	$detailsGravity = "center";
+	//}
 
 	$geos[] = array('type' => 'plainText', 'name' => 'details', 'x' => 630 + $detailsModifier, 'y' => 884 - $boxHeightModifier, 'w' => 880 - $detailsModifier, 'h' => 33, 'text' => $details, 'gravity' => $detailsGravity, 'font' => "fontN", 'color' => "white");
 
@@ -183,10 +185,10 @@ function getStatscard($id) {
 		}
 		$statsBoxWidth = 880;
 		$statsBoxX = 650;
-		if (!$size[0]) {
-			$statsBoxX = 525;
-			$statsBoxWidth = 950;
-		}
+		//if (!$size[0]) {
+		//	$statsBoxX = 525;
+		//	$statsBoxWidth = 950;
+		//}
 
 		$i = 1;
 		for (; strlen($slabel['l'.$i]) > 0; $i++) {	}
@@ -214,9 +216,9 @@ function getStatscard($id) {
 	} else if ($stype == 'dive' && $row['s2'] > 0) {
 
 		$centerMod = 0;
-		if (!$size[0]) {
-			$centerMod = -110;
-		}
+		//if (!$size[0]) {
+		//	$centerMod = -110;
+		//}
 
 		$numY = 970;
 		$labelY = 985;
