@@ -1,1 +1,5 @@
-SetEnv MAGICK_HOME "C:XAMPP/ImageMagick-6.4.9-Q8"
+<ifModule mod_headers.c>
+  <filesMatch "\\.(png)$">
+    Header set Cache-Control "no-cache"
+  </filesMatch>
+</ifModule>
