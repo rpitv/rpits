@@ -62,14 +62,26 @@ if (!$metrics) {
 
 $thumb = $canvas->clone();
 if ($player) {
-  $thumb->cropImage(427, 240, 350, 795);  
-  $thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
-  $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+	$thumb->cropImage(427, 240, 350, 795);
+	$thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
+	$thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+
+	// headshotless title generation for animation
+	$noHeadshot = getStatscard($player,["emptyHeadshot" => true]);
+	$noHeadshotCanvas = new Imagick();
+	$noHeadshotCanvas->newImage(1920, 1080, "none", IMGFMT);
+	$noHeadshotCanvas->setImageDepth(8);
+	$noHeadshotCanvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
+	foreach ($noHeadshot['geos'] as $geo) {
+		addGeoToCanvas($noHeadshotCanvas,$geo,$bustCache);
+	}
+	echo "why";
+	$noHeadshotCanvas->writeImage(realpath('out') . '/' . $filename . '_noHeadshot.' . IMGFMT);
 
 } else {
-  //$thumb->cropImage(1440, 1080, 0, 0);
-  $thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
-  $thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
+	//$thumb->cropImage(1440, 1080, 0, 0);
+	$thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);
+	$thumb->writeImage(realpath('thumbs') . '/' . $filename . '.' . IMGFMT);
 }
 
 timestamp('post thumbs');

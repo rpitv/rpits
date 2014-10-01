@@ -3,7 +3,7 @@
 include_once("include.php");
 include_once("imagick_include.php");
 
-function getStatscard($id) {
+function getStatscard($id,$o = []) {
 
 	$lastSeason = true; // sets last season flag
 
@@ -93,19 +93,25 @@ function getStatscard($id) {
 	$nameModifier = 0;
 	$detailsModifier = 0;
 
-	if ($size[0]) { // there is a headshot
-		if ($stype) {
-			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
-		} else {
-			$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
+	$useHeadshot = !!$size[0] || $o['emptyHeadshot'];
+
+	if ($useHeadshot) { // there is a headshot
+		if($size[0] && !$o['emptyHeadshot']) {
+			if ($stype) {
+				$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
+			} else {
+				$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'shadow' => 5, 'path' => $pPath);
+			}
+
+			// center align title and send to baseline if title is too narrow
+			if ($size[0] * 1.2 > $size[1]) {
+				$p['h'] = $size[1] / ($size[0] / $p['w']);
+				$p['y'] += 230 - $p['h'];
+			}
+
+			$geos[] = $p;
 		}
 
-		// center align title and send to baseline if title is too narrow
-		if ($size[0] * 1.2 > $size[1]) {
-			$p['h'] = $size[1] / ($size[0] / $p['w']);
-			$p['y'] += 230 - $p['h'];
-		}
-		
 		if ($stype == 'dive') {
 			if ($row['s2'] > 0) {
 				$nameModifier = 15;
@@ -116,7 +122,6 @@ function getStatscard($id) {
 		
 		$nameModifier = 40;
 
-		$geos[] = $p;
 	} else { // no headshot
 		$nameModifier = -150;
 		$detailsModifier = -220;
@@ -163,7 +168,7 @@ function getStatscard($id) {
 	}
 	$detailsGravity = "west";
 
-	if (!$size[0]) {
+	if (!$useHeadshot) {
 		$detailsGravity = "center";
 	}
 
@@ -174,16 +179,16 @@ function getStatscard($id) {
 	//
 
 	if ($stype && $stype != "txt" && $stype != 'dive') {
-		if ($lastSeason == true && !$size[0]) {
+		if ($lastSeason == true && !$useHeadshot) {
 			$geos[] = array('type' => 'plainText', 'name' => 'lastSeason', 'x' => 420, 'y' => 965, 'w' => 80, 'h' => 60, 'text' => 'Last\nSeason:', 'gravity' => "west", 'font' => "fontN", 'color' => "white");
-		} else if ($lastSeason == true) {
+		} else if ($lastSeason == true && !$o['emptyHeadshot']) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'lastSeason', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		} else if ($row["team"] == career) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'careerStats', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		}
 		$statsBoxWidth = 880;
 		$statsBoxX = 650;
-		if (!$size[0]) {
+		if (!$useHeadshot) {
 			$statsBoxX = 525;
 			$statsBoxWidth = 950;
 		}
@@ -214,7 +219,7 @@ function getStatscard($id) {
 	} else if ($stype == 'dive' && $row['s2'] > 0) {
 
 		$centerMod = 0;
-		if (!$size[0]) {
+		if (!$useHeadshot) {
 			$centerMod = -110;
 		}
 
