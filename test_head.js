@@ -24,9 +24,9 @@ function load_image_sequence(filename, count) {
  
 ({
 	/* background stats card image (without headshot) */
-	background: load_asset("/var/www/machac3/rpits/statscard_no_img/rpi-mh/PERSONGOESHERE.png"),
+	background: load_asset("BACKGROUND_REPLACEMENT_STRING"),
 	/* sequence of PNG headshots to use */
-	headshots: load_image_sequence("/var/www/machac3/rpits/anim_heads/rpi-mh/PERSONGOESHERE/PERSONGOESHERE", 230),
+	headshots: load_image_sequence("SEQUENCE_REPLACEMENT_STRING", 230),
 	/* where to position the background png */
 	background_x: 0,
 	background_y: 0,

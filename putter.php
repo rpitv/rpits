@@ -34,29 +34,44 @@ function do_post_request($url, $data, &$log, $optional_headers = null) {
 
 $path = $_GET["path"];
 $command = $_GET["command"];
+$server = $_GET["server"];
 
-if (strlen($command) > 0) {
+$data = "";
+if($server == 'animator') {
+
+	if($path) {
+		$data = file_get_contents($system_path_prefix . $path);
+		$command = 'script';
+		$log .= "Animator Script: $path, ";
+	} else {
+		$data = $command;
+		$command = 'command'; // does this make sense? OH WELL
+		$log .= "Animator Command: $data, ";
+	}
+	
+} else if (strlen($command) > 0) {
 
 	$log .= "Command: $command, ";
 	$headers = "Content-Length: 0\n";
-	$img = "";
 } else {
 	$command = "key";
 	$pre_get = microtime();
 	if (strlen($path) > 1) {
-		$img = file_get_contents("$path");
+		$data = file_get_contents("$path");
 		$log .= "PNG Path: $path, ";
 	}
-	if (!$img) {
-		$img = file_get_contents($system_path_prefix . "assets/blank.png");
+	if (!$data) {
+		$data = file_get_contents($system_path_prefix . "assets/blank.png");
 		$log .= "ERROR: Couldn't load title; clearing existing title";
 	}
 
 	$post_get = microtime();
 }
 
+$server_url = $server == 'animator' ? $animator_url : $keyer_url;
+
 $pre_post = microtime();
-$result = do_post_request($keyer_url . "/$command", $img, $log, $headers);
+$result = do_post_request($server_url . "/$command", $data, $log, $headers);
 $post_post = microtime();
 
 // re-write timing at some point

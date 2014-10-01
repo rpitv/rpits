@@ -80,7 +80,14 @@ ui.applyListeners = function() {
 			} else {
 				ui.program.on(selected);
 				ui.keyer.onProgram(selected,1);
-			}	
+			}
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_A) { 	// a, animates , starts animation over
+			if (ui.program.active()) {
+				ui.program.off();
+				ui.keyer.offProgram(1);
+			}
+			ui.program.on(selected,'animate');
+			ui.keyer.onProgram(selected,'animate');
 		} else if (event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
 			if ($("#input").is(":visible")) {
