@@ -9,9 +9,9 @@ $pre_post;
 $post_post;
 $log = sprintf("<b>%.3f</b> - ", fmod(microtime(true), 60));
 
-function do_post_request($url, $data, &$log, $optional_headers = null) {
+function do_request($method,$url, $data, &$log, $optional_headers = null) {
 	$params = array('http' => array(
-					'method' => 'POST',
+					'method' => $method,
 					'content' => $data
 					));
 	if ($optional_headers !== null) {
@@ -36,9 +36,10 @@ $path = $_GET["path"];
 $command = $_GET["command"];
 $server = $_GET["server"];
 
+$method = "POST";
 $data = "";
 if($server == 'animator') {
-
+	$method = "PUT";
 	if($path) {
 		$data = file_get_contents($system_path_prefix . $path);
 		$command = 'script';
@@ -71,7 +72,7 @@ if($server == 'animator') {
 $server_url = $server == 'animator' ? $animator_url : $keyer_url;
 
 $pre_post = microtime();
-$result = do_post_request($server_url . "/$command", $data, $log, $headers);
+$result = do_request($method,$server_url . "$command", $data, $log, $headers);
 $post_post = microtime();
 
 // re-write timing at some point
