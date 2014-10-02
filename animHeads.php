@@ -63,7 +63,7 @@ if (isset($_POST['fade_out'])){
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <h1> RPITS 'Hacked Up' Animated Title Generator </h1>
 <title>RPITS Animated Titles</title>
-<p>Press Enter to get an inputbox, type player in box, press enter again. This will put an image in preview. After pressing 'a', hopefully an animated title will run. Otherwise, prepare for crash. Space for fade_out</p>
+<p>Press Enter to get an inputbox, type player in box, press enter again. This will put an image in preview. After pressing 'a', hopefully an animated title will run. Otherwise, prepare for crash. Space for fade_out <br>Green box -> title in preview <br>Red box -> title on program (live)</p>
 </head>
 </html>
 
@@ -122,6 +122,7 @@ window.onkeyup = function(e) {
 				console.log("Successfully Loaded in: " + player);
 				$("#img").remove();
 				show_image("statscard_no_img/rpi-mh/" + player + ".png", 480, 270, player)
+				$("#img").css("border", "5px solid #00ff00");
 			}
 			else {
 				console.log("no match for " + query);
@@ -157,6 +158,7 @@ window.onkeyup = function(e) {
 					data: {player: player}
 				});
 			console.log("Animation playing for: " + player);
+			$("#img").css("border", "5px solid #ff0000");
 		}
 		else{
 			console.log("null player -> No animation");
