@@ -1,0 +1,17 @@
+<template>
+	<geos>
+		<slantRectangle name="LeftSub" x="325" y="970" w="300" h="50" color="#333" />
+
+
+		<slantRectangle name="Left" x="350" y="900" w="650" h="70" color="red" />
+
+
+		<shadowText name="LeftText" x="395" y="905" w="560" h="60" text="Left" color="white" gravity="west" font="fontN" />
+	
+
+		<shadowText name="LeftSubText" x="360" y="975" w="230" h="40" text="Left Sub" color="white" gravity="west" font="fontN" />
+
+
+	</geos>
+
+</template>

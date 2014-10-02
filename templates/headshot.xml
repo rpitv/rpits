@@ -1,0 +1,13 @@
+<template>
+	<name>Headshot Info</name>
+	<description>Single text box + title with headshot</description>
+	<geos>
+		<blackBox name="body" x="430" y="880" w="1060" h="120" />
+		<slantRectangle name="titleBar" x="400" y="820" w="1120" h="60" color="red"/>
+
+		<placeImage name="headshot" x="440" y="820" w="160" h="180" path="teams/rpi-mhimgs/RyanHaggerty.png" />
+		
+		<shadowText name="titleText" x="620" y="825" w="1000" h="50" gravity="west" font="fontN" color="white" text="Want to see it again?" />
+		<plainText name="bodyText" x="620" y="910" w="850" h="80" gravity="west" font="fontN" color="white" wordWrap="true" text="Visit rpitv.org tomorrow to see this game streaming on demand in high definition." />
+	</geos>
+</template>
