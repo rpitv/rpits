@@ -86,8 +86,12 @@ ui.applyListeners = function() {
 				ui.program.off();
 				ui.keyer.offProgram(1);
 			}
-			ui.program.on(selected,'animate');
-			ui.keyer.onProgram(selected,'animate');
+			if(selected.data('title').type == 'player') {
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			} else {
+				console.error('Animation not supported for non-player titles at this time.');
+			}
 		} else if (event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
 			if ($("#input").is(":visible")) {
