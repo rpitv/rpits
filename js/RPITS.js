@@ -239,7 +239,7 @@
 			if(!(title instanceof RPITS.ui.Title)) {
 				title = title.data('title');
 			}
-			this.doXHR(this.base + '?path=getAnimationScriptForTitle.php?type=' + title.type + '&id=' + title.id,callback,'animator');
+			this.doXHR(this.base + '?type=' + title.type + '&id=' + title.id,callback,'animator');
 		}
 
 		this.offProgram = function(duration) {

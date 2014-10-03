@@ -1,6 +1,7 @@
 <?php
 
 include("config.php");
+include("include.php");
 
 $time_start = microtime();
 $pre_get;
@@ -40,10 +41,14 @@ $method = "POST";
 $data = "";
 if($server == 'animator') {
 	$method = "PUT";
-	if($path) {
-		$data = file_get_contents($system_path_prefix . $path);
+	if($_GET["type"] && $_GET["type"] == 'player') {
+		$title = getStatscard($_GET["id"]);
+		$data = getAnimationScriptForTitle($title);
 		$command = 'script';
-		$log .= "Animator Script: $path, ";
+		$log .= "Animator Script: " . $_GET['type'] . ' ' . $_GET['id'];
+	} else if ($_GET["type"]) {
+		http_response_code(400);
+		die('Title type not supported for animation');
 	} else {
 		$data = $command;
 		$command = 'command'; // does this make sense? OH WELL
