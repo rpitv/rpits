@@ -266,7 +266,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	);
 
 	foreach ($geos as $geo) {
-		addGeoToCanvas($canvas, $geo);
+		addGeoToCanvas($canvas, $geo, $bustCache);
 	}
 }
 
