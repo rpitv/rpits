@@ -29,11 +29,16 @@ function periodLabel($period) {
 }
 
 function checkDBForName($name) {
-	$result = queryAssoc("SELECT CONCAT(first,' ',last) AS `fullName` FROM `players` HAVING `fullName` REGEXP '$name'");
+	$result = queryAssoc("SELECT CONCAT(first,' ',last) AS `fullName` FROM `players` HAVING `fullName` LIKE '$name'");
 	if ($result[0] && $result[0]["fullName"]) {
 		return $result[0]["fullName"];
 	} else {
-		return $name;
+		$result = queryAssoc("SELECT `last` FROM `players` WHERE `last` LIKE '$name'");
+		if ($result[0] && $result[0]["last"]) {
+			return $result[0]["last"];
+		} else {
+			return $name;
+		}
 	}
 }
 
