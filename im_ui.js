@@ -143,7 +143,7 @@ ui.applyListeners = function() {
 		} else if (event.keyCode == '70') { // f force render			
 			document.getElementById("render").click();
 		} else if (event.keyCode == '85') { // u updates all
-			document.getElementById("updateAll").click();
+			document.getElementById("updateFields").click();
 		}
 	});
 
