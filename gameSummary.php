@@ -87,7 +87,7 @@ function scoringPlay($score,$teams) {
 	}
 	plainText($play,array(
 		'text'=>$assistString,
-			'w'=>500,
+			'w'=>575,
 			'h'=>40,
 			'x'=>125,
 			'y'=>55,
