@@ -9,7 +9,7 @@ $eventId = $_GET["eventId"];
 
 function printEditableRow($row, $id, $type, $prop = false) {
 	$val = $row[$type];
-	$val = str_replace('\n', PHP_EOL, $val);
+	$val = htmlentities(str_replace('\n', PHP_EOL, $val));
 	$newlines = substr_count($val, PHP_EOL);
 	
 	$name = $row["name"];
