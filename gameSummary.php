@@ -151,8 +151,17 @@ function gameSummary(&$canvas,$o) {
 	$scores = getGameSummaryInfo($path);
 	$vOffset = 0;
 	$lastPeriod = 0;
+	$playIndex = 0;
 	foreach ($scores->score as $score) {
-		if ($vOffset+150 > $maxHeight) break;
+		$playIndex++;
+		if ($vOffset+150 > $maxHeight && $o["numPlays"] == "auto") {
+			break;
+		} else if ($o["numPlays"] != "auto" && $o["numPlays"]+$o["startIndex"] < $playIndex) {
+			break;
+		}
+		if ($o["startIndex"]+1 > $playIndex) {
+			continue;
+		}
 		if ($vOffset > 0) {
 			$plays->compositeImage(fillRectangle(960,2,'#FFF'),imagick::COMPOSITE_OVER,0,$vOffset);
 		}

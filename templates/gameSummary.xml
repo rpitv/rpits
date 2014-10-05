@@ -13,6 +13,8 @@
 
 			titleText="Scoring Summary"
 			barColor="red"
+			startIndex="0"
+			numPlays="auto"
 
 		/>
 	</geos>
