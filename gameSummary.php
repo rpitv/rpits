@@ -28,6 +28,15 @@ function periodLabel($period) {
 
 }
 
+function checkDBForName($name) {
+	$result = queryAssoc("SELECT CONCAT(first,' ',last) AS `fullName` FROM `players` HAVING `fullName` REGEXP '$name'");
+	if ($result[0] && $result[0]["fullName"]) {
+		return $result[0]["fullName"];
+	} else {
+		return $name;
+	}
+}
+
 function scoringPlay($score,$teams) {
 	$width = 980;
 	$height = 100;
@@ -45,8 +54,8 @@ function scoringPlay($score,$teams) {
 	$goal = explode(',',$score['name']);
 	$a1 = explode(',',$score['assist1']);
 	$a2 = explode(',',$score['assist2']);
-
-	$goalString = ucwords(strtolower($goal[0]));
+	
+	$goalString = checkDBForName(ucwords(strtolower($goal[0])));
 	if (strlen($score['seasong'])) {
 		$goalString .= ' (' . $score['seasong'] . ')';
 	}
@@ -65,13 +74,13 @@ function scoringPlay($score,$teams) {
 	$assistString = 'Unassisted';
 
 	if ($a1[0]) {
-		$assistString = ucwords(strtolower($a1[0]));
+		$assistString = checkDBForName(ucwords(strtolower($a1[0])));
 		if(strlen($score['seasona1'])) {
 			$assistString .= ' (' . $score['seasona1'] . ')';
 		}
 	}
 	if ($a2[0]) {
-		$assistString .= ', ' . ucwords(strtolower($a2[0]));
+		$assistString .= ', ' . checkDBForName(ucwords(strtolower($a2[0])));
 		if(strlen($score['seasona2'])) {
 			$assistString .= ' (' . $score['seasona2'] . ')';
 		}
