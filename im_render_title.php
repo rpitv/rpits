@@ -75,7 +75,6 @@ if ($player) {
 	foreach ($noHeadshot['geos'] as $geo) {
 		addGeoToCanvas($noHeadshotCanvas,$geo,$bustCache);
 	}
-	echo "why";
 	$noHeadshotCanvas->writeImage(realpath('out') . '/' . $filename . '_noHeadshot.' . IMGFMT);
 
 } else {
