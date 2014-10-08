@@ -26,7 +26,7 @@
       
 		if ($("#q"+title.id).length == 0) { // check for duplicates
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
-			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')" style="padding-left:8px; padding-right:8px;">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
+			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
 		} else if ($("#q"+title.id).css("background-color") == "rgb(0, 255, 0)") {
 			$("#q"+title.id).remove();
 			this.addToQueue(title,bustCache);
