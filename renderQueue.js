@@ -56,7 +56,7 @@
 			setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
 		}
 
-		$("#q"+tempID).fadeOut(400, function(){
+		$("#q"+tempID).fadeOut(400, function() {
 			$("#q"+tempID).remove();
 		});
 	},
@@ -95,10 +95,10 @@
 			return;
 		} else if ((process == 1) && (recursive == 0)) { // If processing is happening when called from the UI...
 			process = 0; // Pause the processing (naive)
-			$("#process").html("&#xe047;"); // Play Icon
+			$("#process div").html("&#xe047;"); // Play Icon
 		} else {
 			process = 1; // Processing starts
-			$("#process").html("&#xe049;"); // Pause Icon
+			$("#process div").html("&#xe049;"); // Pause Icon
 		}
 
 		var bustCache = this.queue[index].bustCache ? '&bustCache=true' : '';
@@ -128,7 +128,7 @@
 					setTimeout(this.processQueue(index, 1));
 				} else {
 					process = 0; // Processing has ended
-					setTimeout('$("#process").html("&#xe047;")', 801); // Play Icon (timed after color updates)
+					setTimeout('$("#process div").html("&#xe047;")', 801); // Play Icon (timed after color updates)
 					setTimeout( 'renderQueue.pruneQueue()' , 408); // Prune when finished
 				}
 			}.bind(renderQueue)
@@ -137,9 +137,6 @@
 
 	/////////////////////////////////////////////////////////////
 	pruneQueue: function() { // Remove finished jobs from list //
-		if (this.queue.length == 0) {
-			setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
-		}
 		$(".queueItem").each( function(i) {
 			if ($(this).css("background-color") == "rgb(0, 255, 0)") {
 				$(this).fadeOut(400, function(){
@@ -147,13 +144,16 @@
 				});
 			};
 		});
+		if (this.queue.length == 0) {
+			setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
+		}
 	},
 
 	///////////////////////////////////////////////////////////////
 	destroyQueue: function() { // Erase queue without predjudice //
 		if (this.queue.length == 0) { // Don't bother prompting if done
 			this.pruneQueue();
-		} else if(confirm("Permanently remove all jobs?")) {
+		} else if (confirm("Permanently remove all jobs?")) {
 			this.queue.length = 0;
 			$(".queueItem").each( function() {
 				$(this).remove();
@@ -268,7 +268,7 @@ $(document).ready( function() {
 	$("#renderQueue").hide(); // Hide queue status box until it is needed.
 
 	if (ui.eventId) { // Only in the LIVE UI
-		setTimeout(function(){scoreTitleUpdate( -9001, -9001, "Current Score")}, 1000); // Start auto score update
+		setTimeout(function(){ scoreTitleUpdate( -9001, -9001, "Current Score") }, 1000); // Start auto score update
 	}
 });
 
