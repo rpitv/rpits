@@ -75,12 +75,24 @@ ui.applyListeners = function() {
 					ui.keyer.offProgram(1);
 				} else {
 					ui.program.on(selected);
-					ui.keyer.put(selected);
+					ui.keyer.onProgram(selected,0);
+					ui.keyer.command('cut',undefined,'animator');
 				}
 			} else {
 				ui.program.on(selected);
 				ui.keyer.onProgram(selected,1);
-			}	
+			}
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_A) { 	// a, animates , starts animation over
+			if (ui.program.active()) {
+				ui.program.off();
+				ui.keyer.offProgram(1,'keyer');
+			}
+			if(selected.data('title').type == 'player') {
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			} else {
+				console.error('Animation not supported for non-player titles at this time.');
+			}
 		} else if (event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();
 			if ($("#input").is(":visible")) {

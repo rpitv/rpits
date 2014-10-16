@@ -323,4 +323,29 @@ function getHashForTitle($title) {
 	return $geoHash = hash('md4',json_encode($title['geos']));
 }
 
+function getAnimationScriptForTitle($title) {
+
+	// TEMPORARY: FIGURE OUT A BETTER LOCATION FOR THIS OR MOVE TO config.php
+	$animated_headshot_prefix = '/var/www/machac3/rpits/anim_heads/';
+
+	if ($title['type'] == 'player') {
+		$filename = $title["num"] . $title["first"] . $title["last"];
+
+		$headshotScript = file_get_contents('test_head.js');
+		$headshotScript = str_replace("SEQUENCE_REPLACEMENT_STRING", $animated_headshot_prefix . $title["team"] . '/' . $filename . '/' . $filename, $headshotScript);
+		$headshotScript = str_replace("BACKGROUND_REPLACEMENT_STRING", realpath('out/' . $filename . '_noHeadshot.png'), $headshotScript);
+
+		foreach($title['geos'] as $geo) {
+			if($geo['name'] == 'headshot') {
+				$headshotScript = str_replace("HEADSHOT_REPLACEMENT_STRING", realpath('cache/' . getGeoHash($geo) . '.tga'), $headshotScript);
+			}
+		}
+
+		return $headshotScript;
+
+	} else {
+		return false;
+	}
+}
+
 ?>

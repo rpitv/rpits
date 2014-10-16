@@ -6,6 +6,7 @@
 	RPITS.constants = {
 		KEYCODE: {
 			SPACEBAR: 32,
+			LETTER_A: 65,
 			LETTER_C: 67,
 			ENTER: 13,
 			LETTER_R: 82,
@@ -26,7 +27,7 @@
 		$('body').append(this.el);
 		this.title = null;
 
-		this.on = function(title) {
+		this.on = function(title,animated) {
 			if(!(title instanceof RPITS.ui.Title)) {
 				title = title.data('title');
 			}
@@ -34,7 +35,9 @@
 			title.listEl.addClass('selected on-'+this.options.id);
 			this.title = title;
 			this.el.addClass('on');
-			this.label.text(this.options.name + ' - ' + title.getDisplayName());
+			var labelText = this.options.name + ' - ' + title.getDisplayName();
+			labelText += animated ? ' - ANIMATING' : '';
+			this.label.text(labelText);
 			var image = $('<img src="out/'+title.getFilename() + '?rand=' + Date.now() +'">');
 			image.width(this.el.css('width'));
 			this.image.html(image);
@@ -210,7 +213,10 @@
 		this.base = options.base || 'putter.php';
 		this.el = $('<div id="loadTarget"></div>');
 
-		this.doXHR = function(url,callback) {
+		this.doXHR = function(url,callback,server) {
+			if(server) {
+				url += '&server=' + server;
+			}
 			$.get(url,function(data) {
 				console.log(data);
 				if(typeof callback === 'function') {
@@ -219,8 +225,8 @@
 			});
 		};
 
-		this.command = function(command,callback) {
-			this.doXHR(this.base + '?command=' + command,callback);
+		this.command = function(command,callback,server) {
+			this.doXHR(this.base + '?command=' + command,callback,server);
 		};
 
 		this.put = function(title,callback) {
@@ -229,11 +235,26 @@
 			}
 			this.doXHR(this.base + '?path=out/' + title.getFilename(),callback);
 		};
+		this.animate = function(title,callback) {
+			if(!(title instanceof RPITS.ui.Title)) {
+				title = title.data('title');
+			}
+			this.doXHR(this.base + '?type=' + title.type + '&id=' + title.id,callback,'animator');
+		}
 
-		this.offProgram = function(duration) {
+		this.offProgram = function(duration,server) {
 			this.title = null;
-			duration = duration || (this.title && this.title.durationOut) || DURATION_OUT;
-			this.command('dissolve_out/' + duration);
+			if(!server || server === 'keyer') {
+				duration = duration || (this.title && this.title.durationOut) || DURATION_OUT;
+				this.command('dissolve_out/' + duration);
+			}
+			if(!server || server === 'animator') {
+				if(duration > 1) {
+					this.command('fade_out',undefined,'animator');
+				} else {
+					this.command('cut',undefined,'animator');
+				}
+			}
 		}
 
 		this.onProgram = function(title,duration) {
@@ -242,10 +263,19 @@
 				title = title.data('title');
 			}
 			this.title = title;
-			duration = duration || title.durationIn || DURATION_IN;
-			this.put(title,function() {
-				this.command('dissolve_in/' + duration);
-			}.bind(this));
+			if(duration == "animate") {
+				this.animate(title);
+			} else {
+				
+				this.put(title,function() {
+					if(duration === 0) {
+						this.command('cut_in')
+					} else {
+						duration = duration || title.durationIn || DURATION_IN;
+						this.command('dissolve_in/' + duration);
+					}
+				}.bind(this));
+			}
 		};
 	};
 	window.RPITS = RPITS;
