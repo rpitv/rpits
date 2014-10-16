@@ -9,8 +9,6 @@ $page = fopen("http://www.collegehockeynews.com/stats/team/xxxx/$teamId","r");
 
 $contents = stream_get_contents($page);
 
-echo($contents);
-
 $values = parser($contents);
 
 echo "<table>";
