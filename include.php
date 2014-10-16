@@ -335,6 +335,12 @@ function getAnimationScriptForTitle($title) {
 		$headshotScript = str_replace("SEQUENCE_REPLACEMENT_STRING", $animated_headshot_prefix . $title["team"] . '/' . $filename . '/' . $filename, $headshotScript);
 		$headshotScript = str_replace("BACKGROUND_REPLACEMENT_STRING", realpath('out/' . $filename . '_noHeadshot.png'), $headshotScript);
 
+		foreach($title['geos'] as $geo) {
+			if($geo['name'] == 'headshot') {
+				$headshotScript = str_replace("HEADSHOT_REPLACEMENT_STRING", realpath('cache/' . getGeoHash($geo) . '.tga'), $headshotScript);
+			}
+		}
+
 		return $headshotScript;
 
 	} else {
