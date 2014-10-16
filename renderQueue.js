@@ -162,7 +162,7 @@
 }; }());
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) { // Auto-queue the lower third title on score change //
+function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lower third title on score change //
 
 	var url = "/scoreboard/";
 	var tempHome = -1;
@@ -175,9 +175,6 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) { // Auto-qu
 			return;
 		}
 	});
-
-	var tempStatus = "Current Score"
-	var updateStatus = scoreTitleId + "=gameStatus&text=" + tempStatus;
 
 	$.getJSON(url+"team/1", function(data) { // 1 is home
 		$.each(data, function(key, value) {
@@ -198,14 +195,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) { // Auto-qu
 						data: updateHome,
 						success: function() {
 							homeTeamScore = tempHome;
-							$.ajax({
-								type: "POST",
-								url: "cdb_update.php",
-								data: updateStatus,
-								success: function() {
-									window.renderQueue.addToQueue( scoreTitleId );
-								}
-							});
+							window.renderQueue.addToQueue( scoreTitleId );
 						}
 					});
 				}
@@ -234,14 +224,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) { // Auto-qu
 						data: updateAway,
 						success: function() {
 							awayTeamScore = tempAway;
-							$.ajax({
-								type: "POST",
-								url: "cdb_update.php",
-								data: updateStatus,
-								success: function() {
-									window.renderQueue.addToQueue( ScoreTitleId );
-								}
-							});
+							window.renderQueue.addToQueue( scoreTitleId );
 						}
 					});
 				}
@@ -251,7 +234,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus) { // Auto-qu
 		});
 	});
 
-	setTimeout(function(){ scoreTitleUpdate(homeTeamScore, awayTeamScore, gameStatus); }, 10000);
+	setTimeout(function(){ scoreTitleUpdate(homeTeamScore, awayTeamScore); }, 10000);
 };
 
 
@@ -266,7 +249,7 @@ $(document).ready( function() {
 	$("#renderQueue").hide(); // Hide queue status box until it is needed.
 
 	if (ui.eventId) { // Only in the LIVE UI
-		setTimeout(function(){ scoreTitleUpdate( -9001, -9001, "Current Score") }, 1000); // Start auto score update
+		setTimeout(function(){ scoreTitleUpdate(-9001, -9001) }, 1000); // Start auto score update
 	}
 });
 
