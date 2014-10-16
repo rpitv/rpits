@@ -178,6 +178,8 @@ ui.applyListeners = function() {
 			url: '/bugcontrol/dissolve_in/15',
 			type: 'POST',
 			success: function() {
+				$('.bug').fadeIn(500);
+
 				console.log("Bug Up");
 			},
 			error: function() {
@@ -190,6 +192,7 @@ ui.applyListeners = function() {
 			url: '/bugcontrol/dissolve_out/15',
 			type: 'POST',
 			success: function() {
+				$('.bug').fadeOut(500);
 				console.log("Bug Down");
 			},
 			error: function() {

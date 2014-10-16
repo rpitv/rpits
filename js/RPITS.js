@@ -21,8 +21,8 @@
 		this.el = $('<div id="' + options.id +'"></div>');
 		this.label = $('<div class="label">'+options.name+'</div>');
 		this.image = $('<div class="image"></div>');
-		this.el.append(this.label);
-		this.el.append(this.image);
+		this.bug = $('<div class="bug"></div>');
+		this.el.append(this.label, this.image, this.bug);
 		$('body').append(this.el);
 		this.title = null;
 
