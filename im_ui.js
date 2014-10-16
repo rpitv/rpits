@@ -75,7 +75,8 @@ ui.applyListeners = function() {
 					ui.keyer.offProgram(1);
 				} else {
 					ui.program.on(selected);
-					ui.keyer.put(selected);
+					ui.keyer.onProgram(selected,0);
+					ui.keyer.command('cut',undefined,'animator');
 				}
 			} else {
 				ui.program.on(selected);

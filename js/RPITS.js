@@ -262,9 +262,14 @@
 			if(duration == "animate") {
 				this.animate(title);
 			} else {
-				duration = duration || title.durationIn || DURATION_IN;
+				
 				this.put(title,function() {
-					this.command('dissolve_in/' + duration);
+					if(duration === 0) {
+						this.command('cut_in')
+					} else {
+						duration = duration || title.durationIn || DURATION_IN;
+						this.command('dissolve_in/' + duration);
+					}
 				}.bind(this));
 			}
 		};
