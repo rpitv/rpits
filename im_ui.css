@@ -90,20 +90,36 @@ body > div
 }
 #pane li
 {
-  font-size:24px;
-  width:100%;
-  height:40px;
-  line-height:40px;
-  padding-left:10px;
-  border-bottom:1px solid black;
+  font-size: 24px;
+  width: 100%;
+  border: solid 4px transparent;
+  border-left-style: none;
+  border-right-style: none;
+  line-height: 32px;
+  box-sizing: border-box;
+  height: 41px;
+  padding-left: 92px;
+  border-bottom: 1px solid black;
+  position: relative;
+}
+#pane li.selected
+{
+  font-weight: bold;
+  border-color: #aaaaff;
+  border-width: 4px;
+}
+#pane li:active
+{
+  border-color: #ffaaaa;
+  border-width: 4px;
 }
 #pane li img
 {
-  height:40px;
-  width:72px;
-  margin-right:10px;
-  /*margin: 0px -12px;*/
-  vertical-align:middle;
+  height: 40px;
+  width: 72px;
+  left: 10px;
+  top: -3px;
+  position: absolute;
 }
 .ui-sortable
 {
@@ -112,12 +128,6 @@ body > div
 .ui-sortable-helper
 {
   background:white;
-}
-#pane li:active
-{
-  border:4px solid #ffaaaa;
-  margin:-4px;
-  margin-bottom:-3px;
 }
 .on-program
 {
@@ -134,13 +144,6 @@ body > div
 .on-program
 {
   background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, red), color-stop(.5, transparent), to(transparent));
-}
-#pane .selected
-{
-  font-weight:bold;
-  border:4px solid #aaaaff;
-  margin:-4px;
-  margin-bottom:-3px;
 }
 .label
 {
