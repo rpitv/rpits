@@ -85,7 +85,7 @@ ui.applyListeners = function() {
 		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_A) { 	// a, animates , starts animation over
 			if (ui.program.active()) {
 				ui.program.off();
-				ui.keyer.offProgram(1);
+				ui.keyer.offProgram(1,'keyer');
 			}
 			if(selected.data('title').type == 'player') {
 				ui.program.on(selected,'animate');

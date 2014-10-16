@@ -242,14 +242,18 @@
 			this.doXHR(this.base + '?type=' + title.type + '&id=' + title.id,callback,'animator');
 		}
 
-		this.offProgram = function(duration) {
+		this.offProgram = function(duration,server) {
 			this.title = null;
-			duration = duration || (this.title && this.title.durationOut) || DURATION_OUT;
-			this.command('dissolve_out/' + duration);
-			if(duration > 1) {
-				this.command('fade_out',undefined,'animator');
-			} else {
-				this.command('cut',undefined,'animator');
+			if(!server || server === 'keyer') {
+				duration = duration || (this.title && this.title.durationOut) || DURATION_OUT;
+				this.command('dissolve_out/' + duration);
+			}
+			if(!server || server === 'animator') {
+				if(duration > 1) {
+					this.command('fade_out',undefined,'animator');
+				} else {
+					this.command('cut',undefined,'animator');
+				}
 			}
 		}
 
