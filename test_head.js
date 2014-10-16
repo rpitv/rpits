@@ -22,7 +22,7 @@ function load_image_sequence(filename, count) {
 	return result;
 }
 
-function load_static_headshot(bg_replacement_string) {
+function load_static_headshot_card(bg_replacement_string) {
 	//handle if we don't have a lookup
 	return load_asset(bg_replacement_string.substring(0, bg_replacement_string.length - 15) + '.png');
 }
@@ -32,7 +32,8 @@ function load_static_headshot(bg_replacement_string) {
 	background: load_asset("BACKGROUND_REPLACEMENT_STRING"),
 	/* sequence of PNG headshots to use */
 	headshots: load_image_sequence("SEQUENCE_REPLACEMENT_STRING", 230),
-	static_headshot: load_static_headshot("BACKGROUND_REPLACEMENT_STRING"),
+	static_headshot_card: load_static_headshot_card("BACKGROUND_REPLACEMENT_STRING"),
+	static_headshot: load_asset("HEADSHOT_REPLACEMENT_STRING"),
 	/* where to position the background png */
 	background_x: 0,
 	background_y: 0,
@@ -64,9 +65,20 @@ function load_static_headshot(bg_replacement_string) {
 	/* render one frame of the looped animation */
 	render: function() {
 	
-		if(this.headshots[0] == -1){
-			this.background = this.static_headshot;
+		if (this.headshots[0] == -1){
+			//fix offsets
+			this.headshot_x = this.headshot_x - 10;
+			this.headshot_y = this.headshot_y + 7;
+			
+			if (this.static_headshot == -1){
+				this.background = this.static_headshot_card;
+			}
+			
+			for (i = 0; i < this.headshots.length; i++) { 
+				this.headshots[i] = this.static_headshot;
+			}
 		}
+		
 	
 		//handle animating the stats card
 		if (this.done == false){
