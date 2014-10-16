@@ -8,7 +8,8 @@ $mysql_database_name = "rpits";
 $system_path_prefix = "http://127.0.0.1/rpits/";
 
 // Only necessary in order to communicate with an Exavideo keyer, can be ignored
-$keyer_url = "http://127.0.0.1:4567/"; // trailing slashes are important
+$keyer_url = "http://[::1]:4567/"; // trailing slashes are important
+$bug_keyer_url = "http://[::1]:3005/";
 
 define('IMGFMT','png'); // 'tga' also supported
 

@@ -11,6 +11,22 @@
 include("include.php");
 
 $eventId = $_GET["eventId"];
+
+$bug_state_json = file_get_contents($bug_keyer_url . 'state');
+$bug_info = json_decode($bug_state_json);
+//print_r($bug_info);
+
+if ($bug_info->state === 'down') {
+
+	?>
+	<script type="text/javascript">
+		$(document).ready( function() {
+			$('.bug').hide();
+		});
+	</script>
+	<?
+}
+
 ?>
 <script>
 	ui.dbName = '<?= $mysql_database_name ?>';
