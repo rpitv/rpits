@@ -161,7 +161,7 @@
     }
 }; }());
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lower third title on score change //
 
 	var url = "/scoreboard/";
@@ -196,6 +196,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lowe
 						success: function() {
 							homeTeamScore = tempHome;
 							window.renderQueue.addToQueue( scoreTitleId );
+							setTimeout( function() { window.renderQueue.processQueue(); }, 1000);
 						}
 					});
 				}
@@ -225,6 +226,8 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lowe
 						success: function() {
 							awayTeamScore = tempAway;
 							window.renderQueue.addToQueue( scoreTitleId );
+							setTimeout( function() { window.renderQueue.processQueue(); }, 1000);
+
 						}
 					});
 				}
