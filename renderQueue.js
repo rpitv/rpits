@@ -1,11 +1,9 @@
-// THIS FILE IS HOPEFULLY NO LONGER A TAB CHARACTER DISASTER
-
 (function() { window.renderQueue = {
 	queue: [],
 	process: 0,
 	
 	////////////////////////////////////////////////////////////////////////////
-    addToQueue: function(title, bustCache) { // Add a render job to the queue //
+	addToQueue: function(title, bustCache) { // Add a render job to the queue //
 		if (!(title instanceof RPITS.ui.Title)) {
 			var i = 0,foundTitle;
 			for (var key in ui.tabs.lists) {
@@ -23,7 +21,7 @@
 		if (this.queue.length == 0) { // Show queue if it was hidden
 			$("#renderQueue").fadeIn(400);
 		}
-      
+		
 		if ($("#q"+title.id).length == 0) { // check for duplicates
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
 			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
@@ -32,7 +30,7 @@
 			this.addToQueue(title,bustCache);
 		}
 	},
-    
+	
 	///////////////////////////////////////////////////////////////////////////////
 	removeFromQueue: function(castaway) { // Remove a single item from the queue //
 		var ttype = $("#"+castaway).attr("type");
@@ -79,7 +77,7 @@
 
 		var tempName = this.queue[destination+1].title.id;
 
-		$("#q"+tempTraveler[0].title.id).fadeOut(400, function(){
+		$("#q"+tempTraveler[0].title.id).fadeOut(400, function() {
 			$(this).insertBefore( $("#q"+tempName) );
 			$(this).fadeIn(400);
 		});

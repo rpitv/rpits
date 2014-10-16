@@ -24,7 +24,7 @@ function printEditableRow($id, $row, $value, $slabel) {
 
 	// replace s1-s8 with their informative labels
 	if (preg_match( '/^s[1-8]$/', $value) and $slabel[$value[1]+1]) {
-		$label_value = $slabel[$value[1]+1];
+		$label_value = $value . ' (' . $slabel[$value[1]+1] . ')';
 	} else if (preg_match( '/^s[1-8]$/', $value)) {
 		$label_value = $value . ' (hidden)'; // stats w/o label aren't rendered
 	} else {

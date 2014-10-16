@@ -124,14 +124,14 @@ body > div
 }
 .label
 {
-  display:inline-block;
+  display: inline-block;
+  pointer-events: none;
   background: rgba(0,0,0,.3);
-  position:relative;
-  top:0px;
-  text-align:center;
-  padding:5px;
+  position: relative;
+  top: 0px;
+  text-align: center;
+  padding: 5px;
   z-index: 3;
-
 }
 
 #help
