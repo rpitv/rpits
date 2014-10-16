@@ -21,12 +21,18 @@ function load_image_sequence(filename, count) {
 	
 	return result;
 }
+
+function load_static_headshot(bg_replacement_string) {
+	//handle if we don't have a lookup
+	return load_asset(bg_replacement_string.substring(0, bg_replacement_string.length - 15) + '.png');
+}
  
 ({
 	/* background stats card image (without headshot) */
 	background: load_asset("BACKGROUND_REPLACEMENT_STRING"),
 	/* sequence of PNG headshots to use */
 	headshots: load_image_sequence("SEQUENCE_REPLACEMENT_STRING", 230),
+	static_headshot: load_static_headshot("BACKGROUND_REPLACEMENT_STRING"),
 	/* where to position the background png */
 	background_x: 0,
 	background_y: 0,
@@ -57,6 +63,11 @@ function load_image_sequence(filename, count) {
 	back_opacity: 255,
 	/* render one frame of the looped animation */
 	render: function() {
+	
+		if(this.headshots[0] == -1){
+			this.background = this.static_headshot;
+		}
+	
 		//handle animating the stats card
 		if (this.done == false){
 		
