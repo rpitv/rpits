@@ -5,63 +5,117 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate"); 
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+include("include.php");
 ?>
 <html>
-<head> <title>RPITS Bug Selector</title></head>
+<head>
+<title>RPITS Bug Selector</title>
+<script src="js/lib/jquery-1.8.3.js" type="text/javascript"></script>
+<style>
+img {
+	width: 500px;
+	border: 1px solid black;
+	margin: 0 auto;
+	background-color: #eee;
+	background-image: linear-gradient(45deg, lightgray 25%, transparent 25%, transparent 75%, lightgray 75%, lightgray), 
+		linear-gradient(45deg, lightgray 25%, transparent 25%, transparent 75%, lightgray 75%, lightgray);
+	background-size:20px 20px;
+	background-position:0 0, 30px 30px;
+	border: 8px solid rgba(0, 0, 0, .5);
+}
+.bugBox {
+	display: inline-block;
+	width: 520px;
+	margin-top: 10px;
+	text-align: center;
+}
+.bugBox .words {
+	width: 502px;
+	margin: 0 auto;
+	text-align: left;
+}
+#allBugs {
+	clear: both;
+}
+</style>
+</head>
+
+<body>
 <h1>RPITS Bug Selector</h1>
 <hr>
-</html>
 
-
-<? php
-;
+<?php
 
 $setVal = "";
 if ($_GET['setBug'] != "") {
-$setVal = $_GET['setBug'];
+	$setVal = $_GET['setBug'];
 }
 
 $delVal = "";
 if ($_GET['deleteBug'] != "") {
-$delVal = $_GET['deleteBug'];
+	$delVal = $_GET['deleteBug'];
 }
 
 //delete file and auto go back
-if ($delVal != ""){
-unlink($delVal);
-echo "<script type ='text/javascript'> javascript:history.go(-1) </script>";
+if ($delVal != "") {
+	unlink($delVal);
+	echo "<script type ='text/javascript'> javascript:history.go(-1) </script>";
 }
 
 //set the bug and auto go back
-if ($setVal != ""){
-do_post_request("http://ip6-localhost:3005/key", file_get_contents($setVal));
-echo "<script type ='text/javascript'> javascript:history.go(-1) </script>";
+if ($setVal != "") {
+	do_post_request("http://ip6-localhost:3005/key", file_get_contents($setVal));
+	echo "<script type ='text/javascript'> javascript:history.go(-1) </script>";
 }
 
+
+?>
+<div id="currentBug" class="bugBox"></div>
+<script type="text/javascript">
+	$(document).ready( function() {
+		$("#currentBug").html('<img id="current" src="loadCurrentBug.php?n="' + Math.random() + '"/><br>Current Bug');
+	});
+</script>
+<?
+$bug_state_json = @file_get_contents($bug_keyer_url . 'state');
+if ($bug_state_json !== FALSE) {
+	$bug_info = json_decode($bug_state_json);
+	if ($bug_info->state === 'up') { // show if bug is LIVE
+		?>
+		<script type="text/javascript">
+			$(document).ready( function() {
+				$('#current').css('border', '8px solid red');
+			});
+		</script>
+		<?
+	}
+}
+?>
+</div>
+<hr>
+<div id="allBugs">
+<?
 
 //display all images in folder
 $dirname = dirname(__FILENAME__) . '/bugs/';
 $images = glob($dirname."*");
 foreach($images as $image) {
-echo '<img src="'.$image.'" width=500 border=1 style="background-color: #eee;
-							background-image: linear-gradient(45deg, lightgray 25%, transparent 25%, transparent 75%, lightgray 75%, lightgray), 
-							linear-gradient(45deg, lightgray 25%, transparent 25%, transparent 75%, lightgray 75%, lightgray);
-							background-size:20px 20px;
-							background-position:0 0, 30px 30px" /><br />';
-echo substr($image, strrpos($image, "/") + 1, 99);
-echo "<br>";
+	echo '<div class="bugBox"><img src="'.$image.'" /><br>';
+	echo substr($image, strrpos($image, "/") + 1, 99);
+	echo "<br>";
 
-//use this bug link
-echo '<a href=" ' .$_SERVER['REQUEST_URI']. "?setBug=" .$image. ' ">Use This Bug</a> <br>';
+	//use this bug link
+	echo '<div class="words"><a href=" ' .$_SERVER['REQUEST_URI']. "?setBug=" .$image. ' ">Use This Bug</a> <br>';
 
-//hard coded to not allow deletion of bug.png
-if (substr($image, strrpos($image, "/") + 1, 99) != "bug.png"){
-//delete this bug link
-echo '<a href=" ' .$_SERVER['REQUEST_URI']. "?deleteBug=" .$image. ' " onclick="return confirm(\'Are you sure you want to delete this file?\')">Delete This Bug</a> <br>';
-}
+	//hard coded to not allow deletion of bug.png
+	if (substr($image, strrpos($image, "/") + 1, 99) == "bug.png") {
+		echo '<br>'; //don't include delete bug link
+	} else {
+		echo '<a href=" ' .$_SERVER['REQUEST_URI']. "?deleteBug=" .$image. ' " onclick="return confirm(\'Are you sure you want to delete this file?\')">Delete This Bug</a> <br>';
+	}
 
-//line
-echo '<hr>';
+	//line
+	echo '</div></div>';
 }
 
 
@@ -92,9 +146,8 @@ function do_post_request($url, $data, $optional_headers = null) {
 
 
 ?>
-
-<html>
-<body>
+</div>
+<hr>
 <p>Upload another png to be used as a bug...</p>
 
 <script>

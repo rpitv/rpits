@@ -185,6 +185,7 @@ ui.applyListeners = function() {
 		});
 	});
 
+	// bug up/down controls
 	$(document).on('click','#bugUp',function() {
 		$('.bug').css('background', 'url(loadCurrentBug.php?n=' + Math.random()  + ') no-repeat');
 		$('.bug').css('background-size', 'contain');

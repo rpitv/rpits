@@ -16,10 +16,7 @@ $bug_state_json = @file_get_contents($bug_keyer_url . 'state');
 
 if ($bug_state_json !== FALSE) {
 	$bug_info = json_decode($bug_state_json);
-	//print_r($bug_info);
-
 	if ($bug_info->state === 'down') {
-
 		?>
 		<script type="text/javascript">
 			$(document).ready( function() {
