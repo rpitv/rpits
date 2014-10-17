@@ -1,6 +1,6 @@
 (function() { window.renderQueue = {
 	queue: [],
-	process: 0,
+	processing: 0,
 	
 	////////////////////////////////////////////////////////////////////////////
 	addToQueue: function(title, bustCache) { // Add a render job to the queue //
@@ -84,18 +84,22 @@
 
 	},
 
-	////////////////////////////////////////////////////////////////////////////////////
-	processQueue: function(index, recursive) { // Start rendering queue (single pass) //
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	processQueue: function(index, recursive, start_soft) { // Start rendering queue (single pass) //
 		index = index ? index : 0;
 
 		if (this.queue.length == 0) { // Don't mess with an empty queue
 			alert("Render Queue is already complete!");
 			return;
-		} else if ((process == 1) && (recursive == 0)) { // If processing is happening when called from the UI...
-			process = 0; // Pause the processing (naive)
+		} else if ((this.processing == 1) && (recursive == 0)) { // If processing is happening when called from the UI...
+			if (start_soft) {
+				return; // ignore this call if queue is already running
+			}
+
+			this.processing = 0; // Pause the processing (naive)
 			$("#process div").html("&#xe047;"); // Play Icon
 		} else {
-			process = 1; // Processing starts
+			this.processing = 1; // Processing starts
 			$("#process div").html("&#xe049;"); // Pause Icon
 		}
 
@@ -122,10 +126,10 @@
 			}.bind(renderQueue),
 			complete: function() {
 				// Check before recursively calling
-				if ((this.queue.length != 0) && (this.queue.length > index) && (process == 1)) {
+				if ((this.queue.length != 0) && (this.queue.length > index) && (this.processing == 1)) {
 					setTimeout(this.processQueue(index, 1));
 				} else {
-					process = 0; // Processing has ended
+					this.processing = 0; // Processing has ended
 					setTimeout('$("#process div").html("&#xe047;")', 801); // Play Icon (timed after color updates)
 					setTimeout( 'renderQueue.pruneQueue()' , 408); // Prune when finished
 				}
@@ -196,7 +200,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lowe
 						success: function() {
 							homeTeamScore = tempHome;
 							window.renderQueue.addToQueue( scoreTitleId );
-							setTimeout( function() { window.renderQueue.processQueue(); }, 1000);
+							setTimeout( function() { window.renderQueue.processQueue(0, 0, 1); }, 1000);
 						}
 					});
 				}
@@ -226,7 +230,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lowe
 						success: function() {
 							awayTeamScore = tempAway;
 							window.renderQueue.addToQueue( scoreTitleId );
-							setTimeout( function() { window.renderQueue.processQueue(); }, 1000);
+							setTimeout( function() { window.renderQueue.processQueue(0, 0, 1); }, 1000);
 
 						}
 					});

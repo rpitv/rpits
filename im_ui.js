@@ -181,7 +181,7 @@ ui.applyListeners = function() {
 					renderQueue.addToQueue(list.getTitleById(id),bustCache);
 				}
 			}
-			if (added) renderQueue.processQueue();
+			if (added) renderQueue.processQueue(0, 0, 1); // soft start
 		});
 	});
 
@@ -195,7 +195,7 @@ ui.applyListeners = function() {
 				console.log("Bug Up");
 			},
 			error: function() {
-				console.log("Error: unable to toggle bug up");
+				console.log("Error: unable to toggle bug up.");
 			}
 		});
 	});
