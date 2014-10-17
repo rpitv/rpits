@@ -182,10 +182,15 @@ echo '</div>'
 		});
 	});
 
-	$(document).ready(function() {	
+	$(document).ready(function() {
+		$(".row .label:contains('Color'), .row .label:contains('color')").each( function() {
+			var temp1 = $(this).next().children().children().last();
+			$('<span class="startPicker">&#xe01e;</span>').insertBefore( temp1 );
+		});
+
 		$(".startPicker").each(function() {
 			$(this).bind( "click", function() {
-				var box = $(this).parent().children("[name='color']");
+				var box = $(this).prev();
 				box.addClass('color');
 				jscolor.init();
 				box.focus();
