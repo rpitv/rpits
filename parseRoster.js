@@ -5,7 +5,6 @@ function parse_CHS_for_player(stats, p) {
 	for (i; i<stats.length; i++) {
 		// find the current player (hacky)
 		if (parseInt(stats[i][0]+stats[i][1]) == p.number) {
-			//alert(stats[i]);
 
 			if (!p.stype) { p.stype = 'ho'; } else { continue; }
 
@@ -123,7 +122,6 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 
 					break;
 				case 7: // parse age (M), hometown + etc. (W)
-					//player.age += $(this).text().trim();
 					if (num_rows == 8) {
 						player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
 					}

@@ -141,7 +141,7 @@ if ($csv) {
 } else { 
 ?>
 
-<form id="CHSabbr" action="addteamcsv.php">
+<form id="CHSabbr" action="addTeamCsv.php">
 	<label>Enter CollegeHockeyStats abbreviation: 
 		<input type="text" name="pull_url" size="10" maxlength="4" />
 		<input type="submit" name="pull" onclick=""></button>
@@ -150,7 +150,7 @@ if ($csv) {
 <!--<button id="CHSbutton" onclick="parse_table_HTML($('#other_page').html());">Parse CHS</button>-->
 
 <div id="boxSIDEARM">
-	<form id=parseSIDEARM" action="addteamcsv.php">
+	<form id=parseSIDEARM" action="addTeamCsv.php">
 		<label>Parse SIDEARM:
 			<div id="urlSIDEARM" style="display: inline;">
 				<input type="text" name="sidearm_url" size="80" />
@@ -173,7 +173,7 @@ if ($csv) {
 </div>
 
 <br/>
-<form action="addteamcsv.php" method="POST" onsubmit="return validateFinalSubmission();">
+<form action="addTeamCsv.php" method="POST" onsubmit="return validateFinalSubmission();">
 	<label>Team Name: <input id="team_box" type="text" name="team_sel" size="10" /> (Form: organization-team)</label>
 	<p>Entries should be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8<br/>
 	Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>

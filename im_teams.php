@@ -13,19 +13,19 @@ $(function() {
 		uneditableColumns: ['id'],
 		element: $('#teamsList'),
 		displayFunction: {
-      org: function(organ) {
-        return $('<a href="im_organizations.php">'+organ+'</a>');
-      },
+		org: function(organ) {
+			return $('<a href="im_organizations.php">'+organ+'</a>');
+		},
 			chn_id: function(id) {
-				if(id != 0) {
+				if (id != 0) {
 					return $('<a href="statsloader.php?tid='+id+'">'+id+'</a>');
 				} else {
 					return 'N/A';
 				}
 			},
 			chs_abbrev: function(chs) {
-				if(chs) {
-					return $('<a href="addteamcsv.php?pull_url='+chs+'&pull=Submit">'+chs+'</a>');
+				if (chs) {
+					return $('<a href="addTeamCsv.php?pull_url='+chs+'&pull=Submit">'+chs+'</a>');
 				} else {
 					return '';
 				}
@@ -36,19 +36,19 @@ $(function() {
 
 });
 
-$(document).ready( function(){
+$(document).ready( function() {
 
-  $("#UpdateAllCHN").click( function(){
+  $("#UpdateAllCHN").click( function() {
     $("#details").empty(); // get rid of old update info (if any)
-    $(".erow").each( function(){
+    $(".erow").each( function() {
       var chn_id = $(this).find(".chn_id a").text();
       if ($.isNumeric(chn_id)) {
         var team_name = $(this).find(".player_abbrev").text();
-        $("<div>").load("statsloader.php?tid="+chn_id, function(){
+        $("<div>").load("statsloader.php?tid="+chn_id, function() {
           $("#details").append( '<div><h3><a href="im_peditor.php?team_sel='+team_name+'">'+team_name+'</a></h3>'+$(this).html()+'</div>' );
         });
       }
-    }).promise().done(function(){
+    }).promise().done(function() {
       if ($("#header span").size()==0) { // only show stats message if not there
         $("#header").append('<span>Stats Updated, details <a href="#details">below the table</a>.</span>');
       }
@@ -58,10 +58,9 @@ $(document).ready( function(){
 
 </script>
 <style type="text/css">
-  #teamsList table {
-    margin-top: 1em;
-  }
-
+	#teamsList table {
+		margin-top: 1em;
+	}
 	#teamsList tr {
 		height:30px;
 	}
@@ -74,19 +73,19 @@ $(document).ready( function(){
 	#teamsList th {
 		text-align: left;
 	}
-	t#teamsList r.erow td.action {
+	#teamsList r.erow td.action {
 		width:150px;
 	}
 
-  #details div {
-    min-width: 300px;
-    min-height: 850px;
-    float: left;
-    clear: right;
-  }
-  #details h3 {
-    margin-bottom: .2em;
-  }
+	#details div {
+		min-width: 300px;
+		min-height: 850px;
+		float: left;
+		clear: right;
+	}
+	#details h3 {
+		margin-bottom: .2em;
+	}
 </style>
 <div id="header">
   <h1>Teams</h1>

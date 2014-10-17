@@ -19,7 +19,7 @@ include('init.php');
 	<li><a href="im_event_title.php">Event / Title List editor</a> - Customize the list of titles to be displayed in the UI.</li>
 	<li><a href="im_peditor.php">Player/Roster Editor</a> - Edit individual players' details/stats, control which players are on which teams</li>
 	<li><a href="im_teams.php">Teams editor</a> and <a href="im_organizations.php">Organizations editor</a> - Edit teams and their respective organizations.</li>
-	<li><a href="addteamcsv.php">Add a Roster</a> - Add players and their stats to a team.</li>
+	<li><a href="addTeamCsv.php">Add a Roster</a> - Add players and their stats to a team.</li>
 	<li><a href="stypeEditor.php">Stat Type label editor</a> - Edit labels associated with stats.</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache.</li>
 	<li><a href="bugSelector.php">Bug Selector</a> - Select a 1920x1080 .PNG file for use as a broadcast bug.</li>
