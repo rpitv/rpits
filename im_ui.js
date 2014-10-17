@@ -186,16 +186,17 @@ ui.applyListeners = function() {
 	});
 
 	$(document).on('click','#bugUp',function() {
+		$('.bug').css('background', 'url(loadCurrentBug.php?n=' + Math.random()  + ') no-repeat');
+		$('.bug').css('background-size', 'contain');
 		$.ajax({
 			url: '/bugcontrol/dissolve_in/15',
 			type: 'POST',
 			success: function() {
 				$('.bug').fadeIn(500);
-
 				console.log("Bug Up");
 			},
 			error: function() {
-				console.log("Error: unable to toggle bug up.");
+				console.log("Error: Unable to toggle bug up.");
 			}
 		});
 	});
@@ -208,7 +209,7 @@ ui.applyListeners = function() {
 				console.log("Bug Down");
 			},
 			error: function() {
-				console.log("Error: unable to toggle bug down");
+				console.log("Error: Unable to toggle bug down.");
 			}
 		});
 	});
