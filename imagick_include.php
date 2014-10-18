@@ -288,8 +288,7 @@ function filledPolygon(&$canvas, $o, $points) {
 function fillRectangle($w,$h,$color) {
 	if (preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
 		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
-		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
-$groups = explode(',',$commaRemoved);
+		$groups = explode(',',$commaRemoved);
 		$direction = explode(' ',trim($groups[0]));
 		$stops = [];
 
