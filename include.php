@@ -106,7 +106,7 @@ function addGeoToCanvas($canvas,$geo,$bustCache = false) {
 }
 
 function renderGeo($geo) {
-	$x = 10; $y = 10; $w = 20; $h = 20;
+	$x = 10; $y = 10; $w = 25; $h = 25;
 	$canvas = new Imagick();
 	$canvas->newImage($geo["w"] + $x + $w, $geo["h"] + $y + $h, "none", 'tga');
 	$canvas->setImageDepth(8);
