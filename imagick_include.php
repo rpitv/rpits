@@ -3,7 +3,7 @@
 $gravities = array("west" => imagick::GRAVITY_WEST, "center" => imagick::GRAVITY_CENTER, "east" => imagick::GRAVITY_EAST);
 $fonts = array("fontN" => "fonts/GothamNarrow-Bold.otf", "font" => "fonts/Gotham-Bold.ttf", "fontX" => "fonts/GothamXNarrow-Bold.otf");
 
-function slantRectangle(&$canvas, $o) {
+function oldSlantRectangle(&$canvas, $o) {
 	$background = "#FFFFFF";
 	//$ltr = '#000000';
 	$ltr = '#888';
@@ -117,6 +117,169 @@ function slantRectangle(&$canvas, $o) {
 
 
 		$canvas->compositeImage($im2, imagick::COMPOSITE_OVER, $o['x'] - 10, $o['y'] - 10);
+	} catch (Exception $e) {
+		echo 'Error: ', $e->getMessage(), "";
+	}
+}
+
+function rectangle (&$canvas, $o) {
+	$points = array(array('x' => 0, 'y' => $o['h'] - 1), array('x' => 0, 'y' => 0), array('x' => $o['w'] - 1, 'y' => 0), array('x' => $o['w'] - 1, 'y' => $o['h'] - 1));
+	filledPolygon($canvas, $o, $points);
+}
+
+function slantRectangle(&$canvas, $o) {
+	$points = array(array('x' => 0, 'y' => $o['h'] - 1), array('x' => ($o['h'] / 2) - 1, 'y' => 0), array('x' => $o['w'] - 1, 'y' => 0), array('x' => $o['w'] - ($o['h'] / 2) - 1, 'y' => $o['h'] - 1));
+	filledPolygon($canvas, $o, $points);
+}
+
+function filledPolygon(&$canvas, $o, $points) {
+	
+	try {
+		// Black Mask / Alpha
+		//
+		// Consists of a darker section in the horizontal center, a dark gradient down
+		// from the vertical half line, and a dark gradient up from the bottom
+
+		$darkenCenterStrength = '#AAA';
+		$darkenCenterBase = '#444';
+
+		$lowerDarkenStrength = '#888';
+		$lowerDarkenBase = '#000';
+
+		// center darken is 3/8 light-to-dark gradient, 1/4 continuous dark, and 3/8 dark-to-light
+
+		$leftDarkenCenter = new Imagick();
+		$leftDarkenCenter->newPseudoImage($o['h'], $o['w'] * 3 / 8, "gradient:$darkenCenterBase-$darkenCenterStrength");
+		$leftDarkenCenter->rotateImage(new ImagickPixel(), 270); // Imagick gradients are top-to-bottom by default, so rotate 270 to make them left-to-right
+		
+		$rightDarkenCenter = new Imagick();
+		$rightDarkenCenter->newPseudoImage($o['h'], $o['w'] * 3 / 8, "gradient:$darkenCenterStrength-$darkenCenterBase");
+		$rightDarkenCenter->rotateImage(new ImagickPixel(), 270);
+
+		$blackMask = new Imagick();
+		$blackMask->newPseudoImage($o['w'], $o['h'], "xc:$darkenCenterStrength");
+		$blackMask->compositeImage($leftDarkenCenter, imagick::COMPOSITE_OVER, 0, 0);
+		$blackMask->compositeImage($rightDarkenCenter, imagick::COMPOSITE_OVER, $o['w'] * 5 / 8, 0);
+
+		$topDarkenLower = new Imagick();
+		$topDarkenLower->newPseudoImage($o['w'], $o['h'] / 7, "gradient:$lowerDarkenStrength-$lowerDarkenBase");
+		$bottomDarkenLower = new Imagick();
+		$bottomDarkenLower->newPseudoImage($o['w'], $o['h'] / 7, "gradient:$lowerDarkenBase-$lowerDarkenStrength");
+
+		$blackMask->compositeImage($topDarkenLower, imagick::COMPOSITE_SCREEN, 0, $o['h'] / 2);
+		$blackMask->compositeImage($bottomDarkenLower, imagick::COMPOSITE_SCREEN, 0, $o['h'] / 2 +($o['h'] / 2) - ceil($o['h'] / 7));
+
+		$black = fillRectangle($o['w'], $o['h'], 'black');
+		$black->compositeImage($blackMask, imagick::COMPOSITE_COPYOPACITY, 0, 0);
+
+		// White Mask / Alpha
+		//
+		// Consists solely of a white gradient up from the vertical half line
+
+		$whiteStrength = '#C0C0C0';
+		$whiteBase = '#555';
+
+		$lightenUp = new Imagick();
+		$lightenUp->newPseudoImage($o['w'], $o['h'] / 2, "gradient:$whiteBase-$whiteStrength");
+
+		$whiteMask = new Imagick();
+		$whiteMask->newPseudoImage($o['w'], $o['h'], "xc:black");
+		$whiteMask->compositeImage($lightenUp, imagick::COMPOSITE_OVER,0,0);
+
+		$white = fillRectangle($o['w'], $o['h'], 'white');
+		$white->compositeImage($whiteMask, imagick::COMPOSITE_COPYOPACITY, 0, 0);
+
+		// Composite color masks onto filled background
+
+		$background = fillRectangle($o['w'], $o['h'], $o['color']);
+		$background->compositeImage($black, imagick::COMPOSITE_OVER, 0,0);
+		$background->compositeImage($white, imagick::COMPOSITE_OVER, 0,0);
+
+		// Set Up Geometry / Shape
+
+		// nudge points to make sure we allow room for shadows/strokes
+		for ($i = 0; $i < 4; $i++) {
+			$points[$i]['x']+=10;
+			$points[$i]['y']+=10;
+		}
+		$shape = new Imagick();
+		$shape->newPseudoImage($o['w']+20, $o['h']+20, "xc:none");
+
+		$shapeDraw = new ImagickDraw();
+		$shapeDraw->setFillColor('white');
+		$shapeDraw->polygon($points);
+
+		$shape->drawImage($shapeDraw);
+
+		//
+		// Inner Shadow
+		//
+
+		$innerShadowBlur = 4;
+
+		$innerShadow = new Imagick();
+		$innerShadow->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:none");
+		$innerShadow->compositeImage(fillRectangle($o['w'] + 20, $o['h'] + 20, "black"),imagick::COMPOSITE_OVER,0,0);
+		$innerShadow->compositeImage($shape, imagick::COMPOSITE_DSTOUT,0,0,imagick::CHANNEL_ALPHA); // punch out shape
+
+		// inner shadow needs a stroke to make it a bit stronger
+		$shadowStroke = new ImagickDraw();
+		$shadowStroke->setStrokeWidth(3); 
+		$shadowStroke->setStrokeColor("black");
+		$shadowStroke->setFillColor("none");
+		$shadowStroke->polygon($points);
+		$innerShadow->drawImage($shadowStroke);
+
+		$innerShadow->blurImage(0, $innerShadowBlur, imagick::CHANNEL_ALPHA);
+
+		$background->compositeImage($innerShadow,imagick::COMPOSITE_OVER,-10,-10);
+
+		//
+		// Cut background to shape
+		//
+
+		$filledShape = new Imagick();
+		$filledShape->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:none");
+		$filledShape->compositeImage($background, imagick::COMPOSITE_OVER, 10, 10);
+		$filledShape->compositeImage($shape, imagick::COMPOSITE_DSTIN,0,0,imagick::CHANNEL_ALPHA);
+
+		//
+		// Drop Shadow
+		//
+
+		$shadowDistance = 5;
+		$shadowBlur = 4;
+
+		$shadow = new Imagick();
+		$shadow->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:black");
+		$shadow->compositeImage($shape, imagick::COMPOSITE_COPYOPACITY, 0, 0);
+		$shadow->blurImage(0, $shadowBlur, imagick::CHANNEL_ALPHA);
+
+		// Final compositing
+
+		$base = new Imagick();
+		$base->newPseudoImage($o['w'] + 25, $o['h'] + 25, "xc:none");
+
+		$base->compositeImage($shadow, imagick::COMPOSITE_OVER, $shadowDistance, $shadowDistance);
+
+		$stroke = new ImagickDraw();
+		$stroke->setFillColor('none');
+		$stroke->setStrokeWidth(6);
+		$stroke->setStrokeColor("black");
+		$stroke->polygon($points);
+		$stroke->setStrokeWidth(2);
+		$stroke->setStrokeColor("white");
+		$stroke->polygon($points);
+		$base->drawImage($stroke);
+
+		// knock out shadow and inner stroke incase filled shape color is transparent
+		$base->compositeImage($shape, imagick::COMPOSITE_DSTOUT, 0, 0, imagick::CHANNEL_ALPHA);
+
+		$base->compositeImage($filledShape, imagick::COMPOSITE_OVER, 0, 0);
+
+		$canvas->compositeImage($base, imagick::COMPOSITE_OVER, $o['x']-10, $o['y']-10);
+		return;
+
 	} catch (Exception $e) {
 		echo 'Error: ', $e->getMessage(), "";
 	}
