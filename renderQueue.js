@@ -2,8 +2,8 @@
 	queue: [],
 	processing: 0,
 	
-	////////////////////////////////////////////////////////////////////////////
-	addToQueue: function(title, bustCache) { // Add a render job to the queue //
+
+	addToQueue: function(title, bustCache) { // Add a render job to the queue
 		if (!(title instanceof RPITS.ui.Title)) {
 			var i = 0,foundTitle;
 			for (var key in ui.tabs.lists) {
@@ -27,12 +27,12 @@
 			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
 		} else if ($("#q"+title.id).css("background-color") == "rgb(0, 255, 0)") {
 			$("#q"+title.id).remove();
-			this.addToQueue(title,bustCache);
+			this.addToQueue(title, bustCache);
 		}
 	},
-	
-	///////////////////////////////////////////////////////////////////////////////
-	removeFromQueue: function(castaway) { // Remove a single item from the queue //
+
+	removeFromQueue: function(castaway) {
+	// Remove a single item from the queue
 		var ttype = $("#"+castaway).attr("type");
 		var index, i;
 		//var index = this.queue.indexOf({'id':castaway, 'type':ttype});
@@ -50,17 +50,16 @@
 		var tempID = this.queue[index].title.id;
 		this.queue.splice(index, 1);
 
-		if (this.queue.length == 0) {
-			setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
-		}
-
 		$("#q"+tempID).fadeOut(400, function() {
 			$("#q"+tempID).remove();
+			if (renderQueue.queue.length == 0) {
+				$("#renderQueue").fadeOut(400); // Hide empty queue
+			}
 		});
 	},
 
-	//////////////////////////////////////////////////////////////////////////////
-	moveInQueue: function(destination, traveler) { // Move an item in the queue //
+	moveInQueue: function(destination, traveler) {
+	// Move an item in the queue
 		var ttype = $("#"+traveler).attr("type");
 
 		var startIndex, i, index;
@@ -84,20 +83,21 @@
 
 	},
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	processQueue: function(index, recursive, start_soft) { // Start rendering queue (single pass) //
+	processQueue: function(index, recursive, start_soft) {
+	// Start rendering queue (single pass)
 		index = index ? index : 0;
 
-		if (this.queue.length == 0) { // Don't mess with an empty queue
+		if ((this.queue.length == 0) && (recursive == 0)) { // don't start empty queue
 			alert("Render Queue is already complete!");
 			return;
-		} else if ((this.processing == 1) && (recursive == 0)) { // If processing is happening when called from the UI...
+		} else if ((this.processing == 1) && (recursive == 0)) { // pause condition
 			if (start_soft) {
 				return; // ignore this call if queue is already running
 			}
 
-			this.processing = 0; // Pause the processing (naive)
+			this.processing = 0; // Pause the processing (sending new jobs)
 			$("#process div").html("&#xe047;"); // Play Icon
+			return;
 		} else {
 			this.processing = 1; // Processing starts
 			$("#process div").html("&#xe049;"); // Pause Icon
@@ -106,54 +106,59 @@
 		var bustCache = this.queue[index].bustCache ? '&bustCache=true' : '';
 		var url_str = this.queue[index].title.getRenderURL() + bustCache;
 
-		$.ajax({	// Render a title 
-			type: "GET",
-			url: url_str,
-			accepts: "image/png",
-			async: true,
-			timeout: 20000,
-			success: function(data) {
-				$("#q"+this.queue[index].title.id).fadeOut(400, function() {
-					$(this).css("background-color", "00FF00"); // Mark as green on the list
-				});
-				$("#q"+this.queue[index].title.id).fadeIn(400);
+		$("#q"+this.queue[index].title.id).fadeOut(400, function() {
+			$(this).css("background-color", "rgba(255, 255, 0, .5)"); // mark pending as yellow
+			$(this).fadeIn(400, function() {
 
-				this.queue.splice(index,1); // Remove first element from queue (it is now done)
-			}.bind(renderQueue),
-			error: function() {
-				$("#q"+this.queue[index].title.id).css("background-color", "FF0000"); // Mark as red on list
-				index += 1;
-			}.bind(renderQueue),
-			complete: function() {
-				// Check before recursively calling
-				if ((this.queue.length != 0) && (this.queue.length > index) && (this.processing == 1)) {
-					setTimeout(this.processQueue(index, 1));
-				} else {
-					this.processing = 0; // Processing has ended
-					setTimeout('$("#process div").html("&#xe047;")', 801); // Play Icon (timed after color updates)
-					setTimeout( 'renderQueue.pruneQueue()' , 408); // Prune when finished
-				}
-			}.bind(renderQueue)
+				$.ajax( {	// Render a title 
+					type: "GET",
+					url: url_str,
+					accepts: "image/png",
+					async: true,
+					timeout: 20000,
+					success: function(data) {
+						$("#q"+this.queue[index].title.id).fadeOut(400, function() {
+							$(this).css("background-color", "rgba(0, 255, 0, .5)"); // mark completed as green
+							$(this).fadeIn(400, function() {
+								renderQueue.queue.splice(index,1); // Remove this element from queue (it is now done)
+								if ((renderQueue.queue.length == 0) || (index >= renderQueue.queue.length)) {
+									this.processing = 0; // Processing has ended
+									$("#process div").html("&#xe047;"); // Play Icon
+									renderQueue.pruneQueue();
+								} else if (renderQueue.processing == 1) {
+									renderQueue.processQueue(index, 1);
+								}
+							});
+						});
+					}.bind(renderQueue),
+					error: function() {
+						$("#q"+this.queue[index].title.id).css("background-color", "FF0000"); // Mark as red on list
+						index += 1;
+						this.processQueue(index, 1);
+					}.bind(renderQueue)
+				});
+
+			});
 		});
 	},
 
-	/////////////////////////////////////////////////////////////
-	pruneQueue: function() { // Remove finished jobs from list //
+	pruneQueue: function(noHide) {
+	// Remove finished jobs from list
 		$(".queueItem").each( function(i) {
-			if ($(this).css("background-color") == "rgb(0, 255, 0)") {
-				$(this).fadeOut(400, function(){
+			if ($(this).css("background-color") == "rgba(0, 255, 0, 0.498039)") {
+				$(this).fadeOut(400, function() {
 					$(this).remove();
+					if ((renderQueue.queue.length == 0) && (noHide != 1)) {
+						$("#renderQueue").fadeOut(400); // Hide empty queue
+					}
 				});
 			};
 		});
-		if (this.queue.length == 0) {
-			setTimeout('$("#renderQueue").fadeOut(400)', 401); // Hide empty queue
-		}
 	},
 
-	///////////////////////////////////////////////////////////////
-	destroyQueue: function() { // Erase queue without predjudice //
-		if (this.queue.length == 0) { // Don't bother prompting if done
+	destroyQueue: function() {
+	// Erase queue without predjudice
+		if (this.queue.length == 0) {
 			this.pruneQueue();
 		} else if (confirm("Permanently remove all jobs?")) {
 			this.queue.length = 0;
@@ -165,9 +170,7 @@
     }
 }; }());
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lower third title on score change //
-
+function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lower third title on score change
 	var url = "/scoreboard/";
 	var tempHome = -1;
 	var tempAway = -1;
