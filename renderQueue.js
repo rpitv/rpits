@@ -122,11 +122,13 @@
 							$(this).fadeIn(400, function() {
 								renderQueue.queue.splice(index,1); // Remove this element from queue (it is now done)
 								if ((renderQueue.queue.length == 0) || (index >= renderQueue.queue.length)) {
-									this.processing = 0; // Processing has ended
+									renderQueue.processing = 0; // Processing has ended
 									$("#process div").html("&#xe047;"); // Play Icon
 									renderQueue.pruneQueue();
 								} else if (renderQueue.processing == 1) {
 									renderQueue.processQueue(index, 1);
+								} else {
+									renderQueue.processing = 0;
 								}
 							});
 						});
@@ -170,18 +172,23 @@
     }
 }; }());
 
-function scoreTitleUpdate(homeTeamScore, awayTeamScore) { // Auto-queue the lower third title on score change
+function scoreTitleUpdate(homeTeamScore, awayTeamScore) {
+// Auto-queue the lower third title on score change
 	var url = "/scoreboard/";
 	var tempHome = -1;
 	var tempAway = -1;
 	var scoreTitleId = -1;
 
 	$("#pane ul li").each( function() {
-		if ($(this).text().indexOf("Score Lower Third") > 0) {
+		if ($(this).text().indexOf("Score Lower Third") >= 0) {
 			scoreTitleId = $(this).data('title').id;
 			return;
 		}
 	});
+
+	if (scoreTitleId == -1) {
+		return;	
+	}
 
 	$.getJSON(url+"team/1", function(data) { // 1 is home
 		$.each(data, function(key, value) {
