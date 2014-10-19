@@ -6,8 +6,8 @@
 			x="0"
 			y="0"
 
-			vTeam="clarkmh"
-			hTeam="rpimh"
+			vTeam="clark-mh"
+			hTeam="rpi-mh"
 
 			liveStatsXML="http://www.sidearmstats.com/rpi/mhockey/1.xml"
 
@@ -15,7 +15,6 @@
 			barColor="red"
 			startIndex="0"
 			numPlays="auto"
-
 		/>
 	</geos>
 </template>
