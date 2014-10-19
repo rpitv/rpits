@@ -4,9 +4,9 @@
 	<geos>
 		<blackBox name="body" x="380" y="180" w="1160" h="820" />
 		<placeImage name="HouseImage" x="380" y="180" w="1160" h="820" path="other_graphics/house_blank.png" />
-		<slantRectangle name="titleBar" x="410" y="110" w="1140" h="70" color="red"/>
-		<slantRectangle name="logoBoxLeft" x="305" y="70" w="270" h="150" color="white"/>
-		<slantRectangle name="logoBoxRight" x="1350" y="70" w="270" h="150" color="white"/>
+		<slantRectangle name="titleBar" x="410" y="110" w="1140" h="70" color="linear-gradient(to right, {e.h.color}, black 50%, {e.v.color}" />
+		<slantRectangle name="logoBoxLeft" x="305" y="70" w="270" h="150" color="white" />
+		<slantRectangle name="logoBoxRight" x="1350" y="70" w="270" h="150" color="white" />
 		
 		<placeImage name="LeftLogo" x="380" y="85" w="120" h="120" path="{e.h.logo}" />
 		<placeImage name="RPITV Logo" x="610" y="85" w="120" h="120" path="teamlogos/rpitv.png" />
