@@ -24,8 +24,8 @@
 		
 		if ($("#q"+title.id).length == 0) { // check for duplicates
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
-			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
-		} else if ($("#q"+title.id).css("background-color") == "rgb(0, 255, 0)") {
+			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem waiting"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
+		} else if ($("#q"+title.id).hasClass("completed")) {
 			$("#q"+title.id).remove();
 			this.addToQueue(title, bustCache);
 		}
@@ -33,7 +33,7 @@
 
 	removeFromQueue: function(castaway) {
 	// Remove a single item from the queue
-		var ttype = $("#"+castaway).attr("type");
+		//var ttype = $("#"+castaway).attr("type");
 		var index, i;
 		//var index = this.queue.indexOf({'id':castaway, 'type':ttype});
 		for (i=0; i < this.queue.length; i++) { // I know this is the nieve way...
@@ -60,27 +60,35 @@
 
 	moveInQueue: function(destination, traveler) {
 	// Move an item in the queue
-		var ttype = $("#"+traveler).attr("type");
-
-		var startIndex, i, index;
-		//var index = this.queue.indexOf({'id':castaway, 'type':ttype});
-		for (i=0; i < this.queue.length; i++) { // I know this is the nieve way...
-			if (this.queue[i].title.id == traveler) {
-				index = i;
-				break;
-			}
+		if ($(".waiting").length < 2) {
+			return; // nowhere to move
 		}
 
+		var restart_me = 0;
+		if (this.processing == 1) {
+			this.processQueue(0, 0); // pause queue
+			restart_me = 1;
+		}
+
+		//var ttype = $("#"+traveler).attr("type");
+		var index = $(".pending, .waiting").index($("#q"+traveler));
 		var tempTraveler = this.queue.splice(index, 1); // remove traveler
+
+		if ($("#q"+this.queue[destination].title.id).hasClass("pending")){
+			destination++; // move to non-pending title
+		}
+
 		this.queue.splice(destination, 0, tempTraveler[0]);
 
-		var tempName = this.queue[destination+1].title.id;
-
 		$("#q"+tempTraveler[0].title.id).fadeOut(400, function() {
-			$(this).insertBefore( $("#q"+tempName) );
-			$(this).fadeIn(400);
+			$(this).insertBefore( $("#q" + renderQueue.queue[destination+1].title.id) );
+			$(this).fadeIn(400, function() {
+				if (restart_me == 1) {
+					// for now it won't restart
+					// assumption is multiple rearrangements may be made
+				}
+			});
 		});
-
 	},
 
 	processQueue: function(index, recursive, start_soft) {
@@ -107,7 +115,8 @@
 		var url_str = this.queue[index].title.getRenderURL() + bustCache;
 
 		$("#q"+this.queue[index].title.id).fadeOut(400, function() {
-			$(this).css("background-color", "rgba(255, 255, 0, .5)"); // mark pending as yellow
+			$(this).removeClass("waiting");
+			$(this).addClass("pending");
 			$(this).fadeIn(400, function() {
 
 				$.ajax( {	// Render a title 
@@ -118,7 +127,8 @@
 					timeout: 20000,
 					success: function(data) {
 						$("#q"+this.queue[index].title.id).fadeOut(400, function() {
-							$(this).css("background-color", "rgba(0, 255, 0, .5)"); // mark completed as green
+							$(this).removeClass("pending");
+							$(this).addClass("completed");
 							$(this).fadeIn(400, function() {
 								renderQueue.queue.splice(index,1); // Remove this element from queue (it is now done)
 								if ((renderQueue.queue.length == 0) || (index >= renderQueue.queue.length)) {
@@ -134,7 +144,8 @@
 						});
 					}.bind(renderQueue),
 					error: function() {
-						$("#q"+this.queue[index].title.id).css("background-color", "FF0000"); // Mark as red on list
+						$("#q"+this.queue[index].title.id).addClass("pending");
+						$("#q"+this.queue[index].title.id).addClass("failed");
 						index += 1;
 						this.processQueue(index, 1);
 					}.bind(renderQueue)
@@ -147,7 +158,7 @@
 	pruneQueue: function(noHide) {
 	// Remove finished jobs from list
 		$(".queueItem").each( function(i) {
-			if ($(this).css("background-color") == "rgba(0, 255, 0, 0.498039)") {
+			if ($(this).hasClass("completed")) {
 				$(this).fadeOut(400, function() {
 					$(this).remove();
 					if ((renderQueue.queue.length == 0) && (noHide != 1)) {
