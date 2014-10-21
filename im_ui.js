@@ -151,7 +151,7 @@ ui.applyListeners = function() {
 				ui.tabs.switchLists($(".tab:last"));
 			}
 		} else if (event.keyCode == '81') { // q key renders queue
-			renderQueue.processQueue();
+			renderQueue.processQueue(0, 0, true);
 		} else if (event.keyCode == '70') { // f force render			
 			document.getElementById("render").click();
 		} else if (event.keyCode == '85') { // u updates all
@@ -178,10 +178,10 @@ ui.applyListeners = function() {
 			for (var id in data) {
 				if (!data[id] || bustCache || type == 'player') {
 					added = true;
-					renderQueue.addToQueue(list.getTitleById(id),bustCache);
+					renderQueue.addToQueue(list.getTitleById(id), bustCache);
 				}
 			}
-			if (added) renderQueue.processQueue(0, 0, 1); // soft start
+			if (added) renderQueue.processQueue(0, 0, true); // soft start
 		});
 	});
 
