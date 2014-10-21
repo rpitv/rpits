@@ -25,7 +25,7 @@ function weather(&$canvas,$o,$bustCache = true) {
 	$textBoxHeight = ($o['boxHeight'] > 0) ? $o['boxHeight'] : $lines*$o['lineHeight'];
 	$boxHeight = $textBoxHeight + $o['titleHeight'] + $o['subTitleHeight'] + $pad + $logoHeightDiff;
 
-	$boxWidth = $o['boxWidth'];
+	$boxWidth = $o['boxWidth'] - 100;
 	$boxX = ($o['boxOffset']>0) ? $o['boxOffset'] : (1920 - $boxWidth)/2;
 	$boxY = 1080 - $boxHeight - $bottom;
 
