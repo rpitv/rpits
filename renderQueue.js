@@ -3,7 +3,8 @@
 	processing: 0,
 	
 
-	addToQueue: function(title, bustCache) { // Add a render job to the queue
+	addToQueue: function(title, bustCache, startFlag) {
+	// Add a render job to the queue
 		if (!(title instanceof RPITS.ui.Title)) {
 			var i = 0,foundTitle;
 			for (var key in ui.tabs.lists) {
@@ -17,6 +18,7 @@
 
 		console.log(title);
 		bustCache = bustCache || false;
+		startFlag = startFlag || false;
 
 		if (this.queue.length == 0) { // Show queue if it was hidden
 			$("#renderQueue").fadeIn(400);
@@ -25,9 +27,12 @@
 		if ($("#q"+title.id).length == 0) { // check for duplicates
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
 			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem waiting"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
+			if (startFlag == true) {
+				this.processQueue(0, 0, 1);
+			}
 		} else if ($("#q"+title.id).hasClass("completed")) {
 			$("#q"+title.id).remove();
-			this.addToQueue(title, bustCache);
+			this.addToQueue(title, bustCache, startFlag);
 		}
 	},
 
@@ -93,13 +98,15 @@
 
 	processQueue: function(index, recursive, start_soft) {
 	// Start rendering queue (single pass)
-		index = index ? index : 0;
+		index = index || 0;
+		recursive = recursive || 0;
+		start_soft = start_soft || false;
 
 		if ((this.queue.length == 0) && (recursive == 0)) { // don't start empty queue
 			alert("Render Queue is already complete!");
 			return;
 		} else if ((this.processing == 1) && (recursive == 0)) { // pause condition
-			if (start_soft) {
+			if (start_soft == true) {
 				return; // ignore this call if queue is already running
 			}
 
@@ -220,8 +227,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) {
 						data: updateHome,
 						success: function() {
 							homeTeamScore = tempHome;
-							window.renderQueue.addToQueue( scoreTitleId );
-							setTimeout( function() { window.renderQueue.processQueue(0, 0, 1); }, 1000);
+							window.renderQueue.addToQueue(scoreTitleId, true, true);
 						}
 					});
 				}
@@ -250,9 +256,7 @@ function scoreTitleUpdate(homeTeamScore, awayTeamScore) {
 						data: updateAway,
 						success: function() {
 							awayTeamScore = tempAway;
-							window.renderQueue.addToQueue( scoreTitleId );
-							setTimeout( function() { window.renderQueue.processQueue(0, 0, 1); }, 1000);
-
+							window.renderQueue.addToQueue(scoreTitleId, true, true);
 						}
 					});
 				}
@@ -274,8 +278,6 @@ $(window).on('beforeunload', function() {
 
 
 $(document).ready( function() {
-	$("#renderQueue").hide(); // Hide queue status box until it is needed.
-
 	if (ui.eventId) { // Only in the LIVE UI
 		setTimeout(function(){ scoreTitleUpdate(-9001, -9001) }, 1000); // Start auto score update
 	}

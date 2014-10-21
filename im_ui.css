@@ -25,6 +25,7 @@ body > div
   height:50px;
   top:25px;
   left:25px;
+  padding-right:2px;
 }
 #pane
 {
@@ -271,11 +272,13 @@ body > div
   text-align: center;
   width: 140px;
   top: 25px;
-  min-height: 250px;
+  min-height: 111px;
   background-color: #AAA ;
   border: solid 3px black;
   -webkit-user-select: none;
   cursor: default;
+
+  display: none;
 }
 
 .queueItem
