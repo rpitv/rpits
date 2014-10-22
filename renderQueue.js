@@ -2,7 +2,6 @@
 	queue: [],
 	processing: 0,
 	
-
 	addToQueue: function(title, bustCache, startFlag) {
 	// Add a render job to the queue
 		if (!(title instanceof RPITS.ui.Title)) {
@@ -38,14 +37,11 @@
 
 	removeFromQueue: function(castaway) {
 	// Remove a single item from the queue
-		//var ttype = $("#"+castaway).attr("type");
-		var index, i;
-		//var index = this.queue.indexOf({'id':castaway, 'type':ttype});
-		for (i=0; i < this.queue.length; i++) { // I know this is the nieve way...
-			if (this.queue[i].title.id == castaway) {
-				index = i;
-			}
+		if ($("#q"+castaway).hasClass("pending")){
+			return; // don't remove titles being rendered
 		}
+		
+		var index = $(".pending, .waiting").index($("#q"+castaway));
 
 		if (!this.queue[index]) { // See if it is even there
 			this.pruneQueue(); // prune queue if not
