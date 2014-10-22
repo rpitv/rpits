@@ -151,7 +151,7 @@ ui.applyListeners = function() {
 				ui.tabs.switchLists($(".tab:last"));
 			}
 		} else if (event.keyCode == '81') { // q key renders queue
-			renderQueue.processQueue(0, false, true);
+			renderQueue.processQueue(true);
 		} else if (event.keyCode == '70') { // f force render			
 			document.getElementById("render").click();
 		} else if (event.keyCode == '85') { // u updates all
@@ -181,7 +181,7 @@ ui.applyListeners = function() {
 					renderQueue.addToQueue(list.getTitleById(id), bustCache);
 				}
 			}
-			if (added) renderQueue.processQueue(0, false, true); // soft start
+			if (added) renderQueue.processQueue(true); // soft start
 		});
 	});
 
