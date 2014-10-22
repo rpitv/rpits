@@ -6,7 +6,7 @@
 
 <h1>Add Team Roster</h1>
 
-<?
+<?php
 include ("init.php");
 include ("include.php");
 ini_set("auto_detect_line_endings", true);
@@ -59,7 +59,7 @@ if ($_GET['pull_url']) {
 	});
 	</script>
 
-<?
+<?php
 }
 
 //////////////////// SIDEARM Pulling
@@ -110,11 +110,8 @@ if ($_GET['sidearm_url']) {
 	});
 	</script>
 
-<?
+<?php
 }
-
-
-
 if ($csv) {
 	if ($archive) {
 		$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
@@ -136,7 +133,7 @@ if ($csv) {
 
 ?>
 	<br/><a href="statsloader.php?tid=<?= $chn_puller['chn_id'] ?>">Update Stats</a>
-<?
+<?php
   include("peditor.php");
 } else { 
 ?>
@@ -185,4 +182,6 @@ if ($csv) {
 	<input type="submit" name="Submit" />
 </form>
 
-<? } ?>
+<?php
+}
+?>

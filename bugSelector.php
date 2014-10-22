@@ -1,4 +1,4 @@
-<?
+<?php
 //Set no caching
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); 
@@ -76,25 +76,25 @@ if ($setVal != "") {
 		$("#currentBug").html('<img id="current" src="loadCurrentBug.php?n="' + Math.random() + '"/><br>Current Bug');
 	});
 </script>
-<?
+<?php
 $bug_state_json = @file_get_contents($bug_keyer_url . 'state');
 if ($bug_state_json !== FALSE) {
 	$bug_info = json_decode($bug_state_json);
 	if ($bug_info->state === 'up') { // show if bug is LIVE
-		?>
+?>
 		<script type="text/javascript">
 			$(document).ready( function() {
 				$('#current').css('border', '8px solid red');
 			});
 		</script>
-		<?
+<?php
 	}
 }
 ?>
 </div>
 <hr>
 <div id="allBugs">
-<?
+<?php
 
 //display all images in folder
 $dirname = dirname(__FILENAME__) . '/bugs/';
@@ -117,7 +117,6 @@ foreach($images as $image) {
 	//line
 	echo '</div></div>';
 }
-
 
 //perform post request to the keyer
 function do_post_request($url, $data, $optional_headers = null) {
@@ -143,39 +142,34 @@ function do_post_request($url, $data, $optional_headers = null) {
 	echo "done";
 	return $response;
 }
-
-
 ?>
+
 </div>
 <hr>
 <p>Upload another png to be used as a bug...</p>
 
 <script>
-window.onload = function() {
-//this is all upload file stuff
-	var url = document.URL.substring(0, document.URL.lastIndexOf("/")) + "/upload_file.php";
-       //when the document is finished loading, replace everything
-       //between the <a ...> </a> tags with the setValue of splitText
-   document.getElementById("myurl").action=url;
-}
-
+	window.onload = function() {
+		//this is all upload file stuff
+		var url = document.URL.substring(0, document.URL.lastIndexOf("/")) + "/upload_file.php";
+		//when the document is finished loading, replace everything
+		//between the <a ...> </a> tags with the setValue of splitText
+	   document.getElementById("myurl").action=url;
+	}
 </script>
-<form id="myurl" action="" method="post" 
-
-enctype="multipart/form-data">
-<input type="hidden" name="url" id="url" setValue="" />
-<label for="file">Filename:</label>
-<input type="file" name="file" id="file"><br>
-<input type="submit" name="submit" setValue="Submit">
-<hr>
-<p></p>
-<p></p>
-
+<form id="myurl" action="" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="url" id="url" setValue="" />
+	<label for="file">Filename:</label>
+	<input type="file" name="file" id="file"><br>
+	<input type="submit" name="submit" setValue="Submit">
+	<hr>
+	<p></p>
+	<p></p>
 </form>
 
 <script>
-document.getElementById("url").setValue = document.URL;
-console.log(document.URL);
+	document.getElementById("url").setValue = document.URL;
+	console.log(document.URL);
 </script>
 
 </body>

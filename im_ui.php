@@ -17,43 +17,42 @@ $bug_state_json = @file_get_contents($bug_keyer_url . 'state');
 if ($bug_state_json !== FALSE) {
 	$bug_info = json_decode($bug_state_json);
 	if ($bug_info->state === 'down') {
-		?>
+?>
 		<script type="text/javascript">
 			$(document).ready( function() {
 				$('.bug').hide();
 			});
 		</script>
-		<?
+<?php
 	}
 }
-
 ?>
 <script>
 	ui.dbName = '<?= $mysql_database_name ?>';
 </script>
-<?
+<?php
 if (!$eventId) {
-	?>
+?>
 	<div id="eventSelector">
 		<h2>Select an event</h2>
 		<ul>
-			<?
+<?php
 			$result = dbquery("SELECT * FROM events");
 			while ($row = mysql_fetch_array($result)) {
 				echo('<li><a href="im_ui.php?eventId=' . $row["id"] . '">' . $row["name"] . ' (' . $row["team1"] . ' vs. ' . $row["team2"] . ')</a></li>');
 			}
 			echo('<li><a href="#" id="editEvents">Edit / Add / Remove Events</a></li>');
-			?>
+?>
 		</ul>
 		<div id="eventEditor"></div>
 	</div>
-	<?
+<?php
 } else {
-  ?>
-  <script>
-  	ui.eventId = <?= $eventId ?>;
-  </script>
-  <?
+?>
+	<script>
+		ui.eventId = <?= $eventId ?>;
+	</script>
+<?php
 	if ($eventId > 0) {
 		$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
 		$row = mysql_fetch_array($result);
@@ -67,7 +66,7 @@ if (!$eventId) {
 		$team1 = "rpif";
 		$team2 = "hobartf";
 	}
-	?>
+?>
 	<script>
 		ui.eventId = <?= $eventId ?>;
 		ui.dbName = '<?= $mysql_database_name ?>';
@@ -78,14 +77,13 @@ if (!$eventId) {
 	<div id="input"><input type="text" /></div>
 	<div id="actions"></div>
 	<div id="renderQueue">
-    <div class="label">Queue</div>
-    <div id="queueMenu">
-      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue()"><div>&#xe047;</div></div>
-      <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()"><div>&#x2796;</div></div>
-      <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()"><div>&#x2713;</div></div>
-    </div>    
-  </div>
-
-	<?php
+		<div class="label">Queue</div>
+		<div id="queueMenu">
+			<div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue()"><div>&#xe047;</div></div>
+			<div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()"><div>&#x2796;</div></div>
+			<div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()"><div>&#x2713;</div></div>
+		</div>    
+	</div>
+<?php
 }
 ?>
