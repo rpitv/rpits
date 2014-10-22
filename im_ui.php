@@ -80,7 +80,7 @@ if (!$eventId) {
 	<div id="renderQueue">
     <div class="label">Queue</div>
     <div id="queueMenu">
-      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0, 0)"><div>&#xe047;</div></div>
+      <div id="process" class="queueMenuButton" onclick="window.renderQueue.processQueue(0, false)"><div>&#xe047;</div></div>
       <div id="prune" class="queueMenuButton" onclick="window.renderQueue.pruneQueue()"><div>&#x2796;</div></div>
       <div id="destroy" class="queueMenuButton" onclick="window.renderQueue.destroyQueue()"><div>&#x2713;</div></div>
     </div>    

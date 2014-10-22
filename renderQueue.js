@@ -28,7 +28,7 @@
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
 			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem waiting"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
 			if (startFlag == true) {
-				this.processQueue(0, 0, 1);
+				this.processQueue(0, false, true);
 			}
 		} else if ($("#q"+title.id).hasClass("completed")) {
 			$("#q"+title.id).remove();
@@ -71,7 +71,7 @@
 
 		var restart_me = 0;
 		if (this.processing == 1) {
-			this.processQueue(0, 0); // pause queue
+			this.processQueue(0, false); // pause queue
 			restart_me = 1;
 		}
 
@@ -99,13 +99,13 @@
 	processQueue: function(index, recursive, start_soft) {
 	// Start rendering queue (single pass)
 		index = index || 0;
-		recursive = recursive || 0;
+		recursive = recursive || true;
 		start_soft = start_soft || false;
 
-		if ((this.queue.length == 0) && (recursive == 0)) { // don't start empty queue
+		if ((this.queue.length == 0) && (recursive == false)) { // don't start empty queue
 			alert("Render Queue is already complete!");
 			return;
-		} else if ((this.processing == 1) && (recursive == 0)) { // pause condition
+		} else if ((this.processing == 1) && (recursive == false)) { // pause condition
 			if (start_soft == true) {
 				return; // ignore this call if queue is already running
 			}
@@ -143,7 +143,7 @@
 									$("#process div").html("&#xe047;"); // Play Icon
 									renderQueue.pruneQueue();
 								} else if (renderQueue.processing == 1) {
-									renderQueue.processQueue(index, 1);
+									renderQueue.processQueue(index, true);
 								} else {
 									renderQueue.processing = 0;
 								}
@@ -154,7 +154,7 @@
 						$("#q"+this.queue[index].title.id).addClass("pending");
 						$("#q"+this.queue[index].title.id).addClass("failed");
 						index += 1;
-						this.processQueue(index, 1);
+						this.processQueue(index, true);
 					}.bind(renderQueue)
 				});
 
