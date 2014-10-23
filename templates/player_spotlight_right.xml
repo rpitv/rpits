@@ -9,7 +9,7 @@
 		
 		<placeImage name="headShot"		x="1050" y="260"		w="240" h="270"		path="teams/rpi-mhimgs/JakeSoffer.png" />
 		
-		<shadowText name="titleText"	x="1060" y="155"		w="710" h="90"		gravity="center" font="fontN" color="white" case="upper" text="{e.h.name} Spotlight" />
+		<shadowText name="titleText"	x="1038" y="155"		w="732" h="90"		gravity="center" font="fontN" color="white" case="upper" text="{e.h.name} Spotlight" />
 		
 		<shadowText name="stat1"		x="1290" y="270"		w="495" h="50"		gravity="west" font="fontN" color="white" text="Record: {e.h.p.num.1.record}" />
 		<shadowText name="stat2"		x="1290" y="325"		w="495" h="50"		gravity="west" font="fontN" color="white" text="GAA: {e.h.p.num.1.s6}" />
