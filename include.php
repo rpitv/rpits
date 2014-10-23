@@ -96,7 +96,9 @@ function getGeoHash($geo) {
 	return $geo['type'] . '_' . hash('md4',json_encode($geo));
 }
 
-function addGeoToCanvas($canvas,$geo,$bustCache = false) {
+function addGeoToCanvas($canvas,$geo,$bustCacheVar = false) {
+	global $bustCache;
+	$bustCache = $bustCache || $bustCacheVar;
 	$im = getGeoFromCache($geo);
 	if (!$im || $bustCache) {
 		$im = renderGeo($geo);
