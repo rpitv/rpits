@@ -149,9 +149,11 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 				'type' => 'placeImage',
 				'path' => $o['logoLeft'],
 				'x' => $boxX,
-				'y' => $logoY,
+				'y' => $logoY - 2,
 				'w' => $logoHeight,
-				'h' => $logoHeight
+				'h' => $logoHeight,
+				'shadow' => '5',
+				'padding' => '9'
 		);
 		$titleXAdjust = $titleWAdjust = $logoXAdjust;
 	}
@@ -171,9 +173,11 @@ function flexBox(&$canvas,$o,$bustCache = false) {
 				'type' => 'placeImage',
 				'path' => $o['logoRight'],
 				'x' => $boxX + $boxWidth - $logoHeight,
-				'y' => $logoY,
+				'y' => $logoY - 2,
 				'w' => $logoHeight,
-				'h' => $logoHeight
+				'h' => $logoHeight,
+				'shadow' => '5',
+				'padding' => '9'
 		);
 		$titleWAdjust += $logoXAdjust;
 	}
