@@ -1,6 +1,4 @@
 <link rel="stylesheet" type="text/css" href="im_edit.css" media="screen" />
-<!--<script src="js/lib/jquery-1.5.1.min.js" type="text/javascript"></script>
-<script src="js/lib/jquery-ui-1.8.12.custom.min.js" type="text/javascript"></script>-->
 <?php
 include("include.php");
 
@@ -120,7 +118,8 @@ if ($geos['gameSummary']) {
 }
 
 echo '</div>'
-?><br style="clear:both" />
+?>
+<br style="clear:both" />
 
 <button tid="<?= $titleId ?>" id="render" name="Render">Force Render</button>
 <button tid="<?= $titleId ?>" id="updateFields" name="UpdateFields">Update All</button>

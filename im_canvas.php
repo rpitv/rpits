@@ -20,7 +20,7 @@ $eventId = $_GET["eventId"];
 
 <div id="ccontainer">
 	<div id="canvas" style="zoom:.4">
-<?
+<?php
 $title = getTitle($id,$eventId);
 
 foreach ($title['geos'] as $name => $geo) {
@@ -35,7 +35,7 @@ foreach ($title['geos'] as $name => $geo) {
   <div id="info-target" ></div>
 </div>
 <div id="layer-panel" >
-<?
+<?php
 foreach ($title['geos'] as $name => $geo) {
 	echo "<div class=\"layer\" id=\"l-$name\"><h3>$name</h3><p>($geo[type])</p></div>";
 }

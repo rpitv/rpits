@@ -12,7 +12,7 @@ $eventId = $_GET["eventId"];
 		$result = dbquery('SELECT * FROM events');
 		while ($row = mysql_fetch_array($result)) {
 			$sel = '';
-			if($eventId == $row["id"]) {
+			if ($eventId == $row["id"]) {
 				$sel = 'selected="selected"';
 			}
 			echo '<option value="' . $row["id"] . '" ' . $sel . ' >' . $row["name"] . '</option>';
@@ -22,8 +22,8 @@ $eventId = $_GET["eventId"];
 	<a href="im_events.php">(edit/add events)</a>
 </form>
 
-<?
-if($_GET["add"] == 'Add') {
+<?php
+if ($_GET["add"] == 'Add') {
 	$name = $_GET["name"];
 	$parentId = $_GET["parent"];
 	dbquery("INSERT INTO titles (name,parent) VALUES ('$name','$parentId');");
@@ -36,83 +36,85 @@ if($_GET["add"] == 'Add') {
 	dbquery("INSERT INTO event_title (event,title) VALUES('$eventId','$titleId')");
 }
 
-if($eventId > 0) {
+if ($eventId > 0) {
 
-
-	?>
+?>
 <p><strong>Create and attach new title to this event</strong></p>
 <form action="im_event_title.php" method="GET">
 From an XML template: 	<select name="parent">
-	<?
+<?php
 		$templates = glob("templates/*.xml");
-		foreach($templates as $template) {
+		foreach ($templates as $template) {
 			echo '<option value="'.$template.'">'.$template.'</option>';
 		}
-	?>
+?>
 	</select>
 	Name: <input type="text" name="name" />
 	<input type="hidden" name="eventId" value="<?= $eventId ?>" />
 	<input type="submit" name="add" value="Add" />
 </form>
-<? /* Disabling inheriting titles for now due to confusion / potential misuse
+
+<?php
+/* Disabling inheriting titles for now due to confusion / potential misuse
 <form action="im_event_title.php" method="GET">
 	Inherit from existing title: <select name="parent" >
-		<?
+<?php
 		$result = dbquery("SELECT * FROM titles");
 		while ($row = mysql_fetch_array($result)) {
 			echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
-		}	?>
+		}
+?>
 	</select>
 	Name: <input type="text" name="name" />
 	<input type="hidden" name="eventId" value="<?= $eventId ?>" />
 	<input type="submit" name="add" value="Add" />
-</form> */ ?>
+</form> */
+?>
 <p><strong>Attach existing title</strong></p>
 From event: <select id="existingEvent">
-	<?
+<?php
 	$result = dbquery("SELECT * FROM events");
-	while($row = mysql_fetch_array($result)) {
+	while ($row = mysql_fetch_array($result)) {
 		echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
 	}
-	?>
+?>
 </select>
 <form acion="im_event_title.php" method="GET">
-<select id="existingList" name="titleId">
-</select>
+	<select id="existingList" name="titleId"></select>
 	<input type="hidden" name="eventId" value="<?= $eventId ?>" />
 	<input type="submit" name="add" value="Attach" />
 </form>
 
-<div style="clear:both"></div>
+<div style="clear: both"></div>
 
 <script src="js/lib/jquery-1.8.3.js" type="text/javascript"></script>
 <style type="text/css">
 	.title button {
-		float:right;
-		height:38px;
+		float: right;
+		height: 38px;
 	}
 	.title {
 		width: 600px;
-		line-height:38px;
-		height:38px;
+		line-height: 38px;
+		height: 38px;
 		border-bottom: black solid 1px;
 	}
 	.title img {
-		vertical-align:middle;
+		vertical-align: middle;
 	}
 	#titleList {
-		float:left;
+		float: left;
 	}
 	#editTarget {
-		float:left;
-		margin-left:10px;
-		width:600px;
-		height:700px;
-		border:solid 1px black;
-		overflow:scroll;
+		float: left;
+		margin-left: 10px;
+		width: 600px;
+		height: 700px;
+		border: solid 1px black;
+		overflow: scroll;
 	}
 	#editTarget img {
-		width:inherit;
+		width: inherit;
 	}
 	form {
 		display: inline-block;
@@ -126,7 +128,7 @@ var eventId = <?= $eventId ?>;
 $(function() {
 	$('.rename').click(function(e){
 		var button = $(e.currentTarget);
-		if(!button.hasClass('save')) {
+		if (!button.hasClass('save')) {
 			var titleName = button.siblings('.titleName').text();
 			button.siblings('.titleName').replaceWith('<input type="text" value="' + titleName + '" />');
 			button.addClass('save');
@@ -162,7 +164,7 @@ $(function() {
 		var eventId = $(e.currentTarget).val();
 		$.getJSON('im_title_list.php?event='+eventId+'&format=json',function(data) {
 			$('#existingList').empty();
-			for(var index in data) {
+			for (var index in data) {
 				$('#existingList').append('<option value="'+data[index]['id']+'">'+data[index]['name']+'</option>');
 			}
 		});
@@ -172,11 +174,10 @@ $(function() {
 
 </script>
 <div id="titleList">
-<?
-
+<?php
 $result = dbquery("SELECT *, event_title.id as etid, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title WHERE event_title.event = $eventId ORDER BY titles.id ASC");
 while ($row = mysql_fetch_array($result)) {
-	if($row['title_id']) {
+	if ($row['title_id']) {
 		echo('<div id="' . $row["title_id"] . '" class="title">' .
 			'<img src="thumbs/' . $row["title_name"] . $row["title_id"] . '.png" path="out/' . $row["title_name"] . $row["title_id"] . '.png" height="38" />' . 
 					'<span class="titleName">' . $row["title_name"] . '</span>' .
@@ -187,6 +188,6 @@ while ($row = mysql_fetch_array($result)) {
 ?>
 </div>
 <div id="editTarget"></div>
-<?
+<?php
 }
 ?>
