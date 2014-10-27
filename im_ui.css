@@ -21,7 +21,7 @@ body > div
 }
 #tabstrip
 {
-  background:#AAAAAA;
+  background-color: transparent;
   height:50px;
   top:25px;
   left:25px;
@@ -273,11 +273,13 @@ body > div
   width: 140px;
   top: 25px;
   min-height: 111px;
-  background-color: #AAA ;
-  border: solid 3px black;
+  background-color: transparent ;
+  /*border: solid 3px black;*/
   -webkit-user-select: none;
   cursor: default;
 
+  pointer-events: none;
+  z-index: 9001;
   display: none;
 }
 
@@ -326,9 +328,9 @@ body > div
   width: 100%;
   text-align: center;
   padding: 0;
-  margin: 0;
-  border-top: solid black 2px;
-  border-bottom: solid black 2px;
+  margin: 3px 0 3px 0;
+  /*border-top: solid black 2px;
+  border-bottom: solid black 2px;*/
   -webkit-user-select: none;
 }
 .queueMenuButton
@@ -345,6 +347,7 @@ body > div
   margin-bottom: 0;
   background-color: #9a5515;
   -webkit-user-select: none;
+  pointer-events: auto;
 }
 .queueMenuButton:hover
 {

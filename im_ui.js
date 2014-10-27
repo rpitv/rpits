@@ -255,17 +255,29 @@ $(window).resize(resizeWindow);
 
 function resizeWindow() {
 	if (!ui.lockResize) {
-		ui.maxLeftWidth = 800;
-		ui.viewerHeight = (window.innerHeight - 75)/2;
-		ui.viewerWidth = ui.viewerHeight * 16/9;
-		ui.sideMargins = 25;
-		ui.leftWidth = window.innerWidth - ui.viewerWidth - 75;
-		if ((window.innerWidth - ui.viewerWidth - 25) > ui.maxLeftWidth) {
-			ui.sideMargins = (window.innerWidth - ui.viewerWidth - 25 - ui.maxLeftWidth)/2;
-			ui.leftWidth = ui.maxLeftWidth;
+		if ($(window).width() >= 1000) {
+			$('#program').show();
+			ui.maxLeftWidth = 800;
+			ui.viewerHeight = (window.innerHeight - 75)/2;
+			ui.viewerWidth = ui.viewerHeight * 16/9;
+			ui.sideMargins = 25;
+			ui.leftWidth = window.innerWidth - ui.viewerWidth - 75;
+			if ((window.innerWidth - ui.viewerWidth - 25) > ui.maxLeftWidth) {
+				ui.sideMargins = (window.innerWidth - ui.viewerWidth - 25 - ui.maxLeftWidth)/2;
+				ui.leftWidth = ui.maxLeftWidth;
+			}
+			$('#program,#preview,#edit,#program img,#preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
+			$('#preview, #edit, #preview img').css({"top":"25px", "left":"auto"});
+			$('#tabstrip').css({"top":"25px", "left":"25px", "padding-right":"2px"});
+			$('#pane').css({"top":"75px", "right":"25px", "height":window.innerHeight-100, "border-left":"2px solid black"});
+			$('#pane,#tabstrip,#log').width(ui.leftWidth).css('left',ui.sideMargins);
+		} else { // half-screen view
+			ui.viewerWidth = window.innerWidth-50;
+			ui.viewerHeight = ui.viewerWidth * 9/16;
+			$('#program').hide();
+			$('#preview, #edit, #preview img').height(ui.viewerHeight).width(ui.viewerWidth).css({"top":"0", "left":"25px"});
+			$('#tabstrip').css({"top":ui.viewerHeight+10, "left":"0", "width":"100%", "padding-right":"0"});
+			$('#pane').css({"top":ui.viewerHeight+60, "left":"0", "width":"100%", "height":(window.innerHeight-ui.viewerHeight)-60, "border":"0"});
 		}
-		$('#program,#preview,#edit,#program img,#preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
-		$('#pane').height(window.innerHeight - 100);
-		$('#pane,#tabstrip,#log').width(ui.leftWidth).css('left',ui.sideMargins);
 	}
 }
