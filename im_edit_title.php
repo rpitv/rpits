@@ -94,7 +94,7 @@ if ($geos['flexBox']) {
 }
 
 if ($geos['weather']) {
-	$ignore = array(' ','y','w','h','name','order','type','x', 'logoHeight', 'logoLeft', 'lineHeight', 'boxHeight', 'boxWidth', 'boxOffset', 'boxPadding', 'titleHeight', 'titleText', 'titleGravity', 'subTitleHeight', 'subTitleWidth', 'subTitleText', 'logoRight' );
+	$ignore = array(' ','y','w','h','name','order','type','x', 'logoHeight', 'logoLeft', 'lineHeight', 'boxHeight', 'boxWidth', 'boxOffset', 'boxPadding', 'titleHeight', 'titleText', 'titleGravity', 'subTitleHeight', 'subTitleWidth', 'subTitleText', 'subTitleColor', 'logoRight' );
 	echo "<h3>Weather Graphic</h3>";
 	foreach ($geos['weather'] as $geo) {
 		foreach ($geo as $key=>$prop) {
