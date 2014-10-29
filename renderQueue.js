@@ -186,83 +186,67 @@
     }
 }; }());
 
-function scoreTitleUpdate(homeTeamScore, awayTeamScore) {
+function scoreTitleUpdate(homeScore, awayScore, scoreTitleId) {
 // Auto-queue the lower third title on score change
 	var url = "/scoreboard/";
-	var tempHome = -1;
-	var tempAway = -1;
-	var scoreTitleId = -1;
+	homeScore = (homeScore > -1) ? homeScore : -1;
+	awayScore = (awayScore > -1) ? awayScore : -1;
 
-	$("#pane ul li").each( function() {
-		if ($(this).text().indexOf("Score Lower Third") >= 0) {
-			scoreTitleId = $(this).data('title').id;
-			return;
-		}
-	});
+	if (!scoreTitleId) {
+		$("#pane ul li").each( function() {
+			if ($(this).text().indexOf("Score Lower Third") >= 0) {
+				scoreTitleId = $(this).data('title').id;
+				return;
+			}
+		});
+	}
 
 	if (scoreTitleId == -1) {
 		return;	
 	}
 
-	$.getJSON(url+"team/1", function(data) { // 1 is home
-		$.each(data, function(key, value) {
-			if (key == "score") {
-				if (parseInt(homeTeamScore) == -9001) {
-					homeTeamScore = value;
-					return;
-				}
-
-				tempHome = value;
-				var updateHome = scoreTitleId + "=hScore&text=" + tempHome;
-
-				if (parseInt(tempHome) != parseInt(homeTeamScore)) {
+	$.getJSON(url+"data.json", function(data) {
+		if ((parseInt(data.home.score) != parseInt(homeScore)) ||
+			(parseInt(data.away.score) != parseInt(awayScore)) ||
+			((data.clock.period_remaining < 300)&&(data.clock.period_remaining != 0))) {
+			$.ajax({
+				type: "POST",
+				async: false,
+				url: "cdb_update.php",
+				data: scoreTitleId + "=hScore&text=" + data.home.score,
+				success: function() {
+					homeScore = data.home.score;
 					$.ajax({
 						type: "POST",
 						async: false,
 						url: "cdb_update.php",
-						data: updateHome,
+						data: scoreTitleId + "=vScore&text=" + data.away.score,
 						success: function() {
-							homeTeamScore = tempHome;
-							window.renderQueue.addToQueue(scoreTitleId, true, true);
+							awayScore = data.away.score;
+							if ((data.clock.period_remaining > 300) ||
+								(data.clock.period_remaining == 0)) {
+								window.renderQueue.addToQueue(scoreTitleId, true, true);
+								return;
+							}
+
+							$.ajax({
+								type: "POST",
+								async: false,
+								url: "cdb_update.php",
+								data: scoreTitleId + "=gameStatus&text=" + data.periodDescription.end_of_period,
+								success: function() {
+									window.renderQueue.addToQueue(scoreTitleId, true, true);
+								}
+							});
 						}
 					});
 				}
-
-				return;
-			}
-		});
+			});
+		}
+	}).fail(function(d){
+		return; // quit if no scoreboard feed
 	});
-
-	$.getJSON(url+"team/0", function(data) { // 0 is away
-		$.each(data, function(key, value) {
-			if (key == "score") {
-				if (parseInt(awayTeamScore) == -9001) {
-					awayTeamScore = value;
-					return;
-				}
-
-				tempAway = value;
-				var updateAway = scoreTitleId + "=vScore&text=" + tempAway;
-
-				if (parseInt(tempAway) != parseInt(awayTeamScore)) {
-					$.ajax({
-						type: "POST",
-						async: false,
-						url: "cdb_update.php",
-						data: updateAway,
-						success: function() {
-							awayTeamScore = tempAway;
-							window.renderQueue.addToQueue(scoreTitleId, true, true);
-						}
-					});
-				}
-			
-				return;
-			}
-		});
-	});
-
-	setTimeout(function(){ scoreTitleUpdate(homeTeamScore, awayTeamScore); }, 10000);
+	setTimeout(function(){ scoreTitleUpdate(homeScore, awayScore, scoreTitleId); }, 10000);
 };
 
 
@@ -275,7 +259,7 @@ $(window).on('beforeunload', function() {
 
 $(document).ready( function() {
 	if (ui.eventId) { // Only in the LIVE UI
-		setTimeout(function(){ scoreTitleUpdate(-9001, -9001) }, 1000); // Start auto score update
+		setTimeout(function(){ scoreTitleUpdate(); }, 1000); // Start auto score update
 	}
 });
 
