@@ -31,7 +31,7 @@ if ($_GET['pull_url']) {
 	$contents = stristr($contents, "<TABLE"); // get only table data from page
 	$contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
 
-	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/teamstats/" . $chs_prefix, "r");
+	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/textstats/" . $chs_prefix, "r");
 	$contents_stats = addslashes(stream_get_contents($chs_stats));
 	$contents_stats = str_replace(chr(10), '~', $contents_stats);  // fix newline issues, delimit with '~'
 	$contents_stats = str_replace(chr(13), '', $contents_stats);
