@@ -1,3 +1,6 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+?>
 <title>Team Roster Adder</title>
 
 <script src="./js/lib/jquery-1.8.3.js" type="text/javascript"></script>
@@ -25,14 +28,19 @@ if ($_GET['pull_url']) {
 	}
 
 	$chs = fopen("http://www.collegehockeystats.net/". $season ."/rosters/" . $chs_prefix, "r");
-	$contents = addslashes(stream_get_contents($chs));
+	$contents = stream_get_contents($chs);
+	$contents = str_replace(chr(154), '&#154;' , $contents); // replace incorrect "Single Character Introducer" with HTML escaped "S Caron"
+	$contents = mb_convert_encoding($contents, 'UTF-8', 'ASCII');
+	$contents = addslashes($contents);
 	$contents = str_replace(chr(10), '', $contents);  // fix newline issues
 	$contents = str_replace(chr(13), '', $contents);
 	$contents = stristr($contents, "<TABLE"); // get only table data from page
 	$contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
 
 	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/textstats/" . $chs_prefix, "r");
-	$contents_stats = addslashes(stream_get_contents($chs_stats));
+	$contents_stats = stream_get_contents($chs_stats);
+	//$contents_stats = mb_convert_encoding($contents_stats, 'UTF-8', 'ASCII'); // not currently needed for textstats
+	$contents_stats = addslashes($contents_stats);
 	$contents_stats = str_replace(chr(10), '~', $contents_stats);  // fix newline issues, delimit with '~'
 	$contents_stats = str_replace(chr(13), '', $contents_stats);
 	$contents_stats = stristr($contents_stats, '<PRE CLASS=\"tiny\">'); // get only stats data from page

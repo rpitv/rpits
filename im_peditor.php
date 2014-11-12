@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=utf-8');
+
 include ("include.php");
 include ("chn_scraper.php");
 
