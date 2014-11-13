@@ -199,6 +199,7 @@ function scoreTitleUpdate(homeScore, awayScore, scoreTitleId) {
 				return;
 			}
 		});
+		scoreTitleId = (scoreTitleId >= 0) ? scoreTitleId : -1;
 	}
 
 	if (scoreTitleId == -1) {
