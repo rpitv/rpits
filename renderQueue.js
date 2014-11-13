@@ -65,13 +65,12 @@
 			return; // nowhere to move
 		}
 
-		var restart_me = 0;
 		if (this.processing == 1) {
-			this.processQueue(); // pause queue
-			restart_me = 1;
+			$("#q"+traveler+" .queueItemButton").last().css("background", "red");
+			setTimeout(	function(){$("#q"+traveler+" .queueItemButton").last().css("background", "orange")}, 400 );
+			return; // don't move in moving queue
 		}
 
-		//var ttype = $("#"+traveler).attr("type");
 		var index = $(".pending, .waiting").index($("#q"+traveler));
 		var tempTraveler = this.queue.splice(index, 1); // remove traveler
 
@@ -84,10 +83,7 @@
 		$("#q"+tempTraveler[0].title.id).fadeOut(400, function() {
 			$(this).insertBefore( $("#q" + renderQueue.queue[destination+1].title.id) );
 			$(this).fadeIn(400, function() {
-				if (restart_me == 1) {
-					// for now it won't restart
-					// assumption is multiple rearrangements may be made
-				}
+				
 			});
 		});
 	},
