@@ -299,15 +299,15 @@ body > div
 {
   margin-left: 5px;
 }
-.waiting
+.waiting-rgb
 {
   background-color: rgba(204,204,204,.5);
 }
-.pending
+.pending-rgb
 {
   background-color: rgba(255,255,0,.5);
 }
-.completed
+.completed-rgb
 {
   background-color: rgba(0,255,0,.5);
 }

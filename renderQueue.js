@@ -25,7 +25,7 @@
 		
 		if ($("#q"+title.id).length == 0) { // check for duplicates
 			this.queue.push({ title:title, bustCache:bustCache }); // Add title id to the queue
-			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem waiting"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
+			$('#renderQueue').append('<div id="q'+ title.id +'" class="queueItem waiting waiting-rgb"><div class="queueItemButton" onclick="window.renderQueue.removeFromQueue(' + title.id + ')">&#x2713;</div><div class="queueItemButton" onclick="window.renderQueue.moveInQueue(0, '+ title.id +')">&#xe043;</div><pre> ' + title.getDisplayName() + '</pre></div>');
 			if (startFlag == true) {
 				this.processQueue(true);
 			}
@@ -113,10 +113,13 @@
 		var bustCache = this.queue[index].bustCache ? '&bustCache=true' : '';
 		var url_str = this.queue[index].title.getRenderURL() + bustCache;
 
-		$("#q"+this.queue[index].title.id).fadeOut(400, function() {
-			$(this).removeClass("waiting");
-			$(this).addClass("pending");
-			$(this).fadeIn(400, function() {
+		$("#q"+tid).removeClass("waiting").addClass("pending");
+
+		var tid = this.queue[index].title.id;
+
+		$("#q"+tid).fadeOut(400, function() {
+			$(this).removeClass("waiting-rgb").addClass("pending-rgb");
+			$(this).fadeIn(400);//, function() {
 
 				$.ajax( {	// Render a title 
 					type: "GET",
@@ -125,32 +128,32 @@
 					async: true,
 					timeout: 20000,
 					success: function(data) {
-						$("#q"+this.queue[index].title.id).fadeOut(400, function() {
-							$(this).removeClass("pending");
-							$(this).addClass("completed");
-							$(this).fadeIn(400, function() {
-								renderQueue.queue.splice(index,1); // Remove this element from queue (it is now done)
-								if ((renderQueue.queue.length == 0) || (index >= renderQueue.queue.length)) {
-									renderQueue.processing = 0; // Processing has ended
-									$("#process div").html("&#xe047;"); // Play Icon
-									renderQueue.pruneQueue();
-								} else if (renderQueue.processing == 1) {
-									renderQueue.processQueue(false, true);
-								} else {
-									renderQueue.processing = 0;
-								}
-							});
+						$("#q"+tid).removeClass("pending").addClass("completed");
+						
+						renderQueue.queue.splice(index,1); // Remove this element from queue (it is now done)
+						if ((renderQueue.queue.length == 0) || (index >= renderQueue.queue.length)) {
+							renderQueue.processing = 0; // Processing has ended
+							$("#process div").html("&#xe047;"); // Play Icon
+							renderQueue.pruneQueue();
+						} else if (renderQueue.processing == 1) {
+							renderQueue.processQueue(false, true);
+						} else {
+							renderQueue.processing = 0;
+						}
+						
+						$("#q"+tid).fadeOut(400, function() {
+							$(this).removeClass("pending-rgb").addClass("completed-rgb");		
+							$(this).fadeIn(400);
 						});
 					}.bind(renderQueue),
 					error: function() {
-						$("#q"+this.queue[index].title.id).addClass("pending");
-						$("#q"+this.queue[index].title.id).addClass("failed");
+						$("#q"+tid).removeClass("pending-rgb").addClass("pending").addClass("failed");
 						index += 1;
 						this.processQueue(false, true);
 					}.bind(renderQueue)
 				});
 
-			});
+			//});
 		});
 	},
 
