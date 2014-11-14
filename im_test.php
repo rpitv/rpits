@@ -6,19 +6,28 @@
 
 
 include("include.php");
-//include("imagick_include.php");
+include("Geo.php");
+include("Primitives.php");
 
-$gradient = $_GET['gradient'];
-$w = 600;
-$h = 300;
+$w = 500;
+$h = 500;
 
 $canvas = new Imagick();
 $canvas->newImage($w, $h, "none", 'png');
 $canvas->setImageDepth(8);
 $canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
 
-$result = fillRectangle($w,$h,$gradient);
-$canvas->compositeImage($result,Imagick::COMPOSITE_OVER,0,0);
+$sR = [
+		'x' => 10,
+		'y' => 10,
+		'w' => 400,
+		'h' => 60,
+		'color' => 'green'
+];
+
+$instanceOfSr = new SlantRectangle($sR);
+$instanceOfSr->addToCanvas($canvas,true);
+//echo $instanceOfSr->toJSON();
 
 header("Content-Type: image/" . IMGFMT);
 echo $canvas;
