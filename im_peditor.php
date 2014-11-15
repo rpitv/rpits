@@ -18,6 +18,8 @@ if($_GET['stats']) {
 	$team = fetchTeam($team_sel);
 	$chn = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=" . $team['chn_id'],"r");
 	$contents = stream_get_contents($chn);
+	$contents = mb_convert_encoding($contents, 'UTF-8', 'ASCII');
+	$contents = str_replace("\xc2\x9a", "\xc5\xa1" , $contents); // replace incorrect "Single Character Introducer" with "Small Latin S with Caron"
 	$data = parser($contents);
 	$output = '<table id="details">';
 	foreach($data as $players) {

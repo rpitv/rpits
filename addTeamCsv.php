@@ -29,8 +29,8 @@ if ($_GET['pull_url']) {
 
 	$chs = fopen("http://www.collegehockeystats.net/". $season ."/rosters/" . $chs_prefix, "r");
 	$contents = stream_get_contents($chs);
-	$contents = str_replace(chr(154), '&#154;' , $contents); // replace incorrect "Single Character Introducer" with HTML escaped "S Caron"
 	$contents = mb_convert_encoding($contents, 'UTF-8', 'ASCII');
+	$contents = str_replace("\xc2\x9a", "\xc5\xa1" , $contents); // replace incorrect "Single Character Introducer" with "Small Latin S with Caron"
 	$contents = addslashes($contents);
 	$contents = str_replace(chr(10), '', $contents);  // fix newline issues
 	$contents = str_replace(chr(13), '', $contents);
