@@ -67,7 +67,7 @@ if($server == 'animator') {
 		$log .= "PNG Path: $path, ";
 	}
 	if (!$data) {
-		$data = file_get_contents($system_path_prefix . "assets/blank.png");
+		$data = file_get_contents("assets/blank.png");
 		$log .= "ERROR: Couldn't load title; clearing existing title";
 	}
 
