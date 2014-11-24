@@ -47,7 +47,8 @@ $canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
 timestamp('post allocation');
 
 foreach ($title['geos'] as $geo) {
-	addGeoToCanvas($canvas,$geo,$bustCache);
+	$Geo = new $geo['type']($geo);
+	$Geo->addToCanvas($canvas,$bustCache);
 }
 
 timestamp ('post geos');
