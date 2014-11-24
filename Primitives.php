@@ -1,6 +1,6 @@
 <?php
 
-class SlantRectangle extends Geo {
+class slantRectangle extends Geo {
 
 	protected $defaults = [
 			// "required"
@@ -124,6 +124,193 @@ class SlantRectangle extends Geo {
 
 
 			$canvas->compositeImage($im2, imagick::COMPOSITE_OVER, $o['x'] - 10, $o['y'] - 10);
+		} catch (Exception $e) {
+			echo 'Error: ', $e->getMessage(), "";
+		}
+	}
+}
+
+class blackBox extends Geo {
+	protected $defaults = [
+			""
+	];
+
+	public function draw(&$canvas, $o, $bustCache) {
+		$rectangle = new Imagick();
+		$rectangle->newPseudoImage($o['w'], $o['h'], "xc:none");
+		$draw1 = new ImagickDraw();
+		$draw1->pushPattern('gradient', 0, 0, 5, 5);
+		$tile = new Imagick();
+		$tile->readImage(realpath("assets/diag_tile.png"));
+		$draw1->composite(Imagick::COMPOSITE_OVER, 0, 0, 5, 5, $tile);
+		$draw1->popPattern();
+		$draw1->setFillPatternURL('#gradient');
+		$draw1->rectangle(0, 0, $o['w'], $o['h']);
+		$rectangle->drawImage($draw1);
+
+		$gradient = new Imagick();
+		$gradient->newPseudoImage($o['w'], $o['h'], "gradient:#DDD-#666");
+
+		$rectangle->compositeImage($gradient, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+
+		$black = new Imagick();
+		$black->newPseudoImage($o['w'], $o['h'], "xc:black");
+
+		$layered = new Imagick();
+		$layered->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:none");
+		$layered->compositeImage($black, Imagick::COMPOSITE_OVER, 5, 0);
+		$layered->compositeImage($black, Imagick::COMPOSITE_OVER, 5, 5);
+		$layered->compositeImage($gradient, Imagick::COMPOSITE_COPYOPACITY, 5, 5);
+		$layered->blurImage(4, 5, imagick::CHANNEL_ALPHA);
+		$layered->compositeImage($black, Imagick::COMPOSITE_DSTOUT, 0, 0);
+
+		$canvas->compositeImage($layered, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$canvas->compositeImage($rectangle, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+	}
+}
+
+class plainText extends Geo {
+	protected $defaults = [
+			'color' => 'white',
+			'gravity' => 'center',
+			'font' => 'fontN',
+			'text' => ' ',
+			'case' => false,
+			'wordWrap' => false,
+	];
+	public function draw(&$canvas, $o, $bustCache) {
+		$text = defaultText($o);
+		$shadow = $text->clone();
+		$shadow->blurImage(4, 2, imagick::CHANNEL_ALPHA);
+		$text->colorizeImage($o['color'], 1);
+
+		$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+	}
+}
+
+class shadowText extends Geo {
+	protected $defaults = [
+			'color' => 'white',
+			'gravity' => 'center',
+			'font' => 'fontN',
+			'text' => ' ',
+			'case' => false,
+			'wordWrap' => false,
+	];
+
+	public function draw(&$canvas, $o, $bustCache) {
+		$text = defaultText($o);
+		$shadow = $text->clone();
+		$shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
+		$text->colorizeImage($o['color'], 1);
+
+		$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'] + 5, $o['y'] + 5);
+		$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+	}
+}
+
+class placeHeadshot extends Geo {
+	protected $defaults = [
+			'path' => '',
+			'shadow' => false
+	];
+
+	public function draw(&$canvas, $o, $bustCache) {
+		if (!file_exists($o['path'])) {
+			return; // TODO: Add better error handling
+		}
+		try {
+			$headshot = new Imagick();
+			$headshot->readImage(realpath($o['path']));
+
+			// This might cause problems with non-Player Portraits if aspect ratios are off.
+			$size = @getimagesize($o['path']);
+			$headshot->cropImage($size[0], $size[0] * 1.2, 0, 0);
+
+			$headshot->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
+
+			/* add drop shadow */
+			if ($o['shadow'] > 0) {
+				$shadow = $headshot->clone();
+				$shadow->setImageBackgroundColor('black');
+				$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
+				$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+			}
+
+			$canvas->compositeImage($headshot, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		} catch (Exception $e) {
+			echo 'Error: ', $e->getMessage(), "";
+		}
+	}
+}
+
+class placeImage extends Geo {
+	protected $defaults = [
+			'path' => '',
+			'padding' => 0,
+			'shadow' => false
+	];
+
+	public function draw(&$canvas, $o, $bustCache) {
+		if (!file_exists($o['path'])) {
+			return;
+		}
+		try {
+			if ($o['padding'] > 0) {
+				$o['x'] += $o['padding'];
+				$o['y'] += $o['padding'];
+				$o['w'] -= $o['padding']*2;
+				$o['h'] -= $o['padding']*2;
+			}
+
+			$img = new Imagick();
+			$img->readImage(realpath($o['path']));
+			$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1, true);
+
+			$actual_w = $img->getImageWidth( );
+			$actual_h = $img->getImageHeight( );
+
+			/* center image horizontally */
+			if ($actual_w < $o['w']) {
+				$o['x'] += ($o['w'] - $actual_w) / 2;
+			}
+
+			/* and vertically */
+			if ($actual_h < $o['h']) {
+				$o['y'] += ($o['h'] - $actual_h) / 2;
+			}
+
+			/* add drop shadow */
+			if ($o['shadow'] > 0){
+				$shadow = $img->clone();
+				$shadow->setImageBackgroundColor('black');
+				$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
+				$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+			}
+
+			$canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+		} catch (Exception $e) {
+			echo 'Error: ', $e->getMessage(), "";
+		}
+	}
+}
+
+class placeTexture extends Geo {
+	protected $defaults = [
+			'path' => ''
+	];
+
+	public function draw(&$canvas, $o, $bustCache) {
+		if (!file_exists($o['path'])) {
+			return;
+		}
+		try {
+			$texture = new Imagick();
+			$texture->readImage(realpath($o['path']));
+			$texture->cropImage($o[w], $o[h], 0, 0);
+			$canvas->compositeImage($texture, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 		} catch (Exception $e) {
 			echo 'Error: ', $e->getMessage(), "";
 		}

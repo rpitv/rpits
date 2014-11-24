@@ -1,132 +1,26 @@
 <?
 
-$gravities = array("west" => imagick::GRAVITY_WEST, "center" => imagick::GRAVITY_CENTER, "east" => imagick::GRAVITY_EAST);
-$fonts = array("fontN" => "fonts/GothamNarrow-Bold.otf", "font" => "fonts/Gotham-Bold.ttf", "fontX" => "fonts/GothamXNarrow-Bold.otf");
+include_once('Geo.php');
+include_once('Primitives.php');
+//include_once('Generator.php');
 
-function slantRectangle(&$canvas, $o) {
-	$background = "#FFFFFF";
-	//$ltr = '#000000';
-	$ltr = '#888';
-	$bd = '#A6A6A6';
-	$iglow = '#404040';
-
-	try {
-
-		$gradient1 = new Imagick();
-		$gradient1->newPseudoImage($o['h'], $o['w'] * 3 / 8, "gradient:white-$ltr");
-		$gradient1->rotateImage(new ImagickPixel(), 270);
-		$gradient2 = new Imagick();
-		$gradient2->newPseudoImage($o['h'], $o['w'] * 3 / 8, "gradient:$ltr-white");
-		$gradient2->rotateImage(new ImagickPixel(), 270);
-
-		$lefttoright = new Imagick();
-		$lefttoright->newPseudoImage($o['w'], $o['h'], "xc:$ltr");
-		$lefttoright->compositeImage($gradient1, imagick::COMPOSITE_OVER, 0, 0);
-		$lefttoright->compositeImage($gradient2, imagick::COMPOSITE_OVER, $o['w'] * 5 / 8, 0);
-
-		$whiteup = new Imagick();
-		$whiteup->newPseudoImage($o['w'], $o['h'] / 2, "gradient:black-#888");
-
-		$gradient1 = new Imagick();
-		$gradient1->newPseudoImage($o['w'], $o['h'] / 7, "gradient:$bd-white");
-		$gradient2 = new Imagick();
-		$gradient2->newPseudoImage($o['w'], $o['h'] / 7, "gradient:white-$bd");
-
-		$bottomdark = new Imagick();
-		$bottomdark->newPseudoImage($o['w'], $o['h'], "xc:white");
-		$bottomdark->compositeImage($gradient1, imagick::COMPOSITE_OVER, 0, 0);
-		$bottomdark->compositeImage($gradient2, imagick::COMPOSITE_OVER, 0, ($o['h'] / 2) - ($o['h'] / 7));
-
-		$background = fillRectangle($o['w'], $o['h'], $o['color']);
-
-		$background->compositeImage($lefttoright, imagick::COMPOSITE_MULTIPLY, 0, 0);
-
-		// experimental
-		if ($o['image']) {
-			$logo = new Imagick();
-			$logo->readImage(realpath($o['image']));
-			$logo->resizeImage($o['h'], $o['h'], imagick::FILTER_TRIANGLE, 1);
-			$background->compositeImage($logo, imagick::COMPOSITE_OVER, $o['w'] - $o['h'] - ($o['h'] / 3), 0);
+// Auto load geos/generators as they are needed
+function __autoload($className) {
+	$directories = ['','generators/'];
+	foreach($directories as $dir) {
+		echo 'path: ' . $dir . $className . '.php';
+		if(file_exists($dir . $className . '.php')) {
+			include_once($dir . $className . '.php');
+			return true;
 		}
-		$background->compositeImage($whiteup, imagick::COMPOSITE_SCREEN, 0, 0);
-		$background->compositeImage($bottomdark, imagick::COMPOSITE_MULTIPLY, 0, $o['h'] / 2);
-
-		$slantleft = new Imagick();
-		$slantleft->newPseudoImage($o['h'] * sqrt(5) / 2, 8, "gradient:$iglow-white");
-		$slantleft->rotateImage("none", 296.6);
-		$slantright = new Imagick();
-		$slantright->newPseudoImage($o['h'] * sqrt(5) / 2, 8, "gradient:$iglow-white");
-		$slantright->rotateImage("none", 117.2);
-
-		$top = new Imagick();
-		$top->newPseudoImage($o['w'], 8, "gradient:$iglow-white");
-		$bottom = new Imagick();
-		$bottom->newPseudoImage($o['w'], 8, "gradient:white-$iglow");
-
-		$slants = new Imagick();
-		$slants->newPseudoImage($o['w'], $o['h'], "xc:white");
-		$slants->compositeImage($slantleft, imagick::COMPOSITE_OVER, -1, 0);
-		$slants->compositeImage($slantright, imagick::COMPOSITE_OVER, $o['w'] - ($o['h'] / 2) - 9, 0);
-		$slants->compositeImage($top, imagick::COMPOSITE_MULTIPLY, 0, 0);
-		$slants->compositeImage($bottom, imagick::COMPOSITE_MULTIPLY, 0, $o['h'] - 8);
-
-		$background->compositeImage($slants, imagick::COMPOSITE_MULTIPLY, 0, 00);
-
-		$draw1 = new ImagickDraw();
-		$draw1->pushPattern('gradient', 0, 0, $o['w'], $o['h']);
-		$draw1->composite(Imagick::COMPOSITE_OVER, 0, 0, $o['w'], $o['h'], $background);
-		$draw1->popPattern();
-		$draw1->setFillPatternURL('#gradient');
-		$draw1->polygon(array(array('x' => 00, 'y' => $o['h'] - 1), array('x' => ($o['h'] / 2) - 1, 'y' => 00), array('x' => $o['w'] - 1, 'y' => 00), array('x' => $o['w'] - ($o['h'] / 2) - 1, 'y' => $o['h'] - 1)));
-
-		$points = array(array('x' => 0, 'y' => $o['h'] - 1), array('x' => ($o['h'] / 2) - 1, 'y' => 00), array('x' => $o['w'] - 1, 'y' => 00), array('x' => $o['w'] - ($o['h'] / 2) - 1, 'y' => $o['h'] - 1));
-
-		for ($i = 0; $i < 4; $i++) {
-			$points[$i]['x']+=10;
-			$points[$i]['y']+=10;
-		}
-
-		$shadow = new Imagick();
-		$shadow->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:none");
-		$draws = new ImagickDraw();
-		$draws->setFillColor("black");
-		$draws->polygon($points);
-		$shadow->drawImage($draws);
-		$shadow->blurImage(0, 4, imagick::CHANNEL_ALPHA);
-
-		$im = new Imagick();
-		$im->newPseudoImage($o['w'], $o['h'], "xc:none");
-
-		$im->drawImage($draw1);
-
-		$im2 = new Imagick();
-		$im2->newPseudoImage($o['w'] + 50, $o['h'] + 50, "xc:none");
-		$im2->compositeImage($shadow, imagick::COMPOSITE_OVER, 5, 5);
-		$draw1 = new ImagickDraw();
-		$draw1->setStrokeWidth(6);
-		$draw1->setStrokeColor("black");
-
-		$draw1->polygon($points);
-		$draw1->setStrokeWidth(2);
-		$draw1->setStrokeColor("white");
-		$draw1->polygon($points);
-		$im2->drawImage($draw1);
-
-		$im2->compositeImage($im, imagick::COMPOSITE_OVER, 10, 10);
-
-
-
-		$canvas->compositeImage($im2, imagick::COMPOSITE_OVER, $o['x'] - 10, $o['y'] - 10);
-	} catch (Exception $e) {
-		echo 'Error: ', $e->getMessage(), "";
 	}
+	die('Could not load class file named ' . $className . '.php');
 }
 
 function fillRectangle($w,$h,$color) {
 	if (preg_match('/linear-gradient\((.+)\)/', $color,$matches)) {
 		$commaRemoved = preg_replace("/rgb\(\s?([0-9]+),\s?([0-9]+),\s?([0-9]+)\)/", "rgb($1|$2|$3)", $matches[1]);
-		$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
-$groups = explode(',',$commaRemoved);
+		$groups = explode(',',$commaRemoved);
 		$direction = explode(' ',trim($groups[0]));
 		$stops = [];
 
@@ -197,41 +91,18 @@ $groups = explode(',',$commaRemoved);
 	
 }
 
-function blackBox(&$canvas, $o) {
-
-	$rectangle = new Imagick();
-	$rectangle->newPseudoImage($o['w'], $o['h'], "xc:none");
-	$draw1 = new ImagickDraw();
-	$draw1->pushPattern('gradient', 0, 0, 5, 5);
-	$tile = new Imagick();
-	$tile->readImage(realpath("assets/diag_tile.png"));
-	$draw1->composite(Imagick::COMPOSITE_OVER, 0, 0, 5, 5, $tile);
-	$draw1->popPattern();
-	$draw1->setFillPatternURL('#gradient');
-	$draw1->rectangle(0, 0, $o['w'], $o['h']);
-	$rectangle->drawImage($draw1);
-
-	$gradient = new Imagick();
-	$gradient->newPseudoImage($o['w'], $o['h'], "gradient:#DDD-#666");
-
-	$rectangle->compositeImage($gradient, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
-
-	$black = new Imagick();
-	$black->newPseudoImage($o['w'], $o['h'], "xc:black");
-
-	$layered = new Imagick();
-	$layered->newPseudoImage($o['w'] + 20, $o['h'] + 20, "xc:none");
-	$layered->compositeImage($black, Imagick::COMPOSITE_OVER, 5, 0);
-	$layered->compositeImage($black, Imagick::COMPOSITE_OVER, 5, 5);
-	$layered->compositeImage($gradient, Imagick::COMPOSITE_COPYOPACITY, 5, 5);
-	$layered->blurImage(4, 5, imagick::CHANNEL_ALPHA);
-	$layered->compositeImage($black, Imagick::COMPOSITE_DSTOUT, 0, 0);
-
-	$canvas->compositeImage($layered, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	$canvas->compositeImage($rectangle, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-}
-
 function defaultText($o) {
+
+	$gravities = [
+		"west" => imagick::GRAVITY_WEST,
+		"center" => imagick::GRAVITY_CENTER,
+		"east" => imagick::GRAVITY_EAST
+	];
+	$fonts = [
+		"fontN" => "fonts/GothamNarrow-Bold.otf",
+		"font" => "fonts/Gotham-Bold.ttf",
+		"fontX" => "fonts/GothamXNarrow-Bold.otf"
+	];
 
 	if ($o['case'] == 'upper') {
 		$o['text'] = strtoupper($o['text']);
@@ -240,8 +111,7 @@ function defaultText($o) {
 	if ($o['text'] == '') {
 		$o['text'] = ' ';
 	}
-
-	global $gravities, $fonts;
+	
 	$text = new Imagick();
 	$text->setFont($fonts[$o['font']]);
 	$text->setBackgroundColor("none");
@@ -256,117 +126,11 @@ function defaultText($o) {
 	return $text;
 }
 
-function plainText(&$canvas, $o) {
-	$text = defaultText($o);
-	$shadow = $text->clone();
-	$shadow->blurImage(4, 2, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
-
-	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-}
-
 function getTextWidth($o) {
 	$text = defaultText($o);
 	$text->trimImage(0);
 	$geo = $text->getImageGeometry();
 	return $geo["width"];
-}
-
-function shadowText(&$canvas, $o) {
-	$text = defaultText($o);
-	$shadow = $text->clone();
-  $shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
-
-	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'] + 5, $o['y'] + 5);
-	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-}
-
-function placeHeadshot(&$canvas, $o) {
-	if (!file_exists($o['path'])) {
-		return;
-	}
-	try {
-		$headshot = new Imagick();
-		$headshot->readImage(realpath($o['path']));
-
-		// This might cause problems with non-Player Portraits if aspect ratios are off.
-		$size = @getimagesize($o['path']);
-		$headshot->cropImage($size[0], $size[0] * 1.2, 0, 0);
-
-		$headshot->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1);
-
-		/* add drop shadow */
-		if ($o['shadow'] > 0) {
-			$shadow = $headshot->clone();
-			$shadow->setImageBackgroundColor('black');
-			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
-			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-		}
-
-		$canvas->compositeImage($headshot, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	} catch (Exception $e) {
-		echo 'Error: ', $e->getMessage(), "";
-	}
-}
-
-function placeImage(&$canvas, $o) {
-	if (!file_exists($o['path'])) {
-		return;
-	}
-	try {
-		if ($o['padding'] > 0) {
-			$o['x'] += $o['padding'];
-			$o['y'] += $o['padding'];
-			$o['w'] -= $o['padding']*2;
-			$o['h'] -= $o['padding']*2;
-		}
-
-		$img = new Imagick();
-		$img->readImage(realpath($o['path']));
-		$img->resizeImage($o['w'], $o['h'], imagick::FILTER_TRIANGLE, 1, true);
-
-		$actual_w = $img->getImageWidth( );
-		$actual_h = $img->getImageHeight( );
-
-		/* center image horizontally */
-		if ($actual_w < $o['w']) {
-			$o['x'] += ($o['w'] - $actual_w) / 2;
-		}
-
-		/* and vertically */
-		if ($actual_h < $o['h']) {
-			$o['y'] += ($o['h'] - $actual_h) / 2;
-		}
-
-		/* add drop shadow */
-		if ($o['shadow'] > 0){
-			$shadow = $img->clone();
-			$shadow->setImageBackgroundColor('black');
-			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
-			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-		}
-
-		$canvas->compositeImage($img, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	} catch (Exception $e) {
-		echo 'Error: ', $e->getMessage(), "";
-	}
-}
-
-function placeTexture(&$canvas, $o) {
-	if (!file_exists($o['path'])) {
-		return;
-	}
-	try {
-		$texture = new Imagick();
-		$texture->readImage(realpath($o['path']));
-		$texture->cropImage($o[w], $o[h], 0, 0);
-		$canvas->compositeImage($texture, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
-	} catch (Exception $e) {
-		echo 'Error: ', $e->getMessage(), "";
-	}
 }
 
 ?>
