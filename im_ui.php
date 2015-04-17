@@ -87,3 +87,18 @@ if (!$eventId) {
 <?php
 }
 ?>
+
+<!--select for adding titles-->
+<select hidden id="addSelect" style="max-width:40px; margin-left:2px;" title="Select a title template to add a new title to this event.">
+	<?php
+		//add blank
+		echo '<option value="+">+</option>';
+		$templates = glob("templates/*.xml");
+		foreach ($templates as $template) {
+			echo '<option value="'.$template.'">'.$template.'</option>';
+		}
+	?>
+</select>
+	
+	
+	

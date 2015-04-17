@@ -8,6 +8,7 @@
 			SPACEBAR: 32,
 			LETTER_A: 65,
 			LETTER_C: 67,
+			LETTER_D: 68,
 			ENTER: 13,
 			LETTER_R: 82,
 			LETTER_E: 69,
@@ -112,9 +113,12 @@
 			tabs.append(this.lists[key].renderTab());
 		}
 		var updateAll = $('<div id="updateAllContainer">');
+		updateAll.append('<button id="explainShortcuts" title="Huh? Shortcuts?" onclick="alert(\'Shortcuts:\\nUp, Down - Select\\nLeft, Right - Switch Tab\\nE - Edit\\nR - Preview\\nQ - Queue\\nU - Update All\\nF - Force Render\\nC - Cut\\nSpace - Fade in/out\\nA - Animate (players)\\nD - Delete\');" >?</button>');
 		updateAll.append('<button id="updateAll">Update All</button>');
 		updateAll.append('<label>Force:<input id="updateAllForce" type="checkbox" value="true" /></label>');
 		updateAll.append('<button id="bugUp">Up</button><button id="bugDown">Down</button>');
+		updateAll.append($("#addSelect"));
+		updateAll.children().show();
 		tabs.append(updateAll);
 		tabs.children('.tab').first().addClass('active');
 		tabs.attr('style',$('#tabstrip').attr('style'));

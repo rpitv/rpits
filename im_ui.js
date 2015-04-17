@@ -156,6 +156,23 @@ ui.applyListeners = function() {
 			document.getElementById("render").click();
 		} else if (event.keyCode == '85') { // u updates all
 			document.getElementById("updateFields").click();
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_D) { //D key, for deletion of title
+			//make sure user wants to do this
+			if (selected.data('title').type != "player" && confirm("Are you sure you want to delete this title?")){
+				var id = selected.data('title').id;
+				var eventId = ui.eventId.toString();
+				selected.remove();
+				
+				//clear preview if in use
+				if (ui.preview.active()){
+					ui.preview.off();
+				}
+				
+				var sql = 'DELETE FROM event_title WHERE title="' + id + '" AND event="' + eventId + '";';
+				$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'});
+			
+				$( "li" ).first().addClass("selected");
+			}
 		}
 	});
 
@@ -235,7 +252,7 @@ $(document).ready(function() {
 		});
 		eventsTable.loadTable(0,30);
 	});
-
+	
 	if (!ui.eventId) return;
 
 	ui.program = new RPITS.ui.Monitor({name:'Program',id:'program'});
@@ -281,3 +298,25 @@ function resizeWindow() {
 		}
 	}
 }
+
+
+
+//handle select change to add title
+$(function() {
+	$('#addSelect').on('change', function (e) {
+		//if it has a value (not empty), add the title
+		if ($("#addSelect").val() != "+")
+		{
+			//prompt user for name
+			var name = prompt("Name for the new title:");
+			if (name != null){
+				//http://graphics.ru.rpitv.org/rpits/im_event_title.php?parent=templates%2F2line.xml&name=&eventId=39&add=Add
+				var url = "im_event_title.php?parent=" + $("#addSelect").val() + "&name=" + name + "&eventId=" + ui.eventId.toString() + "&add=Add";
+				$.post( url, function(data){
+					location.reload();
+				});
+			}
+			
+		}
+	});
+});
