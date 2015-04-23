@@ -41,15 +41,46 @@ function EditableTable(options) {
 
 	this._toggleEditable = function(e) {
 		if($(e.target).closest('td:not(.editable):not(.action),td.displayFunction').length) return true;
-		var row = $(e.currentTarget);
-		var cell = $(e.target);
-		if(!row.hasClass('editing')) {
-			row.addClass('editing');
-			row.find('button.action').text('Save');
-			this._toggleInputs(row);
-			cell.find('input').focus();
-			row.find('input, button.action').keydown(function(e) {
-				if(e.keyCode == 13) {
+		
+		//handle removing from database
+		if ($(e.target).hasClass("delete")){
+			var id = $(e.target).parent().parent().find($(".id")).text();
+			var e_name = $(e.target).parent().parent().find($(".name")).text();
+			if (confirm("Are you sure you want to delete event id " + id + " with name: " + e_name)){
+				var sql = "DELETE FROM `" + options.db + "`.`events` WHERE `events`.`id` = " + id;
+				$(e.target).parent().parent().remove();
+				$.getJSON('sql.php',{db:options.db,sql:sql});
+			}
+		}
+		else{
+			var row = $(e.currentTarget);
+			var cell = $(e.target);
+			if(!row.hasClass('editing')) {
+				row.addClass('editing');
+				row.find('button.action').text('Save');
+				this._toggleInputs(row);
+				cell.find('input').focus();
+				row.find('input, button.action').keydown(function(e) {
+					if(e.keyCode == 13) {
+						this._toggleInputs(row);
+						this._saveRow(row);
+						row.find('button.action').text('Edit');
+						row.find('button.action').unbind();
+						row.removeClass('editing');
+						e.stopPropagation()
+						row.find('button.cancel').remove();
+					}
+				}.bind(this));
+				var cancelButton = $('<button class="cancel">Cancel</button>');
+				cancelButton.click(function(e) {
+					this._toggleInputs(row);
+					row.find('button.action').text('Edit');
+					row.find('button.action').unbind();
+					row.removeClass('editing');
+					e.stopPropagation()
+					row.find('button.cancel').remove();
+				}.bind(this));
+				row.find('button.action').click(function(e) {
 					this._toggleInputs(row);
 					this._saveRow(row);
 					row.find('button.action').text('Edit');
@@ -57,27 +88,9 @@ function EditableTable(options) {
 					row.removeClass('editing');
 					e.stopPropagation()
 					row.find('button.cancel').remove();
-				}
-			}.bind(this));
-			var cancelButton = $('<button class="cancel">Cancel</button>');
-			cancelButton.click(function(e) {
-				this._toggleInputs(row);
-				row.find('button.action').text('Edit');
-				row.find('button.action').unbind();
-				row.removeClass('editing');
-				e.stopPropagation()
-				row.find('button.cancel').remove();
-			}.bind(this));
-			row.find('button.action').click(function(e) {
-				this._toggleInputs(row);
-				this._saveRow(row);
-				row.find('button.action').text('Edit');
-				row.find('button.action').unbind();
-				row.removeClass('editing');
-				e.stopPropagation()
-				row.find('button.cancel').remove();
-			}.bind(this));
-			row.find('td.action').append(cancelButton);
+				}.bind(this));
+				row.find('td.action').append(cancelButton);
+			}
 		}
 	}
 
@@ -211,7 +224,7 @@ function EditableTable(options) {
 				dataRow.append(td);
 			}
 			if(i < data.rows.length)
-				dataRow.append('<td class="action"><button class="action">Edit</button></td>');
+				dataRow.append('<td class="action"><button class="action">Edit</button> <button class="delete">Delete</button></td>');
 			else
 				dataRow.append('<td class="action"><button class="action">Add</button></td>');
 			table.append(dataRow);
@@ -257,3 +270,5 @@ function EditableTable(options) {
 		}.bind(this));
 	}
 }
+
+
