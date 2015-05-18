@@ -8,4 +8,6 @@ RPITS Initial Setup Notes
   directories. 
   (e.g. `chgrp www-data cache thumbs out; chmod g+w cache thumbs out`).
 * The database needs to be initialized with some seed data (TODO)
+* Fonts need to be placed in the `fonts` directory. The fonts used in the
+  default theme cannot be distributed with rpits, so they are not included.
 

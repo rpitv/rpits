@@ -3,7 +3,7 @@ out/
 teamlogos/
 teams/
 csv/
-fonts/
+fonts/*
 nbproject/
 billboards/
 thumbs/*
