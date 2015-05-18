@@ -6,7 +6,9 @@ csv/
 fonts/
 nbproject/
 billboards/
-thumbs/
+thumbs/*
+cache/*
+out/*
 config.php
 sql/
 old-teams/
