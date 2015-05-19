@@ -1,5 +1,7 @@
 // Pass in CHS Stat Table and player object
-function parse_CHS_for_player(stats, p) {  
+/// TODO: Switch this over the the team object format from CHWT
+/// TODO: Switch this to parse the full stats (with +/-)
+function parse_CHS_for_player(stats, p) {
 	// skaters
 	var i = 4;
 	for (i; i<stats.length; i++) {
@@ -70,67 +72,66 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 	$('#tableEntry').hide();
 	$('#showTableEntry').show();
 
+	var players = [];
 	var num_players = 0;
-	var num_rows = 0;
+	var num_rows = $('#rosterTable tr').slice(rowsToSkip).first().find('td').length;
+
 	var submission_string = '';
 	var temp1 = '';
-	var temp2 = '';
 
 	$('#rosterTable tr').slice(rowsToSkip).each(function() {
-		var player = new Object();
+		var player = {};
 		num_players++;
-		num_rows = $(this).find('td').length;
 
-		$(this).find('td').each(function(index) {
-			switch (index) {
-				case 0: // parse number
-					player.number = $(this).text().trim().replace(/\#/g, '');
-					break;
-				case 1: // parse FIRST and LAST name and DRAFT
-					temp1 = $(this).text().trim().replace("\'", "\\\'");
+		if (num_rows === 8) {
+			player.female = true;
+		}
 
-					temp2 = temp1.split('|');
-					player.first_name = temp2.shift();  // get FIRST name(s)
+		player.number = $(this).children('td:nth-child(1)').text().trim().replace(/\#/g, '');
+		
+		temp1 = $(this).children('td:nth-child(2)').text().trim().split('|');
+		player.first_name = temp1.shift();  // get FIRST name(s)
+		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
+			player.draft_team = temp1.pop().substr(1,3);
+		}
+		player.last_name = temp1.join(" ").trim();
+		
+		player.year = $(this).children('td:nth-child(3)').text().slice(0, 2);
+		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
 
-					if (temp2[temp2.length-1].indexOf('(') >= 0) {  // get (DRAFT) out
-						temp1 = temp2.pop();
-						player.draft_pick = temp1.substr(1,3);
-					}
-					
-					player.last_name = temp2.join(" ").trim();
-					break;
-				case 2: // parse year
-					temp1 = $(this).text();
-					temp2 = temp1.charAt(1).toLowerCase(); 
-					player.year = temp1.charAt(0) + temp2;
-					break;
-				case 3: // parse position
-					player.position = $(this).text().trim();
-					if (player.position == "G") { player.stype = "hg"; }
-					break;
-				case 4: // parse height
-					player.height = $(this).text().trim();
-					break;
-				case 5: // parse weight (M)
-					if (num_rows == 9) {
-						player.weight = $(this).text().trim();
-					} else { //handedness (W)
-						//player.hand = $(this).text().trim();
-					}
-					break;
-				case 6: // parse handedness (M), age (W)
-
-					break;
-				case 7: // parse age (M), hometown + etc. (W)
-					if (num_rows == 8) {
-						player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
-					}
-					break;
-				case 8: // parse hometown and prev team (M)
-					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
-					break;
+		player.position = $(this).children('td:nth-child(4)').text().slice(0, 2).toLowerCase();
+		
+		if ($(this).children('td:nth-child(5)').text().trim()) {
+			player.height = $(this).children('td:nth-child(5)').text().trim().split('-');
+		}
+		// set info index based on gender (W skips weight column)
+		var i = 6;
+		if (!player.female) { // parse weight (M)
+			player.weight = $(this).children('td:nth-child('+i+')').text().trim();
+			i = 7;
+		}
+		// parse handedness at some point?
+		i++;
+		// parse age at some point?
+		i++;
+		// parse hometown and prev team
+		temp1 = $(this).children('td:nth-child('+i+')').text().trim().split(' / ');
+		player.hometown = sanitizeHometown(temp1[0]).join(', ');
+		player.prevteam = temp1[1].split(' |')[0].split(' (');
+		if (player.prevteam[1]) {
+			player.prevteam[1] = player.prevteam[1].split(')')[0];
+			if (player.prevteam[1] === "USHS") { // clarify USHS by state
+				player.prevteam[1] += "-" + getAbbr(player.hometown[1]);
 			}
-		});
+		} else {
+			player.prevteam[1] = ' ';
+		}
+		if (player.prevteam[0].indexOf("N/A") >= 0) {
+			player.prevteam[0] = ' ';
+			player.prevteam[1] = ' ';
+		}
+		
+		players[player.number] = player;
 
 		parse_CHS_for_player(stats, player);
 
@@ -159,31 +160,9 @@ function buildSubmissionLine(player) {
 		str += '|';
 	}
 
-	if (player.draft_pick) { str += player.draft_pick; }
+	if (player.draft_team) { str += player.draft_team; }
 
 	return str + '\n';
-}
-
-function sanitizeHometown(place) {
-	place = place.replace("\'", "\\\'");
-
-	if (place.indexOf(",")<0) { return place; }
-
-	var temp = place.split(",");
-	var state = temp.pop().trim();
-	var city = temp.join().trim();
-
-	var state2 = state.replace(/\./g, "");
-
-	if (state2.length <= 2) {
-		state = state2.toUpperCase();
-	} else if (state2 == getAbbr(state2)) {
-		// keep state as-is, even with '.' at end
-	} else {
-		state = getAbbr(state2);
-	}
-
-	return city + ", " + state;
 }
 
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
@@ -224,19 +203,8 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					player.last_name = temp2.join(" ").trim();
 					break;
 				case c.year: // parse year
-					temp1 = $(this).text().trim().toLowerCase();
-					if (temp1.indexOf("fr")>=0) {
-						temp2 = "Fr";
-					} else if (temp1.indexOf("so")>=0) {
-						temp2 = "So";
-					} else if (temp1.indexOf("jr")>=0) {
-						temp2 = "Jr";
-					} else if (temp1.indexOf("sr")>=0) {
-						temp2 = "Sr";
-					} else {
-						temp2 = $(this).text().trim();
-					}
-					player.year = temp2;
+					player.year = $(this).text().trim().slice(0, 2);
+					player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase()
 					break;
 				case c.position: // parse position
 					player.position = $(this).text().trim();
@@ -248,10 +216,10 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					player.weight = $(this).text().trim();
 					break;
 				case c.hometown: // parse hometown isolated
-					player.hometown = sanitizeHometown($(this).text().trim());
+					player.hometown = sanitizeHometown($(this).text().trim()).join(', ');
 					break;
 				case c.hometown_combined: // parse hometown from combined
-					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]);
+					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]).join(', ');
 					break;
 			}
 		});
@@ -301,7 +269,29 @@ function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
 
 	return cols;
 }
-	
+
+function sanitizeHometown(place) {
+	place = place.replace("\'", "\\\'");
+
+	if (place.indexOf(",")<0) { return place; }
+
+	var temp = place.split(",");
+	var state = temp.pop().trim();
+	var city = temp.join().trim();
+
+	var state2 = state.replace(/\./g, "");
+
+	if (state2.length <= 2) {
+		state = state2.toUpperCase();
+	} else if (state2 == getAbbr(state2)) {
+		// keep state as-is, even with '.' at end
+	} else {
+		state = getAbbr(state2);
+	}
+
+	return [city, state];
+}
+
 function validateFinalSubmission() {
 	if (($('#team_box').val()=="")||($('#team_box').val()==null)) {
 		alert('Please enter a team name for the player(s).');
