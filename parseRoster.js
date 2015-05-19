@@ -141,28 +141,8 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 	$('#csv_textarea').val(submission_string.trim());
 }
 
-function buildSubmissionLine(player) {
-	var str = '';
-
-	if (player.number) { str += player.number + '|'; } else { str += '|'; }
-
-	str += player.first_name + '|' + player.last_name + '|';
-	
-	if (player.position) { str += player.position + '|'; } else { str += '|'; }
-	if (player.height) { str += player.height + '|'; } else { str += '|'; }
-	if (player.weight) { str += player.weight + '|'; } else { str += '|'; }
-	if (player.year) { str += player.year + '|'; } else { str += '|'; }
-	if (player.hometown) { str += player.hometown + '|'; } else { str += '|'; }
-	if (player.stype) { str += player.stype + '|'; } else { str += '|'; }
-
-	for (var z = 1; z<=6; z++) {
-		if (player['s'+z]) { str += player['s'+z]; }
-		str += '|';
-	}
-
-	if (player.draft_team) { str += player.draft_team; }
-
-	return str + '\n';
+function buildSubmissionLine(p) {
+	return [p.number, p.first_name, p.last_name, p.position, p.height, p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
 }
 
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
