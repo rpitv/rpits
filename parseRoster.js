@@ -160,15 +160,12 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 	c = discoverColumnsSIDEARM();
 
 	var num_players = 0;
-	var num_rows = 0;
 	var submission_string = '';
 	var temp1 = '';
-	var temp2 = '';
 
 	$('#rosterSIDEARM tr').slice(rowsToSkip).each(function() {
-		var player = new Object();
+		var player = {};
 		num_players++;
-		num_rows = $(this).find('td').length;
 
 		$(this).find('td').each(function(index) {
 			switch (index) {
@@ -176,11 +173,9 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					player.number = $(this).text().trim().replace(/\#/g, '');
 					break;
 				case c.name: // parse FIRST and LAST name
-					temp1 = $(this).text().trim().replace("\'", "\\\'");
-
-					temp2 = temp1.split(' ');
-					player.first_name = temp2.shift();  // get FIRST name (assume 1 first name)
-					player.last_name = temp2.join(" ").trim();
+					temp1 = $(this).text().trim().replace('\'', '\\\'').split(' ');
+					player.first_name = temp1.shift();  // get FIRST name (assume 1 first name)
+					player.last_name = temp1.join(' ').trim();
 					break;
 				case c.year: // parse year
 					player.year = $(this).text().trim().slice(0, 2);
@@ -200,6 +195,7 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 					break;
 				case c.hometown_combined: // parse hometown from combined
 					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]).join(', ');
+					console.log(player.hometown);
 					break;
 			}
 		});
@@ -211,7 +207,7 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 }
 
 function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
-	var cols = new Object();
+	var cols = {};
 	var index = 0;
 
 	$("#other_page .default_dgrd_header th").each(function() {
@@ -253,7 +249,7 @@ function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
 function sanitizeHometown(place) {
 	place = place.replace("\'", "\\\'");
 
-	if (place.indexOf(",")<0) { return place; }
+	if (place.indexOf(",")<0) { return [place]; }
 
 	var temp = place.split(",");
 	var state = temp.pop().trim();

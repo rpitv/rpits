@@ -98,6 +98,7 @@ var StateAbbreviations =
 	"tex": "TX",
 	"wash": "WA",
 	"nev": "NV",
+	"del": "DE",
 
 };
 
