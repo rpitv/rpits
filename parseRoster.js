@@ -100,10 +100,10 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 		player.year = $(this).children('td:nth-child(3)').text().slice(0, 2);
 		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
 		// parse position
-		player.position = $(this).children('td:nth-child(4)').text().slice(0, 2).toLowerCase();
+		player.position = $(this).children('td:nth-child(4)').text().slice(0, 2);
 		// parse height
 		if ($(this).children('td:nth-child(5)').text().trim()) {
-			player.height = $(this).children('td:nth-child(5)').text().trim().split('-');
+			player.height = $(this).children('td:nth-child(5)').text().trim();
 		}
 		// set info index based on gender (W skips weight column)
 		var i = 6;
@@ -143,7 +143,7 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 }
 
 function buildSubmissionLine(p) {
-	return [p.number, p.first_name, p.last_name, p.position, p.height.join('-'), p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
+	return [p.number, p.first_name, p.last_name, p.position, p.height, p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
 }
 
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
