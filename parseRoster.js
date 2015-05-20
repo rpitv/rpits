@@ -58,7 +58,7 @@ function parse_CHS_for_player(stats, p) {
 	}
 }
 
-// Pass in the table HTML, and the number of initial rows not containing data
+// Pass in the table HTML, and the number of initial rows not containing data.
 function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 	if (rowsToSkip === undefined) {
 		rowsToSkip = 1; // assume 1 header row
@@ -142,10 +142,7 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 	$('#csv_textarea').val(submission_string.trim());
 }
 
-function buildSubmissionLine(p) {
-	return [p.number, p.first_name, p.last_name, p.position, p.height, p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
-}
-
+// Pass in SIDEARM HTML, and the number of initial rows not containing data.
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 	if (rowsToSkip === undefined) {
 		rowsToSkip = 1; // assume 1 header row
@@ -201,7 +198,8 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 	$('#csv_textarea').val(submission_string.trim());
 }
 
-function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
+// Find column order from SIDEARM HTML.
+function discoverColumnsSIDEARM() {
 	var cols = {};
 	var index = 1; // start at 1 because nth-child does for some reason
 
@@ -261,6 +259,28 @@ function sanitizeHometown(place) {
 	}
 
 	return [city, state];
+}
+
+// Build a formatted line of data for a given player.
+function buildSubmissionLine(p) {
+	return [
+		p.number,
+		p.first_name,
+		p.last_name,
+		p.position,
+		p.height,
+		p.weight,
+		p.year,
+		p.hometown,
+		p.stype,
+		p.s1,
+		p.s2,
+		p.s3,
+		p.s4,
+		p.s5,
+		p.s6,
+		p.draft_team,
+	].join('|') + '\n';
 }
 
 function validateFinalSubmission() {

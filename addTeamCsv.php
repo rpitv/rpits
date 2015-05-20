@@ -162,7 +162,7 @@ if ($csv) {
 <br/>
 <form action="addTeamCsv.php" method="POST" onsubmit="return validateFinalSubmission();">
 	<label>Team Name: <input id="team_box" type="text" name="team_sel" size="10" /> (Form: organization-team)</label>
-	<p>Entries should be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8<br/>
+	<p>Entries must be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8|draft<br/>
 	Missing information must be delimited (e.g., no weight -> ...height||year...)<br/>
 	Missing information or stats at the end of the line can be ignored.</p>
 	<textarea id="csv_textarea" name="csv" rows="30" cols="100"></textarea>
