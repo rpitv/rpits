@@ -90,7 +90,7 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 		// parse number
 		player.number = $(this).children('td:nth-child(1)').text().trim().replace(/\#/g, '');
 		// parse name
-		temp1 = $(this).children('td:nth-child(2)').text().trim().split('|');
+		temp1 = $(this).children('td:nth-child(2)').text().trim().replace("\'", "\\\'").split('|');
 		player.first_name = temp1.shift();  // get FIRST name(s)
 		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
 			player.draft_team = temp1.pop().substr(1,3);
