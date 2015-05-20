@@ -1,7 +1,7 @@
 // Pass in CHS Stat Table and player object
 /// TODO: Switch this over the the team object format from CHWT
 /// TODO: Switch this to parse the full stats (with +/-)
-function parse_CHS_for_player(stats, p) {
+function parse_CHS_text_for_player(stats, p) {
 	// skaters
 	var i = 4;
 	for (i; i<stats.length; i++) {
@@ -58,8 +58,17 @@ function parse_CHS_for_player(stats, p) {
 	}
 }
 
+// Parse CHS stats table to get player stat 
+function parseStatsCHS(t, stats_HTML) {
+	
+	console.log(stats_HTML);
+
+
+
+}
+
 // Pass in the table HTML, and the number of initial rows not containing data.
-function parse_table_HTML(table_HTML, stats, rowsToSkip) {
+function parse_table_HTML(table_HTML, stats_HTML, rowsToSkip) {
 	if (rowsToSkip === undefined) {
 		rowsToSkip = 1; // assume 1 header row
 	}
@@ -72,7 +81,7 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 	$('#tableEntry').hide();
 	$('#showTableEntry').show();
 
-	var players = [];
+	var team = [];
 	var num_players = 0;
 	var num_rows = $('#rosterTable tr').slice(rowsToSkip).first().find('td').length;
 
@@ -132,11 +141,15 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 			player.prevteam[1] = ' ';
 		}
 		
-		players[player.number] = player;
+		team[player.number] = player;
 
-		parse_CHS_for_player(stats, player);
+		//parse_CHS_text_for_player(stats_HTML, player);
+	});
 
-		submission_string += buildSubmissionLine(player);
+	parseStatsCHS(team, stats_HTML);
+
+	team.forEach( function (p) {
+		submission_string += buildSubmissionLine(p);
 	});
 
 	$('#csv_textarea').val(submission_string.trim());

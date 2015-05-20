@@ -32,20 +32,20 @@ if ($_GET['pull_url']) {
 	$contents = mb_convert_encoding($contents, 'UTF-8', 'ASCII');
 	$contents = str_replace("\xc2\x9a", "\xc5\xa1" , $contents); // replace incorrect "Single Character Introducer" with "Small Latin S with Caron"
 	$contents = addslashes($contents);
-	$contents = str_replace(chr(10), '', $contents);  // fix newline issues
-	$contents = str_replace(chr(13), '', $contents);
+	$contents = str_replace([chr(10), chr(13)], '', $contents);  // fix newline issues
 	$contents = stristr($contents, "<TABLE"); // get only table data from page
 	$contents = substr($contents, 0, (strrpos($contents, "</TABLE>")+8));
 
-	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/textstats/" . $chs_prefix, "r");
+	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/teamstats/" . $chs_prefix, "r");
 	$contents_stats = stream_get_contents($chs_stats);
-	//$contents_stats = mb_convert_encoding($contents_stats, 'UTF-8', 'ASCII'); // not currently needed for textstats
+	$contents_stats = mb_convert_encoding($contents_stats, 'UTF-8', 'ASCII');
 	$contents_stats = addslashes($contents_stats);
-	$contents_stats = str_replace(chr(10), '~', $contents_stats);  // fix newline issues, delimit with '~'
-	$contents_stats = str_replace(chr(13), '', $contents_stats);
-	$contents_stats = stristr($contents_stats, '<PRE CLASS=\"tiny\">'); // get only stats data from page
-	$contents_stats = substr(trim($contents_stats), 20, (strrpos($contents_stats, "</PRE>")-21));
-	$contents_stats = explode('~', $contents_stats);
+	$contents_stats = str_replace([chr(10), chr(13)], '', $contents_stats);  // fix newline issues
+	$contents_stats = stristr($contents_stats, "<table width=\\\"860"); // get only stat table data
+	$contents_stats = substr($contents_stats, 0, (strripos($contents_stats, "</TABLE><HR")+8));
+
+	//$contents_stats = stristr($contents_stats, '<PRE CLASS=\"tiny\">'); // get only stats data from page
+	//$contents_stats = substr(trim($contents_stats), 20, (strrpos($contents_stats, "</PRE>")-21));
 
 	$result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
 	$team_preset = mysql_fetch_assoc($result);
