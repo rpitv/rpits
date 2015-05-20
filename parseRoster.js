@@ -86,21 +86,22 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 		if (num_rows === 8) {
 			player.female = true;
 		}
-
-		player.number = $(this).children('td:nth-child(1)').text().trim().replace(/\#/g, '');
 		
+		// parse number
+		player.number = $(this).children('td:nth-child(1)').text().trim().replace(/\#/g, '');
+		// parse name
 		temp1 = $(this).children('td:nth-child(2)').text().trim().split('|');
 		player.first_name = temp1.shift();  // get FIRST name(s)
 		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
 			player.draft_team = temp1.pop().substr(1,3);
 		}
 		player.last_name = temp1.join(" ").trim();
-		
+		// parse year
 		player.year = $(this).children('td:nth-child(3)').text().slice(0, 2);
 		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
-
+		// parse position
 		player.position = $(this).children('td:nth-child(4)').text().slice(0, 2).toLowerCase();
-		
+		// parse height
 		if ($(this).children('td:nth-child(5)').text().trim()) {
 			player.height = $(this).children('td:nth-child(5)').text().trim().split('-');
 		}
@@ -142,7 +143,7 @@ function parse_table_HTML(table_HTML, stats, rowsToSkip) {
 }
 
 function buildSubmissionLine(p) {
-	return [p.number, p.first_name, p.last_name, p.position, p.height, p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
+	return [p.number, p.first_name, p.last_name, p.position, p.height.join('-'), p.weight, p.year, p.hometown, p.stype, p.s1, p.s2, p.s3, p.s4, p.s5, p.s6, p.draft_team].join('|') + '\n';
 }
 
 function parseRosterSIDEARM(table_HTML, rowsToSkip) {
@@ -167,38 +168,32 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 		var player = {};
 		num_players++;
 
-		$(this).find('td').each(function(index) {
-			switch (index) {
-				case c.number: // parse number
-					player.number = $(this).text().trim().replace(/\#/g, '');
-					break;
-				case c.name: // parse FIRST and LAST name
-					temp1 = $(this).text().trim().replace('\'', '\\\'').split(' ');
-					player.first_name = temp1.shift();  // get FIRST name (assume 1 first name)
-					player.last_name = temp1.join(' ').trim();
-					break;
-				case c.year: // parse year
-					player.year = $(this).text().trim().slice(0, 2);
-					player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase()
-					break;
-				case c.position: // parse position
-					player.position = $(this).text().trim();
-					break;
-				case c.height: // parse height
-					player.height = $(this).text().trim();
-					break;
-				case c.weight: // parse weight
-					player.weight = $(this).text().trim();
-					break;
-				case c.hometown: // parse hometown isolated
-					player.hometown = sanitizeHometown($(this).text().trim()).join(', ');
-					break;
-				case c.hometown_combined: // parse hometown from combined
-					player.hometown = sanitizeHometown($(this).text().trim().split(' / ')[0]).join(', ');
-					console.log(player.hometown);
-					break;
-			}
-		});
+		if (c.num) { // parse number
+			player.number = $(this).children('td:nth-child('+c.num+')').text().trim().replace(/\#/g, '');
+		}
+		if (c.name) { // parse FIRST and LAST name
+			temp1 = $(this).children('td:nth-child('+c.name+')').text().trim().replace('\'', '\\\'').split(' ');
+			player.first_name = temp1.shift();  // get FIRST name (assume 1 first name)
+			player.last_name = temp1.join(' ').trim();
+		}
+		if (c.yr) { // parse year
+			player.year = $(this).children('td:nth-child('+c.yr+')').text().trim().slice(0, 2);
+			player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
+		}
+		if (c.pos) { // parse position
+			player.position = $(this).children('td:nth-child('+c.pos+')').text().trim();
+		}
+		if (c.h) { // parse height
+			player.height = $(this).children('td:nth-child('+c.h+')').text().trim();
+		}
+		if (c.w) { // parse weight
+			player.weight = $(this).children('td:nth-child('+c.w+')').text().trim();
+		}
+		if (c.home) { // parse hometown isolated
+			player.hometown = sanitizeHometown($(this).children('td:nth-child('+c.home+')').text().trim()).join(', ');
+		} else if (c.home_comb) { // parse hometown from combined
+			player.hometown = sanitizeHometown($(this).children('td:nth-child('+c.home_comb+')').text().trim().split(' / ')[0]).join(', ');
+		}
 
 		submission_string += buildSubmissionLine(player);
 	});
@@ -208,31 +203,31 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 
 function discoverColumnsSIDEARM() { // Find column order from SIDEARM HTML
 	var cols = {};
-	var index = 0;
+	var index = 1; // start at 1 because nth-child does for some reason
 
 	$("#other_page .default_dgrd_header th").each(function() {
 		if ($(this).hasClass('roster_dgrd_header_no')) {
-			cols.number = index;
+			cols.num = index;
 		} else if ($(this).hasClass('roster_dgrd_header_full_name')) {
 			cols.name = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_position_short')) {
-			cols.position = index;
+			cols.pos = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_position_long')) {
-			cols.position = index;
+			cols.pos = index;
 		} else if ($(this).hasClass('roster_dgrd_header_height')) {
-			cols.height = index;
+			cols.h = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_weight')) {
-			cols.weight = index;
+			cols.w = index;
 		} else if ($(this).hasClass('roster_dgrd_header_academic_year')) {
-			cols.year = index;
+			cols.yr = index;
 		} else if ($(this).hasClass('roster_dgrd_header_player_hometown')) {
-			cols.hometown = index;
+			cols.home = index;
 		} else if ($(this).hasClass('roster_dgrd_player_hometown')) {
-			cols.hometown = index;
+			cols.home = index;
 		} else if ($(this).hasClass('roster_dgrd_header_highschool')) {
-			cols.highschool = index;
+			cols.hs = index;
 		} else if ($(this).hasClass('roster_dgrd_header_hometownhighschool')) {
-			cols.hometown_combined = index;
+			cols.home_comb = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_captain')) {
 			cols.captain = index;
 		} else if ($(this).hasClass('roster_dgrd_header_player_major')) {
