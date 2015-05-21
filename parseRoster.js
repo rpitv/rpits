@@ -5,23 +5,24 @@ function parseStatsCHS(t, stats_HTML) {
 
 	// skaters
 	$('#statsTable .chssmallreg:eq(0)').find('tr').slice(2).each(function() {
-		var n = $(this).children('td').first().text().trim();
+		var tds = $(this).children();
+		var n = tds.eq(0).text().trim();
 
 		if (t[n]) {
-			t[n].overall.s1 = $(this).children('td:nth-child(5)').text().trim();
+			t[n].overall.s1 = tds.eq(4).text().trim();
 			if (t[n].position === 'G') {
 				t[n].stype = 'hg';
 			} else {
 				t[n].stype = 'hp';
 				// overall stats
-				t[n].overall.s2 = $(this).children('td:nth-child(6)').text().trim();
-				t[n].overall.s3 = $(this).children('td:nth-child(7)').text().trim();
-				t[n].overall.s4 = $(this).children('td:nth-child(8)').text().trim();
-				t[n].overall.s5 = $(this).children('td:nth-child(9)').text().trim();
+				t[n].overall.s2 = tds.eq(5).text().trim();
+				t[n].overall.s3 = tds.eq(6).text().trim();
+				t[n].overall.s4 = tds.eq(7).text().trim();
+				t[n].overall.s5 = tds.eq(8).text().trim();
 				if (t[n].overall.s5) { // convert PEN/MIN to PIM
 					t[n].overall.s5 = t[n].overall.s5.split('/')[1];
 				}
-				t[n].overall.s6 = $(this).children('td:nth-child(13)').text().trim();
+				t[n].overall.s6 = tds.eq(12).text().trim();
 				if (t[n].overall.s6 === 'E') { // make 'E'ven into '0'
 					t[n].overall.s6 = '0';
 				} else if (!((t[n].overall.s6.indexOf('+')>-1)||(t[n].overall.s6.indexOf('-')>-1))) {
@@ -29,25 +30,25 @@ function parseStatsCHS(t, stats_HTML) {
 					t[n].stype = 'ho'; // assign correct stype if no +/-
 				}
 				// conference stats
-				t[n].conf.s1 = $(this).children('td:nth-child(15)').text().trim();
-				t[n].conf.s2 = $(this).children('td:nth-child(16)').text().trim();
-				t[n].conf.s3 = $(this).children('td:nth-child(17)').text().trim();
-				t[n].conf.s4 = $(this).children('td:nth-child(18)').text().trim();
-				t[n].conf.s5 = $(this).children('td:nth-child(19)').text().trim();
+				t[n].conf.s1 = tds.eq(14).text().trim();
+				t[n].conf.s2 = tds.eq(15).text().trim();
+				t[n].conf.s3 = tds.eq(16).text().trim();
+				t[n].conf.s4 = tds.eq(17).text().trim();
+				t[n].conf.s5 = tds.eq(18).text().trim();
 				if (t[n].conf.s5) { // convert PEN/MIN to PIM
 					t[n].conf.s5 = t[n].conf.s5.split('/')[1];
 				}
-				t[n].conf.s6 = $(this).children('td:nth-child(23)').text().trim();
+				t[n].conf.s6 = tds.eq(22).text().trim();
 				if (t[n].conf.s6 === 'E') { // make 'E'ven into '0'
 					t[n].conf.s6 = '0';
 				} else if (t[n].stype === 'ho') {
 					t[n].conf.s6 = '';
 				}
 				// career stats
-				t[n].career.s1 = $(this).children('td:nth-child(25)').text().trim();
-				t[n].career.s2 = $(this).children('td:nth-child(26)').text().trim();
-				t[n].career.s3 = $(this).children('td:nth-child(27)').text().trim();
-				t[n].career.s4 = $(this).children('td:nth-child(28)').text().trim();
+				t[n].career.s1 = tds.eq(24).text().trim();
+				t[n].career.s2 = tds.eq(25).text().trim();
+				t[n].career.s3 = tds.eq(26).text().trim();
+				t[n].career.s4 = tds.eq(27).text().trim();
 			}
 		} else {
 			console.log('Player "'+n+'" not found.');
@@ -66,21 +67,20 @@ function parseStatsCHS(t, stats_HTML) {
 				return true;
 			}
 		}
-		
-		var n = $(this).children('td').first().text().trim();
+		var tds = $(this).children();
+		var n = tds.eq(0).text().trim();
 		if (t[n]) {
-			t[n][stat_group].s1 = $(this).children('td:nth-child(4)').text().trim();
-			var record = $(this).children('td:nth-child(11)').text().trim().split('-');
+			t[n][stat_group].s1 = tds.eq(3).text().trim();
+			var record = tds.eq(10).text().trim().split('-');
 			t[n][stat_group].s2 = record[0];
 			t[n][stat_group].s3 = record[1];
 			t[n][stat_group].s4 = record[2];
-			t[n][stat_group].s5 = $(this).children('td:nth-child(9)').text().trim();
-			t[n][stat_group].s6 = $(this).children('td:nth-child(10)').text().trim();
+			t[n][stat_group].s5 = tds.eq(8).text().trim();
+			t[n][stat_group].s6 = tds.eq(9).text().trim();
 		} else {
 			console.log('Player "'+n+'" not found.');
 		}
 	});
-
 
 }
 
@@ -90,7 +90,7 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		rowsToSkip = 1; // assume 1 header row
 	}
 
-	// Sanitize nbsp weirdness - or NOT because it is useful for names
+	// Convert nbsp into something useful for splitting names
 	roster_HTML = roster_HTML.replace(/\&nbsp\;/g, '|' );
 
 	$('#rosterTable').html(roster_HTML);
@@ -106,6 +106,7 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 	var temp1 = '';
 
 	$('#rosterTable tr').slice(rowsToSkip).each(function() {
+		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
 
@@ -114,35 +115,35 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		}
 		
 		// parse number
-		player.number = $(this).children('td:nth-child(1)').text().trim().replace(/\#/g, '');
+		player.number = tds.eq(0).text().trim().replace(/\#/g, '');
 		// parse name
-		temp1 = $(this).children('td:nth-child(2)').text().trim().replace("\'", "\\\'").split('|');
+		temp1 = tds.eq(1).text().trim().replace("\'", "\\\'").split('|');
 		player.first_name = temp1.shift();  // get FIRST name(s)
 		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
 			player.draft_team = temp1.pop().substr(1,3);
 		}
 		player.last_name = temp1.join(" ").trim();
 		// parse year
-		player.year = $(this).children('td:nth-child(3)').text().slice(0, 2);
+		player.year = tds.eq(2).text().slice(0, 2);
 		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
 		// parse position
-		player.position = $(this).children('td:nth-child(4)').text().slice(0, 2);
+		player.position = tds.eq(3).text().slice(0, 2);
 		// parse height
-		if ($(this).children('td:nth-child(5)').text().trim()) {
-			player.height = $(this).children('td:nth-child(5)').text().trim();
+		if (tds.eq(4).text().trim()) {
+			player.height = tds.eq(4).text().trim();
 		}
 		// set info index based on gender (W skips weight column)
-		var i = 6;
+		var i = 5;
 		if (!player.female) { // parse weight (M)
-			player.weight = $(this).children('td:nth-child('+i+')').text().trim();
-			i = 7;
+			player.weight = tds.eq(i).text().trim();
+			i = 6;
 		}
 		// parse handedness at some point?
 		i++;
 		// parse age at some point?
 		i++;
 		// parse hometown and prev team
-		temp1 = $(this).children('td:nth-child('+i+')').text().trim().split(' / ');
+		temp1 = tds.eq(i).text().trim().split(' / ');
 		player.hometown = sanitizeHometown(temp1[0]).join(', ');
 		player.prev_team = temp1[1].split(' |')[0].split(' (');
 		if (player.prev_team[1]) {
@@ -159,8 +160,6 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		}
 		
 		team[player.number] = player;
-
-		//parse_CHS_text_for_player(stats_HTML, player);
 	});
 
 	parseStatsCHS(team, stats_HTML);
@@ -192,35 +191,35 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 	var temp1 = '';
 
 	$('#rosterSIDEARM tr').slice(rowsToSkip).each(function() {
+		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
-
 		num_players++;
 
-		if (c.num) { // parse number
-			player.number = $(this).children('td:nth-child('+c.num+')').text().trim().replace(/\#/g, '');
+		if (c.num || (c.num == '0')) { // parse number
+			player.number = tds.eq(c.num).text().trim().replace(/\#/g, '');
 		}
 		if (c.name) { // parse FIRST and LAST name
-			temp1 = $(this).children('td:nth-child('+c.name+')').text().trim().replace('\'', '\\\'').split(' ');
+			temp1 = tds.eq(c.name).text().trim().replace('\'', '\\\'').split(' ');
 			player.first_name = temp1.shift();  // get FIRST name (assume 1 first name)
 			player.last_name = temp1.join(' ').trim();
 		}
 		if (c.yr) { // parse year
-			player.year = $(this).children('td:nth-child('+c.yr+')').text().trim().slice(0, 2);
+			player.year = tds.eq(c.yr).text().trim().slice(0, 2);
 			player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
 		}
 		if (c.pos) { // parse position
-			player.position = $(this).children('td:nth-child('+c.pos+')').text().trim();
+			player.position = tds.eq(c.pos).text().trim();
 		}
 		if (c.h) { // parse height
-			player.height = $(this).children('td:nth-child('+c.h+')').text().trim();
+			player.height = tds.eq(c.h).text().trim();
 		}
 		if (c.w) { // parse weight
-			player.weight = $(this).children('td:nth-child('+c.w+')').text().trim();
+			player.weight = tds.eq(c.w).text().trim();
 		}
 		if (c.home) { // parse hometown isolated
-			player.hometown = sanitizeHometown($(this).children('td:nth-child('+c.home+')').text().trim()).join(', ');
+			player.hometown = sanitizeHometown(tds.eq(c.home).text().trim()).join(', ');
 		} else if (c.home_comb) { // parse hometown from combined
-			player.hometown = sanitizeHometown($(this).children('td:nth-child('+c.home_comb+')').text().trim().split(' / ')[0]).join(', ');
+			player.hometown = sanitizeHometown(tds.eq(c.home_comb).text().trim().split(' / ')[0]).join(', ');
 		}
 
 		submission_string += buildSubmissionLine(player);
@@ -232,7 +231,7 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 // Find column order from SIDEARM HTML.
 function discoverColumnsSIDEARM() {
 	var cols = {};
-	var index = 1; // start at 1 because nth-child does for some reason
+	var index = 0;
 
 	$("#other_page .default_dgrd_header th").each(function() {
 		if ($(this).hasClass('roster_dgrd_header_no')) {
