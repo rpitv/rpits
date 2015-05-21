@@ -13,6 +13,7 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].stype = 'hg';
 			} else {
 				t[n].stype = 'hp';
+				// overall stats
 				t[n].overall.s2 = $(this).children('td:nth-child(6)').text().trim();
 				t[n].overall.s3 = $(this).children('td:nth-child(7)').text().trim();
 				t[n].overall.s4 = $(this).children('td:nth-child(8)').text().trim();
@@ -27,7 +28,28 @@ function parseStatsCHS(t, stats_HTML) {
 					t[n].overall.s6 = '';
 					t[n].stype = 'ho'; // assign correct stype if no +/-
 				}
+				// conference stats
+				t[n].conf.s1 = $(this).children('td:nth-child(15)').text().trim();
+				t[n].conf.s2 = $(this).children('td:nth-child(16)').text().trim();
+				t[n].conf.s3 = $(this).children('td:nth-child(17)').text().trim();
+				t[n].conf.s4 = $(this).children('td:nth-child(18)').text().trim();
+				t[n].conf.s5 = $(this).children('td:nth-child(19)').text().trim();
+				if (t[n].conf.s5) { // convert PEN/MIN to PIM
+					t[n].conf.s5 = t[n].conf.s5.split('/')[1];
+				}
+				t[n].conf.s6 = $(this).children('td:nth-child(23)').text().trim();
+				if (t[n].conf.s6 === 'E') { // make 'E'ven into '0'
+					t[n].conf.s6 = '0';
+				} else if (t[n].stype === 'ho') {
+					t[n].conf.s6 = '';
+				}
+				// career stats
+				t[n].career.s1 = $(this).children('td:nth-child(25)').text().trim();
+				t[n].career.s2 = $(this).children('td:nth-child(26)').text().trim();
+				t[n].career.s3 = $(this).children('td:nth-child(27)').text().trim();
+				t[n].career.s4 = $(this).children('td:nth-child(28)').text().trim();
 
+				console.log(t[n]);
 			}
 		} else {
 			console.log('Player "'+n+'" not found.');
@@ -116,18 +138,18 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		// parse hometown and prev team
 		temp1 = $(this).children('td:nth-child('+i+')').text().trim().split(' / ');
 		player.hometown = sanitizeHometown(temp1[0]).join(', ');
-		player.prevteam = temp1[1].split(' |')[0].split(' (');
-		if (player.prevteam[1]) {
-			player.prevteam[1] = player.prevteam[1].split(')')[0];
-			if (player.prevteam[1] === "USHS") { // clarify USHS by state
-				player.prevteam[1] += "-" + getAbbr(player.hometown[1]);
+		player.prev_team = temp1[1].split(' |')[0].split(' (');
+		if (player.prev_team[1]) {
+			player.prev_team[1] = player.prev_team[1].split(')')[0];
+			if (player.prev_team[1] === "USHS") { // clarify USHS by state
+				player.prev_team[1] += "-" + getAbbr(player.hometown[1]);
 			}
 		} else {
-			player.prevteam[1] = ' ';
+			player.prev_team[1] = ' ';
 		}
-		if (player.prevteam[0].indexOf("N/A") >= 0) {
-			player.prevteam[0] = ' ';
-			player.prevteam[1] = ' ';
+		if (player.prev_team[0].indexOf("N/A") >= 0) {
+			player.prev_team[0] = ' ';
+			player.prev_team[1] = ' ';
 		}
 		
 		team[player.number] = player;
