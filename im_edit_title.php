@@ -145,39 +145,53 @@ echo '</div>'
 		return false;
 	});
 
-	$("#updateFields").click(function() { // Update All
+	function updateAll(deferred) {
 		var updated = 0;
+		var requests = [];
 		$(".edit_form").each(function() {
 			if ($(this).data("changed")) {
 				$(this).data("changed", false); // now matches the database
 				updated = 1;
 				var form = $(this);
 				form.children("input:last").attr("value", "Submitting");
-				$.ajax({
+				requests.push($.ajax({
 					type: "POST",
 					url: "cdb_update.php",
 					data: $(this).serializeArray(),
 					success: function(data) {
 						form.children("input:last").attr("value", data);
 					}
-				});
+				}));
 			}
-			if (updated) {
-				window.renderQueue.addToQueue(<?= $titleId ?>);
-			}
+		});
+		$.when(requests).then(function() {
+			deferred.resolve();
+		});
+	}
+	
+	$("#updateFields").click(function() { // Update All Button
+		var deferred = $.Deferred();
+		updateAll(deferred);
+		deferred.done(function() {
+			window.renderQueue.addToQueue(<?= $titleId ?>);
 		});
 	});
 
-	$("#render").click(function() { // Force Render
-		var button = $(this).html("Rendering");
+	$("#render").click(function() { // Force Render Button
+		var button = $(this);
 		var renderTid = $(this).attr("tid");
-		$.ajax({
-			type: "GET",
-			url: "im_render_title.php?id="+renderTid+"&bustCache=true" + (ui.eventId ? '&eventId=' + ui.eventId : ''),
-			success: function(data) {
-				button.html("Done Rendering");
-				window.renderQueue.removeFromQueue(renderTid);
-			}
+		var deferred = $.Deferred();
+		updateAll(deferred);
+		deferred.done(function() {
+			button.html("Rendering");
+			$.ajax({
+				type: "GET",
+				url: "im_render_title.php?id="+renderTid+"&bustCache=true" + (ui.eventId ? '&eventId=' + ui.eventId : ''),
+				success: function(data) {
+					button.html("Done Rendering");
+					window.renderQueue.removeFromQueue(renderTid);
+				}
+			});
 		});
 	});
 
