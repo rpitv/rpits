@@ -53,7 +53,9 @@ if ($_GET['pull_url']) {
 	$(document).ready( function() {
 		var content_roster = "<?= $roster ?>";
 		var content_stat = "<?= $stats ?>";
-		//$("#CHSabbr, #parseTableHTML, #boxSIDEARM").hide()  // hide unneeded things
+		
+		$("#CHSabbr, #parseTableHTML, #boxSIDEARM").hide()  // hide unneeded things
+		
 		parse_table_HTML(content_roster, content_stat);
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
 	});

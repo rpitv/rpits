@@ -1,79 +1,17 @@
-// Pass in CHS Stat Table and player object
-/// TODO: Switch this over the the team object format from CHWT
-/// TODO: Switch this to parse the full stats (with +/-)
-function parse_CHS_text_for_player(stats, p) {
-	// skaters
-	var i = 4;
-	for (i; i<stats.length; i++) {
-		// find the current player (hacky)
-		if (parseInt(stats[i][0]+stats[i][1]) == p.number) {
-
-			if (!p.stype) { p.stype = 'ho'; } else { continue; }
-
-			var pstats = stats[i].split(" | ")[1];
-			pstats = pstats.replace(/  +/g, ' ').split(' ');
-
-			p.s1 = pstats[0];
-			p.s2 = pstats[1];
-			p.s3 = pstats[2];
-			p.s4 = pstats[3];
-			if (pstats.length == 10) { // penalty minutes
-				p.s5 = pstats[5];
-			} else {
-				p.s5 = 0;
-			}
-			p.s6 = '';
-
-			break;
-		}
-		if (stats[i][0]=="-") { break; }
-	}
-
-	if (p.stype == 'ho') { return; }
-
-	// goalies
-	var j = i + 5;
-	for (j;j<i+11;j++) {
-		if (!$.isNumeric((stats[j][0])+stats[j][1])){ break; }
-
-		if (parseInt(stats[j][0]+stats[j][1]) == p.number) {
-			var pstats = stats[j].split(" | ")[1];
-			pstats = pstats.trim().replace(/  +/g, ' ').split(' ');
-
-			p.s1 = pstats[0];
-
-			// record
-			var record = pstats[7]+pstats[8]+pstats[9];
-			if (record.length > 8) {
-				record = record.slice(0,record.indexOf(pstats[pstats.length-4][0]));
-			}
-			record = record.split('-');
-			p.s2 = record[0];
-			p.s3 = record[1];
-			p.s4 = record[2];
-
-			p.s5 = pstats[5];
-			p.s6 = pstats[6];
-		}
-	}
-}
-
 // Parse CHS stats table to get player stat 
 function parseStatsCHS(t, stats_HTML) {
 	$('#statsTable').html(stats_HTML);
 	$('#statsTable table').css('font-size', '8pt');
 
-	$('#statsTable tr').each(function() {
-		if ($(this).css('background-color')!='rgba(0, 0, 0, 0)') {
-			console.log('Skipping header row.');
-		}
+	// skaters
+	$('#statsTable .chssmallreg:eq(0)').find('tr').slice(2).each(function() {
 		var n = $(this).children('td').first().text().trim();
 		if (t[n]) {
+			t[n].s1 = $(this).children('td:nth-child(5)').text().trim();
 			if (t[n].position === 'G') {
 				t[n].stype = 'hg';
 			} else {
 				t[n].stype = 'hp';
-				t[n].s1 = $(this).children('td:nth-child(5)').text().trim();
 				t[n].s2 = $(this).children('td:nth-child(6)').text().trim();
 				t[n].s3 = $(this).children('td:nth-child(7)').text().trim();
 				t[n].s4 = $(this).children('td:nth-child(8)').text().trim();
@@ -84,16 +22,37 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].s6 = $(this).children('td:nth-child(13)').text().trim();
 				if (t[n].s6 === 'E') { // make 'E'ven into '0'
 					t[n].s6 = '0';
-				} else if (!((t[n].s6.indexOf('+')>-1)||(t[n].s6.indexOf('-')>-1))) { // +/-?
+				} else if (!((t[n].s6.indexOf('+')>-1)||(t[n].s6.indexOf('-')>-1))) {
 					t[n].s6 = '';
-					t[n].stype = 'ho';
+					t[n].stype = 'ho'; // assign correct stype if no +/-
 				}
 
 			}
 		} else {
-			console.log('Player #'+n+' not found.');
+			console.log('Player "'+n+'" not found.');
 		}
 	});
+
+	// goaltenders
+	$('#statsTable .chssmallreg:eq(1)').find('tr').slice(1).each(function() {
+		if ($(this).css('background-color')!='rgba(0, 0, 0, 0)') {
+			return false; // only care about overall stats right now
+		}		
+
+		var n = $(this).children('td').first().text().trim();
+		if (t[n]) {
+			var record = $(this).children('td:nth-child(11)').text().trim().split('-');
+			t[n].s2 = record[0];
+			t[n].s3 = record[1];
+			t[n].s4 = record[2];
+			t[n].s5 = $(this).children('td:nth-child(9)').text().trim();
+			t[n].s6 = $(this).children('td:nth-child(10)').text().trim();
+		} else {
+			console.log('Player "'+n+'" not found.');
+		}
+	});
+
+
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
