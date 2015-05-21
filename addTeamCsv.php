@@ -53,7 +53,7 @@ if ($_GET['pull_url']) {
 	$(document).ready( function() {
 		var content_roster = "<?= $roster ?>";
 		var content_stat = "<?= $stats ?>";
-		$("#CHSabbr, #parseTableHTML, #boxSIDEARM").hide()  // hide unneeded things
+		//$("#CHSabbr, #parseTableHTML, #boxSIDEARM").hide()  // hide unneeded things
 		parse_table_HTML(content_roster, content_stat);
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
 	});
@@ -142,6 +142,7 @@ if ($csv) {
 	<label>Parse HTML Table:
 		<button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Box</button><br/>
 		<div id="rosterTable" style="visibility: auto;"></div>
+		<div id="statsTable" style="visibility: auto;"></div>
 		<div id="tableEntry" style="display:none;">
 			<textarea id="tableHTML" rows="10" cols="100"></textarea>
 			<button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Table</button>

@@ -60,27 +60,55 @@ function parse_CHS_text_for_player(stats, p) {
 
 // Parse CHS stats table to get player stat 
 function parseStatsCHS(t, stats_HTML) {
-	
-	//console.log(stats_HTML);
+	$('#statsTable').html(stats_HTML);
+	$('#statsTable table').css('font-size', '8pt');
 
+	$('#statsTable tr').each(function() {
+		if ($(this).css('background-color')!='rgba(0, 0, 0, 0)') {
+			console.log('Skipping header row.');
+		}
+		var n = $(this).children('td').first().text().trim();
+		if (t[n]) {
+			if (t[n].position === 'G') {
+				t[n].stype = 'hg';
+			} else {
+				t[n].stype = 'hp';
+				t[n].s1 = $(this).children('td:nth-child(5)').text().trim();
+				t[n].s2 = $(this).children('td:nth-child(6)').text().trim();
+				t[n].s3 = $(this).children('td:nth-child(7)').text().trim();
+				t[n].s4 = $(this).children('td:nth-child(8)').text().trim();
+				t[n].s5 = $(this).children('td:nth-child(9)').text().trim();
+				if (t[n].s5) { // convert PEN/MIN to PIM
+					t[n].s5 = t[n].s5.split('/')[1];
+				}
+				t[n].s6 = $(this).children('td:nth-child(13)').text().trim();
+				if (t[n].s6 === 'E') { // make 'E'ven into '0'
+					t[n].s6 = '0';
+				} else if (!((t[n].s6.indexOf('+')>-1)||(t[n].s6.indexOf('-')>-1))) { // +/-?
+					t[n].s6 = '';
+					t[n].stype = 'ho';
+				}
 
-
+			}
+		} else {
+			console.log('Player #'+n+' not found.');
+		}
+	});
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
-function parse_table_HTML(table_HTML, stats_HTML, rowsToSkip) {
+function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 	if (rowsToSkip === undefined) {
 		rowsToSkip = 1; // assume 1 header row
 	}
 
 	// Sanitize nbsp weirdness - or NOT because it is useful for names
-	table_HTML = table_HTML.replace(/\&nbsp\;/g, '|' );
+	roster_HTML = roster_HTML.replace(/\&nbsp\;/g, '|' );
 
-	$('#rosterTable').html(table_HTML);
+	$('#rosterTable').html(roster_HTML);
 	$('#rosterTable table').css('font-size', '8pt');
 	$('#rosterTable').show();
 	$('#tableEntry').hide();
-	$('#showTableEntry').show();
 
 	var team = [];
 	var num_players = 0;
