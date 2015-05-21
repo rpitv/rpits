@@ -6,24 +6,25 @@ function parseStatsCHS(t, stats_HTML) {
 	// skaters
 	$('#statsTable .chssmallreg:eq(0)').find('tr').slice(2).each(function() {
 		var n = $(this).children('td').first().text().trim();
+
 		if (t[n]) {
-			t[n].s1 = $(this).children('td:nth-child(5)').text().trim();
+			t[n].overall.s1 = $(this).children('td:nth-child(5)').text().trim();
 			if (t[n].position === 'G') {
 				t[n].stype = 'hg';
 			} else {
 				t[n].stype = 'hp';
-				t[n].s2 = $(this).children('td:nth-child(6)').text().trim();
-				t[n].s3 = $(this).children('td:nth-child(7)').text().trim();
-				t[n].s4 = $(this).children('td:nth-child(8)').text().trim();
-				t[n].s5 = $(this).children('td:nth-child(9)').text().trim();
-				if (t[n].s5) { // convert PEN/MIN to PIM
-					t[n].s5 = t[n].s5.split('/')[1];
+				t[n].overall.s2 = $(this).children('td:nth-child(6)').text().trim();
+				t[n].overall.s3 = $(this).children('td:nth-child(7)').text().trim();
+				t[n].overall.s4 = $(this).children('td:nth-child(8)').text().trim();
+				t[n].overall.s5 = $(this).children('td:nth-child(9)').text().trim();
+				if (t[n].overall.s5) { // convert PEN/MIN to PIM
+					t[n].overall.s5 = t[n].overall.s5.split('/')[1];
 				}
-				t[n].s6 = $(this).children('td:nth-child(13)').text().trim();
-				if (t[n].s6 === 'E') { // make 'E'ven into '0'
-					t[n].s6 = '0';
-				} else if (!((t[n].s6.indexOf('+')>-1)||(t[n].s6.indexOf('-')>-1))) {
-					t[n].s6 = '';
+				t[n].overall.s6 = $(this).children('td:nth-child(13)').text().trim();
+				if (t[n].overall.s6 === 'E') { // make 'E'ven into '0'
+					t[n].overall.s6 = '0';
+				} else if (!((t[n].overall.s6.indexOf('+')>-1)||(t[n].overall.s6.indexOf('-')>-1))) {
+					t[n].overall.s6 = '';
 					t[n].stype = 'ho'; // assign correct stype if no +/-
 				}
 
@@ -42,11 +43,11 @@ function parseStatsCHS(t, stats_HTML) {
 		var n = $(this).children('td').first().text().trim();
 		if (t[n]) {
 			var record = $(this).children('td:nth-child(11)').text().trim().split('-');
-			t[n].s2 = record[0];
-			t[n].s3 = record[1];
-			t[n].s4 = record[2];
-			t[n].s5 = $(this).children('td:nth-child(9)').text().trim();
-			t[n].s6 = $(this).children('td:nth-child(10)').text().trim();
+			t[n].overall.s2 = record[0];
+			t[n].overall.s3 = record[1];
+			t[n].overall.s4 = record[2];
+			t[n].overall.s5 = $(this).children('td:nth-child(9)').text().trim();
+			t[n].overall.s6 = $(this).children('td:nth-child(10)').text().trim();
 		} else {
 			console.log('Player "'+n+'" not found.');
 		}
@@ -77,7 +78,7 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 	var temp1 = '';
 
 	$('#rosterTable tr').slice(rowsToSkip).each(function() {
-		var player = {};
+		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
 
 		if (num_rows === 8) {
@@ -163,7 +164,8 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 	var temp1 = '';
 
 	$('#rosterSIDEARM tr').slice(rowsToSkip).each(function() {
-		var player = {};
+		var player = { overall:{}, conf:{}, career:{} };
+
 		num_players++;
 
 		if (c.num) { // parse number
@@ -274,12 +276,12 @@ function buildSubmissionLine(p) {
 		p.year,
 		p.hometown,
 		p.stype,
-		p.s1,
-		p.s2,
-		p.s3,
-		p.s4,
-		p.s5,
-		p.s6,
+		p.overall.s1,
+		p.overall.s2,
+		p.overall.s3,
+		p.overall.s4,
+		p.overall.s5,
+		p.overall.s6,
 		p.draft_team,
 	].join('|') + '\n';
 }
