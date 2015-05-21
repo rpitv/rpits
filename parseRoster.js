@@ -48,8 +48,6 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].career.s2 = $(this).children('td:nth-child(26)').text().trim();
 				t[n].career.s3 = $(this).children('td:nth-child(27)').text().trim();
 				t[n].career.s4 = $(this).children('td:nth-child(28)').text().trim();
-
-				console.log(t[n]);
 			}
 		} else {
 			console.log('Player "'+n+'" not found.');
@@ -57,19 +55,27 @@ function parseStatsCHS(t, stats_HTML) {
 	});
 
 	// goaltenders
+	var stat_group = 'overall';
 	$('#statsTable .chssmallreg:eq(1)').find('tr').slice(1).each(function() {
-		if ($(this).css('background-color')!='rgba(0, 0, 0, 0)') {
-			return false; // only care about overall stats right now
-		}		
-
+		if ($(this).css('background-color') === 'rgb(51, 51, 51)') {
+			if (stat_group === 'overall') {
+				stat_group = 'conf';
+				return true;
+			} else if (stat_group === 'conf') {
+				stat_group = 'career';
+				return true;
+			}
+		}
+		
 		var n = $(this).children('td').first().text().trim();
 		if (t[n]) {
+			t[n][stat_group].s1 = $(this).children('td:nth-child(4)').text().trim();
 			var record = $(this).children('td:nth-child(11)').text().trim().split('-');
-			t[n].overall.s2 = record[0];
-			t[n].overall.s3 = record[1];
-			t[n].overall.s4 = record[2];
-			t[n].overall.s5 = $(this).children('td:nth-child(9)').text().trim();
-			t[n].overall.s6 = $(this).children('td:nth-child(10)').text().trim();
+			t[n][stat_group].s2 = record[0];
+			t[n][stat_group].s3 = record[1];
+			t[n][stat_group].s4 = record[2];
+			t[n][stat_group].s5 = $(this).children('td:nth-child(9)').text().trim();
+			t[n][stat_group].s6 = $(this).children('td:nth-child(10)').text().trim();
 		} else {
 			console.log('Player "'+n+'" not found.');
 		}
