@@ -61,7 +61,7 @@ function parse_CHS_text_for_player(stats, p) {
 // Parse CHS stats table to get player stat 
 function parseStatsCHS(t, stats_HTML) {
 	
-	console.log(stats_HTML);
+	//console.log(stats_HTML);
 
 
 
@@ -78,6 +78,7 @@ function parse_table_HTML(table_HTML, stats_HTML, rowsToSkip) {
 
 	$('#rosterTable').html(table_HTML);
 	$('#rosterTable table').css('font-size', '8pt');
+	$('#rosterTable').show();
 	$('#tableEntry').hide();
 	$('#showTableEntry').show();
 
