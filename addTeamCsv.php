@@ -115,7 +115,7 @@ if ($csv) {
 	$chn_puller = mysql_fetch_assoc($result);
 
 ?>
-	<br/><a href="statsloader.php?tid=<?= $chn_puller['chn_id'] ?>">Update Stats</a>
+	<br><a href="statsloader.php?tid=<?= $chn_puller['chn_id'] ?>">Update Stats</a>
 <?php
   include("peditor.php");
 } else { 
@@ -141,10 +141,10 @@ if ($csv) {
 </div>
 
 <div id="parseTableHTML">
+	<div id="rosterTable" style="visibility: auto;"></div>
+	<div id="statsTable" style="visibility: auto;"></div>
 	<label>Parse HTML Table:
-		<button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Box</button><br/>
-		<div id="rosterTable" style="visibility: auto;"></div>
-		<div id="statsTable" style="visibility: auto;"></div>
+		<button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Box</button><br>
 		<div id="tableEntry" style="display:none;">
 			<textarea id="tableHTML" rows="10" cols="100"></textarea>
 			<button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Table</button>

@@ -82,6 +82,9 @@ function parseStatsCHS(t, stats_HTML) {
 		}
 	});
 
+	// team stats
+
+	//console.log(t);
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
@@ -114,37 +117,43 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 			player.female = true;
 		}
 		
-		// parse number
+		// number
 		player.number = tds.eq(0).text().trim().replace(/\#/g, '');
-		// parse name
+		// name
 		temp1 = tds.eq(1).text().trim().replace("\'", "\\\'").split('|');
 		player.first_name = temp1.shift();  // get FIRST name(s)
 		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
 			player.draft_team = temp1.pop().substr(1,3);
 		}
 		player.last_name = temp1.join(" ").trim();
-		// parse year
+		// year
 		player.year = tds.eq(2).text().slice(0, 2);
 		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
-		// parse position
+		//  position
 		player.position = tds.eq(3).text().slice(0, 2);
-		// parse height
+		// height
 		if (tds.eq(4).text().trim()) {
 			player.height = tds.eq(4).text().trim();
 		}
-		// set info index based on gender (W skips weight column)
+		// set info index based on gender (W skips weight)
 		var i = 5;
-		if (!player.female) { // parse weight (M)
+		if (!player.female) { // weight (M)
 			player.weight = tds.eq(i).text().trim();
 			i = 6;
 		}
-		// parse handedness at some point?
+		// parse handedness
+		if (tds.eq(i).text().trim()) {
+			player.hand = tds.eq(i).text().trim();
+		}
 		i++;
-		// parse age at some point?
+		// age
+		if (tds.eq(i).text().replace('|', '').trim()) {
+			player.age = tds.eq(i).text().replace('|', '').trim();
+		}
 		i++;
-		// parse hometown and prev team
+		// hometown and prev team
 		temp1 = tds.eq(i).text().trim().split(' / ');
-		player.hometown = sanitizeHometown(temp1[0]).join(', ');
+		player.hometown = sanitizeHometown(temp1[0]);
 		player.prev_team = temp1[1].split(' |')[0].split(' (');
 		if (player.prev_team[1]) {
 			player.prev_team[1] = player.prev_team[1].split(')')[0];
@@ -152,13 +161,17 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 				player.prev_team[1] += "-" + getAbbr(player.hometown[1]);
 			}
 		} else {
-			player.prev_team[1] = ' ';
+			player.prev_team = player.prev_team[0];
 		}
 		if (player.prev_team[0].indexOf("N/A") >= 0) {
-			player.prev_team[0] = ' ';
-			player.prev_team[1] = ' ';
+			player.prev_team = undefined;
 		}
-		
+		if (tds.eq(i).children().length) {
+			player.prev_college = tds.eq(i).children().first().text().slice(18, -1).split(' (');
+		}
+
+		player.hometown = player.hometown.join(', ');
+	
 		team[player.number] = player;
 	});
 
