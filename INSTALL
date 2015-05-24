@@ -10,4 +10,6 @@ RPITS Initial Setup Notes
 * The database needs to be initialized with some seed data (TODO)
 * Fonts need to be placed in the `fonts` directory. The fonts used in the
   default theme cannot be distributed with rpits, so they are not included.
+* You will have issues if RAM is scarce. If running with limited RAM (e.g.
+  on a VPS), make sure that some swap space is available.
 
