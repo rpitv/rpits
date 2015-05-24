@@ -14,12 +14,14 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].stype = 'hg';
 			} else {
 				t[n].stype = 'hp';
+
 				// overall stats
 				t[n].overall.s2 = tds.eq(5).text().trim();
 				t[n].overall.s3 = tds.eq(6).text().trim();
 				t[n].overall.s4 = tds.eq(7).text().trim();
 				t[n].overall.s5 = tds.eq(8).text().trim();
 				if (t[n].overall.s5) { // convert PEN/MIN to PIM
+					t[n].overall.penalties = t[n].overall.s5.split('/')[0];
 					t[n].overall.s5 = t[n].overall.s5.split('/')[1];
 				}
 				t[n].overall.s6 = tds.eq(12).text().trim();
@@ -29,6 +31,17 @@ function parseStatsCHS(t, stats_HTML) {
 					t[n].overall.s6 = '';
 					t[n].stype = 'ho'; // assign correct stype if no +/-
 				}
+				// extra stats (for now)
+				t[n].overall.ppg = tds.eq(9).text().trim(); // Power Play Goals
+				t[n].overall.shg = tds.eq(10).text().trim(); // Short Handed Goals
+				t[n].overall.gwg = tds.eq(11).text().trim(); // Game Winning Goals
+				if (t[n].stype === 'hp') {
+					t[n].overall.sog = tds.eq(13).text().trim(); // Shots on Goal
+				} else {
+					t[n].overall.gtg = tds.eq(12).text().trim(); // Game Tying Goals
+					t[n].overall.eng = tds.eq(13).text().trim(); // Empty Net Goals
+				}
+
 				// conference stats
 				t[n].conf.s1 = tds.eq(14).text().trim();
 				t[n].conf.s2 = tds.eq(15).text().trim();
@@ -36,6 +49,7 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].conf.s4 = tds.eq(17).text().trim();
 				t[n].conf.s5 = tds.eq(18).text().trim();
 				if (t[n].conf.s5) { // convert PEN/MIN to PIM
+					t[n].conf.penalties = t[n].conf.s5.split('/')[0];
 					t[n].conf.s5 = t[n].conf.s5.split('/')[1];
 				}
 				t[n].conf.s6 = tds.eq(22).text().trim();
@@ -44,6 +58,17 @@ function parseStatsCHS(t, stats_HTML) {
 				} else if (t[n].stype === 'ho') {
 					t[n].conf.s6 = '';
 				}
+				// extra stats (for now)
+				t[n].conf.ppg = tds.eq(19).text().trim();
+				t[n].conf.shg = tds.eq(20).text().trim();
+				t[n].conf.gwg = tds.eq(21).text().trim();
+				if (t[n].stype === 'hp') {
+					t[n].conf.sog = tds.eq(23).text().trim();
+				} else {	
+					t[n].conf.gtg = tds.eq(22).text().trim();
+					t[n].conf.eng = tds.eq(23).text().trim();
+				}
+
 				// career stats
 				t[n].career.s1 = tds.eq(24).text().trim();
 				t[n].career.s2 = tds.eq(25).text().trim();
@@ -51,7 +76,7 @@ function parseStatsCHS(t, stats_HTML) {
 				t[n].career.s4 = tds.eq(27).text().trim();
 			}
 		} else {
-			console.log('Player "'+n+'" not found.');
+			console.log('Skater "'+n+'" not found.');
 		}
 	});
 
@@ -77,20 +102,33 @@ function parseStatsCHS(t, stats_HTML) {
 			t[n][stat_group].s4 = record[2];
 			t[n][stat_group].s5 = tds.eq(8).text().trim();
 			t[n][stat_group].s6 = tds.eq(9).text().trim();
+			// extra stats (for now)
+			t[n][stat_group].minutes = tds.eq(4).text().trim();
+			t[n][stat_group].ga = tds.eq(5).text().trim();
+			t[n][stat_group].saves = tds.eq(6).text().trim();
+			t[n][stat_group].sog = tds.eq(7).text().trim();
+			if (tds.eq(11).text().trim() != '---' ) {
+				t[n][stat_group].win_pct = tds.eq(11).text().trim();
+			}
+			t[n][stat_group].gs = tds.eq(12).text().trim(); // Games Started
+			t[n][stat_group].so = tds.eq(13).text().trim(); // Shut Outs
+			if (tds.eq(14).text().trim()) {
+				t[n][stat_group].pct_time = tds.eq(14).text().trim();
+			}
 		} else {
-			console.log('Player "'+n+'" not found.');
+			console.log('Goaltender "'+n+'" not found.');
 		}
 	});
 
 	// team stats
 
-	//console.log(t);
+	console.log(t);
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
-function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
-	if (rowsToSkip === undefined) {
-		rowsToSkip = 1; // assume 1 header row
+function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
+	if (skip_rows === undefined) {
+		skip_rows = 1; // assume 1 header row
 	}
 
 	// Convert nbsp into something useful for splitting names
@@ -103,12 +141,12 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 
 	var team = [];
 	var num_players = 0;
-	var num_rows = $('#rosterTable tr').slice(rowsToSkip).first().find('td').length;
+	var num_rows = $('#rosterTable tr').slice(skip_rows).first().find('td').length;
 
 	var submission_string = '';
-	var temp1 = '';
+	var temp = '';
 
-	$('#rosterTable tr').slice(rowsToSkip).each(function() {
+	$('#rosterTable tr').slice(skip_rows).each(function() {
 		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
@@ -120,16 +158,16 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		// number
 		player.number = tds.eq(0).text().trim().replace(/\#/g, '');
 		// name
-		temp1 = tds.eq(1).text().trim().replace("\'", "\\\'").split('|');
-		player.first_name = temp1.shift();  // get FIRST name(s)
-		if (temp1[temp1.length-1].indexOf('(') >= 0) { // get (DRAFT) team
-			player.draft_team = temp1.pop().substr(1,3);
+		temp = tds.eq(1).text().trim().replace("\'", "\\\'").split('|');
+		player.first_name = temp.shift();  // get FIRST name(s)
+		if (temp[temp.length-1].indexOf('(') >= 0) { // get (DRAFT) team
+			player.draft_team = temp.pop().substr(1,3);
 		}
-		player.last_name = temp1.join(" ").trim();
+		player.last_name = temp.join(" ").trim();
 		// year
 		player.year = tds.eq(2).text().slice(0, 2);
 		player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
-		//  position
+		// position
 		player.position = tds.eq(3).text().slice(0, 2);
 		// height
 		if (tds.eq(4).text().trim()) {
@@ -152,9 +190,9 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 		}
 		i++;
 		// hometown and prev team
-		temp1 = tds.eq(i).text().trim().split(' / ');
-		player.hometown = sanitizeHometown(temp1[0]);
-		player.prev_team = temp1[1].split(' |')[0].split(' (');
+		temp = tds.eq(i).text().trim().split(' / ');
+		player.hometown = sanitizeHometown(temp[0]);
+		player.prev_team = temp[1].split(' |')[0].split(' (');
 		if (player.prev_team[1]) {
 			player.prev_team[1] = player.prev_team[1].split(')')[0];
 			if (player.prev_team[1] === "USHS") { // clarify USHS by state
@@ -185,9 +223,9 @@ function parse_table_HTML(roster_HTML, stats_HTML, rowsToSkip) {
 }
 
 // Pass in SIDEARM HTML, and the number of initial rows not containing data.
-function parseRosterSIDEARM(table_HTML, rowsToSkip) {
-	if (rowsToSkip === undefined) {
-		rowsToSkip = 1; // assume 1 header row
+function parseRosterSIDEARM(table_HTML, skip_rows) {
+	if (skip_rows === undefined) {
+		skip_rows = 1; // assume 1 header row
 	}
 
 	// Sanitize nbsp weirdness
@@ -201,37 +239,37 @@ function parseRosterSIDEARM(table_HTML, rowsToSkip) {
 
 	var num_players = 0;
 	var submission_string = '';
-	var temp1 = '';
+	var temp = '';
 
-	$('#rosterSIDEARM tr').slice(rowsToSkip).each(function() {
+	$('#rosterSIDEARM tr').slice(skip_rows).each(function() {
 		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
 
-		if (c.num || (c.num == '0')) { // parse number
+		if (c.num || (c.num == '0')) { // number
 			player.number = tds.eq(c.num).text().trim().replace(/\#/g, '');
 		}
-		if (c.name) { // parse FIRST and LAST name
-			temp1 = tds.eq(c.name).text().trim().replace('\'', '\\\'').split(' ');
-			player.first_name = temp1.shift();  // get FIRST name (assume 1 first name)
-			player.last_name = temp1.join(' ').trim();
+		if (c.name) { // FIRST and LAST name
+			temp = tds.eq(c.name).text().trim().replace('\'', '\\\'').split(' ');
+			player.first_name = temp.shift();  // get FIRST name (assume 1 first name)
+			player.last_name = temp.join(' ').trim();
 		}
-		if (c.yr) { // parse year
+		if (c.yr) { // year
 			player.year = tds.eq(c.yr).text().trim().slice(0, 2);
 			player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
 		}
-		if (c.pos) { // parse position
+		if (c.pos) { // position
 			player.position = tds.eq(c.pos).text().trim();
 		}
-		if (c.h) { // parse height
+		if (c.h) { // height
 			player.height = tds.eq(c.h).text().trim();
 		}
-		if (c.w) { // parse weight
+		if (c.w) { // weight
 			player.weight = tds.eq(c.w).text().trim();
 		}
-		if (c.home) { // parse hometown isolated
+		if (c.home) { // hometown isolated
 			player.hometown = sanitizeHometown(tds.eq(c.home).text().trim()).join(', ');
-		} else if (c.home_comb) { // parse hometown from combined
+		} else if (c.home_comb) { // hometown combined
 			player.hometown = sanitizeHometown(tds.eq(c.home_comb).text().trim().split(' / ')[0]).join(', ');
 		}
 
