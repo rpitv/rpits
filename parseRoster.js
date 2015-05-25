@@ -1,7 +1,8 @@
 // Parse CHS stats table to get player stat 
-function parseStatsCHS(t, stats_HTML) {
+function parseStatsCHS(team, stats_HTML) {
 	$('#statsTable').html(stats_HTML);
 	$('#statsTable table').css('font-size', '8pt');
+	t = team.players;
 
 	// skaters
 	$('#statsTable .chssmallreg:eq(0)').find('tr').slice(2).each(function() {
@@ -121,8 +122,155 @@ function parseStatsCHS(t, stats_HTML) {
 	});
 
 	// team stats
+	var own = team.stats.own;
+	var opp = team.stats.opp;
+	var diff = team.stats.diff;
 
-	console.log(t);
+	var tds = $('#statsTable .chssmallreg:eq(2)').find('tr').slice(2).children();
+
+	own.special_teams.overall.pp = tds.eq(1).text().trim();
+	own.special_teams.overall.pp_pct = tds.eq(2).text().trim();
+	own.special_teams.overall.pk = tds.eq(3).text().trim();
+	own.special_teams.overall.pk_pct = tds.eq(4).text().trim();
+	own.special_teams.overall.comb = tds.eq(5).text().trim();
+	own.special_teams.overall.comb_pct = tds.eq(6).text().trim();
+	own.special_teams.overall.ppc_g = tds.eq(7).text().trim();
+	own.special_teams.conf.pp = tds.eq(8).text().trim();
+	own.special_teams.conf.pp_pct = tds.eq(9).text().trim();
+	own.special_teams.conf.pk = tds.eq(10).text().trim();
+	own.special_teams.conf.pk_pct = tds.eq(11).text().trim();
+	own.special_teams.conf.comb = tds.eq(12).text().trim();
+	own.special_teams.conf.comb_pct = tds.eq(13).text().trim();
+	own.special_teams.conf.ppc_g = tds.eq(14).text().trim();
+
+	opp.special_teams.overall.pp = tds.eq(16).text().trim();
+	opp.special_teams.overall.pp_pct = tds.eq(17).text().trim();
+	opp.special_teams.overall.pk = tds.eq(18).text().trim();
+	opp.special_teams.overall.pk_pct = tds.eq(19).text().trim();
+	opp.special_teams.overall.comb = tds.eq(20).text().trim();
+	opp.special_teams.overall.comb_pct = tds.eq(21).text().trim();
+	opp.special_teams.overall.ppc_g = tds.eq(22).text().trim();
+	opp.special_teams.conf.pp = tds.eq(23).text().trim();
+	opp.special_teams.conf.pp_pct = tds.eq(24).text().trim();
+	opp.special_teams.conf.pk = tds.eq(25).text().trim();
+	opp.special_teams.conf.pk_pct = tds.eq(26).text().trim();
+	opp.special_teams.conf.comb = tds.eq(27).text().trim();
+	opp.special_teams.conf.comb_pct = tds.eq(28).text().trim();
+	opp.special_teams.conf.ppc_g = tds.eq(29).text().trim();
+
+	tds = $('#statsTable .chssmallreg:eq(3)').find('tr').slice(2).children();
+
+	own.scoring.overall.first = tds.eq(1).text().trim();
+	own.scoring.overall.second = tds.eq(2).text().trim();
+	own.scoring.overall.third = tds.eq(3).text().trim();
+	own.scoring.overall.ot = tds.eq(4).text().trim();
+	own.scoring.overall.total = tds.eq(5).text().trim();
+	own.shots.overall.first = tds.eq(6).text().trim();
+	own.shots.overall.second = tds.eq(7).text().trim();
+	own.shots.overall.third = tds.eq(8).text().trim();
+	own.shots.overall.ot = tds.eq(9).text().trim();
+	own.shots.overall.sog = tds.eq(10).text().trim();
+	own.scoring.conf.first = tds.eq(11).text().trim();
+	own.scoring.conf.second = tds.eq(12).text().trim();
+	own.scoring.conf.third = tds.eq(13).text().trim();
+	own.scoring.conf.ot = tds.eq(14).text().trim();
+	own.scoring.conf.total = tds.eq(15).text().trim();
+	own.shots.conf.first = tds.eq(16).text().trim();
+	own.shots.conf.second = tds.eq(17).text().trim();
+	own.shots.conf.third = tds.eq(18).text().trim();
+	own.shots.conf.ot = tds.eq(19).text().trim();
+	own.shots.conf.sog = tds.eq(20).text().trim();
+
+	opp.scoring.overall.first = tds.eq(21).text().trim();
+	opp.scoring.overall.second = tds.eq(22).text().trim();
+	opp.scoring.overall.third = tds.eq(23).text().trim();
+	opp.scoring.overall.ot = tds.eq(24).text().trim();
+	opp.scoring.overall.total = tds.eq(25).text().trim();
+	opp.shots.overall.first = tds.eq(26).text().trim();
+	opp.shots.overall.second = tds.eq(27).text().trim();
+	opp.shots.overall.third = tds.eq(28).text().trim();
+	opp.shots.overall.ot = tds.eq(29).text().trim();
+	opp.shots.overall.sog = tds.eq(30).text().trim();
+	opp.scoring.conf.first = tds.eq(31).text().trim();
+	opp.scoring.conf.second = tds.eq(32).text().trim();
+	opp.scoring.conf.third = tds.eq(33).text().trim();
+	opp.scoring.conf.ot = tds.eq(34).text().trim();
+	opp.scoring.conf.total = tds.eq(35).text().trim();
+	opp.shots.conf.first = tds.eq(36).text().trim();
+	opp.shots.conf.second = tds.eq(37).text().trim();
+	opp.shots.conf.third = tds.eq(38).text().trim();
+	opp.shots.conf.ot = tds.eq(39).text().trim();
+	opp.shots.conf.sog = tds.eq(40).text().trim();
+	
+	diff.scoring.overall.first = tds.eq(41).text().trim();
+	diff.scoring.overall.second = tds.eq(42).text().trim();
+	diff.scoring.overall.third = tds.eq(43).text().trim();
+	diff.scoring.overall.ot = tds.eq(44).text().trim();
+	diff.scoring.overall.total = tds.eq(45).text().trim();
+	diff.shots.overall.first = tds.eq(46).text().trim();
+	diff.shots.overall.second = tds.eq(47).text().trim();
+	diff.shots.overall.third = tds.eq(48).text().trim();
+	diff.shots.overall.ot = tds.eq(49).text().trim();
+	diff.shots.overall.sog = tds.eq(50).text().trim();
+	diff.scoring.conf.first = tds.eq(51).text().trim();
+	diff.scoring.conf.second = tds.eq(52).text().trim();
+	diff.scoring.conf.third = tds.eq(53).text().trim();
+	diff.scoring.conf.ot = tds.eq(54).text().trim();
+	diff.scoring.conf.total = tds.eq(55).text().trim();
+	diff.shots.conf.first = tds.eq(56).text().trim();
+	diff.shots.conf.second = tds.eq(57).text().trim();
+	diff.shots.conf.third = tds.eq(58).text().trim();
+	diff.shots.conf.ot = tds.eq(59).text().trim();
+	diff.shots.conf.sog = tds.eq(60).text().trim();
+	
+	var tds = $('#statsTable .chssmallreg:eq(4)').find('tr').slice(2).children();
+
+	own.avgs.overall.goals = tds.eq(1).text().trim();
+	own.avgs.overall.assists = tds.eq(2).text().trim();
+	own.avgs.overall.points = tds.eq(3).text().trim();
+	own.avgs.overall.sog = tds.eq(4).text().trim();
+	own.avgs.overall.penalties = tds.eq(5).text().trim();
+	own.avgs.overall.pim = tds.eq(6).text().trim();
+	own.avgs.overall.ppg = tds.eq(7).text().trim();
+	own.avgs.conf.goals = tds.eq(8).text().trim();
+	own.avgs.conf.assists = tds.eq(9).text().trim();
+	own.avgs.conf.points = tds.eq(10).text().trim();
+	own.avgs.conf.sog = tds.eq(11).text().trim();
+	own.avgs.conf.penalties = tds.eq(12).text().trim();
+	own.avgs.conf.pim = tds.eq(13).text().trim();
+	own.avgs.conf.ppg = tds.eq(14).text().trim();
+
+	opp.avgs.overall.goals = tds.eq(16).text().trim();
+	opp.avgs.overall.assists = tds.eq(17).text().trim();
+	opp.avgs.overall.points = tds.eq(18).text().trim();
+	opp.avgs.overall.sog = tds.eq(19).text().trim();
+	opp.avgs.overall.penalties = tds.eq(20).text().trim();
+	opp.avgs.overall.pim = tds.eq(21).text().trim();
+	opp.avgs.overall.ppg = tds.eq(22).text().trim();
+	opp.avgs.conf.goals = tds.eq(23).text().trim();
+	opp.avgs.conf.assists = tds.eq(24).text().trim();
+	opp.avgs.conf.points = tds.eq(25).text().trim();
+	opp.avgs.conf.sog = tds.eq(26).text().trim();
+	opp.avgs.conf.penalties = tds.eq(27).text().trim();
+	opp.avgs.conf.pim = tds.eq(28).text().trim();
+	opp.avgs.conf.ppg = tds.eq(29).text().trim();
+
+	diff.avgs.overall.goals = tds.eq(31).text().trim();
+	diff.avgs.overall.assists = tds.eq(32).text().trim();
+	diff.avgs.overall.points = tds.eq(33).text().trim();
+	diff.avgs.overall.sog = tds.eq(34).text().trim();
+	diff.avgs.overall.penalties = tds.eq(35).text().trim();
+	diff.avgs.overall.pim = tds.eq(36).text().trim();
+	diff.avgs.overall.ppg = tds.eq(37).text().trim();
+	diff.avgs.conf.goals = tds.eq(38).text().trim();
+	diff.avgs.conf.assists = tds.eq(39).text().trim();
+	diff.avgs.conf.points = tds.eq(40).text().trim();
+	diff.avgs.conf.sog = tds.eq(41).text().trim();
+	diff.avgs.conf.penalties = tds.eq(42).text().trim();
+	diff.avgs.conf.pim = tds.eq(43).text().trim();
+	diff.avgs.conf.ppg = tds.eq(44).text().trim();
+
+	console.log(team.stats);
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
@@ -139,7 +287,30 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	$('#rosterTable').show();
 	$('#tableEntry').hide();
 
-	var team = [];
+	var team = {
+		players: [],
+		stats: {
+			own: {
+				special_teams: { overall:{}, conf:{} },
+				scoring: { overall:{}, conf:{} },
+				shots: { overall:{}, conf:{} },
+				avgs: { overall:{}, conf:{} },
+				situash: { overall:{}, conf:{} },
+			},
+			opp: {
+				special_teams: { overall:{}, conf:{} },
+				scoring: { overall:{}, conf:{} },
+				shots: { overall:{}, conf:{} },
+				avgs: { overall:{}, conf:{} },
+				situash: { overall:{}, conf:{} },	
+			},
+			diff: {
+				scoring: { overall:{}, conf:{} },
+				shots: { overall:{}, conf:{} },
+				avgs: { overall:{}, conf:{} },
+			},
+		},
+	};
 	var num_players = 0;
 	var num_rows = $('#rosterTable tr').slice(skip_rows).first().find('td').length;
 
@@ -210,12 +381,12 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 
 		player.hometown = player.hometown.join(', ');
 	
-		team[player.number] = player;
+		team.players[player.number] = player;
 	});
 
 	parseStatsCHS(team, stats_HTML);
 
-	team.forEach( function (p) {
+	team.players.forEach( function (p) {
 		submission_string += buildSubmissionLine(p);
 	});
 
