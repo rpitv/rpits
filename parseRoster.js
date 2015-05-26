@@ -4,82 +4,110 @@ function parseStatsCHS(team, stats_HTML) {
 	$('#statsTable table').css('font-size', '8pt');
 	t = team.players;
 
+	function parseSkater(p, tds, n) {
+		if (n === undefined) {
+			n = 0; // offset of 0
+		}
+		p.overall.s1 = tds.eq(n+4).text().trim();
+		if (p.position === 'G') {
+			p.stype = 'hg';
+		} else {
+			p.stype = 'hp';
+		
+			// overall stats
+			p.overall.s2 = tds.eq(n+5).text().trim();
+			p.overall.s3 = tds.eq(n+6).text().trim();
+			p.overall.s4 = tds.eq(n+7).text().trim();
+			p.overall.s5 = tds.eq(n+8).text().trim();
+			if (p.overall.s5) { // convert PEN/MIN to PIM
+				p.overall.penalties = p.overall.s5.split('/')[0];
+				p.overall.s5 = p.overall.s5.split('/')[1];
+			}
+			p.overall.s6 = tds.eq(n+12).text().trim();
+			if (p.overall.s6 === 'E') { // make 'E'ven into '0'
+				p.overall.s6 = '0';
+			} else if (!((p.overall.s6.indexOf('+')>-1)||(p.overall.s6.indexOf('-')>-1))) {
+				p.overall.s6 = '';
+				p.stype = 'ho'; // assign correct stype if no +/-
+			}
+			// extra stats (for now)
+			p.overall.ppg = tds.eq(n+9).text().trim(); // Power Play Goals
+			p.overall.shg = tds.eq(n+10).text().trim(); // Short Handed Goals
+			p.overall.gwg = tds.eq(n+11).text().trim(); // Game Winning Goals
+			if (p.stype === 'hp') {
+				p.overall.sog = tds.eq(n+13).text().trim(); // Shots on Goal
+			} else {
+				p.overall.gtg = tds.eq(n+12).text().trim(); // Game Tying Goals
+				p.overall.eng = tds.eq(n+13).text().trim(); // Empty Net Goals
+			}
+
+			// conference stats
+			p.conf.s1 = tds.eq(n+14).text().trim();
+			p.conf.s2 = tds.eq(n+15).text().trim();
+			p.conf.s3 = tds.eq(n+16).text().trim();
+			p.conf.s4 = tds.eq(n+17).text().trim();
+			p.conf.s5 = tds.eq(n+18).text().trim();
+			if (p.conf.s5) { // convert PEN/MIN to PIM
+				p.conf.penalties = p.conf.s5.split('/')[0];
+				p.conf.s5 = p.conf.s5.split('/')[1];
+			}
+			p.conf.s6 = tds.eq(n+22).text().trim();
+			if (p.conf.s6 === 'E') { // make 'E'ven into '0'
+				p.conf.s6 = '0';
+			} else if (p.stype === 'ho') {
+				p.conf.s6 = '';
+			}
+			// extra stats (for now)
+			p.conf.ppg = tds.eq(n+19).text().trim();
+			p.conf.shg = tds.eq(n+20).text().trim();
+			p.conf.gwg = tds.eq(n+21).text().trim();
+			if (p.stype === 'hp') {
+				p.conf.sog = tds.eq(n+23).text().trim();
+			} else {	
+				p.conf.gtg = tds.eq(n+22).text().trim();
+				p.conf.eng = tds.eq(n+23).text().trim();
+			}
+			
+			// career stats
+			if (tds.length > 21) {
+				p.career.s1 = tds.eq(24).text().trim();
+				p.career.s2 = tds.eq(25).text().trim();
+				p.career.s3 = tds.eq(26).text().trim();
+				p.career.s4 = tds.eq(27).text().trim();
+			}
+		}
+	}
+	function parseGoaltender(p, tds, n) {
+		if (n === undefined) {
+			n = 0; // offset of 0
+		}
+
+	}
+
 	// skaters
-	$('#statsTable .chssmallreg:eq(0)').find('tr').slice(2).each(function() {
+	var trs = $('#statsTable .chssmallreg:eq(0)').find('tr').slice(2);
+	trs.each(function(index) {
 		var tds = $(this).children();
 		var n = tds.eq(0).text().trim();
 
 		if (t[n]) {
-			t[n].overall.s1 = tds.eq(4).text().trim();
-			if (t[n].position === 'G') {
-				t[n].stype = 'hg';
-			} else {
-				t[n].stype = 'hp';
+			parseSkater(t[n], tds);
+		} else if (n === '') {
+			var temp = tds.eq(6).text().split('/');
+			team.stats.own.bench.overall.penalties = temp[0];
+			team.stats.own.bench.overall.pim = temp[1];
+			
+			temp = tds.eq(16).text().split('/');
+			team.stats.own.bench.conf.penalties = temp[0];
+			team.stats.own.bench.conf.pim = temp[1];
 
-				// overall stats
-				t[n].overall.s2 = tds.eq(5).text().trim();
-				t[n].overall.s3 = tds.eq(6).text().trim();
-				t[n].overall.s4 = tds.eq(7).text().trim();
-				t[n].overall.s5 = tds.eq(8).text().trim();
-				if (t[n].overall.s5) { // convert PEN/MIN to PIM
-					t[n].overall.penalties = t[n].overall.s5.split('/')[0];
-					t[n].overall.s5 = t[n].overall.s5.split('/')[1];
-				}
-				t[n].overall.s6 = tds.eq(12).text().trim();
-				if (t[n].overall.s6 === 'E') { // make 'E'ven into '0'
-					t[n].overall.s6 = '0';
-				} else if (!((t[n].overall.s6.indexOf('+')>-1)||(t[n].overall.s6.indexOf('-')>-1))) {
-					t[n].overall.s6 = '';
-					t[n].stype = 'ho'; // assign correct stype if no +/-
-				}
-				// extra stats (for now)
-				t[n].overall.ppg = tds.eq(9).text().trim(); // Power Play Goals
-				t[n].overall.shg = tds.eq(10).text().trim(); // Short Handed Goals
-				t[n].overall.gwg = tds.eq(11).text().trim(); // Game Winning Goals
-				if (t[n].stype === 'hp') {
-					t[n].overall.sog = tds.eq(13).text().trim(); // Shots on Goal
-				} else {
-					t[n].overall.gtg = tds.eq(12).text().trim(); // Game Tying Goals
-					t[n].overall.eng = tds.eq(13).text().trim(); // Empty Net Goals
-				}
-
-				// conference stats
-				t[n].conf.s1 = tds.eq(14).text().trim();
-				t[n].conf.s2 = tds.eq(15).text().trim();
-				t[n].conf.s3 = tds.eq(16).text().trim();
-				t[n].conf.s4 = tds.eq(17).text().trim();
-				t[n].conf.s5 = tds.eq(18).text().trim();
-				if (t[n].conf.s5) { // convert PEN/MIN to PIM
-					t[n].conf.penalties = t[n].conf.s5.split('/')[0];
-					t[n].conf.s5 = t[n].conf.s5.split('/')[1];
-				}
-				t[n].conf.s6 = tds.eq(22).text().trim();
-				if (t[n].conf.s6 === 'E') { // make 'E'ven into '0'
-					t[n].conf.s6 = '0';
-				} else if (t[n].stype === 'ho') {
-					t[n].conf.s6 = '';
-				}
-				// extra stats (for now)
-				t[n].conf.ppg = tds.eq(19).text().trim();
-				t[n].conf.shg = tds.eq(20).text().trim();
-				t[n].conf.gwg = tds.eq(21).text().trim();
-				if (t[n].stype === 'hp') {
-					t[n].conf.sog = tds.eq(23).text().trim();
-				} else {	
-					t[n].conf.gtg = tds.eq(22).text().trim();
-					t[n].conf.eng = tds.eq(23).text().trim();
-				}
-
-				// career stats
-				t[n].career.s1 = tds.eq(24).text().trim();
-				t[n].career.s2 = tds.eq(25).text().trim();
-				t[n].career.s3 = tds.eq(26).text().trim();
-				t[n].career.s4 = tds.eq(27).text().trim();
-			}
+			return false;
 		} else {
 			console.log('Skater "'+n+'" not found.');
 		}
 	});
+	parseSkater(team.stats.own.totals, $(trs.eq(trs.length-2)).children(), -3);
+	parseSkater(team.stats.opp.totals, $(trs.eq(trs.length-1)).children(), -3);
 
 	// goaltenders
 	var stat_group = 'overall';
@@ -371,12 +399,15 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 				shots: { overall:{}, conf:{} },
 				avgs: { overall:{}, conf:{} },
 				situash: { overall:{}, conf:{} },
+				bench: { overall:{}, conf:{} },
+				totals: { overall:{}, conf:{} },
 			},
 			opp: {
 				special_teams: { overall:{}, conf:{} },
 				scoring: { overall:{}, conf:{} },
 				shots: { overall:{}, conf:{} },
-				avgs: { overall:{}, conf:{} },	
+				avgs: { overall:{}, conf:{} },
+				totals: { overall:{}, conf:{} },
 			},
 			diff: {
 				scoring: { overall:{}, conf:{} },
