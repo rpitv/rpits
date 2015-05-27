@@ -56,16 +56,23 @@ echo '</div>'
 ?>
 <br style="clear:both" />
 
-<button tid="<?= $titleId ?>" id="render" name="Render">Force Render</button>
-<button tid="<?= $titleId ?>" id="updateFields" name="UpdateFields">Update All</button>
+<button tid="<?= $titleId ?>" id="forceRender" name="ForceRender">Force Render</button>
+<button tid="<?= $titleId ?>" id="revertChanges" name="RevertChanges">Revert Changes</button>
 
-<script type="text/javascript">
-	$(".edit_form").change( function() { // keep track of changed values
+
+<script>
+	$(".edit_form .noHotKeys").focus( function() {
+		if (!$(this).data('initial')) {
+			$(this).data("initial", $(this).val());
+		}
+	});
+
+	$(".edit_form").change( function() { // submit on changed values
 		$(this).data("changed", true);
+		$(this).submit();
 	});
 
 	$(".edit_form").submit(function() {
-		$(this).data("changed", false); // now matches the database
 		var form = $(this);
 		form.children("input:last").attr("value", "Submitting");
 		$.ajax({
@@ -73,6 +80,7 @@ echo '</div>'
 			url: "cdb_update_p.php",
 			data: $(this).serializeArray(),
 			success: function(data) {
+				$(this).data("changed", false); // now matches the database
 				form.children("input:last").attr("value", data);
 				window.renderQueue.addToQueue(<?= $titleId ?>);
 			}
@@ -85,7 +93,6 @@ echo '</div>'
 		var requests = [];
 		$(".edit_form").each(function() {
 			if ($(this).data("changed")) {
-				$(this).data("changed", false); // now matches the database
 				updated = 1;
 				var form = $(this);
 				form.children("input:last").attr("value", "Submitting");
@@ -94,6 +101,7 @@ echo '</div>'
 					url: "cdb_update_p.php",
 					data: $(this).serializeArray(),
 					success: function(data) {
+						$(this).data("changed", false); // now matches the database
 						form.children("input:last").attr("value", data);
 					}
 				}));
@@ -103,16 +111,28 @@ echo '</div>'
 			deferred.resolve();
 		});
 	}
-	
-	$("#updateFields").click(function() { // Update All Button
+
+	$("#revertChanges").click(function() { // Revert Changes Button
 		var deferred = $.Deferred();
+		$('.edit_form input[type=Array]').each(function() {
+			if ($(this).data('initial') || $(this).data('initial')==='') {
+				if ($(this).val() !== $(this).data('initial')) { 
+					$(this).val($(this).data('initial'));
+					$(this).parent().data('changed', true);
+					console.log('Reset value to '+$(this).val());
+				} else {
+					console.log('No change to revert.');
+				}
+			}
+		});
 		updateAll(deferred);
 		deferred.done(function() {
-			window.renderQueue.addToQueue(<?= $titleId ?>);
+			// We don't actually need to queue it do we?
+			//window.renderQueue.addToQueue(<?= $titleId ?>);
 		});
 	});
 
-	$("#render").click(function() { // Force Render Button
+	$("#forceRender").click(function() { // Force Render Button
 		var button = $(this);
 		var renderTid = $(this).attr("tid");
 		var deferred = $.Deferred();
