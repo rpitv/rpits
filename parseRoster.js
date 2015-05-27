@@ -381,7 +381,59 @@ function parseStatsCHS(team, stats_HTML) {
 	own.situash.conf.first_goal_vs_total = tds.eq(93).text();
 	own.situash.conf.first_goal_vs_record = tds.eq(94).text().split('-');
 
-	console.log(team.stats);
+	//console.log(team.stats);
+}
+
+function parseCoachInfo(t) {
+	// join captain names for now
+	$('#rosterTable p')[0].innerHTML = $('#rosterTable p')[0].innerHTML.replace(/\|/g, ' ');
+
+	if ($('#rosterTable p')[0].innerHTML.indexOf('Captain') > -1) {
+		t.mgmt.cap = $('#rosterTable p b').eq(0).text().split(', ');
+	}
+	if ($('#rosterTable p')[0].innerHTML.indexOf('Assistant') > -1) {
+		t.mgmt.alt = $('#rosterTable p b').eq(1).text().split(', ');
+	}
+
+	// head coach info
+	var info = $('#rosterTable font:contains("Head Coach")').find('b');
+	var temp;
+	if (info.eq(0).text().indexOf('(') >= 0) {
+		temp = info.eq(0).text().split(' (');
+		t.mgmt.coach.name = temp[0];
+		t.mgmt.coach.alma = temp[1].slice(0, -1);
+	} else {
+		t.mgmt.coach.name = info.eq(0).text();
+	}
+	temp = info.eq(1).text().replace(/\)/g, '').split(' (');
+	t.mgmt.coach.career.record = temp[0].split('-');
+	t.mgmt.coach.career.win_pct = temp[1];
+	t.mgmt.coach.career.seasons = temp[2].split(' ')[0];
+	temp = info.eq(2).text().replace(/\)/g, '').split(' (');
+	t.mgmt.coach.current.record = temp[0].split('-');
+	t.mgmt.coach.current.win_pct = temp[1];
+	t.mgmt.coach.current.seasons = temp[2].split(' ')[0];
+
+	info = $('#rosterTable p').last();
+	temp = info.html(info.html().replace(/<br>/g, '|')).text().split('|').slice(0, -1);
+	for (var i = 0; i < temp.length; i++) {
+		var c = {};
+		var temp2;
+		if (temp[i].indexOf('(') >= 0) {
+			temp2 = temp[i].split(' (');
+			c.name = temp2[0];
+			c.alma = temp2[1].slice(0, -1);
+		} else {
+			c.name = temp[i];
+		}
+		temp2 = c.name.split(': ');
+		c.name = temp2[1];
+		c.title = temp2[0];
+
+		t.mgmt.misc.push(c);
+	}
+
+	//console.log(t.mgmt);
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
@@ -400,6 +452,12 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 
 	var team = {
 		players: [],
+		mgmt: {
+			cap: [],
+			alt: [],
+			coach: { current:{}, career:{} },
+			misc: [],
+		},
 		stats: {
 			own: {
 				special_teams: { overall:{}, conf:{} },
@@ -436,7 +494,7 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	var submission_string = '';
 	var temp = '';
 
-	$('#rosterTable tr').slice(skip_rows).each(function() {
+	$('.rostable tr').slice(skip_rows).each(function() {
 		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
@@ -502,6 +560,8 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	
 		team.players[player.number] = player;
 	});
+
+	parseCoachInfo(team);
 
 	parseStatsCHS(team, stats_HTML);
 

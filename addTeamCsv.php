@@ -34,7 +34,7 @@ if ($_GET['pull_url']) {
 	$roster = addslashes($roster);
 	$roster = str_replace([chr(10), chr(13)], '', $roster);  // fix newline issues
 	$roster = stristr($roster, "<TABLE BORDER"); // get only the first roster
-	$roster = substr($roster, 0, (stripos($roster, "</TABLE>")+8));
+	$roster = substr($roster, 0, (stripos($roster, "<hr")));
 
 	$chs_stats = fopen("http://www.collegehockeystats.net/". $season ."/teamstats/" . $chs_prefix, "r");
 	$stats = stream_get_contents($chs_stats);
