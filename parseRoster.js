@@ -77,11 +77,32 @@ function parseStatsCHS(team, stats_HTML) {
 			}
 		}
 	}
-	function parseGoaltender(p, tds, n) {
+	function parseGoaltender(p, tds, stat_group, n) {
 		if (n === undefined) {
 			n = 0; // offset of 0
 		}
-
+		p[stat_group].s1 = tds.eq(n+3).text().trim();
+		if (n == 0) {
+			var record = tds.eq(10).text().trim().split('-');
+			p[stat_group].s2 = record[0];
+			p[stat_group].s3 = record[1];
+			p[stat_group].s4 = record[2];
+		}
+		p[stat_group].s5 = tds.eq(n+8).text().trim();
+		p[stat_group].s6 = tds.eq(n+9).text().trim();
+		// extra stats (for now)
+		p[stat_group].minutes = tds.eq(n+4).text().trim();
+		p[stat_group].ga = tds.eq(n+5).text().trim();
+		p[stat_group].saves = tds.eq(n+6).text().trim();
+		p[stat_group].sog = tds.eq(n+7).text().trim();
+		if (tds.eq(n+11).text().trim() != '---' ) {
+			p[stat_group].win_pct = tds.eq(n+11).text().trim();
+		}
+		p[stat_group].gs = tds.eq(n+12).text().trim(); // Games Started
+		p[stat_group].so = tds.eq(n+13).text().trim(); // Shut Outs
+		if (tds.eq(n+14).text().trim()) {
+			p[stat_group].pct_time = tds.eq(n+14).text().trim();
+		}
 	}
 
 	// skaters
@@ -106,8 +127,8 @@ function parseStatsCHS(team, stats_HTML) {
 			console.log('Skater "'+n+'" not found.');
 		}
 	});
-	parseSkater(team.stats.own.totals, $(trs.eq(trs.length-2)).children(), -3);
-	parseSkater(team.stats.opp.totals, $(trs.eq(trs.length-1)).children(), -3);
+	parseSkater(team.stats.own.totals.s, $(trs.eq(trs.length-2)).children(), -3);
+	parseSkater(team.stats.opp.totals.s, $(trs.eq(trs.length-1)).children(), -3);
 
 	// goaltenders
 	var stat_group = 'overall';
@@ -124,26 +145,13 @@ function parseStatsCHS(team, stats_HTML) {
 		var tds = $(this).children();
 		var n = tds.eq(0).text().trim();
 		if (t[n]) {
-			t[n][stat_group].s1 = tds.eq(3).text().trim();
-			var record = tds.eq(10).text().trim().split('-');
-			t[n][stat_group].s2 = record[0];
-			t[n][stat_group].s3 = record[1];
-			t[n][stat_group].s4 = record[2];
-			t[n][stat_group].s5 = tds.eq(8).text().trim();
-			t[n][stat_group].s6 = tds.eq(9).text().trim();
-			// extra stats (for now)
-			t[n][stat_group].minutes = tds.eq(4).text().trim();
-			t[n][stat_group].ga = tds.eq(5).text().trim();
-			t[n][stat_group].saves = tds.eq(6).text().trim();
-			t[n][stat_group].sog = tds.eq(7).text().trim();
-			if (tds.eq(11).text().trim() != '---' ) {
-				t[n][stat_group].win_pct = tds.eq(11).text().trim();
-			}
-			t[n][stat_group].gs = tds.eq(12).text().trim(); // Games Started
-			t[n][stat_group].so = tds.eq(13).text().trim(); // Shut Outs
-			if (tds.eq(14).text().trim()) {
-				t[n][stat_group].pct_time = tds.eq(14).text().trim();
-			}
+			parseGoaltender(t[n], tds, stat_group);
+		} else if (n === 'Open Net') {
+			parseGoaltender(team.stats.own.bench, tds, stat_group, -2);
+		} else if (n === 'Opponent Totals') {
+			parseGoaltender(team.stats.opp.totals.g, tds, stat_group, -2);
+		} else if (n.indexOf('Totals')>-1) {
+			parseGoaltender(team.stats.own.totals.g, tds, stat_group, -2);
 		} else {
 			console.log('Goaltender "'+n+'" not found.');
 		}
@@ -400,14 +408,20 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 				avgs: { overall:{}, conf:{} },
 				situash: { overall:{}, conf:{} },
 				bench: { overall:{}, conf:{} },
-				totals: { overall:{}, conf:{} },
+				totals: { 
+					s: { overall:{}, conf:{} },	
+					g: { overall:{}, conf:{} },
+				},
 			},
 			opp: {
 				special_teams: { overall:{}, conf:{} },
 				scoring: { overall:{}, conf:{} },
 				shots: { overall:{}, conf:{} },
 				avgs: { overall:{}, conf:{} },
-				totals: { overall:{}, conf:{} },
+				totals: { 
+					s: { overall:{}, conf:{} },	
+					g: { overall:{}, conf:{} },
+				},
 			},
 			diff: {
 				scoring: { overall:{}, conf:{} },
