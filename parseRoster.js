@@ -391,7 +391,7 @@ function parseCoachInfo(t) {
 	if ($('#rosterTable p')[0].innerHTML.indexOf('Captain') > -1) {
 		t.mgmt.cap = $('#rosterTable p b').eq(0).text().split(', ');
 	}
-	if ($('#rosterTable p')[0].innerHTML.indexOf('Assistant') > -1) {
+	if ($('#rosterTable p')[0].innerHTML.indexOf('Assistant Cap') > -1) {
 		t.mgmt.alt = $('#rosterTable p b').eq(1).text().split(', ');
 	}
 
@@ -562,9 +562,11 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	});
 
 	parseCoachInfo(team);
-
 	parseStatsCHS(team, stats_HTML);
 
+	console.log('Team object created:');
+	console.log(team);
+	
 	team.players.forEach( function (p) {
 		submission_string += buildSubmissionLine(p);
 	});
