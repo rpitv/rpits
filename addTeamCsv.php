@@ -96,28 +96,50 @@ if ($_GET['sidearm_url']) {
 <?php
 }
 if ($csv) {
-	if ($archive) {
-		$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
-		mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
-		echo("Archived players from the old " . $team_sel . " roster.\n");	
-	}
-
 	$lines = explode("\r\n",$csv);
-	foreach($lines as $line) {
-		$values = explode('|',$line);
-		$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
-		$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
-		mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
-		echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel);	
-	}
-	
-	$result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
-	$chn_puller = mysql_fetch_assoc($result);
+	if ($archive > 0) { // add new players
+		if ($archive == 1) { // archive current players
+			$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
+			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			echo("Archived players from the old " . $team_sel . " roster.<br>");	
+		}
 
-?>
-	<br><a href="statsloader.php?tid=<?= $chn_puller['chn_id'] ?>">Update Stats</a>
-<?php
-  include("peditor.php");
+		foreach($lines as $line) {
+			$values = explode('|',$line);
+			$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
+			$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
+			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel . ".<br>");	
+		}
+		
+		$result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
+		$chn_puller = mysql_fetch_assoc($result);
+		
+		include("peditor.php");
+	} else { // update current players
+		foreach($lines as $line) {
+			$values = explode('|',$line);
+			$first = $values[1];
+			$last = $values[2];
+
+			$result = dbquery("SELECT * FROM players WHERE first='$first' AND last='$last'");
+			$row = mysql_fetch_array($result);
+			if ($row) {
+				$query = "UPDATE players SET s1='$values[9]', s2='$values[10]', s3='$values[11]', s4='$values[12]', s5='$values[13]', s6='$values[14]' WHERE first='$first' AND last='$last'";
+				$result = dbquery($query);
+				$gamesdiff = $values[9] - $row["s1"];
+				$ptsdiff = $values[12] - $row["s4"];
+				echo("$first $last updated +" . $gamesdiff . " games");
+				if ($values[8] == "hg") {
+					echo(".<br>");
+				} else {
+					echo(", +" . $ptsdiff ." pts.<br>");
+				}
+			} else {
+				echo("$first $last not found.<br>");
+			}
+		}
+	}
 } else { 
 ?>
 
@@ -160,7 +182,9 @@ if ($csv) {
 	Missing information or stats at the end of the line can be ignored.</p>
 	<textarea id="csv_textarea" name="csv" rows="30" cols="100"></textarea>
 	<br>
-	<input type="checkbox" name="archive" value="1" checked/>Archive Current Players?
+	<input type="radio" name="archive" value="1" checked/>Archive Current &amp; Add New?
+	<input type="radio" name="archive" value="2"/>Add New?
+	<input type="radio" name="archive" value="0"/>Update Current?
 	<br>
 	<input type="submit" name="Submit">
 </form>
