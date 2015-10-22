@@ -6,19 +6,18 @@
 <script type="text/javascript">
 
 $(function() {
-
 	var eventsTable = new EditableTable({
 		db: '<?= $mysql_database_name ?>',
 		dbTable: 'teams',
-		uneditableColumns: ['id'],
+		uneditableColumns: ['id', 'chn_id'],
 		element: $('#teamsList'),
 		displayFunction: {
-		org: function(organ) {
-			return $('<a href="im_organizations.php">'+organ+'</a>');
-		},
+			org: function(organ) {
+				return $('<a href="im_organizations.php">'+organ+'</a>');
+			},
 			chn_id: function(id) {
 				if (id != 0) {
-					return $('<a href="statsloader.php?tid='+id+'">'+id+'</a>');
+					return id;
 				} else {
 					return 'N/A';
 				}
@@ -32,10 +31,12 @@ $(function() {
 			}
 		}
 	});
+	
 	eventsTable.loadTable(0,100);
+	$(".chn_id").hide();
 
 });
-
+/*
 $(document).ready( function() {
 
   $("#UpdateAllCHN").click( function() {
@@ -55,7 +56,7 @@ $(document).ready( function() {
     });
   });
 });
-
+*/
 </script>
 <style type="text/css">
 	#teamsList table {
@@ -89,7 +90,7 @@ $(document).ready( function() {
 </style>
 <div id="header">
   <h1>Teams</h1>
-  <button type="button" name="UpdateAllCHN" id="UpdateAllCHN">Update Men's Hockey Stats (CHN)</button>
+  <!--<button type="button" name="UpdateAllMen" id="UpdateAllMen">Update Men's Hockey Stats</button>-->
 </div>
 <div id="teamsList"></div>
 <div id="details"></div>

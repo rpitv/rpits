@@ -11,7 +11,7 @@ if($team_sel)
 {
 ?>
 
-<form action="im_peditor.php" style="display:inline-block" ><input type="submit" name="stats" value="Update All Stats"/><input type="hidden" name="team_sel" value="<?= $team_sel ?>"/></form>
+<!--<form action="im_peditor.php" style="display:inline-block" ><input type="submit" name="stats" value="Update All Stats"/><input type="hidden" name="team_sel" value="<?= $team_sel ?>"/></form>-->
 
 <?
 if($_GET['stats']) {
