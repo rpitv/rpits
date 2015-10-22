@@ -10,8 +10,10 @@ header('Content-Type: text/html; charset=utf-8');
 <h1>Add Team Roster</h1>
 
 <?php
-include ("init.php");
-include ("include.php");
+include("init.php");
+include("include.php");
+include("abbrevCHS.php");
+
 ini_set("auto_detect_line_endings", true);
 $team_sel = $_POST["team_sel"];
 $csv = $_POST["csv"];
@@ -144,8 +146,15 @@ if ($csv) {
 ?>
 
 <form id="CHSabbr" action="addTeamCsv.php">
-	<label>Enter CollegeHockeyStats abbreviation: 
-		<input type="text" name="pull_url" size="10" maxlength="4">
+	<label>Choose Hockey Team: 
+		<select name="pull_url">
+<?php
+			foreach($team_chs as $team_name => $team_id) {
+				echo '<option value="' . $team_id . '">' . $team_name . '</option>';
+			}
+?>
+		</select>
+
 		<input type="submit" name="pull">
 	</label>
 </form>
