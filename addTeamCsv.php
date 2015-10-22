@@ -56,7 +56,7 @@ if ($_GET['pull_url']) {
 		var content_roster = "<?= $roster ?>";
 		var content_stat = "<?= $stats ?>";
 		
-		$("#CHSabbr, #parseTableHTML, #boxSIDEARM").hide()  // hide unneeded things
+		$("#CHSabbr, #boxSIDEARM").hide()  // hide unneeded things
 		
 		parse_table_HTML(content_roster, content_stat);
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
@@ -90,7 +90,7 @@ if ($_GET['sidearm_url']) {
 	<script>
 	$(document).ready( function() {
 		$("#other_page").html("<?= $roster ?>");
-		$("#CHSabbr, #parseTableHTML").hide()  // hide unneeded things
+		$("#CHSabbr").hide()  // hide unneeded things
 		parseRosterSIDEARM($('#other_page').html());
 	});
 	</script>
@@ -171,18 +171,7 @@ if ($csv) {
 	</form>
 </div>
 
-<div id="parseTableHTML">
-	<div id="rosterTable" style="visibility: auto;"></div>
-	<label>Parse HTML Table:
-		<button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Box</button><br>
-		<div id="tableEntry" style="display:none;">
-			<textarea id="tableHTML" rows="10" cols="100"></textarea>
-			<button id="parseButton" onclick="parse_table_HTML($('#tableHTML').val());">Parse Table</button>
-		</div>
-	</label>
-</div>
-
-<br/>
+<br>
 <form method="POST" onsubmit="return validateFinalSubmission();">
 	<label>Team Name: <input id="team_box" type="text" name="team_sel" size="10" /> (Form: organization-team)</label>
 	<p>Entries must be in the form: num|first|last|pos|height|weight|year|hometown|stype|s1|s2|s3|s4|s5|s6|s7|s8|draft<br>

@@ -383,19 +383,22 @@ function parseStatsCHS(team, stats_HTML) {
 	//console.log(team.stats);
 }
 
-function parseCoachInfo(t) {
+function parseCoachInfo(t, $r) {
 	// join captain names for now
-	$('#rosterTable p')[0].innerHTML = $('#rosterTable p')[0].innerHTML.replace(/\|/g, ' ');
+	$($r[1]).html( $($r[1]).html().replace(/\|/g, ' ') );
 
-	if ($('#rosterTable p')[0].innerHTML.indexOf('Captain') > -1) {
-		t.mgmt.cap = $('#rosterTable p b').eq(0).text().split(', ');
+	if ($($r[1]).html().indexOf('Captain') > -1) {
+		t.mgmt.cap = $($r[1]).find('b').eq(0).text().split(', ');
 	}
-	if ($('#rosterTable p')[0].innerHTML.indexOf('Assistant Cap') > -1) {
-		t.mgmt.alt = $('#rosterTable p b').eq(1).text().split(', ');
+	if ($($r[1]).html().indexOf('Assistant Cap') > -1) {
+		t.mgmt.alt = $($r[1]).find('b').eq(1).text().split(', ');
 	}
 
 	// head coach info
-	var info = $('#rosterTable font:contains("Head Coach")').find('b');
+	var info = $($r[2]).find('font:contains("Head Coach") b');
+	if (info.length == 0) {
+		info = $($r[1]).find('font:contains("Head Coach") b');
+	}
 	var temp;
 	if (info.eq(0).text().indexOf('(') >= 0) {
 		temp = info.eq(0).text().split(' (');
@@ -413,7 +416,7 @@ function parseCoachInfo(t) {
 	t.mgmt.coach.current.win_pct = temp[1];
 	t.mgmt.coach.current.seasons = temp[2].split(' ')[0];
 
-	info = $('#rosterTable p').last();
+	info = $r.last();
 	temp = info.html(info.html().replace(/<br>/g, '|')).text().split('|').slice(0, -1);
 	for (var i = 0; i < temp.length; i++) {
 		var c = {};
@@ -442,11 +445,8 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	}
 
 	// Convert nbsp into something useful for splitting names
-	roster_HTML = roster_HTML.replace(/\&nbsp\;/g, '|' );
+	var $r = $(roster_HTML.replace(/\&nbsp\;/g, '|' ));
 
-	$('#rosterTable').html(roster_HTML);
-	$('#rosterTable table').css('font-size', '8pt');
-	$('#rosterTable').show();
 	$('#tableEntry').hide();
 
 	var team = {
@@ -488,12 +488,12 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 		},
 	};
 	var num_players = 0;
-	var num_rows = $('#rosterTable tr').slice(skip_rows).first().find('td').length;
+	var num_rows = $r.find('tr').slice(skip_rows).first().find('td').length;
 
 	var submission_string = '';
 	var temp = '';
 
-	$('.rostable tr').slice(skip_rows).each(function() {
+	$($r[0]).find('tr').slice(skip_rows).each(function() {
 		var tds = $(this).children();
 		var player = { overall:{}, conf:{}, career:{} };
 		num_players++;
@@ -560,7 +560,7 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 		team.players[player.number] = player;
 	});
 
-	parseCoachInfo(team);
+	parseCoachInfo(team, $r);
 	parseStatsCHS(team, stats_HTML);
 
 	console.log('Team object created:');
