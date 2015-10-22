@@ -1,7 +1,6 @@
 // Parse CHS stats table to get player stat 
 function parseStatsCHS(team, stats_HTML) {
-	$('#statsTable').html(stats_HTML);
-	$('#statsTable table').css('font-size', '8pt');
+	var $s = $(stats_HTML);
 	t = team.players;
 
 	function parseSkater(p, tds, n) {
@@ -106,7 +105,7 @@ function parseStatsCHS(team, stats_HTML) {
 	}
 
 	// skaters
-	var trs = $('#statsTable .chssmallreg:eq(0)').find('tr').slice(2);
+	var trs = $($s[0]).find('tr').slice(2);
 	trs.each(function(index) {
 		var tds = $(this).children();
 		var n = tds.eq(0).text().trim();
@@ -132,7 +131,7 @@ function parseStatsCHS(team, stats_HTML) {
 
 	// goaltenders
 	var stat_group = 'overall';
-	$('#statsTable .chssmallreg:eq(1)').find('tr').slice(1).each(function() {
+	$($s[2]).find('tr').slice(1).each(function() {
 		if ($(this).css('background-color') === 'rgb(51, 51, 51)') {
 			if (stat_group === 'overall') {
 				stat_group = 'conf';
@@ -162,7 +161,7 @@ function parseStatsCHS(team, stats_HTML) {
 	var opp = team.stats.opp;
 	var diff = team.stats.diff;
 
-	var tds = $('#statsTable .chssmallreg:eq(2)').find('tr').slice(2).children();
+	var tds = $($s[4]).find('tr').slice(2).children();
 	for (var i = 0; i < tds.length; i++) {
 		tds[i].innerHTML = tds[i].innerHTML.replace(/ /g, '');
 	}
@@ -197,7 +196,7 @@ function parseStatsCHS(team, stats_HTML) {
 	opp.special_teams.conf.comb_pct = tds.eq(28).text();
 	opp.special_teams.conf.ppc_g = tds.eq(29).text();
 
-	tds = $('#statsTable .chssmallreg:eq(3)').find('tr').slice(2).children();
+	tds = $($s[6]).find('tr').slice(2).children();
 	for (var i = 0; i < tds.length; i++) {
 		tds[i].innerHTML = tds[i].innerHTML.replace(/ /g, '');
 	}
@@ -265,7 +264,7 @@ function parseStatsCHS(team, stats_HTML) {
 	diff.shots.conf.ot = tds.eq(59).text();
 	diff.shots.conf.sog = tds.eq(60).text();
 	
-	tds = $('#statsTable .chssmallreg:eq(4)').find('tr').slice(2).children();
+	tds = $($s[8]).find('tr').slice(2).children();
 	for (var i = 0; i < tds.length; i++) {
 		tds[i].innerHTML = tds[i].innerHTML.replace(/ /g, '');
 	}
@@ -315,7 +314,7 @@ function parseStatsCHS(team, stats_HTML) {
 	diff.avgs.conf.pim = tds.eq(43).text();
 	diff.avgs.conf.ppg = tds.eq(44).text();
 
-	tds = $('#statsTable .chssmallreg:eq(5)').find('tr').slice(1).children();
+	tds = $($s[10]).find('tr').slice(1).children();
 	for (var i = 0; i < tds.length; i++) {
 		tds[i].innerHTML = tds[i].innerHTML.replace(/ /g, '');
 	}

@@ -164,7 +164,6 @@ if ($csv) {
 
 <div id="parseTableHTML">
 	<div id="rosterTable" style="visibility: auto;"></div>
-	<div id="statsTable" style="visibility: auto;"></div>
 	<label>Parse HTML Table:
 		<button id="showTableEntry" onclick="$('#tableEntry').toggle()">Toggle Table Entry Box</button><br>
 		<div id="tableEntry" style="display:none;">
