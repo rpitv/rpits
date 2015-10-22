@@ -58,7 +58,7 @@ if ($_GET['pull_url']) {
 		
 		$("#CHSabbr, #boxSIDEARM").hide()  // hide unneeded things
 		
-		parse_table_HTML(content_roster, content_stat);
+		parse_table_HTML(content_roster, content_stat, "<?= $team_preset['player_abbrev'] ?>");
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
 	});
 	</script>

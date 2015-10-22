@@ -385,19 +385,22 @@ function parseStatsCHS(team, stats_HTML) {
 
 function parseCoachInfo(t, $r) {
 	// join captain names for now
-	$($r[1]).html( $($r[1]).html().replace(/\|/g, ' ') );
+	if ($r[1]){
+		$($r[1]).html( $($r[1]).html().replace(/\|/g, ' ') );
 
-	if ($($r[1]).html().indexOf('Captain') > -1) {
-		t.mgmt.cap = $($r[1]).find('b').eq(0).text().split(', ');
-	}
-	if ($($r[1]).html().indexOf('Assistant Cap') > -1) {
-		t.mgmt.alt = $($r[1]).find('b').eq(1).text().split(', ');
-	}
-
+		if ($($r[1]).html().indexOf('Captain') > -1) {
+			t.mgmt.cap = $($r[1]).find('b').eq(0).text().split(', ');
+		}
+		if ($($r[1]).html().indexOf('Assistant Cap') > -1) {
+			t.mgmt.alt = $($r[1]).find('b').eq(1).text().split(', ');
+		}
 	// head coach info
-	var info = $($r[2]).find('font:contains("Head Coach") b');
-	if (info.length == 0) {
-		info = $($r[1]).find('font:contains("Head Coach") b');
+		var info = $($r[2]).find('font:contains("Head Coach") b');
+		if (info.length == 0) {
+			info = $($r[1]).find('font:contains("Head Coach") b');
+		}
+	} else {
+		return;
 	}
 	var temp;
 	if (info.eq(0).text().indexOf('(') >= 0) {
@@ -408,13 +411,17 @@ function parseCoachInfo(t, $r) {
 		t.mgmt.coach.name = info.eq(0).text();
 	}
 	temp = info.eq(1).text().replace(/\)/g, '').split(' (');
-	t.mgmt.coach.career.record = temp[0].split('-');
-	t.mgmt.coach.career.win_pct = temp[1];
-	t.mgmt.coach.career.seasons = temp[2].split(' ')[0];
+	if (temp.length == 3) {
+		t.mgmt.coach.career.record = temp[0].split('-');
+		t.mgmt.coach.career.win_pct = temp[1];
+		t.mgmt.coach.career.seasons = temp[2].split(' ')[0];
+	}
 	temp = info.eq(2).text().replace(/\)/g, '').split(' (');
-	t.mgmt.coach.current.record = temp[0].split('-');
-	t.mgmt.coach.current.win_pct = temp[1];
-	t.mgmt.coach.current.seasons = temp[2].split(' ')[0];
+	if (temp.length == 3) {
+		t.mgmt.coach.current.record = temp[0].split('-');
+		t.mgmt.coach.current.win_pct = temp[1];
+		t.mgmt.coach.current.seasons = temp[2].split(' ')[0];
+	}
 
 	info = $r.last();
 	temp = info.html(info.html().replace(/<br>/g, '|')).text().split('|').slice(0, -1);
@@ -439,15 +446,13 @@ function parseCoachInfo(t, $r) {
 }
 
 // Pass in the table HTML, and the number of initial rows not containing data.
-function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
+function parse_table_HTML(roster_HTML, stats_HTML, team_name, skip_rows) {
 	if (skip_rows === undefined) {
 		skip_rows = 1; // assume 1 header row
 	}
 
 	// Convert nbsp into something useful for splitting names
 	var $r = $(roster_HTML.replace(/\&nbsp\;/g, '|' ));
-
-	$('#tableEntry').hide();
 
 	var team = {
 		players: [],
@@ -569,6 +574,11 @@ function parse_table_HTML(roster_HTML, stats_HTML, skip_rows) {
 	team.players.forEach( function (p) {
 		submission_string += buildSubmissionLine(p);
 	});
+
+	if (typeof(team_list) !== "undefined") {	// if there is a list of teams, add this to it
+		team_list[team_name] = submission_string.trim();
+		return;
+	}
 
 	$('#csv_textarea').val(submission_string.trim());
 }
