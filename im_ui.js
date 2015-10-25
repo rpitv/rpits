@@ -272,7 +272,7 @@ $(window).resize(resizeWindow);
 
 function resizeWindow() {
 	if (!ui.lockResize) {
-		if ($(window).width() >= 1000) {
+		if ($(window).width() >= $(window).height()*1.2) { // full-screen view
 			$('#program').show();
 			ui.maxLeftWidth = 800;
 			ui.viewerHeight = (window.innerHeight - 75)/2;
@@ -283,7 +283,7 @@ function resizeWindow() {
 				ui.sideMargins = (window.innerWidth - ui.viewerWidth - 25 - ui.maxLeftWidth)/2;
 				ui.leftWidth = ui.maxLeftWidth;
 			}
-			$('#program,#preview,#edit,#program img,#preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
+			$('#program, #preview, #edit, #program img, #preview img').height(ui.viewerHeight).width(ui.viewerWidth).css('right',ui.sideMargins);
 			$('#preview, #edit, #preview img').css({"top":"25px", "left":"auto"});
 			$('#tabstrip').css({"top":"25px", "left":"25px", "padding-right":"2px"});
 			$('#pane').css({"top":"75px", "right":"25px", "height":window.innerHeight-100, "border-left":"2px solid black"});
