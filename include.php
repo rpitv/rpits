@@ -327,9 +327,7 @@ function getHashForTitle($title) {
 
 function getAnimationScriptForTitle($title) {
 
-	// TEMPORARY: FIGURE OUT A BETTER LOCATION FOR THIS OR MOVE TO config.php
-	$animated_headshot_prefix = '/var/www/machac3/rpits/anim_heads/';
-
+	$animated_headshot_prefix = realpath('anim_heads') . '/';
 	if ($title['type'] == 'player') {
 		$filename = $title["num"] . $title["first"] . $title["last"];
 
