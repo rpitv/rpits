@@ -1,7 +1,7 @@
 RPITS Initial Setup Notes
 -------------------------
-
-* Be sure you have installed php5-imagick and restarted Apache.
+* Install apache2, libapache2-mod-php5, php5-imagick, php5-mysql.
+* Restart Apache.
 * PHP short tags need to be enabled (this can be done in php.ini or by adding
   `php_flag short_open_tag on` to the Apache config.
 * Web server needs to be able to write to the `cache`, `thumbs`, and `out`
