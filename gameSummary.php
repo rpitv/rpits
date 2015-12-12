@@ -210,11 +210,7 @@ function gameSummary(&$canvas,$o) {
 }
 
 function getGameSummaryInfo($path) {
-	$page = fopen($path,"r");
-	$contents = stream_get_contents($page);
-
-	$sidearm = new SimpleXMLElement($contents);
-
+	$sidearm = loadXmlCached($page);	
 	return $sidearm->scores;
 }
 ?>

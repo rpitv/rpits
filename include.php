@@ -230,9 +230,21 @@ function getToken($token,$eventId) {
 		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
 		$eventRow = mysql_fetch_assoc($eventResource);
 		if ($eventRow) { // pass through to t.team.X.Y.Z
-			$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
-			$newToken = 't.' . $eventRow[$teamColumn] . '.' . implode('.', array_slice($tokens, 2));
-			return getToken($newToken, $eventId);
+			if ($tokens[1] == "stats") {
+				/* data pulled from live stats XML file */
+				$statsLink = $eventRow["statsLink"];
+				if (array_key_exists(2, $tokens)) {
+					$statName = $tokens[2];
+					return loadLiveStatsDataCached($statsLink)[$statName];
+				} else {
+					/* if no specific data was requested, just return livestats xml URL */
+					return $statsLink;
+				}
+			} else {
+				$teamColumn = $tokens[1] == 'h' ? 'team1' : 'team2';
+				$newToken = 't.' . $eventRow[$teamColumn] . '.' . implode('.', array_slice($tokens, 2));
+				return getToken($newToken, $eventId);
+			}
 		}
 	} else if (($tokens[0] == 'o') or ($tokens[0] == 'org')) { // return org element
 		$org = fetchOrg($tokens[1]);
@@ -346,6 +358,48 @@ function getAnimationScriptForTitle($title) {
 	} else {
 		return false;
 	}
+}
+
+/*
+ * Given a URL, return a SimpleXMLElement representing the contents
+ * of that URL. The SimpleXMLElement object returned by this function 
+ * may be cached and reused for future requests, so it should not be modified.
+ */
+function loadXmlCached($source) {
+	static $cache = array();
+
+	if (!array_key_exists($source, $cache)) {
+		$file = fopen($source, "r");
+		$contents = stream_get_contents($file);	
+		$cache[$source] = new SimpleXMLElement($contents);
+	}
+
+	return $cache[$source];
+}
+
+/*
+ * Load some useful things from live stats, for use in token replacements.
+ * (For now, just officials.)
+ */
+function loadLiveStatsDataCached($source) {
+	static $cache = false;
+
+	if ($cache == false) {
+		/* Each element X in this array corresponds to token e.stats.X */
+		$cache = array();
+
+		$livestats = loadXmlCached($source);
+
+		/* Pull officials */
+		$referees = $livestats->xpath("//official[@title='Referee']");
+		$linesmen = $livestats->xpath("//official[@title='Linesman']");
+		$cache["referee1"] = $referees[0]["name"];
+		$cache["referee2"] = $referees[1]["name"];
+		$cache["linesman1"] = $linesmen[0]["name"];
+		$cache["linesman2"] = $linesmen[1]["name"];
+	}
+
+	return $cache;
 }
 
 ?>
