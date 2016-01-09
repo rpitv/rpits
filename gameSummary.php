@@ -210,7 +210,7 @@ function gameSummary(&$canvas,$o) {
 }
 
 function getGameSummaryInfo($path) {
-	$sidearm = loadXmlCached($page);	
+	$sidearm = loadXmlCached($path);	
 	return $sidearm->scores;
 }
 ?>
