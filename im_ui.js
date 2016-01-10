@@ -241,7 +241,7 @@ $(document).ready(function() {
 		var eventsTable = new EditableTable({
 			db: ui.dbName,
 			dbTable: 'events',
-			columnHeaders: ['ID','Name','Team 1','Team 2'],
+			columnHeaders: ['ID','Name','Team 1','Team 2','statsLink'],
 			uneditableColumns: ['id'],
 			element: $('#eventSelector'),
 			callback: function() {
