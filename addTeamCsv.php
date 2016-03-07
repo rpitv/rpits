@@ -44,20 +44,21 @@ if ($_GET['pull_url']) {
 	$stats = addslashes($stats);
 	$stats = str_replace([chr(10), chr(13)], '', $stats);  // fix newline issues
 	$stats = stristr($stats, "<table width=\\\"856"); // get only stat table data
-	$stats = substr($stats, 0, (strripos($stats, "</TABLE><HR")+8));
+	$stats = substr($stats, 0, (strripos($stats, "<td align=left>Goaltending (Conference Only)</td>")));
+	$stats .= "</tr></table>";
 
 	$result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
 	$team_preset = mysql_fetch_assoc($result);
 
-?> 
+?>
 
 	<script>
 	$(document).ready( function() {
 		var content_roster = "<?= $roster ?>";
 		var content_stat = "<?= $stats ?>";
-		
+
 		$("#CHSabbr, #boxSIDEARM").hide()  // hide unneeded things
-		
+
 		parse_table_HTML(content_roster, content_stat, "<?= $team_preset['player_abbrev'] ?>");
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
 	});
@@ -83,7 +84,7 @@ if ($_GET['sidearm_url']) {
 	$roster = stristr($roster, "<table class=\\\"default_dgrd"); // get only table data from page
 	$roster = substr($roster, 0, (stripos($roster, "table>")+6));
 
-?> 
+?>
 
 	<div id="other_page" style="display:none;"></div>
 
@@ -103,7 +104,7 @@ if ($csv) {
 		if ($archive == 1) { // archive current players
 			$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
 			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
-			echo("Archived players from the old " . $team_sel . " roster.<br>");	
+			echo("Archived players from the old " . $team_sel . " roster.<br>");
 		}
 
 		foreach($lines as $line) {
@@ -111,12 +112,12 @@ if ($csv) {
 			$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
 			$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
 			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
-			echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel . ".<br>");	
+			echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel . ".<br>");
 		}
-		
+
 		$result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
 		$chn_puller = mysql_fetch_assoc($result);
-		
+
 		include("peditor.php");
 	} else { // update current players
 		foreach($lines as $line) {
@@ -142,11 +143,11 @@ if ($csv) {
 			}
 		}
 	}
-} else { 
+} else {
 ?>
 
 <form id="CHSabbr" action="addTeamCsv.php">
-	<label>Choose Hockey Team: 
+	<label>Choose Hockey Team:
 		<select name="pull_url">
 <?php
 			foreach($team_chs as $team_name => $team_id) {
