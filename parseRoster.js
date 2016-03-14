@@ -132,7 +132,7 @@ function parseStatsCHS(team, stats_HTML) {
 	// goaltenders
 	var stat_group = 'overall';
 	$($s[2]).find('tr').slice(1).each(function() {
-		if ($(this).css('background-color') === 'rgb(51, 51, 51)') {
+		if ($(this).text().indexOf("Goaltending") > -1) {
 			if (stat_group === 'overall') {
 				stat_group = 'conf';
 				return true;
