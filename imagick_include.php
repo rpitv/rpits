@@ -232,13 +232,8 @@ function blackBox(&$canvas, $o) {
 }
 
 function defaultText($o) {
-
 	if ($o['case'] == 'upper') {
 		$o['text'] = strtoupper($o['text']);
-	}
-
-	if ($o['text'] == '') {
-		$o['text'] = ' ';
 	}
 
 	global $gravities, $fonts;
@@ -246,7 +241,9 @@ function defaultText($o) {
 	$text->setFont($fonts[$o['font']]);
 	$text->setBackgroundColor("none");
 	$text->setGravity($gravities[$o['gravity']]);
-	if ($o['wordWrap']) {
+	if ($o['text'] == '') {
+		$text->newPseudoImage($o['w'], $o['h'], "null:");
+	} else if ($o['wordWrap']) {
 		$text->newPseudoImage($o['w'], $o['h'], "caption:" . $o['text']);
 	} else {
 		$text->newPseudoImage($o['w'], $o['h'], "label:" . $o['text']);
