@@ -1,6 +1,39 @@
 <?php
 // All Teams that have info on CHS.
+// (as of spring 2015)
 $team_chs = [
+
+	"Rensselaer" => "renm",
+	"Rensselaer [W]" => "renw",
+
+// ECAC Hockey //
+	"Brown" => "brnm",
+	"Clarkson" => "clkm",
+	"Colgate" => "clgm",
+	"Cornell" => "corm",
+	"Dartmouth" => "darm",
+	"Harvard" => "harm",
+	"Princeton" => "prnm",
+	"Quinnipiac" => "quim",
+	"Rensselaer" => "renm",
+	"St. Lawrence" => "stlm",
+	"Union" => "unim",
+	"Yale" => "yalm",
+
+// ECAC Hockey (Women) //
+	"Brown [W]" => "brnw",
+	"Clarkson [W]" => "clkw",
+	"Colgate [W]" => "clgw",
+	"Cornell [W]" => "corw",
+	"Dartmouth [W]" => "darw",
+	"Harvard [W]" => "harw",
+	"Princeton [W]" => "prnw",
+	"Quinnipiac [W]" => "quiw",
+	"Rensselaer [W]" => "renw",
+	"St. Lawrence [W]" => "stlw",
+	"Union [W]" => "uniw",
+	"Yale [W]" => "yalw",
+
 //// Men's Division I ////
 // Atlantic Hockey //
 	"Air Force" => "afam",
@@ -22,20 +55,6 @@ $team_chs = [
 	"Ohio State" => "osum",
 	"Penn State" => "psum",
 	"Wisconsin" => "wism",
-
-// ECAC Hockey //
-	"Brown" => "brnm",
-	"Clarkson" => "clkm",
-	"Colgate" => "clgm",
-	"Cornell" => "corm",
-	"Dartmouth" => "darm",
-	"Harvard" => "harm",
-	"Princeton" => "prnm",
-	"Quinnipiac" => "quim",
-	"Rensselaer" => "renm",
-	"St. Lawrence" => "stlm",
-	"Union" => "unim",
-	"Yale" => "yalm",
 
 // Hockey East //
 	"Boston College" => "bc_m",
@@ -81,20 +100,6 @@ $team_chs = [
 	"RIT [W]" => "ritw",
 	"Robert Morris [W]" => "rmuw",
 	"Syracuse [W]" => "syrw",
-
-// ECAC Hockey (Women) //
-	"Brown [W]" => "brnw",
-	"Clarkson [W]" => "clkw",
-	"Colgate [W]" => "clgw",
-	"Cornell [W]" => "corw",
-	"Dartmouth [W]" => "darw",
-	"Harvard [W]" => "harw",
-	"Princeton [W]" => "prnw",
-	"Quinnipiac [W]" => "quiw",
-	"Rensselaer [W]" => "renw",
-	"St. Lawrence [W]" => "stlw",
-	"Union [W]" => "uniw",
-	"Yale [W]" => "yalw",
 
 // Hockey East (Women) //
 	"Boston College [W]" => "bc_w",
