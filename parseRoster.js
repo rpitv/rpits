@@ -21,6 +21,8 @@ function parseStatsCHS(team, stats_HTML) {
 			if (p.overall.s5) { // convert PEN/MIN to PIM
 				p.overall.penalties = p.overall.s5.split('/')[0];
 				p.overall.s5 = p.overall.s5.split('/')[1];
+			} else {
+				p.overall.s5 = '0';
 			}
 			p.overall.s6 = tds.eq(n+12).text().trim();
 			if (p.overall.s6 === 'E') { // make 'E'ven into '0'
