@@ -142,14 +142,20 @@
 						}
 						
 						$("#q"+tid).fadeOut(400, function() {
-							$(this).removeClass("pending-rgb").addClass("completed-rgb");		
+							$(this).removeClass("pending-rgb").removeClass("failed").addClass("completed-rgb");
 							$(this).fadeIn(400);
 						});
 					}.bind(renderQueue),
 					error: function() {
-						$("#q"+tid).removeClass("pending-rgb").addClass("pending").addClass("failed");
+						$("#q"+tid).removeClass("pending-rgb").addClass("waiting").addClass("failed");
 						index += 1;
-						this.processQueue(false, true);
+						if (index >= renderQueue.queue.length) {
+							renderQueue.processing = 0; // Processing has ended
+							$("#process div").html("&#xe047;"); // Play Icon
+							renderQueue.pruneQueue();
+						} else {
+							this.processQueue(false, true, index);
+						}
 					}.bind(renderQueue)
 				});
 
