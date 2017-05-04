@@ -1,0 +1,58 @@
+<template>
+	<name>Softball Score</name>
+	<description>Score box for softball</description>
+	<geos>
+		<blackBox name="body" x="400" y="880" w="1120" h="180" />
+		<slantRectangle name="titleBar" x="380" y="820" w="1170" h="60" color="red"/>
+		
+		<slantRectangle name="top1" x="550" y="820" w="100" h="60" color="black"/>
+		<slantRectangle name="top2" x="700" y="820" w="100" h="60" color="black"/>
+		<slantRectangle name="top3" x="850" y="820" w="100" h="60" color="black"/>
+		<slantRectangle name="top4" x="1000" y="820" w="100" h="60" color="black"/>
+		<slantRectangle name="top5" x="1150" y="820" w="100" h="60" color="black"/>
+		<slantRectangle name="top6" x="1300" y="820" w="100" h="60" color="black"/>
+		
+		<shadowText name="inning1" x="585" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="1"/>
+		<shadowText name="inning2" x="657" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="2"/>
+		<shadowText name="inning3" x="735" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="3"/>
+		<shadowText name="inning4" x="807" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="4"/>
+		<shadowText name="inning5" x="885" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="5"/>
+		<shadowText name="inning6" x="957" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="6"/>
+		<shadowText name="inning7" x="1035" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="7"/>
+		<shadowText name="inning8" x="1107" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="8"/>
+		<shadowText name="inning9" x="1185" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="9"/>
+		<shadowText name="inningR" x="1257" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="R"/>
+		<shadowText name="inningH" x="1335" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="H"/>
+		<shadowText name="inningE" x="1407" y="825" w="60" h="60" gravity="west" font="fontN" color="white" text="E"/>
+
+		<plainText name="H1" x="565" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V1" x="565" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H2" x="640" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V2" x="640" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H3" x="715" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V3" x="715" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H4" x="790" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V4" x="790" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H5" x="865" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V5" x="865" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H6" x="940" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V6" x="940" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H7" x="1015" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V7" x="1015" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H8" x="1090" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V8" x="1090" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="H9" x="1165" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="V9" x="1165" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="HR" x="1240" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="VR" x="1240" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="HH" x="1315" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="VH" x="1315" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="HE" x="1390" y="905" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+		<plainText name="VE" x="1390" y="985" w="60" h="60" gravity="center" font="fontN" color="white" text="0"/>
+
+		<placeImage name="Hlogo" x="430" y="890" w="80" h="80" path="{e.h.logo}" padding="2"/>
+		<placeImage name="Vlogo" x="430" y="970" w="80" h="80" path="{e.v.logo}" padding="2"/>
+
+		<shadowText name="titleText" x="580" y="825" w="1040" h="50" gravity="west" font="fontN" color="white" text=""/>
+	</geos>
+</template>
