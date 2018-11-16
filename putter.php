@@ -61,6 +61,7 @@ if($server == 'animator') {
 	$headers = "Content-Length: 0\n";
 } else {
 	$command = "key";
+    $method = "PUT";
 	$pre_get = microtime();
 	if (strlen($path) > 1) {
 		$data = file_get_contents("$path");
@@ -75,6 +76,9 @@ if($server == 'animator') {
 }
 
 $server_url = $server == 'animator' ? $animator_url : $keyer_url;
+if ($_GET["tie"]) {
+	$command .= "?tie_to_source";
+}
 
 $pre_post = microtime();
 $result = do_request($method,$server_url . "$command", $data, $log, $headers);
@@ -86,6 +90,8 @@ $post_time = sprintf("%.3f", $post_post - $pre_post);
 $get_time = sprintf("%.3f", $post_get - $pre_get);
 $total_time = sprintf("%.3f", $time_end - $time_start);
 $log .= "Total: $total_time,  Get: $get_time , Post: $post_time. <br>";
+$log .= $result;
+$log .= "I'M HERE";
 echo $log;
 //echo("<hr>");
 ?>

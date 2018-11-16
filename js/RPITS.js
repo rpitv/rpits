@@ -11,6 +11,7 @@
 			LETTER_D: 68,
 			ENTER: 13,
 			LETTER_R: 82,
+			LETTER_T: 84,
 			LETTER_E: 69,
 			ARROW_DOWN: 40,
 			ARROW_UP: 38,
@@ -233,11 +234,16 @@
 			this.doXHR(this.base + '?command=' + command,callback,server);
 		};
 
-		this.put = function(title,callback) {
+		this.put = function(title,tie,callback) {
 			if(!(title instanceof RPITS.ui.Title)) {
 				title = title.data('title');
 			}
-			this.doXHR(this.base + '?path=out/' + title.getFilename(),callback);
+			var tieStr = '';
+			if (tie) {
+				tieStr = 'tie=1&';
+			}
+                
+			this.doXHR(this.base + '?' + tieStr + 'path=out/' + title.getFilename(),callback);
 		};
 		this.animate = function(title,callback) {
 			if(!(title instanceof RPITS.ui.Title)) {
@@ -267,11 +273,17 @@
 				title = title.data('title');
 			}
 			this.title = title;
+
+			var tie = false;
+			if (duration == 'tie') {
+				tie = true;
+				duration = title.durationIn || DURATION_IN;
+			}
+
 			if(duration == "animate") {
 				this.animate(title);
 			} else {
-				
-				this.put(title,function() {
+				this.put(title,tie,function() {
 					if(duration === 0) {
 						this.command('cut_in')
 					} else {

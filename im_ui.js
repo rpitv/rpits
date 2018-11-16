@@ -68,6 +68,11 @@ ui.applyListeners = function() {
 				ui.program.on(selected);
 				ui.keyer.onProgram(selected);
 			}
+		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_T) {		// t, brings up with tie-to-source enabled
+			if (!ui.program.active()) {
+				ui.program.on(selected);
+				ui.keyer.onProgram(selected, 'tie');
+			}
 		} else if (event.keyCode == RPITS.constants.KEYCODE.LETTER_C) { 	// c, cuts without taking down existing graphic.
 			if (ui.program.active()) {
 				if (ui.program.active() == selected.data('title')) {
