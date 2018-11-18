@@ -1,0 +1,7 @@
+<template>
+	<geos>
+		<slantRectangle name="Bar" color="{e.h.color}" x="340" y="917" w="700" h="70" />
+		<shadowText name="Text" text="Stand by for broadcast..." w="620" h="60" x="380" y="922" color="white" gravity="west" font="fontN" />
+
+	</geos>
+</template>

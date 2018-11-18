@@ -1,0 +1,7 @@
+<template>
+	<geos>
+		<slantRectangle name="Bar" color="{e.h.color}" x="600" y="900" w="700" h="70" />
+		<shadowText name="Text" text="Instant Replay" w="620" h="60" x="640" y="905" color="white" gravity="west" font="fontN" />
+
+	</geos>
+</template>

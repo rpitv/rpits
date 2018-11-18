@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+	<name>Score Lower Third</name>
+	<description></description>
+	<geos>
+
+		<blackBox name="body" x="200" y="120" w="1520" h="920" />
+		<slantRectangle name="title-bar" x="160" y="45" w="1600" h="80" color="red" />
+
+		<slantRectangle name="0-vTeamBar" x="375" y="185" w="500" h="70" color="#840032" />
+		<slantRectangle name="0-vScoreBox" x="240" y="170" w="180" h="100" color="#303030" />
+		<slantRectangle name="0-StatusBox" x="840" y="185" w="240" h="70" color="#303030" />
+		<slantRectangle name="0-hTeamBar" x="1045" y="185" w="500" h="70" color="#493829" />
+		<slantRectangle name="0-hScoreBox" x="1505" y="170" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="1-vTeamBar" x="375" y="335" w="500" h="70" color="#840032" />
+		<slantRectangle name="1-vScoreBox" x="240" y="320" w="180" h="100" color="#303030" />
+		<slantRectangle name="1-StatusBox" x="840" y="335" w="240" h="70" color="#303030" />
+		<slantRectangle name="1-hTeamBar" x="1045" y="335" w="500" h="70" color="#493829" />
+		<slantRectangle name="1-hScoreBox" x="1505" y="320" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="2-vTeamBar" x="375" y="485" w="500" h="70" color="#C19F09" />
+		<slantRectangle name="2-vScoreBox" x="240" y="470" w="180" h="100" color="#303030" />
+		<slantRectangle name="2-StatusBox" x="840" y="485" w="240" h="70" color="#303030" />
+		<slantRectangle name="2-hTeamBar" x="1045" y="485" w="500" h="70" color="#015E2F" />
+		<slantRectangle name="2-hScoreBox" x="1505" y="470" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="3-vTeamBar" x="375" y="635" w="500" h="70" color="#DF1B1D" />
+		<slantRectangle name="3-vScoreBox" x="240" y="620" w="180" h="100" color="#303030" />
+		<slantRectangle name="3-StatusBox" x="840" y="635" w="240" h="70" color="#303030" />
+		<slantRectangle name="3-hTeamBar" x="1045" y="635" w="500" h="70" color="#002167" />
+		<slantRectangle name="3-hScoreBox" x="1505" y="620" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="4-vTeamBar" x="375" y="785" w="500" h="70" color="#004737" />
+		<slantRectangle name="4-vScoreBox" x="240" y="770" w="180" h="100" color="#303030" />
+		<slantRectangle name="4-StatusBox" x="840" y="785" w="240" h="70" color="#303030" />
+		<slantRectangle name="4-hTeamBar" x="1045" y="785" w="500" h="70" color="#740F0A" />
+		<slantRectangle name="4-hScoreBox" x="1505" y="770" w="180" h="100" color="#303030" />
+
+		<slantRectangle name="5-vTeamBar" x="375" y="935" w="500" h="70" color="#FF5200" />
+		<slantRectangle name="5-vScoreBox" x="240" y="920" w="180" h="100" color="#303030" />
+		<slantRectangle name="5-StatusBox" x="840" y="935" w="240" h="70" color="#303030" />
+		<slantRectangle name="5-hTeamBar" x="1045" y="935" w="500" h="70" color="#C4112F" />
+		<slantRectangle name="5-hScoreBox" x="1505" y="920" w="180" h="100" color="#303030" />	
+
+		<shadowText name="titleText" x="160" y="50" w="1600" h="70" gravity="center" font="fontN" color="white" text="ECAC Live Scoreboard" />
+
+		<shadowText name="0-vScore" x="240" y="175" w="180" h="90" gravity="center" font="fontN" color="white" text="1" />
+		<shadowText name="0-hScore" x="1505" y="175" w="180" h="90" gravity="center" font="fontN" color="white" text="3" />
+		<shadowText name="0-vName" x="375" y="190" w="500" h="60" gravity="center" font="fontN" color="white" text="COLGATE" />
+		<shadowText name="0-hName" x="1045" y="190" w="500" h="60" gravity="center" font="fontN" color="white" text="BROWN" />
+		<shadowText name="0-Status" x="865" y="190" w="180" h="60" gravity="center" font="fontN" color="white" text="2nd Int" />
+
+
+
+		<shadowText name="1-vScore" x="240" y="325" w="180" h="90" gravity="center" font="fontN" color="white" text="1" />
+		<shadowText name="1-hScore" x="1505" y="325" w="180" h="90" gravity="center" font="fontN" color="white" text="3" />
+		<shadowText name="1-vName" x="375" y="340" w="500" h="60" gravity="center" font="fontN" color="white" text="COLGATE" />
+		<shadowText name="1-hName" x="1045" y="340" w="500" h="60" gravity="center" font="fontN" color="white" text="BROWN" />
+		<shadowText name="1-Status" x="865" y="340" w="180" h="60" gravity="center" font="fontN" color="white" text="2nd Int" />
+
+		<shadowText name="2-vScore" x="240" y="475" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-hScore" x="1505" y="475" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-vName" x="375" y="490" w="500" h="60" gravity="center" font="fontN" color="white" text="QUINNIPIAC" />
+		<shadowText name="2-hName" x="1045" y="490" w="500" h="60" gravity="center" font="fontN" color="white" text="DARTMOUTH" />
+		<shadowText name="2-Status" x="865" y="490" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
+
+		<shadowText name="3-vScore" x="240" y="625" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="3-hScore" x="1505" y="625" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="3-vName" x="375" y="640" w="500" h="60" gravity="center" font="fontN" color="white" text="CORNELL" />
+		<shadowText name="3-hName" x="1045" y="640" w="500" h="60" gravity="center" font="fontN" color="white" text="YALE" />
+		<shadowText name="3-Status" x="865" y="640" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
+
+		<shadowText name="4-vScore" x="240" y="775" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="4-hScore" x="1505" y="775" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="4-vName" x="375" y="790" w="500" h="60" gravity="center" font="fontN" color="white" text="CLARKSON" />
+		<shadowText name="4-hName" x="1045" y="790" w="500" h="60" gravity="center" font="fontN" color="white" text="UNION" />
+		<shadowText name="4-Status" x="865" y="790" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
+
+		<shadowText name="5-vScore" x="240" y="925" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="5-hScore" x="1505" y="925" w="180" h="90" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="5-vName" x="375" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="PRINCETON" />
+		<shadowText name="5-hName" x="1045" y="940" w="500" h="60" gravity="center" font="fontN" color="white" text="HARVARD" />
+		<shadowText name="5-Status" x="865" y="940" w="180" h="60" gravity="center" font="fontN" color="white" text="7:00 ET" />
+	</geos>
+
+</template>
