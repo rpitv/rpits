@@ -23,19 +23,12 @@ function EditableTable(options) {
 	this.options = options;
 
 	this.loadTable = function(start,end,where,order) {
-		this.start = start;
-		this.end = end;
-		if (!start)
-			this.start = 0;
-		if(!end)
-			this.end = 30;
 		var sql = 'SELECT * FROM ' + options.dbTable;
 		if(where)
 			sql += ' WHERE ' + where;
 		if(order) {
 			sql += ' ORDER BY ' + order;
 		}
-		sql += ' LIMIT ' + start + ', '+ end;
 		$.getJSON('sql.php',{db:options.db,sql:sql},this._renderTable.bind(this));
 	}
 
