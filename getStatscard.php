@@ -156,7 +156,9 @@ function getStatscard($id,$o = []) {
 		$details = 'School: ' . $diveTeam['name'] . '       ';
 	}
 
-	$details .= "Hometown: " . $row["hometown"];
+	if (trim($row["hometown"]) != "") {
+		$details .= "Hometown: " . $row["hometown"];
+	}
 
 	if ($row["height"].length > 0) {
 		$details .= "       " . "Ht: " . $row["height"];

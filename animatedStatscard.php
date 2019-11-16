@@ -114,16 +114,21 @@ shadowText($mainBar, array('x' => 750 - $positionWidthModifier, 'y' => 10, 'w' =
 shadowText($mainBar, array('x' => 860 - $positionWidthModifier, 'y' => 10, 'w' => 130 + $positionWidthModifier, 'h' => 80, 'text' => $row["pos"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 shadowText($mainBar, array('x' => 950, 'y' => 10, 'w' => 140, 'h' => 80, 'text' => $row["year"], 'gravity' => "center", 'font' => "fontN", 'color' => "white"));
 
-$details = "Hometown: " . $row["hometown"] . "       Ht: " . $row["height"];
+$hometown = "";
+if (trim($row["hometown"]) != "") {
+	$hometown = "Hometown: " . $row["hometown"];
+}
+
+$details = $hometown . "       Ht: " . $row["height"];
 if ($row["weight"] . length > 0) {
 	$details .= "       Wt: " . $row["weight"];
 }
 $detailsGravity = "west";
 
 if (!$size[0]) {
-	$details = "Hometown: " . $row["hometown"] . "       Height: " . $row["height"];
+	$details = $hometown . "       Height: " . $row["height"];
 	if ($row["weight"] . length > 0) {
-		$details .= "       Weightt: " . $row["weight"];
+		$details .= "       Weight: " . $row["weight"];
 	}
 	$detailsGravity = "center";
 }
