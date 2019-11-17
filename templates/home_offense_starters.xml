@@ -1,0 +1,30 @@
+<template>
+	<geos>
+		<slantRectangle name="Player1 Possition" x="325" y="970" w="300" h="50" color="#333" />
+		<slantRectangle name="Player1 Name" x="350" y="900" w="450" h="70" color="red" />
+
+		<slantRectangle name="Player2 Possition" x="825" y="970" w="300" h="50" color="#333" />
+		<slantRectangle name="Player2 Name" x="850" y="900" w="450" h="70" color="red" />
+
+
+		<slantRectangle name="Player3 Possition" x="1325" y="970" w="300" h="50" color="#333" />
+		<slantRectangle name="Player3 Name" x="1350" y="900" w="450" h="70" color="red" />
+
+
+
+		<shadowText name="LeftSubText" x="360" y="975" w="225" h="40" text="Left Wing" color="white" gravity="west" font="fontN" />
+		<shadowText name="LeftText" x="395" y="905" w="375" h="60" text="{e.stats.hlw1}" color="white" gravity="west" font="fontN" />
+
+		<shadowText name="CenterSubText" x="860" y="975" w="225" h="40" text="Center" color="white" gravity="west" font="fontN" />
+		<shadowText name="CenterText" x="895" y="905" w="375" h="60" text="{e.stats.hc1}" color="white" gravity="west" font="fontN" />
+
+
+		<shadowText name="RightSubText" x="1360" y="975" w="225" h="40" text="Right Wing" color="white" gravity="west" font="fontN" />
+		<shadowText name="RightText" x="1395" y="905" w="375" h="60" text="{e.stats.hrw1}" color="white" gravity="west" font="fontN" />
+
+	
+
+
+	</geos>
+
+</template>

@@ -44,10 +44,28 @@ $canvas->newImage(1920, 1080, "none", IMGFMT);
 $canvas->setImageDepth(8);
 $canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
 
+$text_canvas = new Imagick();
+$text_canvas->newImage(1920, 1080, "none", IMGFMT);
+$text_canvas->setImageDepth(8);
+$text_canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
+
+$no_text_canvas = new Imagick();
+$no_text_canvas->newImage(1920, 1080, "none", IMGFMT);
+$no_text_canvas->setImageDepth(8);
+$no_text_canvas->setimagecolorspace(imagick::COLORSPACE_SRGB);
+
 timestamp('post allocation');
 
 foreach ($title['geos'] as $geo) {
 	addGeoToCanvas($canvas,$geo,$bustCache);
+	if ($geo['type'] == "shadowText" || $geo['type'] == "plainText")
+	{
+		addGeoToCanvas($text_canvas,$geo,$bustCache);		
+	}
+	else
+	{
+		addGeoToCanvas($no_text_canvas,$geo,$bustCache);
+	}
 }
 
 timestamp ('post geos');
@@ -87,6 +105,8 @@ timestamp('post thumbs');
 
 // Generate the output file of the title.
 $canvas->writeImage(realpath('out') . '/' . $filename . '.' . IMGFMT);
+//$text_canvas->writeImage(realpath('out') . '/' . $filename . '_text.' . IMGFMT);
+$no_text_canvas->writeImage(realpath('out') . '/' . $filename . '_no_text.' . IMGFMT);
 
 dbquery("REPLACE INTO cache SET `key`='$key', `hash`='" . getHashForTitle($title) . "';");
 

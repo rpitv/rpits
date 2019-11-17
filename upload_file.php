@@ -1,5 +1,5 @@
 <?php
-$final_dir = dirname(__FILE__) . "/bugs/";
+$final_dir = dirname(__FILE__) . "/bugs/"; 
 
 //only allow png files to be uploaded
 $temp = explode(".", $_FILES["file"]["name"]);
@@ -14,7 +14,9 @@ if ($extension != 'png') {
 //else display various details
 if ($_FILES["file"]["error"] > 0) {
 	echo "Return Code: " . $_FILES["file"]["error"] . "<br>";
-} else {
+} 
+else 
+{
 	echo "Upload: " . $_FILES["file"]["name"] . "<br>";
 	echo "Type: " . $_FILES["file"]["type"] . "<br>";
 	echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";

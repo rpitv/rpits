@@ -95,8 +95,40 @@ ui.applyListeners = function() {
 			if(selected.data('title').type == 'player') {
 				ui.program.on(selected,'animate');
 				ui.keyer.onProgram(selected,'animate');
-			} else {
-				console.error('Animation not supported for non-player titles at this time.');
+			} 
+			else if(selected.data('title').parent == 'templates/gameSummary.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else if(selected.data('title').parent == 'templates/sog_dropdown.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else if(selected.data('title').parent == 'templates/home_offense_starters.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else if(selected.data('title').parent == 'templates/home_defensive_starters.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else if(selected.data('title').parent == 'templates/visitor_defensive_starters.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else if(selected.data('title').parent == 'templates/visitor_offense_starters.xml')
+			{
+				ui.program.on(selected,'animate');
+				ui.keyer.onProgram(selected,'animate');
+			}
+			else {
+				console.error('Animation not supported for non-player titles at this time. Test2');
+				console.error(selected.data('title').type);
 			}
 		} else if (event.keyCode == RPITS.constants.KEYCODE.ENTER) { // Enter, pops up search/input window
 			event.preventDefault();

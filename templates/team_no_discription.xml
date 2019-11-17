@@ -1,0 +1,12 @@
+<template>
+	<name>Two-line w/ Logo</name>
+	<description>Single text box + title with logo box</description>
+	<geos>
+		<slantRectangle name="titleBar" x="460" y="920" w="1060" h="60" color="red"/>
+		<slantRectangle name="logoBox" x="400" y="900" w="180" h="100" color="white"/>
+
+		<placeImage name="logo" x="450" y="910" w="80" h="80" path="teamlogos/rpi.png" shadow="5" padding="2" />
+		
+		<shadowText name="titleText" x="580" y="925" w="1040" h="50" gravity="west" font="fontN" color="white" text="Want to see it again?" />.org tomorrow to see this game streaming on demand in high definition." />
+	</geos>
+</template>

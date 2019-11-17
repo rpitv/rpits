@@ -590,7 +590,8 @@ function parseRosterSIDEARM(table_HTML, skip_rows) {
 	if (skip_rows === undefined) {
 		skip_rows = 1; // assume 1 header row
 	}
-
+	
+	console.log("Test2");
 	// Sanitize nbsp weirdness
 	table_HTML = table_HTML.replace(/\&nbsp\;/g, '' );
 
@@ -647,30 +648,137 @@ function discoverColumnsSIDEARM() {
 	var cols = {};
 	var index = 0;
 
-	$("#other_page .default_dgrd_header th").each(function() {
-		if ($(this).hasClass('roster_dgrd_header_no')) {
+	$("#other_page .sidearm-primary th").each(function() {
+		console.log(this.textContent)
+		if (this.textContent== "No." || this.textContent== "#") {
 			cols.num = index;
-		} else if ($(this).hasClass('roster_dgrd_header_full_name')) {
+			console.log("yes table");
+		} else if (this.textContent== "Name" || this.textContent == "Full Name") {
 			cols.name = index;
-		} else if ($(this).hasClass('roster_dgrd_header_rp_position_short')) {
+		} else if (this.textContent== "Pos.") {
 			cols.pos = index;
 		} else if ($(this).hasClass('roster_dgrd_header_rp_position_long')) {
 			cols.pos = index;
-		} else if ($(this).hasClass('roster_dgrd_header_height')) {
+		} else if (this.textContent== "Ht.") {
 			cols.h = index;
-		} else if ($(this).hasClass('roster_dgrd_header_rp_weight')) {
+		} else if (this.textContent== "Wt.") {
 			cols.w = index;
-		} else if ($(this).hasClass('roster_dgrd_header_academic_year')) {
+		} else if (this.textContent== "Year" || this.textContent== "Cl." || this.textContent== "Yr."){
 			cols.yr = index;
-		} else if ($(this).hasClass('roster_dgrd_header_player_hometown')) {
+		} else if (this.textContent== "Hometown") {
 			cols.home = index;
 		} else if ($(this).hasClass('roster_dgrd_player_hometown')) {
 			cols.home = index;
+		} else if (this.textContent== "High School") {
+			cols.hs = index;
+		} else if (this.textContent== "Hometown / High School") {
+			cols.home_comb = index;
+		} else if (this.textContent== "Capt.") {
+			cols.captain = index;
+		} else if (this.textContent== "major") {
+			cols.major = index;
+		} else if ($(this).hasClass('roster_dgrd_header_player_previous_school')) {
+			cols.prev_school = index;
+		}
+		index++;
+	});
+
+	return cols;
+}
+
+// Pass in ACH HTML, and the number of initial rows not containing data.
+function parseRosterACHA(table_HTML, skip_rows) {
+	if (skip_rows === undefined) {
+		skip_rows = 1; // assume 1 header row
+	}
+	
+	console.log("Test2");
+	// Sanitize nbsp weirdness
+	table_HTML = table_HTML.replace(/\&nbsp\;/g, '' );
+
+	$('#rosterSIDEARM').html(table_HTML);
+	$('#rosterSIDEARM table').css('font-size', '8pt');
+	$('#boxSIDEARM').hide();
+
+	c = discoverColumnsACHA();
+
+	var num_players = 0;
+	var submission_string = '';
+	var temp = '';
+
+	$('#rosterSIDEARM tr').slice(skip_rows).each(function() {
+		var tds = $(this).children();
+		var player = { overall:{}, conf:{}, career:{} };
+		num_players++;
+
+		if (c.num || (c.num == '0')) { // number
+			player.number = tds.eq(c.num).text().trim().replace(/\#/g, '');
+		}
+		if (c.name) { // FIRST and LAST name
+			temp = tds.eq(c.name).text().trim().replace('\'', '\\\'').split(' ');
+			player.first_name = temp.shift();  // get FIRST name (assume 1 first name)
+			player.last_name = temp.join(' ').trim();
+		}
+		if (c.yr) { // year
+			player.year = tds.eq(c.yr).text().trim().slice(0, 2);
+			player.year = player.year[0].toUpperCase() + player.year[1].toLowerCase();
+		}
+		if (c.pos) { // position
+			player.position = tds.eq(c.pos).text().trim();
+		}
+		if (c.h) { // height
+			var ht = tds.eq(c.h).text().trim();
+			ht = ht.replace(/'/g,"-");
+			ht = ht.replace(/ /g,"");
+			ht = ht.replace(/"/g,"");
+			player.height = ht;
+		}
+		if (c.w) { // weight
+			player.weight = tds.eq(c.w).text().trim();
+		}
+		if (c.home) { // hometown isolated
+			player.hometown = sanitizeHometown(tds.eq(c.home).text().trim()).join(', ');
+		} else if (c.home_comb) { // hometown combined
+			player.hometown = sanitizeHometown(tds.eq(c.home_comb).text().trim().split(' / ')[0]).join(', ');
+		}
+
+		submission_string += buildSubmissionLine(player);
+	});
+
+	$('#csv_textarea').val(submission_string.trim());
+}
+
+// Find column order from SIDEARM HTML.
+function discoverColumnsACHA() {
+	var cols = {};
+	var index = 0;
+
+	$("#other_page th").each(function() {
+		console.log(this.textContent)
+		if (this.textContent== "No." || this.textContent== "#") {
+			cols.num = index;
+			console.log("yes table");
+		} else if (this.textContent== "Name") {
+			cols.name = index;
+		} else if (this.textContent== "Pos") {
+			cols.pos = index;
+		} else if ($(this).hasClass('roster_dgrd_header_rp_position_long')) {
+			cols.pos = index;
+		} else if (this.textContent== "Height") {
+			cols.h = index;
+		} else if (this.textContent== "Wt.") {
+			cols.w = index;
+		} else if (this.textContent== "Year" || this.textContent== "Cl.") {
+			cols.yr = index;
+		} else if ($(this).hasClass('roster_dgrd_header_player_hometown')) {
+			cols.home = index;
+		} else if ($(this).hasClass('Hometown')) {
+			cols.home = index;
 		} else if ($(this).hasClass('roster_dgrd_header_highschool')) {
 			cols.hs = index;
-		} else if ($(this).hasClass('roster_dgrd_header_hometownhighschool')) {
+		} else if (this.textContent== "Hometown") {
 			cols.home_comb = index;
-		} else if ($(this).hasClass('roster_dgrd_header_rp_captain')) {
+		} else if (this.textContent== "Capt.") {
 			cols.captain = index;
 		} else if ($(this).hasClass('roster_dgrd_header_player_major')) {
 			cols.major = index;

@@ -46,7 +46,9 @@ img {
 
 <?php
 
-$setVal = "";
+
+
+$setVal = $_GET['setBug'];
 if ($_GET['setBug'] != "") {
 	$setVal = $_GET['setBug'];
 }
@@ -64,7 +66,8 @@ if ($delVal != "") {
 
 //set the bug and auto go back
 if ($setVal != "") {
-	do_post_request("http://ip6-localhost:3005/key", file_get_contents($setVal));
+	#do_post_request("http://ip6-localhost:3005/key", file_get_contents($setVal));
+	do_post_request("http://localhost:3005/key", file_get_contents($setVal));
 	echo "<script type ='text/javascript'> javascript:history.go(-1) </script>";
 }
 
@@ -96,6 +99,15 @@ if ($bug_state_json !== FALSE) {
 <div id="allBugs">
 <?php
 
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
+
 //display all images in folder
 $dirname = dirname(__FILENAME__) . '/bugs/';
 $images = glob($dirname."*");
@@ -120,22 +132,24 @@ foreach($images as $image) {
 
 //perform post request to the keyer
 function do_post_request($url, $data, $optional_headers = null) {
-	$params = array('http' => array(
-					'method' => 'POST',
-					'content' => $data
-					));
+	console_log($url);
+	$params = array('http' => array('method' => 'POST','content' => $data));
 	if ($optional_headers !== null) {
 		$params['http']['header'] = $optional_headers;
 	}
 	$ctx = stream_context_create($params);
 	$fp = @fopen($url, 'rb', false, $ctx);
+	#$fp = @fopen($url, 'rb');
+	if (!$fp) {
+		//throw new Exception("Problem with $url, $php_errormsg <br>");
+		console_log(error_get_last());
+	}
 	if ($http_response_header[0] == "HTTP/1.1 503 Service Unavailable") {
 		echo "Error 503";
 	}
-	if (!$fp) {
-		//throw new Exception("Problem with $url, $php_errormsg <br>");
-	}
+	
 	$response = @stream_get_contents($fp);
+	console_log($response);
 	if ($response === false) {
 		//throw new Exception("Problem reading data from $url, $php_errormsg <br>");
 	}

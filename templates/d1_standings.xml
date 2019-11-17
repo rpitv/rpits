@@ -1,0 +1,21 @@
+<template>
+	<geos>
+		<gameSummary
+			w="1920"
+			h="1080"
+			x="0"
+			y="0"
+
+			vTeam="{e.v.player_abbrev}"
+			hTeam="{e.h.player_abbrev}"
+
+			liveStatsXML="http://www.sidearmstats.com/rpi/mhockey/1.xml"
+
+			titleText="ECAC Standings"
+			barColor="linear-gradient(to right, {e.h.color}, black 50%, {e.v.color})"
+			startIndex="0"
+			numPlays="auto"
+
+		/>
+	</geos>
+</template>

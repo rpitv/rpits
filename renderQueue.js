@@ -255,6 +255,92 @@ function scoreTitleUpdate(homeScore, awayScore, scoreTitleId) {
 	setTimeout(function(){ scoreTitleUpdate(homeScore, awayScore, scoreTitleId); }, 10000);
 };
 
+function statsTitleUpdate(statsTitleId) 
+{
+	if (!statsTitleId) 
+	{
+		$("#pane ul li").each( function() 
+		{
+			if ($(this).text().indexOf("Stats new") >= 0) 
+			{
+				statsTitleId = $(this).data('title').id;
+				return;
+			}
+		});
+		statsTitleId = (statsTitleId >= 0) ? statsTitleId : -1;
+	}
+
+	if (statsTitleId == -1) {
+		return;	
+	}
+	
+	var list = $('.tab.active').data('list');
+		$.getJSON(list.url + '&checkHash=true',function(data) 
+		{
+			if (!data[statsTitleId])
+			{
+				window.renderQueue.addToQueue(statsTitleId, true, true);
+			}
+		});
+	
+	
+	setTimeout(function(){ statsTitleUpdate(statsTitleId); }, 5000);
+}
+
+function sogTitleUpdate(homeSOG, awaySOG, sogTitleId) {
+// Auto-queue the SOG title on score change
+	var url = "/scoreboard/";
+	homeSOG = (homeSOG > -1) ? homeSOG : -1;
+	awaySOG = (awaySOG > -1) ? awaySOG : -1;
+
+	if (!sogTitleId) {
+		$("#pane ul li").each( function() {
+			if ($(this).text().indexOf("SOG") >= 0) 
+			{
+				sogTitleId = $(this).data('title').id;
+				return;
+			}
+		});
+		sogTitleId = (sogTitleId >= 0) ? sogTitleId : -1;
+	}
+
+	if (sogTitleId == -1) {
+		return;	
+	}
+
+	$.getJSON(url+"data.json", function(data) {
+		if ((parseInt(data.home.shotsOnGoal) != parseInt(homeSOG)) || (parseInt(data.away.shotsOnGoal) != parseInt(awaySOG))) 
+		{
+			$.ajax({
+				type: "POST",
+				async: false,
+				url: "cdb_update.php",
+				data: sogTitleId + "=HomeSOG&text=" + data.home.shotsOnGoal,
+				success: function() 
+				{
+					
+					homeSOG = data.home.shotsOnGoal;
+					$.ajax({
+						type: "POST",
+						async: false,
+						url: "cdb_update.php",
+						data: sogTitleId + "=AwaySOG&text=" + data.away.shotsOnGoal,
+						success: function() 
+						{
+							awaySOG = data.away.shotsOnGoal;
+							window.renderQueue.addToQueue(sogTitleId, true, true);
+							return;
+						}
+					});
+				}
+			});
+		}
+	}).fail(function(d){
+		return; // quit if no scoreboard feed
+	});
+	setTimeout(function(){ sogTitleUpdate(homeSOG, awaySOG, sogTitleId); }, 5000);
+};
+
 
 $(window).on('beforeunload', function() {
 	if ((ui.eventId) && (parseInt(window.renderQueue.queue.length) != 0)) { // Only in the LIVE UI on empty queue
@@ -265,7 +351,9 @@ $(window).on('beforeunload', function() {
 
 $(document).ready( function() {
 	if (ui.eventId) { // Only in the LIVE UI
+		setTimeout(function(){ sogTitleUpdate(); }, 1000); // Start auto sog update
 		setTimeout(function(){ scoreTitleUpdate(); }, 1000); // Start auto score update
+		setTimeout(function(){ statsTitleUpdate(); }, 1000); // Start auto stats update
 	}
 });
 

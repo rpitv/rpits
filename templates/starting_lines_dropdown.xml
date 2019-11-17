@@ -2,7 +2,7 @@
 	<geos>
 
 		<slantRectangle name="OverbarLeft" x="391" y="118" w="100" h="50" color="red" />
-		<slantRectangle name="Underbar" x="468" y="118" w="205" h="50" color="#333" />
+		<colorRectangle name="Underbar" x="468" y="118" w="205" h="50" color="green" />
 		<slantRectangle name="OverbarRight" x="650" y="118" w="100" h="50" color="red" />
 		
 		<shadowText name="UnderbarText" x="468" y="123" w="205" h="45" text="Left" color="white" gravity="center" font="fontN" />

@@ -231,6 +231,17 @@ function blackBox(&$canvas, $o) {
 	$canvas->compositeImage($rectangle, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 }
 
+function colorRectangle(&$canvas, $o) {
+
+	$rectangle = new Imagick();
+	$rectangle->newPseudoImage($o['w'], $o['h'], "xc:blue");
+	//$rectangle->drawImage($draw1);
+	$background = fillRectangle($o['w'], $o['h'], $o['color']);
+	//$rectangle->compositeImage($gradient, Imagick::COMPOSITE_COPYOPACITY, 0, 0);
+
+	$canvas->compositeImage($background, Imagick::COMPOSITE_OVER, $o['x'], $o['y']);
+}
+
 function defaultText($o) {
 	if ($o['case'] == 'upper') {
 		$o['text'] = strtoupper($o['text']);

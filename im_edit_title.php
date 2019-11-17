@@ -62,6 +62,14 @@ if ($geos['slantRectangle']) {
 	echo "</div>";
 }
 
+if ($geos['colorRectangle']) {
+	echo "<div id=\"colorRectangle\"><h3>Color Rectangle</h3>";
+	foreach ($geos['colorRectangle'] as $geo) {
+		printEditableRow($geo, $titleId, 'color');
+	}
+	echo "</div>";
+}
+
 if ($geos['placeImage']) {
 	echo "<div id=\"images\"><h3>Images</h3>";
 	foreach ($geos['placeImage'] as $geo) {

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+	<geos>
+
+		<blackBox name="body" x="180" y="285" w="1520" h="600" />
+		<slantRectangle name="title-bar" x="140" y="220" w="1640" h="70" color="red" />
+
+		<slantRectangle name="1-tTeamBar" x="255" y="355" w="450" h="70" color="#DF1B1D" />
+		<slantRectangle name="1-tScoreBox" x="670" y="355" w="120" h="70" color="#303030" />
+		<slantRectangle name="1-bTeamBar" x="255" y="430" w="450" h="70" color="#EE0000" />
+		<slantRectangle name="1-bScoreBox" x="670" y="430" w="120" h="70" color="#303030" />
+
+		<slantRectangle name="2-tTeamBar" x="255" y="655" w="450" h="70" color="#004737" />
+		<slantRectangle name="2-tScoreBox" x="670" y="655" w="120" h="70" color="#303030" />
+		<slantRectangle name="2-bTeamBar" x="255" y="730" w="450" h="70" color="#C4112F" />
+		<slantRectangle name="2-bScoreBox" x="670" y="730" w="120" h="70" color="#303030" />
+
+		<slantRectangle name="C-tTeamBar" x="1055" y="505" w="450" h="70" color="#606060" />
+		<slantRectangle name="C-tScoreBox" x="1470" y="505" w="120" h="70" color="#303030" />
+		<slantRectangle name="C-bTeamBar" x="1055" y="580" w="450" h="70" color="#606060" />
+		<slantRectangle name="C-bScoreBox" x="1470" y="580" w="120" h="70" color="#303030" />
+
+		<shadowText name="titleText" x="265" y="225" w="1400" h="60" gravity="center" font="fontN" color="white" text="ECAC Women's Hockey Championship Bracket" />
+
+		<shadowText name="1-topLabel" x="170" y="315" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #1" />
+		<shadowText name="1-tScore" x="670" y="360" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="1-bScore" x="670" y="435" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="1-tName" x="295" y="365" w="360" h="50" gravity="west" font="fontN" color="white" text="CORNELL" />
+		<shadowText name="1-bName" x="295" y="440" w="360" h="50" gravity="west" font="fontN" color="white" text="ST. LAWRENCE" />
+		<shadowText name="1-botLabel" x="170" y="505" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 1:00 ET" />
+
+		<shadowText name="2-topLabel" x="170" y="615" w="620" h="35" gravity="center" font="fontN" color="white" text="Semifinal #2" />
+		<shadowText name="2-tScore" x="670" y="660" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-bScore" x="670" y="735" w="120" h="60" gravity="center" font="fontN" color="white" text="0" />
+		<shadowText name="2-tName" x="295" y="665" w="360" h="50" gravity="west" font="fontN" color="white" text="CLARKSON" />
+		<shadowText name="2-bName" x="295" y="740" w="360" h="50" gravity="west" font="fontN" color="white" text="HARVARD" />
+		<shadowText name="2-botLabel" x="170" y="805" w="620" h="35" gravity="center" font="fontN" color="white" text="Saturday, March 9th - 4:00 ET" />
+
+		<shadowText name="C-topLabel" x="970" y="455" w="620" h="35" gravity="center" font="fontN" color="white" text="Championship" />
+		<shadowText name="C-tScore" x="1470" y="510" w="120" h="60" gravity="center" font="fontN" color="white" text="test" />
+		<shadowText name="C-bScore" x="1470" y="585" w="120" h="60" gravity="center" font="fontN" color="white" text="test" />
+		<shadowText name="C-tName" x="1095" y="515" w="360" h="50" gravity="west" font="fontN" color="white" text="test" />
+		<shadowText name="C-bName" x="1095" y="590" w="360" h="50" gravity="west" font="fontN" color="white" text="test" />
+		<shadowText name="C-botLabel" x="970" y="655" w="620" h="35" gravity="center" font="fontN" color="white" text="Sunday, March 10th - 1:00 ET" />
+
+
+	</geos>
+
+</template>

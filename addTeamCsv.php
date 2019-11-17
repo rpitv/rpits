@@ -20,6 +20,16 @@ $csv = $_POST["csv"];
 $archive = $_POST["archive"];
 $chs_prefix = $_GET["pull_url"];
 $SIDEARM_url = $_GET["sidearm_url"];
+$ACHA_url = $_GET["ACHA_url"];
+
+function console_log($output, $with_script_tags = true) {
+    $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+');';
+    if ($with_script_tags) {
+        $js_code = '<script>' . $js_code . '</script>';
+    }
+    echo $js_code;
+}
 
 //////////////////// CHS Pulling
 if ($_GET['pull_url']) {
@@ -30,6 +40,7 @@ if ($_GET['pull_url']) {
 	}
 
 	$chs = fopen("http://www.collegehockeystats.net/". $season ."/rosters/" . $chs_prefix, "r");
+	console_log($chs);
 	$roster = stream_get_contents($chs);
 	$roster = mb_convert_encoding($roster, 'UTF-8', 'ASCII');
 	$roster = str_replace("\xc2\x9a", "\xc5\xa1" , $roster); // replace incorrect "Single Character Introducer" with "Small Latin S with Caron"
@@ -57,6 +68,7 @@ if ($_GET['pull_url']) {
 		var content_stat = "<?= $stats ?>";
 
 		$("#CHSabbr, #boxSIDEARM").hide()  // hide unneeded things
+		$("#CHSabbr, #boxACHA").hide()  // hide unneeded things
 
 		parse_table_HTML(content_roster, content_stat, "<?= $team_preset['player_abbrev'] ?>");
 		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
@@ -80,18 +92,64 @@ if ($_GET['sidearm_url']) {
 	$roster = addslashes(stream_get_contents($side));
 
 	$roster = str_replace([chr(10), chr(13)], '', $roster);  // fix newline issues
-	$roster = stristr($roster, "<table class=\\\"default_dgrd"); // get only table data from page
+	$roster = stristr($roster, "<table class=\\\"sidearm-table sidearm-"); // get only table data from page
+	console_log($roster);
 	$roster = substr($roster, 0, (stripos($roster, "table>")+6));
+?> 
 
+	<div id="other_page" style="display:none;"></div>
+
+	<script>
+	$(document).ready( function() {
+		console.log( "<?= $roster ?>");
+		$("#other_page").html("<?= $roster ?>");
+		$("#CHSabbr").hide()  // hide unneeded things
+		parseRosterSIDEARM($('#other_page').html());
+	});
+	</script>
+<?php
+}
+
+//////////////////// ACHA Pulling
+if ($_GET['ACHA_url']) {
+	$opts = array('http' =>
+		array(
+			'method' => 'GET',
+			'protocol_version' => '1.1',
+			'header' => 'User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36'
+		)
+	);
+	$context = stream_context_create($opts);
+	$side = fopen(rawurldecode($ACHA_url), "r", false, $context);
+	$roster = addslashes(stream_get_contents($side));
+	
+	$roster = str_replace("\\","",$roster);
+	$roster = str_replace([chr(10), chr(13)], '', $roster);  // fix newline issues
+	$roster = stristr($roster, "// Build request."); // get only html data from page
+	$roster = substr($roster, 0, (stripos($roster, "var request_url")+15));
+	$roster = explode("'",$roster);
+	$newhtml = "http://achahockey.org/stats/".$roster[1]."/".$roster[3]."/".$roster[5]."/".$roster[7];
+	console_log($newhtml);
+	
+	
+	$side = fopen(rawurldecode($newhtml), "r", false, $context);
+	$roster = addslashes(stream_get_contents($side));
+	
+	$roster = str_replace([chr(10), chr(13)], '', $roster);  // fix newline issues
+	$roster = stristr($roster, "<table class=\\\"table table-striped table-bordered table-hover table-condensed table-stats table-sort\\\">"); // get only html data from page
+	$roster = substr($roster, 0, (stripos($roster, "table>")+6));
+	console_log($roster);
+	
 ?>
 
 	<div id="other_page" style="display:none;"></div>
 
 	<script>
 	$(document).ready( function() {
+		console.log( "<?= $roster ?>");
 		$("#other_page").html("<?= $roster ?>");
 		$("#CHSabbr").hide()  // hide unneeded things
-		parseRosterSIDEARM($('#other_page').html());
+		parseRosterACHA($('#other_page').html());
 	});
 	</script>
 
@@ -167,6 +225,18 @@ if ($csv) {
 				<input type="submit" name="parseSIDEARMButton">
 			</div>
 			<div id="rosterSIDEARM" style="visibility: auto;"></div>
+		</label>
+	</form>
+</div>
+
+<div id="boxACHA">
+	<form id=parseACHA" action="addTeamCsv.php">
+		<label>Parse ACHA:
+			<div id="urlACHA" style="display: inline;">
+				<input type="text" name="ACHA_url" size="80">
+				<input type="submit" name="parseACHAButton">
+			</div>
+			<div id="rosterACHA" style="visibility: auto;"></div>
 		</label>
 	</form>
 </div>

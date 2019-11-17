@@ -45,15 +45,61 @@ if($server == 'animator') {
 		$title = getStatscard($_GET["id"]);
 		$data = getAnimationScriptForTitle($title);
 		$command = 'script';
-		$log .= "Animator Script: " . $_GET['type'] . ' ' . $_GET['id'];
-	} else if ($_GET["type"]) {
-		http_response_code(400);
-		die('Title type not supported for animation');
-	} else {
-		$data = $command;
-		$command = 'command'; // does this make sense? OH WELL
-		$log .= "Animator Command: $data, ";
+		$log .= "Animator Script: " . $_GET['type'] . ' ' . $_GET['id'] . implode("|",array_keys($title));
 	}
+	else if ($_GET["type"]) 
+	{
+		$title = getTitle($_GET["id"]);
+		if ($title["parent"] == 'templates/gameSummary.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else if($title["parent"] == 'templates/sog_dropdown.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script Test: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else if($title["parent"] == 'templates/home_offense_starters.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script Test: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else if($title["parent"] == 'templates/home_defensive_starters.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script Test: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else if($title["parent"] == 'templates/visitor_defensive_starters.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script Test: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else if($title["parent"] == 'templates/visitor_offense_starters.xml')
+		{
+			$data = getAnimationScriptForTitle($title);
+			$command = 'script';
+			$log .= "Animator Script Test: " . $title['name'] . ' ' . $_GET['id'];
+		}
+		else 
+		{
+			http_response_code(400);
+			$title = getTitle($_GET["id"]);
+			die('Title type not supported for animation 2 ' . $title[parent]  . implode("|",array_keys($title)));
+		} 
+		
+	}
+	else 
+		{
+			$data = $command;
+			$command = 'command'; // does this make sense? OH WELL
+			$log .= "Animator Command: $data, ";
+		}
 	
 } else if (strlen($command) > 0) {
 
@@ -76,6 +122,7 @@ if($server == 'animator') {
 }
 
 $server_url = $server == 'animator' ? $animator_url : $keyer_url;
+$log .= "<br>" . $server_url . "<br>";
 if ($_GET["tie"]) {
 	$command .= "?tie_to_source";
 }

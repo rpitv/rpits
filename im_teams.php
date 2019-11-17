@@ -32,7 +32,7 @@ $(function() {
 		}
 	});
 	
-	eventsTable.loadTable(0,100);
+	eventsTable.loadTable(0,200);
 	$(".chn_id").hide();
 
 });

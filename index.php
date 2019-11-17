@@ -23,6 +23,8 @@ include('init.php');
 	<li><a href="stypeEditor.php">Stat Type label editor</a> - Edit labels associated with stats.</li>
 	<li><a href="genall.php">Player Title Generator</a> - Generate the player titles for an entire team (or two), clear the cache.</li>
 	<li><a href="bugSelector.php">Bug Selector</a> - Select a 1920x1080 .PNG file for use as a broadcast bug.</li>
+	<li><a href="upload_headshots.php">Upload Headshots</a> - Upload headshots for a team.</li>
+	<li><a href="upload_logos.php">Upload Logos</a> - Upload Logo for a team.</li>
 </ul>
 <h3>Deprecated Pages</h3>
 <ul>

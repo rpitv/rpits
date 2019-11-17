@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+	<name>Score Lower Third</name>
+	<description></description>
+	<geos>
+
+		<blackBox name="body" x="100" y="120" w="1720" h="920" />
+		<slantRectangle name="title-bar" x="60" y="45" w="1800" h="80" color="red" />
+		
+		<slantRectangle name="1-vTeamBar" x="150" y="200" w="400" h="70" color="#840032" />
+		<slantRectangle name="1-StatusBox" x="500" y="200" w="100" h="70" color="#303030" />
+		<slantRectangle name="1-hTeamBar" x="550" y="200" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="2-vTeamBar" x="150" y="300" w="400" h="70" color="#840032" />
+		<slantRectangle name="2-StatusBox" x="500" y="300" w="100" h="70" color="#303030" />
+		<slantRectangle name="2-hTeamBar" x="550" y="300" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="3-vTeamBar" x="150" y="400" w="400" h="70" color="#840032" />
+		<slantRectangle name="3-StatusBox" x="500" y="400" w="100" h="70" color="#303030" />
+		<slantRectangle name="3-hTeamBar" x="550" y="400" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="4-vTeamBar" x="150" y="500" w="400" h="70" color="#840032" />
+		<slantRectangle name="4-StatusBox" x="500" y="500" w="100" h="70" color="#303030" />
+		<slantRectangle name="4-hTeamBar" x="550" y="500" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="5-vTeamBar" x="150" y="600" w="400" h="70" color="#840032" />
+		<slantRectangle name="5-StatusBox" x="500" y="600" w="100" h="70" color="#303030" />
+		<slantRectangle name="5-hTeamBar" x="550" y="600" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="6-vTeamBar" x="150" y="700" w="400" h="70" color="#840032" />
+		<slantRectangle name="6-StatusBox" x="500" y="700" w="100" h="70" color="#303030" />
+		<slantRectangle name="6-hTeamBar" x="550" y="700" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="7-vTeamBar" x="150" y="800" w="400" h="70" color="#840032" />
+		<slantRectangle name="7-StatusBox" x="500" y="800" w="100" h="70" color="#303030" />
+		<slantRectangle name="7-hTeamBar" x="550" y="800" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="8-vTeamBar" x="150" y="900" w="400" h="70" color="#840032" />
+		<slantRectangle name="8-StatusBox" x="500" y="900" w="100" h="70" color="#303030" />
+		<slantRectangle name="8-hTeamBar" x="550" y="900" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="9-vTeamBar" x="960" y="200" w="400" h="70" color="#840032" />
+		<slantRectangle name="9-StatusBox" x="1310" y="200" w="100" h="70" color="#303030" />
+		<slantRectangle name="9-hTeamBar" x="1360" y="200" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="10-vTeamBar" x="960" y="300" w="400" h="70" color="#840032" />
+		<slantRectangle name="10-StatusBox" x="1310" y="300" w="100" h="70" color="#303030" />
+		<slantRectangle name="10-hTeamBar" x="1360" y="300" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="11-vTeamBar" x="960" y="400" w="400" h="70" color="#840032" />
+		<slantRectangle name="11-StatusBox" x="1310" y="400" w="100" h="70" color="#303030" />
+		<slantRectangle name="11-hTeamBar" x="1360" y="400" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="12-vTeamBar" x="960" y="500" w="400" h="70" color="#840032" />
+		<slantRectangle name="12-StatusBox" x="1310" y="500" w="100" h="70" color="#303030" />
+		<slantRectangle name="12-hTeamBar" x="1360" y="500" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="13-vTeamBar" x="960" y="600" w="400" h="70" color="#840032" />
+		<slantRectangle name="13-StatusBox" x="1310" y="600" w="100" h="70" color="#303030" />
+		<slantRectangle name="13-hTeamBar" x="1360" y="600" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="14-vTeamBar" x="960" y="700" w="400" h="70" color="#840032" />
+		<slantRectangle name="14-StatusBox" x="1310" y="700" w="100" h="70" color="#303030" />
+		<slantRectangle name="14-hTeamBar" x="1360" y="700" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="15-vTeamBar" x="960" y="800" w="400" h="70" color="#840032" />
+		<slantRectangle name="15-StatusBox" x="1310" y="800" w="100" h="70" color="#303030" />
+		<slantRectangle name="15-hTeamBar" x="1360" y="800" w="400" h="70" color="#493829" />
+
+		<slantRectangle name="16-vTeamBar" x="960" y="900" w="400" h="70" color="#840032" />
+		<slantRectangle name="16-StatusBox" x="1310" y="900" w="100" h="70" color="#303030" />
+		<slantRectangle name="16-hTeamBar" x="1360" y="900" w="400" h="70" color="#493829" />
+
+
+		<shadowText name="titleText" x="160" y="50" w="1600" h="70" gravity="center" font="fontN" color="white" text="NCAA Division III Football Playoff Matchup's" />
+
+		<shadowText name="1-vName" x="180" y="205" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 1" />
+		<shadowText name="1-hName" x="580" y="205" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 2" />
+
+		<shadowText name="2-vName" x="180" y="305" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 3" />
+		<shadowText name="2-hName" x="580" y="305" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 4" />
+	
+		<shadowText name="3-vName" x="180" y="405" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 5" />
+		<shadowText name="3-hName" x="580" y="405" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 6" />
+
+		<shadowText name="4-vName" x="180" y="505" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 7" />
+		<shadowText name="4-hName" x="580" y="505" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 8" />
+
+		<shadowText name="5-vName" x="180" y="605" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 9" />
+		<shadowText name="5-hName" x="580" y="605" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 10" />
+
+		<shadowText name="6-vName" x="180" y="705" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 11" />
+		<shadowText name="6-hName" x="580" y="705" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 12" />
+
+		<shadowText name="7-vName" x="180" y="805" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 13" />
+		<shadowText name="7-hName" x="580" y="805" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 14" />
+
+		<shadowText name="8-vName" x="180" y="905" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 15" />
+		<shadowText name="8-hName" x="580" y="905" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 16" />
+
+		<shadowText name="9-vName" x="990" y="205" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 17" />
+		<shadowText name="9-hName" x="1390" y="205" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 18" />
+
+		<shadowText name="10-vName" x="990" y="305" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 19" />
+		<shadowText name="10-hName" x="1390" y="305" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 20" />
+	
+		<shadowText name="11-vName" x="990" y="405" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 21" />
+		<shadowText name="11-hName" x="1390" y="405" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 22" />
+
+		<shadowText name="12-vName" x="990" y="505" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 23" />
+		<shadowText name="12-hName" x="1390" y="505" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 24" />
+
+		<shadowText name="13-vName" x="990" y="605" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 25" />
+		<shadowText name="13-hName" x="1390" y="605" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 26" />
+
+		<shadowText name="14-vName" x="990" y="705" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 27" />
+		<shadowText name="14-hName" x="1390" y="705" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 28" />
+
+		<shadowText name="15-vName" x="990" y="805" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 29" />
+		<shadowText name="15-hName" x="1390" y="805" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 30" />
+
+		<shadowText name="16-vName" x="990" y="905" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 31" />
+		<shadowText name="16-hName" x="1390" y="905" w="320" h="70" gravity="center" font="fontN" color="white" text="Team 32" />
+
+
+
+
+
+	</geos>
+
+</template>

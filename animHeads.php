@@ -1,7 +1,7 @@
 <?php 
 ///var/www/machac3/rpits/statscard_no_img
 if (isset($_GET['folderdata'])){
-	$folderdata = scandir("/var/www/machac3/rpits/statscard_no_img/rpi-mh");
+	$folderdata = scandir("/var/www/rpits/anim_heads/rpi-mh");
 	echo json_encode($folderdata);
 	exit(0);
 }
@@ -36,7 +36,7 @@ $log = "";
 
 if (isset($_POST['player'])){
 
-$data = file_get_contents("/var/www/machac3/rpits/test_head.js");
+$data = file_get_contents("/var/www/rpits/test_head.js");
 
 $person = $_POST['player'];
 
@@ -76,6 +76,7 @@ jQuery.ajax({
 	dataType: 'json',
 	data: {folderdata: "folderdata"},
 	success: function(data){
+		console.log(playerarray);
 		playerarray = data;
 		playerarray.shift();
 		playerarray.shift();
@@ -84,7 +85,7 @@ jQuery.ajax({
 			var r2 = b.match(/^\d+/);
 			return r1[0] - r2[0];
 		});
-		//console.log(playerarray);
+		console.log(playerarray);
 	}
 })
 
