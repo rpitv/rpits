@@ -1,7 +1,12 @@
 <?
 
 $gravities = array("west" => imagick::GRAVITY_WEST, "center" => imagick::GRAVITY_CENTER, "east" => imagick::GRAVITY_EAST);
-$fonts = array("fontN" => "fonts/GothamNarrow-Bold.otf", "font" => "fonts/Gotham-Bold.ttf", "fontX" => "fonts/GothamXNarrow-Bold.otf");
+$fonts = array(
+	"fontN" => "fonts/GothamNarrow-Bold.otf",
+	"font" => "fonts/Gotham-Bold.ttf",
+	"fontX" => "fonts/GothamXNarrow-Bold.otf",
+	"fontFWN" => "fonts/GothamFWNNarrow-Bold.otf"
+);
 
 function slantRectangle(&$canvas, $o) {
 	$background = "#FFFFFF";
