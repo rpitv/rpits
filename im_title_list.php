@@ -45,12 +45,12 @@ $result;
 if ($thing == "billboards") {
 	//echo("<h1>Not Implemented</h1>");
 	$result = dbquery("SELECT * from billboards");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = rpits_db_fetch_array($result)) {
 		echo("<li type=\"billboard\" id=\"" . $row["id"] . "\"><img src=\"billboards/" . $row["file_name"] . "\" path=\"billboards/" . $row["file_name"] . "\" width=\"40\" />" . $row["title"] . "</li>\n");
 	}
 } else if ($event > 0) {
 	$result = dbquery("SELECT * FROM event_title WHERE `event`='$event' ORDER BY `order`,`title` ASC");
-	while ($row = mysql_fetch_assoc($result)) {
+	while ($row = rpits_db_fetch_assoc($result)) {
 		$title = getTitle($row['title'],$event);
 		if($title && $format == 'json') {
 			$title['order'] = $row['order'];
@@ -61,14 +61,14 @@ if ($thing == "billboards") {
 	}
 } else if ($event == -1) {
 	$result = dbquery("SELECT *, titles.id as title_id, titles.name as title_name FROM titles");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = rpits_db_fetch_array($result)) {
 		echo("<li type=\"general\" id=\"" . $row["title_id"] . "\"><img src=\"thumbs/" . $row["name"] . $row["title_id"] . ".png\" path=\"out/" . $row["title_name"] . $row["title_id"] . ".png\" height=\"38\" />" . $row["title_name"] . "</li>\n");
 	}
 } else {
 	//echo("<h1>Not Implemented</h1>");
 	$result = dbquery("SELECT * from players WHERE team='$team' ORDER BY num ASC");
 
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = rpits_db_fetch_array($result)) {
 		$num = $row["num"];
 		$first = $row["first"];
 		$last = $row["last"];

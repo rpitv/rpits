@@ -16,7 +16,7 @@ $players = $data['players'];
 
 foreach($players as $p) {
 	$playerResource = dbQuery("SELECT * FROM players WHERE team='$team' AND num='".$p['num']."'");
-	$row = mysql_fetch_assoc($playerResource);
+	$row = rpits_db_fetch_assoc($playerResource);
 	if($row) {
 		if ($p["pos"] != 'G') {
 			dbQuery("UPDATE players SET stype='ho', s1='".$p['gp']."', s2='".$p['g']."', s3='".$p['a']."', s4='".$p['pts']."', s5='".$p['pim']."' WHERE team='$team' AND num='".$p['num']."'");

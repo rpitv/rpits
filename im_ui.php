@@ -27,9 +27,6 @@ if ($bug_state_json !== FALSE) {
 	}
 }
 ?>
-<script>
-	ui.dbName = '<?= $mysql_database_name ?>';
-</script>
 <?php
 if (!$eventId) {
 ?>
@@ -38,7 +35,7 @@ if (!$eventId) {
 		<ul>
 <?php
 			$result = dbquery("SELECT * FROM events");
-			while ($row = mysql_fetch_array($result)) {
+			while ($row = rpits_db_fetch_array($result)) {
 				echo('<li><a href="im_ui.php?eventId=' . $row["id"] . '">' . $row["name"] . ' (' . $row["team1"] . ' vs. ' . $row["team2"] . ')</a></li>');
 			}
 			echo('<li><a href="#" id="editEvents">Edit / Add / Remove Events</a></li>');
@@ -55,7 +52,7 @@ if (!$eventId) {
 <?php
 	if ($eventId > 0) {
 		$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
-		$row = mysql_fetch_array($result);
+		$row = rpits_db_fetch_array($result);
 
 		$eventName = $row["name"];
 		$team1 = $row["team1"];
@@ -69,7 +66,6 @@ if (!$eventId) {
 ?>
 	<script>
 		ui.eventId = <?= $eventId ?>;
-		ui.dbName = '<?= $mysql_database_name ?>';
 	</script>
 	<div id="edit"></div>
 	<div id="pane"></div>

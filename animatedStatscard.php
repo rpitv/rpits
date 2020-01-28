@@ -8,16 +8,16 @@ $cacheno = $_GET["c"];
 $lastSeason = false;
 
 $result = dbquery("SELECT * from players WHERE `id` = '$id'");
-$row = mysql_fetch_array($result);
+$row = rpits_db_fetch_array($result);
 
 $result = dbquery("SELECT * from statscard_teams WHERE `name` = '" . $row["team"] . "'");
-$teamrow = mysql_fetch_array($result);
+$teamrow = rpits_db_fetch_array($result);
 $tColor = rgbhex($teamrow["colorr"], $teamrow["colorg"], $teamrow["colorb"]);
 
 $stype = $row["stype"];
 if ($stype != "txt") {
 	$result = dbquery("SELECT * FROM stattype WHERE `type`  = '$stype'");
-	$slabel = mysql_fetch_array($result);
+	$slabel = rpits_db_fetch_array($result);
 }
 
 //
@@ -35,7 +35,7 @@ $oldkey = $key;
 $key = addslashes($key);
 
 $result = dbquery("SELECT * from cache WHERE `key` = '$key'");
-$cacherow = mysql_fetch_array($result);
+$cacherow = rpits_db_fetch_array($result);
 $cacherow["hash"] = addslashes($cacherow["hash"]);
 
 if ($cacherow["hash"] == $hash && $cacheno != 1) {

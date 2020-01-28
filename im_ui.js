@@ -206,7 +206,7 @@ ui.applyListeners = function() {
 				}
 				
 				var sql = 'DELETE FROM event_title WHERE title="' + id + '" AND event="' + eventId + '";';
-				$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'});
+				$.getJSON('sql.php',{sql: sql});
 			
 				$( "li" ).first().addClass("selected");
 			}

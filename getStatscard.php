@@ -14,14 +14,14 @@ function getStatscard($id,$o = []) {
 	//
 
 	$result = dbquery("SELECT * from players WHERE `id` = '$id'");
-	$row = mysql_fetch_assoc($result);
+	$row = rpits_db_fetch_assoc($result);
 
 	$team = fetchTeam($row['team']);
 
 	$stype = $row["stype"];
 	if ($stype != "txt") {
 		$result = dbquery("SELECT * FROM stattype WHERE `type`  = '$stype'");
-		$slabel = mysql_fetch_array($result);
+		$slabel = rpits_db_fetch_array($result);
 	}
 
 	timestamp ('Done getting data');

@@ -10,7 +10,7 @@ $eventId = $_GET["eventId"];
 	Select Event: <select name="eventId" >
 		<?
 		$result = dbquery('SELECT * FROM events');
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = rpits_db_fetch_array($result)) {
 			$sel = '';
 			if ($eventId == $row["id"]) {
 				$sel = 'selected="selected"';
@@ -27,9 +27,9 @@ if ($_GET["add"] == 'Add') {
 	$name = $_GET["name"];
 	$parentId = $_GET["parent"];
 	dbquery("INSERT INTO titles (name,parent) VALUES ('$name','$parentId');");
-	$titleId = mysql_insert_id();
+	$titleId = rpits_db_insert_id();
 	dbquery("INSERT INTO event_title (event,title) VALUES ('$eventId','$titleId');");
-	$eventTitleId = mysql_insert_id();
+	$eventTitleId = rpits_db_insert_id();
 } else if ($_GET["add"] == 'Attach') {
 	$titleId = $_GET["titleId"];
 	$eventId = $_GET["eventId"];
@@ -60,7 +60,7 @@ From an XML template: 	<select name="parent">
 	Inherit from existing title: <select name="parent" >
 <?php
 		$result = dbquery("SELECT * FROM titles");
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = rpits_db_fetch_array($result)) {
 			echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
 		}
 ?>
@@ -74,7 +74,7 @@ From an XML template: 	<select name="parent">
 From event: <select id="existingEvent">
 <?php
 	$result = dbquery("SELECT * FROM events");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = rpits_db_fetch_array($result)) {
 		echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
 	}
 ?>
@@ -138,7 +138,7 @@ $(function() {
 			var id = button.parent().attr('id');
 			button.siblings('input').replaceWith('<span class="titleName">' + titleName + '</span>');
 			var sql = 'UPDATE titles SET name="' + titleName + '" WHERE id="' + id + '";';
-			$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'},function(d) {
+			$.getJSON('sql.php',{sql: sql},function(d) {
 				button.removeClass('save');
 				button.text('Rename');
 			});
@@ -148,7 +148,7 @@ $(function() {
 		var button = $(e.currentTarget);
 		var id = button.parent().attr('id');
 		var sql = 'DELETE FROM event_title WHERE title="' + id + '" AND event="' + eventId + '";';
-		$.getJSON('sql.php',{sql: sql, db: '<?= $mysql_database_name ?>'},function(d) {
+		$.getJSON('sql.php',{sql: sql},function(d) {
 			button.parent().remove();
 		});
 	})
@@ -176,7 +176,7 @@ $(function() {
 <div id="titleList">
 <?php
 $result = dbquery("SELECT *, event_title.id as etid, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title WHERE event_title.event = $eventId ORDER BY titles.id ASC");
-while ($row = mysql_fetch_array($result)) {
+while ($row = rpits_db_fetch_array($result)) {
 	if ($row['title_id']) {
 		echo('<div id="' . $row["title_id"] . '" class="title">' .
 			'<img src="thumbs/' . $row["title_name"] . $row["title_id"] . '.png" path="out/' . $row["title_name"] . $row["title_id"] . '.png" height="38" />' . 

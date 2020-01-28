@@ -53,15 +53,15 @@ $statsid = $_GET["statsid"];
 
 if($update == "Update"){
 	$query = "UPDATE `statscard_teams` SET `name` = '$name', `colorr` = '$colorr', `colorg` = '$colorg', `colorb` = '$colorb', `logor` = '$logor', `logog` = '$logog', `logob` = '$logob', `logo` = '$logo', `start` = '$start', `start` = '$start', `end` = '$end', `womens` = '$womens', `statsid` = '$statsid' WHERE `id`='$gid' ;";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = rpits_db_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 }
 if($_GET["add"] == "Add"){
 	$query = "INSERT INTO `statscard_teams` (`name`, `colorr`, `colorg`, `colorb`, `logo`, `logor`, `logog`, `logob`, `start`, `end`, `womens`, `statsid`) VALUES ('$name', '$colorr', '$colorg', '$colorb', '$logo', '$logor', '$logog', '$logob', '$start', '$end', '$womens', '$statsid');";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = rpits_db_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 }
 $query = "SELECT * from statscard_teams";
-$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-while($row = mysql_fetch_array($result)){
+$result = rpits_db_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
+while($row = rpits_db_fetch_array($result)){
 	if($edit == 1 && $gid == $row["id"]){
 		echo("	<tr>");
 		echo("	<form action=\"" . $_SERVER['PHP_SELF'] . "#" . $row["id"] . "\" method=\"GET\" >\n");

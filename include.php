@@ -11,19 +11,19 @@ include ($includePath . "fb_stats.php");
 include ($includePath . "hockey_stats.php");
 
 function dbquery($query) {
-	$result = mysql_query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = rpits_db_query($query) or die("<b>Error with Database Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 	return $result;
 }
 
 function dbqueryl($query) {
-	$result = mysql_query($query);
+	$result = rpits_db_query($query);
 	return $result;
 }
 
 function queryAssoc($query) {
 	$queryResult = dbquery($query);
 	$array = array();
-	while($row = mysql_fetch_assoc($queryResult)) {
+	while($row = rpits_db_fetch_assoc($queryResult)) {
 		$array[] = $row;
 	}
 	return $array;
@@ -31,7 +31,7 @@ function queryAssoc($query) {
 
 function getTitle($id,$eventId,$withReplacements = true) {
 	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
-	$title = mysql_fetch_assoc($titleResult);
+	$title = rpits_db_fetch_assoc($titleResult);
 
 	// null checking
 	if (is_numeric($title["parent"])) {
@@ -46,7 +46,7 @@ function getTitle($id,$eventId,$withReplacements = true) {
 		$title['parentName'] = $parent['name'];
 
 		$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
-		while ($row = mysql_fetch_array($cdbResult)) {
+		while ($row = rpits_db_fetch_array($cdbResult)) {
 			$title['geos'][$row['name']][$row['key']] = $row['value'];
 		}
 
@@ -145,7 +145,7 @@ function saveGeoToCache($geo,$im) {
 function getTextWidthFromCache($geo) {
 	$hash = getGeoHash($geo);
 	$result = dbQuery("SELECT * FROM cache WHERE `key` = '$hash' LIMIT 1");
-	$hashRow = mysql_fetch_assoc($result);
+	$hashRow = rpits_db_fetch_assoc($result);
 	if ($hashRow) {
 		return $hashRow['hash'];
 	} else {
@@ -167,10 +167,10 @@ function stripDBFetch($attrs) {
 
 function fetchTeam($team) {
 	$teamResource = dbQuery("SELECT * FROM teams WHERE player_abbrev='$team'");
-	$teamRow = mysql_fetch_assoc($teamResource);
+	$teamRow = rpits_db_fetch_assoc($teamResource);
 
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
-	$orgRow = mysql_fetch_assoc($orgResource);
+	$orgRow = rpits_db_fetch_assoc($orgResource);
 
 	if ($teamRow && $orgRow) {
 		$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
@@ -182,7 +182,7 @@ function fetchTeam($team) {
 
 function fetchOrg($org) {
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $org . "'");
-	$orgRow = mysql_fetch_assoc($orgResource);
+	$orgRow = rpits_db_fetch_assoc($orgResource);
 
 	$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
 	return $orgRow;
@@ -190,7 +190,7 @@ function fetchOrg($org) {
 
 function dbFetch($id, $geo) {
 	$result = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\" AND name=\"" . $data["name"] . "\";");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = rpits_db_fetch_array($result)) {
 		$geo[$row["key"]] = $row["value"];
 	}
 	return $geo;
@@ -232,7 +232,7 @@ function getToken($token,$eventId) {
 	// Event based replacement (future expansion on this front is likely)
 	if (($tokens[0] == 'e') or ($tokens[0] == 'event')) { // prototype for home/visiting teams
 		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
-		$eventRow = mysql_fetch_assoc($eventResource);
+		$eventRow = rpits_db_fetch_assoc($eventResource);
 		if ($eventRow) { // pass through to t.team.X.Y.Z
 			if ($tokens[1] == "stats") {
 				/* data pulled from live stats XML file */
@@ -284,7 +284,7 @@ function getToken($token,$eventId) {
 		$team = fetchTeam($tokens[1]);
 		if ($team and (($tokens[2] == 'p') or ($tokens[2] == 'player'))) {
 			$playerData = dbQuery("SELECT * FROM players WHERE team='" . $tokens[1] ."' AND " . $tokens[3] . "='" . $tokens[4] . "'");
-			$player = mysql_fetch_array($playerData);
+			$player = rpits_db_fetch_array($playerData);
 			if ($tokens[5] == 'name') { // case for full name
 				return $player['first'] . ' ' . $player['last'];
 			} else if (($tokens[5] == 'record') and ($player['stype'] == 'hg')) { // case for goalie record
@@ -306,11 +306,11 @@ function rgbhex($red, $green, $blue) {
 	return "#" . str_pad(strtoupper(dechex($red + $green + $blue)), 6, "0", STR_PAD_LEFT);
 }
 
-function mysqlQueryToJsonArray($query) {
+function queryToJsonArray($query) {
 	$result = dbquery($query);
 	$columns = array();
 	$rows = array();
-	while ($row = mysql_fetch_assoc($result)) {
+	while ($row = rpits_db_fetch_assoc($result)) {
 		$columns = array();
 		$dataRow = array();
 		foreach ($row as $key => $value) {
@@ -353,7 +353,7 @@ function checkHashForTitle($title,$key = false) {
 	}
 	$geoHash = hash('md4',json_encode($title['geos']));
 	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $key . "' LIMIT 1");
-	$cacheRow = mysql_fetch_assoc($result);
+	$cacheRow = rpits_db_fetch_assoc($result);
 
 	if ($geoHash == $cacheRow["hash"]) {
 		return true;

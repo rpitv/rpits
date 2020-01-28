@@ -10,7 +10,6 @@
 $(function() {
 
 	var eventsTable = new EditableTable({
-		db: '<?= $mysql_database_name ?>',
 		dbTable: 'stattype',
 		columnHeaders: ['ID','Type','S1','S2','S3','S4','S5','S6','S7','S8','Spacing'],
 		uneditableColumns: ['id'],

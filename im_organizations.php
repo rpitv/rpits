@@ -8,7 +8,6 @@
 $(function() {
 
 	var eventsTable = new EditableTable({
-		db: '<?= $mysql_database_name ?>',
 		dbTable: 'organizations',
 		//columnHeaders: ['ID','Name','Team 1','Team 2'],
 		uneditableColumns: ['id'],

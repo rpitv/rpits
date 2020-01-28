@@ -5,12 +5,12 @@ include("include.php");
 $titleId = $_GET["id"];
 
 $titleResult = dbquery("SELECT * from players where id=\"$titleId\" LIMIT 1;");
-$titleRow = mysql_fetch_array($titleResult);
+$titleRow = rpits_db_fetch_array($titleResult);
 
 $stype = $titleRow["stype"];
 if ($stype != "txt") {
 	$titleResult = dbquery("SELECT * FROM stattype WHERE `type` = '$stype'");
-	$slabel = mysql_fetch_array($titleResult);
+	$slabel = rpits_db_fetch_array($titleResult);
 }
 
 function printEditableRow($id, $row, $value, $slabel) {

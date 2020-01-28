@@ -57,8 +57,8 @@ if ($_GET['pull_url']) {
 	$stats = stristr($stats, "<table width=\\\"856"); // get only stat table data
 	$stats = substr($stats, 0, (strripos($stats, "</TABLE><HR")+8));
 
-	$result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
-	$team_preset = mysql_fetch_assoc($result);
+	$result = rpits_db_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
+	$team_preset = rpits_db_fetch_assoc($result);
 
 ?>
 
@@ -160,7 +160,7 @@ if ($csv) {
 	if ($archive > 0) { // add new players
 		if ($archive == 1) { // archive current players
 			$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
-			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			rpits_db_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 			echo("Archived players from the old " . $team_sel . " roster.<br>");
 		}
 
@@ -168,12 +168,12 @@ if ($csv) {
 			$values = explode('|',$line);
 			$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
 			$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
-			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			rpits_db_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 			echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel . ".<br>");
 		}
 
-		$result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
-		$chn_puller = mysql_fetch_assoc($result);
+		$result = rpits_db_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
+		$chn_puller = rpits_db_fetch_assoc($result);
 
 		include("peditor.php");
 	} else { // update current players
@@ -183,7 +183,7 @@ if ($csv) {
 			$last = $values[2];
 
 			$result = dbquery("SELECT * FROM players WHERE first='$first' AND last='$last'");
-			$row = mysql_fetch_array($result);
+			$row = rpits_db_fetch_array($result);
 			if ($row) {
 				$query = "UPDATE players SET s1='$values[9]', s2='$values[10]', s3='$values[11]', s4='$values[12]', s5='$values[13]', s6='$values[14]' WHERE first='$first' AND last='$last'";
 				$result = dbquery($query);

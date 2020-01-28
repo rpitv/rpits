@@ -27,12 +27,12 @@ $team = $_POST["team"];
 if ($id) {
 	$query = "UPDATE players SET id='$id', num='$num', first='$first', last='$last', pos='$pos', height='$height', weight='$weight', year='$year', hometown='$hometown', stype='$stype', ";
 	$query .= "s1='$s1', s2='$s2', s3='$s3', s4='$s4', s5='$s5', s6='$s6', s7='$s7', s8='$s8', team='$team' WHERE id='$id'" ;
-	mysql_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	rpits_db_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 	echo("<p>" . $first . " " . $last . " was updated.");
 } else if($num || $first) {
 	$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) ";
 	$query .= "VALUES ('$num','$first','$last','$pos','$height','$weight','$year','$hometown','$stype','$s1','$s2','$s3','$s4','$s5','$s6','$s7','$s8','$team')";
-	mysql_query($query) or die("<b>>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	rpits_db_query($query) or die("<b>>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
 	echo("<p>" . $first . " " . $last . " was inserted.");
 }
 
@@ -65,8 +65,8 @@ if ($team_sel) {
 	if ($team_sel) {
 		$query = "SELECT * FROM players WHERE team='$team_sel' ORDER BY num ASC";
 	}
-	$result = mysql_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-	while ($row = mysql_fetch_array($result)) {
+	$result = rpits_db_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
+	while ($row = rpits_db_fetch_array($result)) {
 		echo("<tr><form action=\"peditor.php\" method=\"post\"><td><input type=\"hidden\" name=\"id\" value=\"".$row["id"]."\">" . $row["id"]);
 		echo("</td><td><input type=\"text\" size=\"2\" name=\"num\" value=\"" . $row["num"] . "\">");
 		echo("</td><td><input type=\"text\" size=\"4\" name=\"first\" value=\"" . $row["first"] . "\">");
@@ -97,8 +97,8 @@ if ($team_sel) {
 		<form action="peditor.php" method="post">
 <?php
 			$query = "SELECT * FROM statscard_teams";
-			$result = mysql_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-			while ($row = mysql_fetch_array($result)) {
+			$result = rpits_db_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . rpits_db_errno() . ") " . rpits_db_error());
+			while ($row = rpits_db_fetch_array($result)) {
 				echo("<div style=\"float:left;min-width:100px;height:100px;\"><img width=\"30\" src=\"teamlogos/" . $row["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $row["name"] . "\"></div>");
 			}
 ?>
