@@ -273,7 +273,7 @@ function plainText(&$canvas, $o) {
 	$text = defaultText($o);
 	$shadow = $text->clone();
 	$shadow->blurImage(4, 2, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
+	$text->colorizeImage($o['color'], 1, true);
 
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
@@ -290,7 +290,7 @@ function shadowText(&$canvas, $o) {
 	$text = defaultText($o);
 	$shadow = $text->clone();
   $shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
+	$text->colorizeImage($o['color'], 1, true);
 
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'] + 5, $o['y'] + 5);
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
