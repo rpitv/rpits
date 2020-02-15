@@ -13,7 +13,6 @@ function getSingleRow(db,table,whereClause,callback) {
 function EditableTable(options) {
 
 	if(!options.db) {
-		alert('Warning: No database selected, using "rpits"');
 		options.db = 'rpits';
 	}
 	if(!options.dbTable) {
