@@ -14,12 +14,12 @@
 $includePath = '../';
 include($includePath . 'include.php');
 
-mysql_select_db("rpits");
+$mysqli->select_db("rpits");
 
 echo '<pre>';
 
 $checkData = dbQuery("SELECT * FROM `titles` LIMIT 1");
-$check = mysql_fetch_assoc($checkData);
+$check = $checkData->fetch_assoc();
 
 if(isset($check['template'])) {
 	$sql = 'ALTER TABLE `titles` CHANGE  `template`  `parent` VARCHAR( 255 ) NOT NULL';
@@ -31,13 +31,13 @@ if(isset($check['template'])) {
 
 	$templateData = dbQuery('SELECT * FROM templates');
 	$templates = array();
-	while($template = mysql_fetch_assoc($templateData)) {
+	while($template = $templateData->fetch_assoc()) {
 		$templates[$template['id']] = $template;
 	}
 
 	$titleData = dbQuery('SELECT * FROM titles');
 	$titles = array();
-	while($title = mysql_fetch_assoc($titleData)) {
+	while($title = $titleData->fetch_assoc()) {
 		$titles[$title['id']] = $title;
 		if(is_numeric($title['parent'])) {
 			$sql = 'UPDATE titles SET `parent`="' . $templates[$title['parent']]['path'] . '" WHERE `id`=' . $title['id'];

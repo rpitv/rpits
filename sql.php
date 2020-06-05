@@ -1,9 +1,9 @@
 <?php
 
-include('init.php');
+//include('init.php');
 include('include.php');
 
-mysql_select_db($_GET["db"]);
+$mysqli->select_db($_GET["db"]);
 
 $firstWord = explode(' ',$_GET["sql"]);
 

@@ -3,11 +3,11 @@
 include_once("include.php");
 include_once("imagick_include.php");
 
-$titleId = $_GET["id"];
-$eventId = $_GET["eventId"];
-$path = $_GET["path"];
-$player = $_GET["player"];
-$bustCache = $_GET['bustCache'] || false;
+$titleId = $_GET["id"] ?? '';
+$eventId = $_GET["eventId"] ?? '';
+$path = $_GET["path"] ?? '';
+$player = $_GET["player"] ?? '';
+$bustCache = $_GET['bustCache'] ?? false;
 
 $title;
 $filename;
@@ -78,7 +78,7 @@ if (!$metrics) {
 
 // Generate thumbnail image of the title for UI purposes.
 
-$thumb = $canvas->clone();
+$thumb = clone $canvas;
 if ($player) {
 	$thumb->cropImage(427, 240, 350, 795);
 	$thumb->resizeImage(72, 40, Imagick::FILTER_TRIANGLE, 1);

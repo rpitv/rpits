@@ -1,16 +1,16 @@
 <?php
 
-include ("init.php");
 include ("include.php");
 
-$eventId = $_GET["eventId"];
+$eventId = $_GET["eventId"] ?? '';
+$add = $_GET["add"] ?? '';
 
 ?>
 <form action="im_event_title.php" method="GET">
 	Select Event: <select name="eventId" >
 		<?
 		$result = dbquery('SELECT * FROM events');
-		while ($row = mysql_fetch_array($result)) {
+		while ($row = $result->fetch_array()) {
 			$sel = '';
 			if ($eventId == $row["id"]) {
 				$sel = 'selected="selected"';
@@ -23,14 +23,14 @@ $eventId = $_GET["eventId"];
 </form>
 
 <?php
-if ($_GET["add"] == 'Add') {
+if ($add == 'Add') {
 	$name = $_GET["name"];
 	$parentId = $_GET["parent"];
-	dbquery("INSERT INTO titles (name,parent) VALUES ('$name','$parentId');");
-	$titleId = mysql_insert_id();
-	dbquery("INSERT INTO event_title (event,title) VALUES ('$eventId','$titleId');");
-	$eventTitleId = mysql_insert_id();
-} else if ($_GET["add"] == 'Attach') {
+	$result = dbquery("INSERT INTO titles (name,parent) VALUES ('$name','$parentId');");
+	$titleId = $mysqli->insert_id;
+	$result = dbquery("INSERT INTO event_title (event,title) VALUES ('$eventId','$titleId');");
+	$eventTitleId = $mysqli->insert_id;
+} else if ($add == 'Attach') {
 	$titleId = $_GET["titleId"];
 	$eventId = $_GET["eventId"];
 	dbquery("INSERT INTO event_title (event,title) VALUES('$eventId','$titleId')");
@@ -74,7 +74,7 @@ From an XML template: 	<select name="parent">
 From event: <select id="existingEvent">
 <?php
 	$result = dbquery("SELECT * FROM events");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = $result->fetch_array()) {
 		echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
 	}
 ?>
@@ -176,7 +176,7 @@ $(function() {
 <div id="titleList">
 <?php
 $result = dbquery("SELECT *, event_title.id as etid, titles.name as title_name, titles.id as title_id FROM event_title LEFT JOIN titles on titles.id = event_title.title WHERE event_title.event = $eventId ORDER BY titles.id ASC");
-while ($row = mysql_fetch_array($result)) {
+while ($row = $result->fetch_array()) {
 	if ($row['title_id']) {
 		echo('<div id="' . $row["title_id"] . '" class="title">' .
 			'<img src="thumbs/' . $row["title_name"] . $row["title_id"] . '.png" path="out/' . $row["title_name"] . $row["title_id"] . '.png" height="38" />' . 

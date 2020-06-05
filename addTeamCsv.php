@@ -10,17 +10,16 @@ header('Content-Type: text/html; charset=utf-8');
 <h1>Add Team Roster</h1>
 
 <?php
-include("init.php");
 include("include.php");
 include("abbrevCHS.php");
 
 ini_set("auto_detect_line_endings", true);
-$team_sel = $_POST["team_sel"];
-$csv = $_POST["csv"];
-$archive = $_POST["archive"];
-$chs_prefix = $_GET["pull_url"];
-$SIDEARM_url = $_GET["sidearm_url"];
-$ACHA_url = $_GET["ACHA_url"];
+$team_sel = $_POST["team_sel"] ?? '';
+$csv = $_POST["csv"] ?? '';
+$archive = $_POST["archive"] ?? '';
+$chs_prefix = $_GET["pull_url"] ?? '';
+$SIDEARM_url = $_GET["sidearm_url"] ?? '';
+$ACHA_url = $_GET["ACHA_url"] ?? '';
 
 function console_log($output, $with_script_tags = true) {
     $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
@@ -32,7 +31,7 @@ function console_log($output, $with_script_tags = true) {
 }
 
 //////////////////// CHS Pulling
-if ($_GET['pull_url']) {
+if (isset($_GET['pull_url'])) {
 	if (date('n')>8) {
 		$season = date('y') . (date('y')+1);
 	} else {
@@ -57,8 +56,10 @@ if ($_GET['pull_url']) {
 	$stats = stristr($stats, "<table width=\\\"856"); // get only stat table data
 	$stats = substr($stats, 0, (strripos($stats, "</TABLE><HR")+8));
 
-	$result = mysql_query("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
-	$team_preset = mysql_fetch_assoc($result);
+	$result = dbQuery("SELECT * FROM teams WHERE chs_abbrev='$chs_prefix'");
+	$team_preset = $result->fetch_assoc();
+
+	$player_abbrev = $team_preset['player_abbrev'] ?? '';
 
 ?>
 
@@ -70,8 +71,8 @@ if ($_GET['pull_url']) {
 		$("#CHSabbr, #boxSIDEARM").hide()  // hide unneeded things
 		$("#CHSabbr, #boxACHA").hide()  // hide unneeded things
 
-		parse_table_HTML(content_roster, content_stat, "<?= $team_preset['player_abbrev'] ?>");
-		$("#team_box").val("<?= $team_preset['player_abbrev'] ?>");
+		parse_table_HTML(content_roster, content_stat, "<?= $player_abbrev ?>");
+		$("#team_box").val("<?= $player_abbrev ?>");
 	});
 	</script>
 
@@ -79,7 +80,7 @@ if ($_GET['pull_url']) {
 }
 
 //////////////////// SIDEARM Pulling
-if ($_GET['sidearm_url']) {
+if (isset($_GET['sidearm_url'])) {
 	$opts = array('http' =>
 		array(
 			'method' => 'GET',
@@ -111,7 +112,7 @@ if ($_GET['sidearm_url']) {
 }
 
 //////////////////// ACHA Pulling
-if ($_GET['ACHA_url']) {
+if (isset($_GET['ACHA_url'])) {
 	$opts = array('http' =>
 		array(
 			'method' => 'GET',
@@ -160,20 +161,22 @@ if ($csv) {
 	if ($archive > 0) { // add new players
 		if ($archive == 1) { // archive current players
 			$query = "UPDATE players SET team='".$team_sel."-old' WHERE team='".$team_sel."'";
-			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			dbQuery($query);
 			echo("Archived players from the old " . $team_sel . " roster.<br>");
 		}
 
+		$LINE_LENGTH = 17;
+
 		foreach($lines as $line) {
-			$values = explode('|',$line);
+			$values = array_pad(explode('|',$line), $LINE_LENGTH, '');
 			$query = "INSERT INTO players (num,first,last,pos,height,weight,year,hometown,stype,s1,s2,s3,s4,s5,s6,s7,s8,team) VALUES ";
 			$query .= "('$values[0]','$values[1]','$values[2]','$values[3]','$values[4]','$values[5]','$values[6]','$values[7]','$values[8]','$values[9]','$values[10]','$values[11]','$values[12]','$values[13]','$values[14]','$values[15]','$values[16]','$team_sel')";
-			mysql_query($query) or die("<b>YOU DID SOMETHING WRONG</b>.\n<br>Query: " . $query . "<br>\nError: (" . mysql_errno() . ") " . mysql_error());
+			dbQuery($query);
 			echo("Added " . $values[1] . " " . $values[2] . " to the team roster for " . $team_sel . ".<br>");
 		}
 
-		$result = mysql_query("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
-		$chn_puller = mysql_fetch_assoc($result);
+		$result = dbQuery("SELECT * FROM teams WHERE player_abbrev='$team_sel'");
+		$chn_puller = $result->fetch_assoc();
 
 		include("peditor.php");
 	} else { // update current players
@@ -183,7 +186,7 @@ if ($csv) {
 			$last = $values[2];
 
 			$result = dbquery("SELECT * FROM players WHERE first='$first' AND last='$last'");
-			$row = mysql_fetch_array($result);
+			$row = $result->fetch_array();
 			if ($row) {
 				$query = "UPDATE players SET s1='$values[9]', s2='$values[10]', s3='$values[11]', s4='$values[12]', s5='$values[13]', s6='$values[14]' WHERE first='$first' AND last='$last'";
 				$result = dbquery($query);

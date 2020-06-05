@@ -1,5 +1,7 @@
 <?
 
+$includePath = $includePath ?? './';
+
 include ($includePath . "init.php");
 include ($includePath . "getStatscard.php");
 include ($includePath . "divingStandings.php");
@@ -11,19 +13,27 @@ include ($includePath . "fb_stats.php");
 include ($includePath . "hockey_stats.php");
 
 function dbquery($query) {
-	$result = mysql_query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	global $mysqli;
+	$result = $mysqli->query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . $mysqli->errno . ") " . $mysqli->error);
+	return $result;
+}
+
+function dbmultiquery($query) {
+	global $mysqli;
+	$result = $mysqli->multi_query($query) or die("<b>Error with MySQL Query:</b>.\n<br />Query: " . $query . "<br />\nError: (" . $mysqli->errno . ") " . $mysqli->error);
 	return $result;
 }
 
 function dbqueryl($query) {
-	$result = mysql_query($query);
+	global $mysqli;
+	$result = $mysqli->query($query);
 	return $result;
 }
 
 function queryAssoc($query) {
 	$queryResult = dbquery($query);
 	$array = array();
-	while($row = mysql_fetch_assoc($queryResult)) {
+	while($row = $queryResult->fetch_assoc()) {
 		$array[] = $row;
 	}
 	return $array;
@@ -31,22 +41,21 @@ function queryAssoc($query) {
 
 function getTitle($id,$eventId,$withReplacements = true) {
 	$titleResult = dbquery("SELECT * from titles where id=\"$id\" LIMIT 1;");
-	$title = mysql_fetch_assoc($titleResult);
+	$title = $titleResult->fetch_assoc();
 
-	// null checking
-	if (is_numeric($title["parent"])) {
+	if (isset($title["parent"]) && is_numeric($title["parent"])) {
 		$parent = getTitle($title["parent"],$eventId,$withReplacements);
-	} else {
+	} else if (isset($title["parent"])) {
 		$parent = getTitleFromXML($title["parent"]);
 	}
 
-	if ($parent) {
+	if (isset($parent)) {
 
 		$title['geos'] = $parent['geos'];
 		$title['parentName'] = $parent['name'];
 
 		$cdbResult = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\";");
-		while ($row = mysql_fetch_array($cdbResult)) {
+		while ($row = $cdbResult->fetch_array()) {
 			$title['geos'][$row['name']][$row['key']] = $row['value'];
 		}
 
@@ -83,7 +92,7 @@ function getAllChildren($xml) {
 	$i = 0;
 	foreach ($xml->children() as $childXML) {
 		$child = getAttributes($childXML);
-		if ($child['order']) die("Attribute 'order' is illegal in RML");
+		if (isset($child['order'])) die("Attribute 'order' is illegal in RML");
 		$child['order'] = $i;
 		$children[$child['name']] = $child;
 		$i++;
@@ -96,7 +105,7 @@ function getGeoHash($geo) {
 	foreach ($ignore as $i) {
 		unset($geo[$i]);
 	}
-	return $geo['type'] . '_' . hash('md4',json_encode($geo));
+	return ($geo['type'] ?? '') . '_' . hash('md4',json_encode($geo));
 }
 
 function addGeoToCanvas($canvas,$geo,$bustCacheVar = false) {
@@ -124,7 +133,7 @@ function renderGeo($geo) {
 }
 
 function getGeoFromCache($geo) {
-	echo "Work Dammit";
+	// echo "Work Dammit";
 	$hash = getGeoHash($geo);
 	$path = realpath('cache') . "/$hash." . 'tga';
 	if (file_exists($path)) {
@@ -145,7 +154,7 @@ function saveGeoToCache($geo,$im) {
 function getTextWidthFromCache($geo) {
 	$hash = getGeoHash($geo);
 	$result = dbQuery("SELECT * FROM cache WHERE `key` = '$hash' LIMIT 1");
-	$hashRow = mysql_fetch_assoc($result);
+	$hashRow = $result->fetch_assoc();
 	if ($hashRow) {
 		return $hashRow['hash'];
 	} else {
@@ -167,22 +176,24 @@ function stripDBFetch($attrs) {
 
 function fetchTeam($team) {
 	$teamResource = dbQuery("SELECT * FROM teams WHERE player_abbrev='$team'");
-	$teamRow = mysql_fetch_assoc($teamResource);
+	$teamRow = $teamResource->fetch_assoc();
 
-	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
-	$orgRow = mysql_fetch_assoc($orgResource);
+	if ($teamRow) {
+		$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $teamRow['org'] . "'");
+		$orgRow = $orgResource->fetch_assoc();
+	}
 
 	if ($teamRow && $orgRow) {
 		$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
 		return array_merge($teamRow,$orgRow);
 	} else {
-		return false;
+		return array('logo' => '', 'color' => '');
 	}
 }
 
 function fetchOrg($org) {
 	$orgResource = dbQuery("SELECT * FROM organizations WHERE code='" . $org . "'");
-	$orgRow = mysql_fetch_assoc($orgResource);
+	$orgRow = $orgResource->fetch_assoc();
 
 	$orgRow['logo'] = 'teamlogos/' . $orgRow['logo'];
 	return $orgRow;
@@ -190,7 +201,7 @@ function fetchOrg($org) {
 
 function dbFetch($id, $geo) {
 	$result = dbquery("SELECT * FROM cdb WHERE title_id=\"$id\" AND name=\"" . $data["name"] . "\";");
-	while ($row = mysql_fetch_array($result)) {
+	while ($row = $result->fetch_array()) {
 		$geo[$row["key"]] = $row["value"];
 	}
 	return $geo;
@@ -201,8 +212,8 @@ function getAttributes($xml) {
 	foreach ($xml->attributes() as $key => $value) {
 		$node[$key] = (string) $value;
 	}
-	if ($node['type']) die("Attribute 'type' is illegal in RML");
-	if ($node['value']) die("Attribute 'value' is illegal in RML");
+	if (isset($node['type'])) die("Attribute 'type' is illegal in RML");
+	if (isset($node['value'])) die("Attribute 'value' is illegal in RML");
 	$node['type'] = $xml->getName();
 	if ((string) $xml) {
 		$node['value'] = (string) $xml;
@@ -232,11 +243,11 @@ function getToken($token,$eventId) {
 	// Event based replacement (future expansion on this front is likely)
 	if (($tokens[0] == 'e') or ($tokens[0] == 'event')) { // prototype for home/visiting teams
 		$eventResource = dbQuery("SELECT * FROM events WHERE id='$eventId'");
-		$eventRow = mysql_fetch_assoc($eventResource);
+		$eventRow = $eventResource->fetch_assoc();
 		if ($eventRow) { // pass through to t.team.X.Y.Z
 			if ($tokens[1] == "stats") {
 				/* data pulled from live stats XML file */
-				$statsLink = $eventRow["statsLink"];
+				$statsLink = $eventRow["statsLink"] ?? '';
 				if (array_key_exists(2, $tokens)) {
 					if($tokens[2] == "season") {
 						if(array_key_exists(3, $tokens)) {
@@ -252,18 +263,20 @@ function getToken($token,$eventId) {
 							}
 						}
 					}
-					else if($tokens[2] == "fb") {
+					else if($tokens[2] == "fb" && $statsLink) {
 						if(array_key_exists(3, $tokens)) {
 							return fb_stats($statsLink,$eventId)[$tokens[3]];
 						}
 					}
-					else if($tokens[2] == "hockey") {
+					else if($tokens[2] == "hockey" && $statsLink) {
 						if(array_key_exists(3, $tokens)) {
 							return hockey_stats($statsLink,$eventId)[$tokens[3]];
 						}
 					}
 					$statName = $tokens[2];
-					return loadLiveStatsDataCached($statsLink,$eventId)[$statName];
+					if ($statsLink) {
+						return loadLiveStatsDataCached($statsLink,$eventId)[$statName];
+					}
 				} 
 				else {
 					/* if no specific data was requested, just return livestats xml URL */
@@ -284,7 +297,7 @@ function getToken($token,$eventId) {
 		$team = fetchTeam($tokens[1]);
 		if ($team and (($tokens[2] == 'p') or ($tokens[2] == 'player'))) {
 			$playerData = dbQuery("SELECT * FROM players WHERE team='" . $tokens[1] ."' AND " . $tokens[3] . "='" . $tokens[4] . "'");
-			$player = mysql_fetch_array($playerData);
+			$player = $playerData->fetch_array();
 			if ($tokens[5] == 'name') { // case for full name
 				return $player['first'] . ' ' . $player['last'];
 			} else if (($tokens[5] == 'record') and ($player['stype'] == 'hg')) { // case for goalie record
@@ -293,7 +306,7 @@ function getToken($token,$eventId) {
 				return $player[$tokens[5]];
 			}
 		} else if ($team) { // return team element
-			return $team[$tokens[2]];
+			return $team[$tokens[2]] ?? '';
 		}
 	}
 	return false;
@@ -310,7 +323,8 @@ function mysqlQueryToJsonArray($query) {
 	$result = dbquery($query);
 	$columns = array();
 	$rows = array();
-	while ($row = mysql_fetch_assoc($result)) {
+	global $mysqli;
+	while ($row = $result->fetch_assoc()) {
 		$columns = array();
 		$dataRow = array();
 		foreach ($row as $key => $value) {
@@ -339,7 +353,7 @@ function timestamp ($str) {
 function groupGeosByType($geos) {
 	$return = Array();
 	foreach ($geos as $geo) {
-		if (!$return[$geo['type']]) {
+		if (empty($return[$geo['type']])) {
 			$return[$geo['type']] = Array();
 		}
 		$return[$geo['type']][] = $geo;
@@ -353,9 +367,9 @@ function checkHashForTitle($title,$key = false) {
 	}
 	$geoHash = hash('md4',json_encode($title['geos']));
 	$result = dbquery("SELECT * FROM cache WHERE `key`='" . $key . "' LIMIT 1");
-	$cacheRow = mysql_fetch_assoc($result);
+	$cacheRow = $result->fetch_assoc();
 
-	if ($geoHash == $cacheRow["hash"]) {
+	if ($cacheRow && $geoHash == ($cacheRow["hash"])) {
 		return true;
 	} else {
 		return false;

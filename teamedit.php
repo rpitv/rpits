@@ -2,10 +2,10 @@
 
 <h3>teamedit.php</h3>
 <?
-include ("init.php");
+include ("include.php");
 
-$edit = $_GET["edit"];
-$gid = $_GET["id"];
+$edit = $_GET["edit"] ?? '';
+$gid = $_GET["id"] ?? '';
 ?>
 <table width="0" border="1" cellspacing="0" cellpadding="2">
 	<tr>
@@ -27,41 +27,32 @@ $gid = $_GET["id"];
 		<td>edit</td>
 	</tr>
 <?
-function rgbhex($red, $green, $blue) {
-    // force the passed value to be numeric by adding zero
-    // use max and min to limit the number to between 0 and 255
-    // shift the number to make it the correct future hex value
-    $red = 0x10000 * max(0,min(255,$red+0));
-    $green = 0x100 * max(0,min(255,$green+0));
-    $blue = max(0,min(255,$blue+0));
-    // convert the combined value to hex and zero-fill to 6 digits
-    return "#".str_pad(strtoupper(dechex($red + $green + $blue)),6,"0",STR_PAD_LEFT);
-}
-$update = $_GET["update"];
-$name = $_GET["name"];
-$colorr = $_GET["colorr"];
-$colorg = $_GET["colorg"];
-$colorb = $_GET["colorb"];
-$logo = $_GET["logo"];
-$logor = $_GET["logor"];
-$logog = $_GET["logog"];
-$logob = $_GET["logob"];
-$start = $_GET["start"];
-$end = $_GET["end"];
-$womens = $_GET["womens"];
-$statsid = $_GET["statsid"];
+
+$update = $_GET["update"] ?? '';
+$name = $_GET["name"] ?? '';
+$colorr = $_GET["colorr"] ?? '';
+$colorg = $_GET["colorg"] ?? '';
+$colorb = $_GET["colorb"] ?? '';
+$logo = $_GET["logo"] ?? '';
+$logor = $_GET["logor"] ?? '';
+$logog = $_GET["logog"] ?? '';
+$logob = $_GET["logob"] ?? '';
+$start = $_GET["start"] ?? '';
+$end = $_GET["end"] ?? '';
+$womens = $_GET["womens"] ?? '';
+$statsid = $_GET["statsid"] ?? '';
 
 if($update == "Update"){
 	$query = "UPDATE `statscard_teams` SET `name` = '$name', `colorr` = '$colorr', `colorg` = '$colorg', `colorb` = '$colorb', `logor` = '$logor', `logog` = '$logog', `logob` = '$logob', `logo` = '$logo', `start` = '$start', `start` = '$start', `end` = '$end', `womens` = '$womens', `statsid` = '$statsid' WHERE `id`='$gid' ;";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = dbQuery($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 }
-if($_GET["add"] == "Add"){
+if(($_GET["add"] ?? '') == "Add"){
 	$query = "INSERT INTO `statscard_teams` (`name`, `colorr`, `colorg`, `colorb`, `logo`, `logor`, `logog`, `logob`, `start`, `end`, `womens`, `statsid`) VALUES ('$name', '$colorr', '$colorg', '$colorb', '$logo', '$logor', '$logog', '$logob', '$start', '$end', '$womens', '$statsid');";
-	$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+	$result = dbQuery($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
 }
 $query = "SELECT * from statscard_teams";
-$result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-while($row = mysql_fetch_array($result)){
+$result = dbQuery($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+while($row = $result->fetch_array()){
 	if($edit == 1 && $gid == $row["id"]){
 		echo("	<tr>");
 		echo("	<form action=\"" . $_SERVER['PHP_SELF'] . "#" . $row["id"] . "\" method=\"GET\" >\n");

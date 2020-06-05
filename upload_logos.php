@@ -32,7 +32,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 <?php
 include("init.php");
-include("include.php");
 
 function console_log($output, $with_script_tags = true) {
     $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . ');';

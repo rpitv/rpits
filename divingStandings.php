@@ -41,7 +41,7 @@ function divingStandings(&$canvas, $geo) {
 
 	$players = [];
 
-	while($row = mysql_fetch_assoc($result)) {
+	while($row = $result->fetch_assoc()) {
 		$players[] = $row;
 	}
 

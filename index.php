@@ -3,6 +3,8 @@
 
 include('init.php');
 
+// phpinfo();
+
 ?>
 
 

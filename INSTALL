@@ -13,3 +13,36 @@ RPITS Initial Setup Notes
 * You will have issues if RAM is scarce. If running with limited RAM (e.g.
   on a VPS), make sure that some swap space is available.
 
+# WAMP Notes
+
+Dependencies include both the Fonts, not distributed here in, and the initial DB setup, also not included. Both these are necessary to procede at all!
+
+### Basic Setup
+* Install the latest Bitnami WAMP -- you can turn off all the optional PHP frameworks
+* Create a folder called `rpits/` in the `wamp/apps/` directory
+* git clone this repository into rpits
+* Folder directory structure should be `rpits/rpits/` -- rename the inner rpits to `htdocs`
+* Pop over to the pre-installed WAMP `apps/phpmyadin/` directory, copy the conf folder into `rpits`
+* Edit `httpd-app.conf` and `httpd-prefix.conf` to replace `phpmyadin` with `rpits`
+* Open `wamp/apache2/conf/bitnami/bitnami-apps-prefix.conf` and add a line for RPITS
+* Delete/rename `wamp/php/phi.ini` and rename `php.ini-development` to just `php.ini`
+* make the following changes to `php.ini`:
+* * `short_open_tag = On`
+* * uncomment `extension=mysqli` and `extension=mbstring`
+* * edit/uncomment `extension_dir` to `path-to-wamp/php/ext`
+* Restart/start Apache and MySQL
+
+#### index.php should be working at this point, or follow the stuff written on index.php
+
+### ImageMagick setup
+WAMP says it includes ImageMagick. It's not configured as a PHP extension, however, so it is not useful.
+
+* Install Imagick:
+http://www.imagemagick.org/script/download.php#windows
+* Grab the matching imagick PHP extension dll for your version of PHP and architecture:
+https://windows.php.net/downloads/pecl/releases/imagick/
+* Copy only `php_imagick.dll` into the `php/ext` folder
+* Add `extension=imagick` to php.ini.
+
+### RPITS Setup
+* 

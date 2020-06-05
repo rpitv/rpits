@@ -2,8 +2,8 @@
 <?php
 include("include.php");
 
-$titleId = $_GET["id"];
-$eventId = $_GET["eventId"];
+$titleId = $_GET["id"] ?? '';
+$eventId = $_GET["eventId"] ?? '';
 
 function printEditableRow($row, $id, $type, $prop = false) {
 	$val = $row[$type];
@@ -38,7 +38,7 @@ $geos = groupGeosByType($title['geos']);
 
 echo '<div id="editTitle">';
 
-if ($geos['shadowText']) {
+if (isset($geos['shadowText'])) {
 	echo "<div id=\"shadowText\"><h3>Shadow Text</h3>";
 	foreach ($geos['shadowText'] as $geo) {
 		printEditableRow($geo, $titleId, 'text');
@@ -46,7 +46,7 @@ if ($geos['shadowText']) {
 	echo "</div>";
 }
 
-if ($geos['plainText']) {
+if (isset($geos['plainText'])) {
 	echo "<div id=\"plainText\"><h3>Normal Text</h3>";
 	foreach ($geos['plainText'] as $geo) {
 		printEditableRow($geo, $titleId, 'text');
@@ -54,7 +54,7 @@ if ($geos['plainText']) {
 	echo "</div>";
 }
 
-if ($geos['slantRectangle']) {
+if (isset($geos['slantRectangle'])) {
 	echo "<div id=\"colorBars\"><h3>Color Bars</h3>";
 	foreach ($geos['slantRectangle'] as $geo) {
 		printEditableRow($geo, $titleId, 'color');
@@ -62,7 +62,7 @@ if ($geos['slantRectangle']) {
 	echo "</div>";
 }
 
-if ($geos['colorRectangle']) {
+if (isset($geos['colorRectangle'])) {
 	echo "<div id=\"colorRectangle\"><h3>Color Rectangle</h3>";
 	foreach ($geos['colorRectangle'] as $geo) {
 		printEditableRow($geo, $titleId, 'color');
@@ -70,7 +70,7 @@ if ($geos['colorRectangle']) {
 	echo "</div>";
 }
 
-if ($geos['placeImage']) {
+if (isset($geos['placeImage'])) {
 	echo "<div id=\"images\"><h3>Images</h3>";
 	foreach ($geos['placeImage'] as $geo) {
 		printEditableRow($geo, $titleId, 'path');
@@ -78,7 +78,7 @@ if ($geos['placeImage']) {
 	echo "</div>";
 }
 
-if ($geos['divingStandings']) {
+if (isset($geos['divingStandings'])) {
 	$ignore = array(' ','y','w','h','name','order','type','x');
 	echo "<h3>Diving Standings</h3>";
 	foreach ($geos['divingStandings'] as $geo) {
@@ -89,7 +89,7 @@ if ($geos['divingStandings']) {
 		}
 	}
 }
-if ($geos['flexBox']) {
+if (isset($geos['flexBox'])) {
 	$ignore = array(' ','y','w','h','name','order','type','x');
 	echo "<h3>Flex Box</h3>";
 	foreach ($geos['flexBox'] as $geo) {
@@ -101,7 +101,7 @@ if ($geos['flexBox']) {
 	}
 }
 
-if ($geos['weather']) {
+if (isset($geos['weather'])) {
 	$ignore = array(' ','y','w','h','name','order','type','x', 'logoHeight', 'logoLeft', 'lineHeight', 'boxHeight', 'boxWidth', 'boxOffset', 'boxPadding', 'titleHeight', 'titleText', 'titleGravity', 'subTitleHeight', 'subTitleWidth', 'subTitleText', 'subTitleColor', 'logoRight' );
 	echo "<h3>Weather Graphic</h3>";
 	foreach ($geos['weather'] as $geo) {
@@ -113,7 +113,7 @@ if ($geos['weather']) {
 	}
 }
 
-if ($geos['gameSummary']) {
+if (isset($geos['gameSummary'])) {
 	$ignore = array(' ','y','w','h','name','order','type','x');
 	echo "<h3>Game Summary</h3>";
 	foreach ($geos['gameSummary'] as $geo) {

@@ -10,7 +10,7 @@
 <?php
 include("include.php");
 
-$eventId = $_GET["eventId"];
+$eventId = $_GET["eventId"] ?? '';
 
 $bug_state_json = @file_get_contents($bug_keyer_url . 'state');
 
@@ -38,7 +38,7 @@ if (!$eventId) {
 		<ul>
 <?php
 			$result = dbquery("SELECT * FROM events");
-			while ($row = mysql_fetch_array($result)) {
+			while ($row = $result->fetch_array()) {
 				echo('<li><a href="im_ui.php?eventId=' . $row["id"] . '">' . $row["name"] . ' (' . $row["team1"] . ' vs. ' . $row["team2"] . ')</a></li>');
 			}
 			echo('<li><a href="#" id="editEvents">Edit / Add / Remove Events</a></li>');
@@ -55,7 +55,7 @@ if (!$eventId) {
 <?php
 	if ($eventId > 0) {
 		$result = dbquery("SELECT * FROM events WHERE events.id = $eventId");
-		$row = mysql_fetch_array($result);
+		$row = $result->fetch_array();
 
 		$eventName = $row["name"];
 		$team1 = $row["team1"];

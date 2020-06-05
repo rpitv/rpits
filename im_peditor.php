@@ -3,9 +3,9 @@
 header('Content-Type: text/html; charset=utf-8');
 
 include ("include.php");
-include ("chn_scraper.php");
+// include ("chn_scraper.php");
 
-$team_sel = $_GET["team_sel"];
+$team_sel = $_GET["team_sel"] ?? '';
 
 if($team_sel)
 {
@@ -14,7 +14,7 @@ if($team_sel)
 <!--<form action="im_peditor.php" style="display:inline-block" ><input type="submit" name="stats" value="Update All Stats"/><input type="hidden" name="team_sel" value="<?= $team_sel ?>"/></form>-->
 
 <?
-if($_GET['stats']) {
+if(isset($_GET['stats'])) {
 	$team = fetchTeam($team_sel);
 	$chn = fopen("http://www.collegehockeynews.com/stats/team-overall.php?td=" . $team['chn_id'],"r");
 	$contents = stream_get_contents($chn);
@@ -96,7 +96,7 @@ $(function() {
 	<?
 	$query = "SELECT * FROM teams";
 	$result = dbquery($query);
-	while($row = mysql_fetch_array($result)) {
+	while($row = $result->fetch_array()) {
 		$team = fetchTeam($row['player_abbrev']);
 	  echo("<div style=\"float:left;width:100px\"><img width=\"30\" src=\"" . $team["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $team["player_abbrev"] . "\"></div>");
 	} ?>

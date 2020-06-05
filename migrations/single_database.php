@@ -9,13 +9,13 @@ $oldName = 'rpihockey';
 $newName = 'rpits';
 
 
-mysql_select_db($newName);
+$mysqli->select_db($newName);
 
 echo '<pre>';
 
-$check = dbQuery("SHOW TABLES LIKE `players`");
+$check = dbQuery("SHOW TABLES LIKE 'players'");
 
-if(mysql_num_rows($check) > 0) {
+if(true || $check->num_rows == 0) {
 	$copyPlayers = "CREATE  TABLE  `$newName`.`players` (  `id` int( 11  )  NOT  NULL  AUTO_INCREMENT ,
 			`num` int( 2  )  DEFAULT NULL ,
 			`first` varchar( 15  )  NOT  NULL ,
@@ -41,7 +41,7 @@ if(mysql_num_rows($check) > 0) {
 
 		 INSERT INTO `$newName`.`players` SELECT * FROM `$oldName`.`players`;";
 	echo $copyPlayers;
-	dbquery($copyPlayers);
+	dbmultiquery($copyPlayers);
 
 	$copyStatType = "CREATE  TABLE  `$newName`.`stattype` (  `id` int( 11  )  NOT  NULL  AUTO_INCREMENT ,
 			`type` varchar( 5  )  NOT  NULL ,
@@ -61,7 +61,7 @@ if(mysql_num_rows($check) > 0) {
 
 		 INSERT INTO `$newName`.`stattype` SELECT * FROM `$oldName`.`stattype`;";
 	echo "\n\n" . $copyStatType;
-	dbquery($copyStatType);
+	dbmultiquery($copyStatType);
 
 	$copyTeams = "CREATE  TABLE  `$newName`.`statscard_teams` (  `id` int( 11  )  NOT  NULL  AUTO_INCREMENT ,
 			`name` varchar( 10  )  NOT  NULL ,
@@ -84,6 +84,6 @@ if(mysql_num_rows($check) > 0) {
 
 		 INSERT INTO `$newName`.`statscard_teams` SELECT * FROM `$oldName`.`teams`;";
 	echo "\n\n" . $copyTeams;
-	dbquery($copyTeams);
+	dbmultiquery($copyTeams);
 }
 ?>

@@ -155,13 +155,13 @@
 				newList.push($(this).data('title'));
 			});
 			for(var i = 0; i < newList.length; i++) {
-				newList[i].order = i;
+				newList[i].sort = i;
 				simpleList.push({
 					id: newList[i].id,
-					order: i
+					sort: i
 				});
 			}
-			$.post('im_title_list.php',{saveEvent:ui.eventId,order:simpleList});
+			$.post('im_title_list.php',{saveEvent:ui.eventId,sort:simpleList});
 			console.log(simpleList);
 			this.lists[list] = newList;
 			

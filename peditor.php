@@ -1,28 +1,27 @@
 <title>Player Editor</title>
 <?php
-include ("init.php");
+include_once ("include.php");
 
-$team_sel = $_POST["team_sel"];
-
-$id = $_POST["id"];
-$num = $_POST["num"];
-$first = $_POST["first"];
-$last = $_POST["last"];
-$pos = $_POST["pos"];
-$height = $_POST["height"];
-$weight = $_POST["weight"];
-$year = $_POST["year"];
-$hometown = $_POST["hometown"];
-$stype = $_POST["stype"];
-$s1 = $_POST["s1"];
-$s2 = $_POST["s2"];
-$s3 = $_POST["s3"];
-$s4 = $_POST["s4"];
-$s5 = $_POST["s5"];
-$s6 = $_POST["s6"];
-$s7 = $_POST["s7"];
-$s8 = $_POST["s8"];
-$team = $_POST["team"];
+$team_sel = $_POST["team_sel"] ?? '';
+$id = $_POST["id"] ?? '';
+$num = $_POST["num"] ?? '';
+$first = $_POST["first"] ?? '';
+$last = $_POST["last"] ?? '';
+$pos = $_POST["pos"] ?? '';
+$height = $_POST["height"] ?? '';
+$weight = $_POST["weight"] ?? '';
+$year = $_POST["year"] ?? '';
+$hometown = $_POST["hometown"] ?? '';
+$stype = $_POST["stype"] ?? '';
+$s1 = $_POST["s1"] ?? '';
+$s2 = $_POST["s2"] ?? '';
+$s3 = $_POST["s3"] ?? '';
+$s4 = $_POST["s4"] ?? '';
+$s5 = $_POST["s5"] ?? '';
+$s6 = $_POST["s6"] ?? '';
+$s7 = $_POST["s7"] ?? '';
+$s8 = $_POST["s8"] ?? '';
+$team = $_POST["team"] ?? '';
 
 if ($id) {
 	$query = "UPDATE players SET id='$id', num='$num', first='$first', last='$last', pos='$pos', height='$height', weight='$weight', year='$year', hometown='$hometown', stype='$stype', ";
@@ -65,8 +64,8 @@ if ($team_sel) {
 	if ($team_sel) {
 		$query = "SELECT * FROM players WHERE team='$team_sel' ORDER BY num ASC";
 	}
-	$result = mysql_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-	while ($row = mysql_fetch_array($result)) {
+	$result = dbQuery($query);
+	while ($row = $result->fetch_array()) {
 		echo("<tr><form action=\"peditor.php\" method=\"post\"><td><input type=\"hidden\" name=\"id\" value=\"".$row["id"]."\">" . $row["id"]);
 		echo("</td><td><input type=\"text\" size=\"2\" name=\"num\" value=\"" . $row["num"] . "\">");
 		echo("</td><td><input type=\"text\" size=\"4\" name=\"first\" value=\"" . $row["first"] . "\">");
@@ -97,8 +96,8 @@ if ($team_sel) {
 		<form action="peditor.php" method="post">
 <?php
 			$query = "SELECT * FROM statscard_teams";
-			$result = mysql_query($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
-			while ($row = mysql_fetch_array($result)) {
+			$result = dbQuery($query) or die("<b>Something went wrong</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+			while ($row = $result->fetch_array()) {
 				echo("<div style=\"float:left;min-width:100px;height:100px;\"><img width=\"30\" src=\"teamlogos/" . $row["logo"] . "\"><br><input type=\"submit\" name=\"team_sel\" value=\"" . $row["name"] . "\"></div>");
 			}
 ?>

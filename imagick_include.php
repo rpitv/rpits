@@ -42,7 +42,7 @@ function slantRectangle(&$canvas, $o) {
 		$background->compositeImage($lefttoright, imagick::COMPOSITE_MULTIPLY, 0, 0);
 
 		// experimental
-		if ($o['image']) {
+		if (isset($o['image'])) {
 			$logo = new Imagick();
 			$logo->readImage(realpath($o['image']));
 			$logo->resizeImage($o['h'], $o['h'], imagick::FILTER_TRIANGLE, 1);
@@ -243,7 +243,7 @@ function colorRectangle(&$canvas, $o) {
 }
 
 function defaultText($o) {
-	if ($o['case'] == 'upper') {
+	if (isset($o['case']) && $o['case'] == 'upper') {
 		$o['text'] = strtoupper($o['text']);
 	}
 
@@ -254,7 +254,7 @@ function defaultText($o) {
 	$text->setGravity($gravities[$o['gravity']]);
 	if ($o['text'] == '') {
 		$text->newPseudoImage($o['w'], $o['h'], "null:");
-	} else if ($o['wordWrap']) {
+	} else if (isset($o['wordWrap'])) {
 		$text->newPseudoImage($o['w'], $o['h'], "caption:" . $o['text']);
 	} else {
 		$text->newPseudoImage($o['w'], $o['h'], "label:" . $o['text']);
@@ -266,9 +266,9 @@ function defaultText($o) {
 
 function plainText(&$canvas, $o) {
 	$text = defaultText($o);
-	$shadow = $text->clone();
+	$shadow = clone $text;
 	$shadow->blurImage(4, 2, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
+	$text->colorizeImage($o['color'], 1, true);
 
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
 	$canvas->compositeImage($text, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
@@ -283,9 +283,9 @@ function getTextWidth($o) {
 
 function shadowText(&$canvas, $o) {
 	$text = defaultText($o);
-	$shadow = $text->clone();
+	$shadow = clone $text;
   $shadow->blurImage(4, 5, imagick::CHANNEL_ALPHA);
-	$text->colorizeImage($o['color'], 1);
+	$text->colorizeImage($o['color'], 1, true);
 
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'] + 5, $o['y'] + 5);
 	$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
@@ -308,7 +308,7 @@ function placeHeadshot(&$canvas, $o) {
 
 		/* add drop shadow */
 		if ($o['shadow'] > 0) {
-			$shadow = $headshot->clone();
+			$shadow = clone $headshot;
 			$shadow->setImageBackgroundColor('black');
 			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
 			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);
@@ -351,7 +351,7 @@ function placeImage(&$canvas, $o) {
 
 		/* add drop shadow */
 		if ($o['shadow'] > 0){
-			$shadow = $img->clone();
+			$shadow = clone $img;
 			$shadow->setImageBackgroundColor('black');
 			$shadow->shadowImage(75, 2, $o['shadow'], $o['shadow']); // last 2 args currently do nothing
 			$canvas->compositeImage($shadow, imagick::COMPOSITE_OVER, $o['x'], $o['y']);

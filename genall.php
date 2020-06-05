@@ -16,11 +16,11 @@
 <?
 include_once("include.php");
 
-$cache = $_GET["cache"];
+$cache = $_GET["cache"] ?? '';
 if ($cache)
 {
   $query = "TRUNCATE TABLE cache";
-  $result = mysql_query($query) or die("<b>YOU DID SOMETHING WRONG YOU IDIOT</b>.\n<br />Query: " . $query . "<br />\nError: (" . mysql_errno() . ") " . mysql_error());
+  $result = dbQuery($query);
 }?>
 <h3>genall.php</h3>
 <form action="genall.php" method="GET">
@@ -36,7 +36,7 @@ $options = '';
 
 $query = "SELECT * from teams";
 $result = dbquery($query);
-while($row = mysql_fetch_array($result)){
+while($row = $result->fetch_array()){
 	$team = fetchTeam($row['player_abbrev']);
 	$options .= '<option value="'.$team['player_abbrev']. '">' . $team["sname"] . " " . $team['sport'] . " - " . $team['abbrev'] . "</option>";
 }
@@ -51,17 +51,17 @@ echo $options;
 <input type="submit" name="Submit">
 </form>
 <?
-if ($team1 = $_GET["team1"]){
+if ($team1 = ($_GET["team1"] ?? '')){
 	$result = dbquery("SELECT * from players WHERE team = '$team1' ORDER BY num");
 	echo("<h3>Team 1: " . $team1 . "</h3>\n");
-	while($row = mysql_fetch_array($result)){
+	while($row = $result->fetch_array()){
 		echo('<div class="title"><a href="im_render_title.php?player=' . $row["id"] . '&bustCache=true"><img src="im_render_title.php?player=' . $row["id"] . '"></a></div>');
 	}
 }
-if ($team2 = $_GET["team2"]){
+if ($team2 = ($_GET["team2"] ?? '')){
 	$result = dbquery("SELECT * from players WHERE team = '$team2' ORDER BY num");
 	echo("<h3>Team 2: " . $team2 . "</h3>\n");
-	while($row = mysql_fetch_array($result)){
+	while($row = $result->fetch_array()){
 		echo('<div class="title"><a href="im_render_title.php?player=' . $row["id"] . '&bustCache=true"><img src="im_render_title.php?player=' . $row["id"] . '"></a></div>');
 	}
 }

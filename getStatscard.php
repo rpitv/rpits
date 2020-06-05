@@ -14,14 +14,17 @@ function getStatscard($id,$o = []) {
 	//
 
 	$result = dbquery("SELECT * from players WHERE `id` = '$id'");
-	$row = mysql_fetch_assoc($result);
+	$row = mysqli_fetch_assoc($result);
 
 	$team = fetchTeam($row['team']);
+	if (!$team) {
+		$team = [];
+	}
 
 	$stype = $row["stype"];
 	if ($stype != "txt") {
 		$result = dbquery("SELECT * FROM stattype WHERE `type`  = '$stype'");
-		$slabel = mysql_fetch_array($result);
+		$slabel = mysqli_fetch_array($result);
 	}
 
 	timestamp ('Done getting data');
@@ -50,7 +53,7 @@ function getStatscard($id,$o = []) {
 	}
 
 	// Adjust position width
-	if ($stype != dive) {
+	if ($stype != 'dive') {
 		if (strlen($row["pos"])>1) {
 			$positionWidth = 110 + ( .75 * getTextWidthFromCache(array('w' => 1000, 'h' => 80, 'text' => $row['pos'], 'font' => "fontN")) );
 		}
@@ -93,10 +96,10 @@ function getStatscard($id,$o = []) {
 	$nameModifier = 0;
 	$detailsModifier = 0;
 
-	$useHeadshot = !!$size[0] || $o['emptyHeadshot'];
-
+	// TODOWAMP -- double check this logic
+	$useHeadshot = !!$size || isset($o['emptyHeadshot']);
 	if ($useHeadshot) { // there is a headshot
-		if($size[0] && !$o['emptyHeadshot']) {
+		if(($size && $size[0]) && !$o['emptyHeadshot']) {
 			if ($stype) {
 				$p = array('type' => 'placeHeadshot', 'name' => 'headshot', 'w' => 192, 'h' => 230, 'x' => 400, 'y' => '801', 'path' => $pPath);
 			} else {
@@ -160,12 +163,12 @@ function getStatscard($id,$o = []) {
 		$details .= "Hometown: " . $row["hometown"];
 	}
 
-	if ($row["height"].length > 0) {
+	if (strlen($row["height"]) > 0) {
 		$details .= "       " . "Ht: " . $row["height"];
 
 	}
 
-	if ($row["weight"] . length > 0) {
+	if (strlen($row["weight"]) > 0) {
 		$details .=  "        " . "Wt: " . $row["weight"];
 	}
 	$detailsGravity = "west";
@@ -185,7 +188,7 @@ function getStatscard($id,$o = []) {
 			$geos[] = array('type' => 'plainText', 'name' => 'lastSeason', 'x' => 420, 'y' => 965, 'w' => 80, 'h' => 60, 'text' => 'Last\nSeason:', 'gravity' => "west", 'font' => "fontN", 'color' => "white");
 		} else if ($lastSeason == true && !$o['emptyHeadshot']) {
 			$geos[] = array('type' => 'shadowText', 'name' => 'lastSeason', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Last Season:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");
-		} else if ($row["team"] == career) {
+		} else if ($row["team"] == 'career') {
 			$geos[] = array('type' => 'shadowText', 'name' => 'careerStats', 'x' => 410, 'y' => 995, 'w' => 172, 'h' => 30, 'text' => 'Career Stats:', 'gravity' => "center", 'font' => "fontN", 'color' => "white");
 		}
 		$statsBoxWidth = 880;
