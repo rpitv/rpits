@@ -1,5 +1,9 @@
 <?
 
+if (!isset($includePath)) {
+    $includePath = "./";
+}
+
 include ($includePath . "init.php");
 include ($includePath . "getStatscard.php");
 include ($includePath . "divingStandings.php");
