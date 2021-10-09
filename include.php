@@ -457,7 +457,14 @@ function loadXmlCached($source) {
 	if (!array_key_exists($source, $cache)) {
 		$file = fopen($source, "r");
 		$contents = stream_get_contents($file);	
-		$cache[$source] = new SimpleXMLElement($contents);
+		try {
+			$cache[$source] = new SimpleXMLElement($contents);
+		} catch (Exception $e) {
+			error_log("trying to fix encoding");
+			$detected = mb_detect_encoding($contents);
+			$conv = mb_convert_encoding($contents, "UTF-8", $detected);
+			$cache[$source] = new SimpleXMLElement($conv);
+		}
 	}
 
 	return $cache[$source];
